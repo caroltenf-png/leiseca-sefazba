@@ -287,8 +287,19 @@ async function callClaude(system, user, maxTokens=1000) {
 // APP PRINCIPAL
 // ═══════════════════════════════════════════════════════════════════════════
 export default function App() {
-  const [user, setUser]           = useState(null);
-  const [authLoading, setAuthLoad] = useState(true);
+  // ─── TODOS os hooks ANTES de qualquer return condicional ───
+  const [user, setUser]             = useState(null);
+  const [authLoading, setAuthLoad]  = useState(true);
+  const isMobile                    = useIsMobile();
+  const online                      = useOnline();
+  const [tela, setTela]             = useState("acervo");
+  const [leiAtiva, setLeiAtiva]     = useState(null);
+  const [textoLei, setTextoLei]     = useState("");
+  const [carregando, setCarregando] = useState(false);
+  const [marcacoes, setMarcacoes]   = useState(() => JSON.parse(localStorage.getItem("marcacoes")||"{}"));
+  const [anotacoes, setAnotacoes]   = useState(() => JSON.parse(localStorage.getItem("anotacoes")||"{}"));
+  const [flashcards, setFlashcards] = useState(() => JSON.parse(localStorage.getItem("flashcards")||"[]"));
+  const [stats, setStats]           = useState(() => JSON.parse(localStorage.getItem("stats")||JSON.stringify({ leituras:{}, streakDias:3, pontos:420, flashcardsFeitos:0, questoesGeradas:0 })));
 
   // Verificar sessão ao carregar
   useEffect(() => {
@@ -302,6 +313,12 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => { localStorage.setItem("marcacoes",  JSON.stringify(marcacoes));  }, [marcacoes]);
+  useEffect(() => { localStorage.setItem("anotacoes",  JSON.stringify(anotacoes));  }, [anotacoes]);
+  useEffect(() => { localStorage.setItem("flashcards", JSON.stringify(flashcards)); }, [flashcards]);
+  useEffect(() => { localStorage.setItem("stats",      JSON.stringify(stats));      }, [stats]);
+
+  // ─── Returns condicionais DEPOIS de todos os hooks ───
   if (authLoading) return (
     <div style={{ minHeight:"100dvh", background:T.fundo, display:"flex", alignItems:"center", justifyContent:"center" }}>
       <div style={{ textAlign:"center" }}>
@@ -312,24 +329,6 @@ export default function App() {
   );
 
   if (!user) return <TelaAuth onLogin={setUser} />;
-  
-  // Resto do App com usuário autenticado
-  // ─── App autenticado ───
-  const isMobile = useIsMobile();
-  const online   = useOnline();
-  const [tela, setTela]             = useState("acervo");
-  const [leiAtiva, setLeiAtiva]     = useState(null);
-  const [textoLei, setTextoLei]     = useState("");
-  const [carregando, setCarregando] = useState(false);
-  const [marcacoes, setMarcacoes]   = useState(() => JSON.parse(localStorage.getItem("marcacoes")||"{}"));
-  const [anotacoes, setAnotacoes]   = useState(() => JSON.parse(localStorage.getItem("anotacoes")||"{}"));
-  const [flashcards, setFlashcards] = useState(() => JSON.parse(localStorage.getItem("flashcards")||"[]"));
-  const [stats, setStats]           = useState(() => JSON.parse(localStorage.getItem("stats")||JSON.stringify({ leituras:{}, streakDias:3, pontos:420, flashcardsFeitos:0, questoesGeradas:0 })));
-
-  useEffect(() => { localStorage.setItem("marcacoes",  JSON.stringify(marcacoes));  }, [marcacoes]);
-  useEffect(() => { localStorage.setItem("anotacoes",  JSON.stringify(anotacoes));  }, [anotacoes]);
-  useEffect(() => { localStorage.setItem("flashcards", JSON.stringify(flashcards)); }, [flashcards]);
-  useEffect(() => { localStorage.setItem("stats",      JSON.stringify(stats));      }, [stats]);
 
   async function abrirLei(lei) {
     setLeiAtiva(lei);
