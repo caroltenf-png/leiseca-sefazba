@@ -949,7 +949,15 @@ function AudioPlayer({ texto, lei }) {
   }
 
   // Fallback: Web Speech API (gratuito, voz do browser)
-  const synthRef = useRef(null);
+  const synthRef    = useRef(null);
+  const containerRef = useRef(null);
+  const [palavraAtual, setPalavraAtual] = useState(-1);
+  const palavrasRef = useRef([]);
+
+  // Prepara o texto em palavras para destaque
+  function prepararPalavras(textoPuro) {
+    return textoPuro.split(/(\s+)/).filter(w => w.trim().length > 0);
+  }
 
   function usarWebSpeech(textoPuro) {
     if (!window.speechSynthesis) {
@@ -957,18 +965,27 @@ function AudioPlayer({ texto, lei }) {
       setStatus("idle"); return;
     }
     window.speechSynthesis.cancel();
+    setPalavraAtual(-1);
+    palavrasRef.current = prepararPalavras(textoPuro);
+
     const utter = new SpeechSynthesisUtterance(textoPuro);
     utter.lang = "pt-BR";
     utter.rate = velocidade;
-    // Tentar voz em português
     const vozes = window.speechSynthesis.getVoices();
     const vozPT = vozes.find(v => v.lang.startsWith("pt")) || vozes[0];
     if (vozPT) utter.voice = vozPT;
+
     utter.onstart  = () => setStatus("playing");
-    utter.onend    = () => { setStatus("idle"); setProgresso(0); };
+    utter.onend    = () => { setStatus("idle"); setProgresso(0); setPalavraAtual(-1); };
     utter.onerror  = () => { setErro("Erro na síntese de voz."); setStatus("idle"); };
     utter.onboundary = (e) => {
-      if (utter.text.length > 0) setProgresso(Math.round(e.charIndex / utter.text.length * 100));
+      if (e.name === "word" && utter.text.length > 0) {
+        // Encontrar índice da palavra pelo charIndex
+        const textoAte = textoPuro.substring(0, e.charIndex);
+        const palavrasAte = textoAte.split(/\s+/).filter(w => w.length > 0);
+        setPalavraAtual(palavrasAte.length - 1);
+        setProgresso(Math.round(e.charIndex / utter.text.length * 100));
+      }
     };
     synthRef.current = utter;
     window.speechSynthesis.speak(utter);
@@ -1128,6 +1145,30 @@ function AudioPlayer({ texto, lei }) {
         <p style={{ fontSize:11, color:T.cinza3 }}>▶️ Toque para ouvir — usa OpenAI TTS ou voz do dispositivo</p>
       )}
 
+      {/* Painel destaque palavra por palavra (Web Speech) */}
+      {modoTTS === "web" && status === "playing" && palavrasRef.current.length > 0 && (
+        <div style={{
+          background:"rgba(0,0,0,0.2)", borderRadius:8, padding:"8px 10px",
+          marginTop:6, fontSize:12, lineHeight:1.8, color:T.cinza3,
+          maxHeight:60, overflow:"hidden"
+        }}>
+          {palavrasRef.current.slice(Math.max(0,palavraAtual-3), palavraAtual+8).map((palavra, i) => {
+            const idx = Math.max(0,palavraAtual-3) + i;
+            return (
+              <span key={idx} style={{
+                background: idx === palavraAtual ? T.amarelo : "transparent",
+                color: idx === palavraAtual ? "#000" : T.cinza3,
+                borderRadius: idx === palavraAtual ? 3 : 0,
+                padding: idx === palavraAtual ? "0 3px" : 0,
+                fontWeight: idx === palavraAtual ? 700 : 400,
+                marginRight:4,
+                transition:"all .1s"
+              }}>{palavra}</span>
+            );
+          })}
+        </div>
+      )}
+
       {/* Audio element oculto */}
       <audio ref={audioRef} style={{ display:"none" }}
         onTimeUpdate={e => {
@@ -1268,17 +1309,48 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
 
   function marcarSelecao() {
     const sel = window.getSelection();
-    if (!sel||sel.isCollapsed) return;
+    if (!sel || sel.isCollapsed) return;
     const textoSel = sel.toString().trim();
-    if (!textoSel) return;
+    if (!textoSel || textoSel.length < 3) return;
+
+    // Abordagem robusta: extrai o fragmento, envolve em mark
     const range = sel.getRangeAt(0);
-    const mark = document.createElement("mark");
-    mark.className = `m-${corAtiva}`;
-    mark.ondblclick = () => { const p=mark.parentNode; while(mark.firstChild) p.insertBefore(mark.firstChild,mark); p.removeChild(mark); };
-    try { range.surroundContents(mark); } catch {}
+    const cor = MARK_COLORS.find(c => c.id === corAtiva) || MARK_COLORS[0];
+
+    try {
+      // Tenta surroundContents (funciona quando seleção é dentro de um único elemento)
+      const mark = document.createElement("mark");
+      mark.style.cssText = `background:${cor.bg};border-radius:3px;padding:1px 2px;cursor:pointer;`;
+      mark.title = "Duplo toque para remover";
+      mark.addEventListener("dblclick", () => {
+        const p = mark.parentNode;
+        while (mark.firstChild) p.insertBefore(mark.firstChild, mark);
+        p.removeChild(mark);
+      });
+      range.surroundContents(mark);
+    } catch {
+      // Fallback: extrai conteúdo e reinsere envolvido
+      try {
+        const fragment = range.extractContents();
+        const mark = document.createElement("mark");
+        mark.style.cssText = `background:${cor.bg};border-radius:3px;padding:1px 2px;cursor:pointer;`;
+        mark.title = "Duplo toque para remover";
+        mark.addEventListener("dblclick", () => {
+          const p = mark.parentNode;
+          while (mark.firstChild) p.insertBefore(mark.firstChild, mark);
+          p.removeChild(mark);
+        });
+        mark.appendChild(fragment);
+        range.insertNode(mark);
+      } catch { return; }
+    }
+
     sel.removeAllRanges();
-    setMarcacoes(m => ({ ...m, [lei.id]:[...(m[lei.id]||[]),{ texto:textoSel, cor:corAtiva, data:new Date().toISOString() }] }));
-    setStats(s=>({ ...s,pontos:s.pontos+2 }));
+    setMarcacoes(m => ({
+      ...m,
+      [lei.id]: [...(m[lei.id]||[]), { texto:textoSel, cor:corAtiva, data:new Date().toISOString() }]
+    }));
+    setStats(s => ({ ...s, pontos:s.pontos+2 }));
   }
 
   async function gerarFlashcard() {
