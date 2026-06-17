@@ -321,6 +321,152 @@ const AREAS = [
 
 const TEXTOS_EMBUTIDOS = {
 
+"cf88_trib": `<h2>CONSTITUIÇÃO FEDERAL DE 1988</h2>
+<p><em>Artigos essenciais para concursos fiscais — SEFAZ-BA 2026</em></p>
+
+<h2>TÍTULO II — DOS DIREITOS E GARANTIAS FUNDAMENTAIS</h2>
+
+<p><strong>Art. 5º</strong> Todos são iguais perante a lei, sem distinção de qualquer natureza, garantindo-se aos brasileiros e aos estrangeiros residentes no País a inviolabilidade do direito à vida, à liberdade, à igualdade, à segurança e à propriedade, nos termos seguintes:<br>
+II — ninguém será obrigado a fazer ou deixar de fazer alguma coisa senão em virtude de lei;<br>
+XXXIV — são a todos assegurados, independentemente do pagamento de taxas: a) o direito de petição aos Poderes Públicos em defesa de direitos ou contra ilegalidade ou abuso de poder; b) a obtenção de certidões em repartições públicas, para defesa de direitos e esclarecimento de situações de interesse pessoal;<br>
+XXXV — a lei não excluirá da apreciação do Poder Judiciário lesão ou ameaça a direito;<br>
+LXIX — conceder-se-á mandado de segurança para proteger direito líquido e certo, não amparado por habeas corpus ou habeas data, quando o responsável pela ilegalidade ou abuso de poder for autoridade pública ou agente de pessoa jurídica no exercício de atribuições do Poder Público;<br>
+LXXIII — qualquer cidadão é parte legítima para propor ação popular que vise a anular ato lesivo ao patrimônio público ou de entidade de que o Estado participe, à moralidade administrativa, ao meio ambiente e ao patrimônio histórico e cultural, ficando o autor, salvo comprovada má-fé, isento de custas judiciais e do ônus da sucumbência.</p>
+
+<h2>TÍTULO III — DA ORGANIZAÇÃO DO ESTADO</h2>
+<h2>Seção III — Da Administração Pública</h2>
+
+<p><strong>Art. 37.</strong> A administração pública direta e indireta de qualquer dos Poderes da União, dos Estados, do Distrito Federal e dos Municípios obedecerá aos princípios de legalidade, impessoalidade, moralidade, publicidade e eficiência e, também, ao seguinte:<br>
+I — os cargos, empregos e funções públicas são acessíveis aos brasileiros que preencham os requisitos estabelecidos em lei, assim como aos estrangeiros, na forma da lei;<br>
+II — a investidura em cargo ou emprego público depende de aprovação prévia em concurso público de provas ou de provas e títulos, de acordo com a natureza e a complexidade do cargo ou emprego, na forma prevista em lei, ressalvadas as nomeações para cargo em comissão declarado em lei de livre nomeação e exoneração;<br>
+XVI — é vedada a acumulação remunerada de cargos públicos, exceto, quando houver compatibilidade de horários, observado em qualquer caso o disposto no inciso XI: a) a de dois cargos de professor; b) a de um cargo de professor com outro técnico ou científico; c) a de dois cargos ou empregos privativos de profissionais de saúde, com profissões regulamentadas.</p>
+
+<h2>TÍTULO VI — DA TRIBUTAÇÃO E DO ORÇAMENTO</h2>
+<h2>CAPÍTULO I — DO SISTEMA TRIBUTÁRIO NACIONAL</h2>
+<h2>Seção I — Dos Princípios Gerais</h2>
+
+<p><strong>Art. 145.</strong> A União, os Estados, o Distrito Federal e os Municípios poderão instituir os seguintes tributos:<br>
+I — impostos;<br>
+II — taxas, em razão do exercício do poder de polícia ou pela utilização, efetiva ou potencial, de serviços públicos específicos e divisíveis, prestados ao contribuinte ou postos a sua disposição;<br>
+III — contribuição de melhoria, decorrente de obras públicas.<br>
+§1º Sempre que possível, os impostos terão caráter pessoal e serão graduados segundo a capacidade econômica do contribuinte, facultado à administração tributária, especialmente para conferir efetividade a esses objetivos, identificar, respeitados os direitos individuais e nos termos da lei, o patrimônio, os rendimentos e as atividades econômicas do contribuinte.<br>
+§2º As taxas não poderão ter base de cálculo própria de impostos.</p>
+
+<p><strong>Art. 146.</strong> Cabe à lei complementar:<br>
+I — dispor sobre conflitos de competência, em matéria tributária, entre a União, os Estados, o Distrito Federal e os Municípios;<br>
+II — regular as limitações constitucionais ao poder de tributar;<br>
+III — estabelecer normas gerais em matéria de legislação tributária, especialmente sobre: a) definição de tributos e de suas espécies, bem como, em relação aos impostos discriminados nesta Constituição, a dos respectivos fatos geradores, bases de cálculo e contribuintes; b) obrigação, lançamento, crédito, prescrição e decadência tributários; c) adequado tratamento tributário ao ato cooperativo praticado pelas sociedades cooperativas; d) definição de tratamento diferenciado e favorecido para as microempresas e para as empresas de pequeno porte, inclusive regimes especiais ou simplificados no caso do imposto previsto no art. 155, II, das contribuições previstas no art. 195, I e §§ 12 e 13, e da contribuição a que se refere o art. 239.</p>
+
+<h2>Seção II — Das Limitações do Poder de Tributar</h2>
+
+<p><strong>Art. 150.</strong> Sem prejuízo de outras garantias asseguradas ao contribuinte, é vedado à União, aos Estados, ao Distrito Federal e aos Municípios:<br>
+I — exigir ou aumentar tributo sem lei que o estabeleça (princípio da legalidade tributária);<br>
+II — instituir tratamento desigual entre contribuintes que se encontrem em situação equivalente, proibida qualquer distinção em razão de ocupação profissional ou função por eles exercida (princípio da isonomia);<br>
+III — cobrar tributos: a) em relação a fatos geradores ocorridos antes do início da vigência da lei que os houver instituído ou aumentado (irretroatividade); b) no mesmo exercício financeiro em que haja sido publicada a lei que os instituiu ou aumentou (anterioridade anual); c) antes de decorridos noventa dias da data em que haja sido publicada a lei que os instituiu ou aumentou (anterioridade nonagesimal/noventena), observado o disposto na alínea b;<br>
+IV — utilizar tributo com efeito de confisco (vedação ao confisco);<br>
+V — estabelecer limitações ao tráfego de pessoas ou bens, por meio de tributos interestaduais ou intermunicipais, ressalvada a cobrança de pedágio pela utilização de vias conservadas pelo Poder Público;<br>
+VI — instituir impostos sobre: a) patrimônio, renda ou serviços, uns dos outros (imunidade recíproca); b) templos de qualquer culto (imunidade religiosa); c) patrimônio, renda ou serviços dos partidos políticos, inclusive suas fundações, das entidades sindicais dos trabalhadores, das instituições de educação e de assistência social, sem fins lucrativos, atendidos os requisitos da lei (imunidade do terceiro setor); d) livros, jornais, periódicos e o papel destinado a sua impressão (imunidade cultural); e) fonogramas e videofonogramas musicais produzidos no Brasil contendo obras musicais ou literomusicais de autores brasileiros e/ou obras em geral interpretadas por artistas brasileiros bem como os suportes materiais ou arquivos digitais que os contenham.<br>
+§1º A vedação do inciso III, b (anterioridade anual) não se aplica a: II (IE), IPI, IOF, IEG (guerra), EC (empréstimo compulsório - guerra/calamidade). A noventena não se aplica a: II, IE, IR, IOF, IEG, EC (guerra/calamidade), base de cálculo do IPVA e IPTU.<br>
+§2º A imunidade recíproca é extensiva às autarquias e fundações públicas, vinculadas às suas finalidades essenciais.<br>
+§4º As imunidades dos templos e do terceiro setor compreendem somente o patrimônio, a renda e os serviços relacionados com as finalidades essenciais.<br>
+§6º Qualquer isenção, redução de base de cálculo, crédito presumido, anistia ou remissão só poderá ser concedido mediante lei específica.<br>
+§7º Substituição tributária — a lei poderá atribuir responsabilidade pelo pagamento do imposto cujo fato gerador deva ocorrer posteriormente, assegurada a restituição imediata se não se realizar o fato gerador presumido.</p>
+
+<p><strong>Art. 151.</strong> É vedado à União:<br>
+I — instituir tributo não uniforme em todo o território nacional (princípio da uniformidade geográfica);<br>
+II — tributar renda das obrigações da dívida pública estadual e municipal em nível superior às da União;<br>
+III — instituir isenções heterotópicas de tributos estaduais e municipais.</p>
+
+<p><strong>Art. 152.</strong> É vedado aos Estados, ao Distrito Federal e aos Municípios estabelecer diferença tributária entre bens e serviços, de qualquer natureza, em razão de sua procedência ou destino (princípio da não discriminação).</p>
+
+<h2>Seção III — Dos Impostos da União</h2>
+
+<p><strong>Art. 153.</strong> Compete à União instituir impostos sobre:<br>
+I — importação de produtos estrangeiros (II);<br>
+II — exportação, para o exterior, de produtos nacionais ou nacionalizados (IE);<br>
+III — renda e proventos de qualquer natureza (IR);<br>
+IV — produtos industrializados (IPI);<br>
+V — operações de crédito, câmbio e seguro, ou relativas a títulos ou valores mobiliários (IOF);<br>
+VI — propriedade territorial rural (ITR);<br>
+VII — grandes fortunas, nos termos de lei complementar (IGF — não regulamentado).<br>
+§1º É facultado ao Poder Executivo alterar as alíquotas de II, IE, IPI e IOF (extrafiscalidade).<br>
+§3º O IPI: I — será seletivo, em função da essencialidade do produto; II — será não cumulativo; III — não incidirá sobre produtos industrializados destinados ao exterior.</p>
+
+<p><strong>Art. 154.</strong> A União poderá instituir:<br>
+I — por lei complementar, impostos residuais — não cumulativos e com fato gerador e base de cálculo não previstos na Constituição;<br>
+II — impostos extraordinários de guerra (IEG) — compreendidos ou não na sua competência tributária.</p>
+
+<h2>Seção IV — Dos Impostos dos Estados e do Distrito Federal</h2>
+
+<p><strong>Art. 155.</strong> Compete aos Estados e ao Distrito Federal instituir impostos sobre:<br>
+I — transmissão causa mortis e doação, de quaisquer bens ou direitos (ITCMD/ITD);<br>
+II — operações relativas à circulação de mercadorias e sobre prestações de serviços de transporte interestadual e intermunicipal e de comunicação, ainda que as operações e as prestações se iniciem no exterior (ICMS);<br>
+III — propriedade de veículos automotores (IPVA).<br>
+§1º O ITCMD:<br>
+I — relativamente a bens imóveis, compete ao Estado da situação do bem;<br>
+II — relativamente a bens móveis, títulos e créditos, compete ao Estado onde se processar o inventário ou arrolamento, ou tiver domicílio o doador;<br>
+IV — terá suas alíquotas máximas fixadas pelo Senado Federal (atualmente 8% — Resolução 9/1992).<br>
+§2º O ICMS atenderá ao seguinte:<br>
+I — será não cumulativo, compensando-se o que for devido em cada operação com o montante cobrado nas anteriores;<br>
+II — a isenção ou não incidência: a) não implicará crédito para compensação com o montante devido nas operações seguintes; b) acarretará a anulação do crédito relativo às operações anteriores;<br>
+III — poderá ser seletivo, em função da essencialidade das mercadorias e dos serviços;<br>
+IV — resolução do Senado Federal estabelecerá as alíquotas aplicáveis às operações e prestações interestaduais e de exportação;<br>
+VII — nas operações e prestações que destinem bens e serviços a consumidor final, contribuinte ou não do imposto, localizado em outro Estado, adotar-se-á a alíquota interestadual e caberá ao Estado de localização do destinatário o imposto correspondente à diferença entre a alíquota interna do Estado destinatário e a alíquota interestadual (DIFAL — EC 87/2015);<br>
+X — não incidirá: a) sobre operações que destinem mercadorias para o exterior, nem sobre serviços prestados a destinatários no exterior; b) sobre operações que destinem a outros Estados petróleo, inclusive lubrificantes, combustíveis líquidos e gasosos dele derivados, e energia elétrica; c) sobre o ouro, nas hipóteses definidas no art. 153, § 5º; d) nas prestações de serviço de comunicação nas modalidades de radiodifusão sonora e de sons e imagens de recepção livre e gratuita;<br>
+XI — não compreenderá, em sua base de cálculo, o montante do IPI, quando a operação, realizada entre contribuintes e relativa a produto destinado à industrialização ou à comercialização, configurar fato gerador dos dois impostos;<br>
+XII — cabe à lei complementar: a) definir seus contribuintes; b) dispor sobre substituição tributária; c) disciplinar o regime de compensação do imposto; g) regular a forma como, mediante deliberação dos Estados e do DF, isenções, incentivos e benefícios fiscais serão concedidos e revogados (CONFAZ — LC 24/75).<br>
+§3º À exceção dos impostos de que tratam o inciso II do caput deste artigo e o art. 153, I e II, nenhum outro imposto poderá incidir sobre operações relativas a energia elétrica, serviços de telecomunicações, derivados de petróleo, combustíveis e minerais do País.<br>
+§6º O IPVA: I — terá alíquotas mínimas fixadas pelo Senado Federal; II — poderá ter alíquotas diferenciadas em função do tipo e utilização.<br>
+§7º Para fins do ITCMD, compete ao Senado Federal fixar as alíquotas máximas (Res. 9/92: máx. 8%); sendo inconstitucional alíquota acima de 8% antes de nova resolução.</p>
+
+<h2>Seção V — Dos Impostos dos Municípios</h2>
+
+<p><strong>Art. 156.</strong> Compete aos Municípios instituir impostos sobre:<br>
+I — propriedade predial e territorial urbana (IPTU);<br>
+II — transmissão inter vivos, a qualquer título, por ato oneroso, de bens imóveis (ITBI);<br>
+III — serviços de qualquer natureza, não compreendidos no art. 155, II, definidos em lei complementar (ISS).<br>
+§1º Sem prejuízo da progressividade no tempo a que se refere o art. 182, § 4º, II, o IPTU poderá: I — ser progressivo em razão do valor do imóvel; e II — ter alíquotas diferentes de acordo com a localização e o uso do imóvel.<br>
+§2º O ITBI: I — não incide sobre a transmissão de bens ou direitos incorporados ao patrimônio de pessoa jurídica em realização de capital, nem sobre a transmissão de bens ou direitos decorrente de fusão, incorporação, cisão ou extinção de pessoa jurídica, salvo se, nesses casos, a atividade preponderante do adquirente for a compra e venda desses bens ou direitos, locação de bens imóveis ou arrendamento mercantil; II — compete ao Município da situação do bem.</p>
+
+<h2>Seção VI — Da Repartição das Receitas Tributárias</h2>
+
+<p><strong>Art. 157.</strong> Pertencem aos Estados e ao Distrito Federal:<br>
+I — o produto da arrecadação do IR incidente na fonte sobre rendimentos pagos, a qualquer título, pelos Estados e DF;<br>
+II — 20% do produto da arrecadação do imposto residual (art. 154, I).</p>
+
+<p><strong>Art. 158.</strong> Pertencem aos Municípios:<br>
+I — o produto da arrecadação do IR na fonte sobre rendimentos pagos pelo Município;<br>
+II — 50% do produto da arrecadação do ITR relativamente aos imóveis neles situados, ou 100% se o Município fiscalizar e cobrar o ITR;<br>
+III — 50% do produto da arrecadação do IPVA licenciado em seu território;<br>
+IV — 25% do produto da arrecadação do ICMS: 3/4 conforme os critérios legais estaduais e 1/4 de acordo com a lei estadual.</p>
+
+<p><strong>Art. 159.</strong> A União entregará:<br>
+I — do produto da arrecadação do IR e do IPI, 49% da seguinte forma: a) 21,5% ao Fundo de Participação dos Estados — FPE; b) 22,5% ao Fundo de Participação dos Municípios — FPM; c) 3% para aplicação em programas de financiamento no setor produtivo das Regiões Norte, Nordeste e Centro-Oeste; d) 1% ao FPM no primeiro decêndio do mês de dezembro; e) 1% ao FPM no primeiro decêndio do mês de julho;<br>
+II — do produto da arrecadação do IPI, 10% aos Estados e DF, proporcionalmente ao valor das respectivas exportações de produtos industrializados.<br>
+III — do produto da arrecadação da CIDE-Combustíveis, 29% aos Estados e DF.</p>
+
+<p><strong>Art. 160.</strong> É vedada a retenção ou qualquer restrição à entrega e ao emprego dos recursos atribuídos, nesta seção, aos Estados, ao Distrito Federal e aos Municípios, neles compreendidos adicionais e acréscimos relativos a impostos.<br>
+Parágrafo único. A vedação prevista neste artigo não impede a União e os Estados de condicionarem a entrega de recursos ao pagamento de seus créditos, inclusive de suas autarquias.</p>
+
+<p><strong>Art. 162.</strong> A União, os Estados, o Distrito Federal e os Municípios divulgarão, até o último dia do mês subsequente ao da arrecadação, os montantes de cada um dos tributos arrecadados, os recursos recebidos, os valores de origem tributária entregues e a entregar e a expressão numérica dos critérios de rateio.</p>
+
+<h2>CAPÍTULO II — DAS FINANÇAS PÚBLICAS</h2>
+<h2>Seção II — Dos Orçamentos</h2>
+
+<p><strong>Art. 165.</strong> Leis de iniciativa do Poder Executivo estabelecerão:<br>
+I — o plano plurianual (PPA);<br>
+II — as diretrizes orçamentárias (LDO);<br>
+III — os orçamentos anuais (LOA).<br>
+§5º A lei orçamentária anual compreenderá: I — o orçamento fiscal referente aos Poderes da União, seus fundos, órgãos e entidades da administração direta e indireta; II — o orçamento de investimento das empresas estatais; III — o orçamento da seguridade social.</p>
+
+<h2>EMENDAS CONSTITUCIONAIS RELEVANTES</h2>
+
+<p><strong>EC 87/2015 — DIFAL:</strong> O diferencial de alíquota (DIFAL) passa a ser devido ao Estado destinatário nas operações interestaduais para consumidor final não contribuinte, cabendo 100% ao Estado destino (a partir de 2019 — antes era progressivo).</p>
+
+<p><strong>EC 132/2023 — Reforma Tributária:</strong> Extingue gradualmente ICMS e ISS até 2032, substituindo-os pelo IBS (Imposto sobre Bens e Serviços — competência estadual e municipal) e CBS (Contribuição sobre Bens e Serviços — competência federal). Cria o Imposto Seletivo (IS) sobre bens e serviços prejudiciais à saúde ou ao meio ambiente. Institui o Comitê Gestor do IBS. Prevê Fundo Nacional de Desenvolvimento Regional (FNDR) e Fundo de Sustentabilidade e Diversificação Econômica do Estado do Amazonas.</p>
+
+<p><strong>LC 214/2025 — IBS, CBS e IS:</strong> Regulamenta a EC 132/2023, instituindo o IBS, a CBS e o Imposto Seletivo. Período de transição: 2026-2032 para IBS/CBS; extinção total do ICMS e ISS em 01/01/2033.</p>`,
+
 "ba_lei7014": `<h2>LEI Nº 7.014, DE 4 DE DEZEMBRO DE 1996</h2>
 <p>Dispõe sobre o Imposto sobre Operações Relativas à Circulação de Mercadorias e sobre Prestações de Serviços de Transporte Interestadual e Intermunicipal e de Comunicação — ICMS.</p>
 
@@ -2800,123 +2946,38 @@ function addHistorico(q) {
   } catch {}
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// TELA: SIMULADO FGV — com Banco de Questões Reais + Geração por IA
-// ═══════════════════════════════════════════════════════════════════════════
 function TelaSimulado({ isMobile, online, stats, setStats }) {
-
-  // ── MODO PRINCIPAL: "banco" (questões reais) | "ia" (gerar por IA) ──
-  const [abaSel, setAbaSel]         = useState("banco");
-
-  // ── ESTADO BANCO FGV ──
-  const [bancoDisciplina, setBancoDisc] = useState("Direito Constitucional");
-  const [bancoQuestoes, setBancoQ]  = useState([]);
-  const [bancoCarreg, setBancoCarreg] = useState(false);
-  const [bancoIdx, setBancoIdx]     = useState(0);
-  const [bancoResp, setBancoResp]   = useState(null);
-  const [bancoGab, setBancoGab]     = useState(false);
-  const [bancoPlacar, setBancoPlacar] = useState({ acertos:0, erros:0, total:0 });
-  const [bancoVazio, setBancoVazio] = useState(false);
-
-  // ── ESTADO IA (mantido) ──
-  const [discSel, setDiscSel]       = useState(null);
-  const [subtema, setSubtema]       = useState("");
-  const [temaLivre, setTemaLivre]   = useState("");
-  const [questao, setQuestao]       = useState(null);
+  const [discSel, setDiscSel]       = useState(null);      // disciplina selecionada
+  const [subtema, setSubtema]       = useState("");         // subtema livre ou da lista
+  const [temaLivre, setTemaLivre]   = useState("");         // campo livre
+  const [questao, setQuestao]       = useState(null);       // questão gerada
   const [gerando, setGerando]       = useState(false);
-  const [respostaUser, setRespUser] = useState(null);
+  const [respostaUser, setRespUser] = useState(null);       // letra escolhida
   const [mostrarGab, setMostrarGab] = useState(false);
   const [historico, setHistorico]   = useState(() => getHistoricoSimulado());
-  const [modo, setModo]             = useState("gerar");
+  const [modo, setModo]             = useState("gerar");    // gerar | resultado | historico
   const [placar, setPlacar]         = useState(() => JSON.parse(localStorage.getItem("simulado_placar")||'{"acertos":0,"erros":0,"total":0}'));
-  const [qty, setQty]               = useState(1);
-  const [fila, setFila]             = useState([]);
+  const [qty, setQty]               = useState(1);          // quantas questões gerar de vez
+  const [fila, setFila]             = useState([]);         // fila de questões
   const [filaidx, setFilaIdx]       = useState(0);
 
   useEffect(() => { localStorage.setItem("simulado_placar", JSON.stringify(placar)); }, [placar]);
 
   const disc = DISC_SIMULADO.find(d => d.id === discSel);
 
-  const DISCIPLINAS_BANCO = [
-    "Direito Constitucional",
-    "Direito Tributário",
-    "Direito Administrativo",
-    "Contabilidade Geral",
-    "Auditoria",
-  ];
-
-  // ── CARREGAR QUESTÕES DO BANCO FGV ──
-  async function carregarBanco(disciplina) {
-    setBancoCarreg(true); setBancoVazio(false); setBancoResp(null); setBancoGab(false);
-    try {
-      const { data } = await supabase
-        .from("cache_questoes")
-        .select("*")
-        .eq("disciplina", disciplina)
-        .eq("origem", "fgv_real")
-        .order("criado_em", { ascending: false })
-        .limit(50);
-      if (data && data.length > 0) {
-        // Embaralha
-        const shuffled = [...data].sort(() => Math.random() - 0.5);
-        setBancoQ(shuffled);
-        setBancoIdx(0);
-        setBancoVazio(false);
-      } else {
-        setBancoQ([]);
-        setBancoVazio(true);
-      }
-    } catch(e) {
-      setBancoQ([]);
-      setBancoVazio(true);
-    }
-    setBancoCarreg(false);
-  }
-
-  useEffect(() => {
-    if (abaSel === "banco") carregarBanco(bancoDisciplina);
-  }, [abaSel, bancoDisciplina]);
-
-  const questaoAtual = bancoQuestoes[bancoIdx] || null;
-
-  function responderBanco(letra) {
-    if (bancoResp) return;
-    setBancoResp(letra);
-    setBancoGab(true);
-    const acertou = letra === questaoAtual?.gabarito;
-    setBancoPlacar(p => ({ acertos: p.acertos+(acertou?1:0), erros: p.erros+(acertou?0:1), total: p.total+1 }));
-    setStats(s => ({ ...s, pontos: s.pontos + (acertou ? 20 : 5) }));
-  }
-
-  function proximaBanco() {
-    if (bancoIdx + 1 < bancoQuestoes.length) {
-      setBancoIdx(i => i+1);
-      setBancoResp(null);
-      setBancoGab(false);
-    } else {
-      // Fim — reembaralha
-      setBancoQ(q => [...q].sort(() => Math.random() - 0.5));
-      setBancoIdx(0);
-      setBancoResp(null);
-      setBancoGab(false);
-    }
-  }
-
-  function corAltBanco(letra) {
-    if (!bancoResp) return { bg: T.fundo3, border: T.borda2, color: T.branco };
-    if (letra === questaoAtual?.gabarito) return { bg:"rgba(0,107,63,0.15)", border:"rgba(0,107,63,0.6)", color:T.verde3 };
-    if (letra === bancoResp) return { bg:"rgba(229,62,62,0.12)", border:"rgba(229,62,62,0.5)", color:"#FCA5A5" };
-    return { bg: T.fundo3, border: T.borda2, color: T.cinza3 };
-  }
-
-  // ── IA functions (mantidas) ──
   async function gerarQuestao(temaAlvo, discAlvo, promptCustom) {
     if (!online) return null;
     const d = DISC_SIMULADO.find(x => x.id === discAlvo) || disc;
     const tema = temaAlvo || subtema || temaLivre || (d?.subtemas[Math.floor(Math.random()*d.subtemas.length)]);
     const hist = getHistoricoSimulado().slice(0,10).map(h=>h.tema).join(", ");
+
     const systemPrompt = promptCustom || PROMPT_FGV;
-    const prompt = `Gere uma questão padrão FGV para concurso Auditor Fiscal SEFAZ-BA 2026.\nDisciplina: ${d?.label || "Direito Tributário"}\nTema específico: ${tema}\n${hist ? `Temas já cobrados recentemente (EVITE repetir): ${hist}` : ""}\nNível: médio-alto, candidato preparado para concurso fiscal estadual.`;
+    const prompt = `Gere uma questão padrão FGV para concurso Auditor Fiscal SEFAZ-BA 2026.
+Disciplina: ${d?.label || "Direito Tributário"}
+Tema específico: ${tema}
+${hist ? `Temas já cobrados recentemente (EVITE repetir): ${hist}` : ""}
+Nível: médio-alto, candidato preparado para concurso fiscal estadual.`;
+
     const resp = await callClaude(systemPrompt, prompt, 1500);
     try {
       const clean = resp.replace(/```json|```/g,"").trim();
@@ -2953,12 +3014,21 @@ function TelaSimulado({ isMobile, online, stats, setStats }) {
   function proximaQuestao() {
     const next = filaidx + 1;
     if (next < fila.length) {
-      setFilaIdx(next); setQuestao(fila[next]); setRespUser(null); setMostrarGab(false);
+      setFilaIdx(next);
+      setQuestao(fila[next]);
+      setRespUser(null);
+      setMostrarGab(false);
     } else {
-      setModo("gerar"); setQuestao(null); setRespUser(null); setMostrarGab(false);
+      setModo("gerar");
+      setQuestao(null);
+      setRespUser(null);
+      setMostrarGab(false);
     }
   }
 
+  const taxaAcerto = placar.total > 0 ? Math.round(placar.acertos/placar.total*100) : 0;
+
+  // ── CORES DE ALTERNATIVA ──
   function corAlt(letra) {
     if (!respostaUser) return { bg: T.fundo3, border: T.borda2, color: T.branco };
     if (letra === questao?.gabarito) return { bg:"rgba(0,107,63,0.15)", border:"rgba(0,107,63,0.6)", color:T.verde3 };
@@ -2966,510 +3036,307 @@ function TelaSimulado({ isMobile, online, stats, setStats }) {
     return { bg: T.fundo3, border: T.borda2, color: T.cinza3 };
   }
 
-  const taxaAcerto = placar.total > 0 ? Math.round(placar.acertos/placar.total*100) : 0;
-  const taxaBanco  = bancoPlacar.total > 0 ? Math.round(bancoPlacar.acertos/bancoPlacar.total*100) : 0;
-
   return (
     <div style={{ flex:1, overflow:"auto", padding:isMobile?"12px 14px":"24px 32px" }}>
 
       {/* ── HEADER ── */}
-      <div style={{ marginBottom:18 }}>
+      <div style={{ marginBottom:20 }}>
         <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1.5, color:T.verde2, marginBottom:4 }}>🎯 Simulado Padrão FGV</div>
-        <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?20:26, fontWeight:900, color:"#fff", marginBottom:0 }}>
-          Questões SEFAZ-BA
+        <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?20:26, fontWeight:900, color:"#fff", marginBottom:4 }}>
+          Questões no Estilo da Banca
         </h1>
+        <p style={{ color:T.cinza3, fontSize:12 }}>
+          Geradas por IA com enunciado situacional, 5 alternativas, gabarito comentado e fundamentação legal — exatamente como a FGV elabora.
+        </p>
       </div>
 
-      {/* ── ABAS: BANCO REAL | IA ── */}
-      <div style={{ display:"flex", gap:6, marginBottom:20, borderBottom:`1px solid ${T.borda2}`, paddingBottom:0 }}>
+      {/* ── PLACAR GLOBAL ── */}
+      <div style={{ display:"flex", gap:10, marginBottom:20, flexWrap:"wrap" }}>
         {[
-          { id:"banco", icon:"📚", label:"Banco FGV Real", sub:"Questões de provas oficiais" },
-          { id:"ia",    icon:"🤖", label:"Gerar por IA",   sub:"No estilo da banca" },
-        ].map(aba => (
-          <button key={aba.id} onClick={() => setAbaSel(aba.id)} className="btn" style={{
-            padding:"10px 16px", borderRadius:"10px 10px 0 0", fontWeight:700, fontSize:12,
-            background: abaSel===aba.id ? T.fundo3 : "transparent",
-            border: abaSel===aba.id ? `1px solid ${T.borda2}` : "1px solid transparent",
-            borderBottom: abaSel===aba.id ? `1px solid ${T.fundo3}` : "none",
-            color: abaSel===aba.id ? "#fff" : T.cinza3,
-            marginBottom: abaSel===aba.id ? -1 : 0,
-            display:"flex", alignItems:"center", gap:6,
-          }}>
-            <span>{aba.icon}</span>
-            <div style={{ textAlign:"left" }}>
-              <div>{aba.label}</div>
-              {!isMobile && <div style={{ fontSize:10, fontWeight:400, color: abaSel===aba.id ? T.cinza3 : T.cinza3+"80" }}>{aba.sub}</div>}
-            </div>
-          </button>
+          { label:"Acertos", val:placar.acertos, cor:T.verde2 },
+          { label:"Erros",   val:placar.erros,   cor:T.red },
+          { label:"Total",   val:placar.total,   cor:T.cinza3 },
+          { label:"Taxa",    val:`${taxaAcerto}%`, cor:taxaAcerto>=70?T.verde2:taxaAcerto>=50?T.amarelo:T.red },
+        ].map(item => (
+          <div key={item.label} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"10px 16px", flex:1, minWidth:80, textAlign:"center" }}>
+            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:900, color:item.cor, lineHeight:1 }}>{item.val}</div>
+            <div style={{ fontSize:10, color:T.cinza3, marginTop:3, fontWeight:600 }}>{item.label}</div>
+          </div>
         ))}
+        {placar.total > 0 && (
+          <button onClick={() => { setPlacar({acertos:0,erros:0,total:0}); localStorage.setItem("simulado_placar","{}"); }} className="btn"
+            style={{ background:"transparent", border:`1px solid ${T.borda2}`, color:T.cinza3, borderRadius:10, padding:"10px 14px", fontSize:11 }}>
+            🗑️ Zerar
+          </button>
+        )}
       </div>
 
-      {/* ══════════════════════════════════════
-          ABA: BANCO FGV REAL
-          ══════════════════════════════════════ */}
-      {abaSel === "banco" && (
-        <div>
-          {/* Placar do banco */}
-          <div style={{ display:"flex", gap:10, marginBottom:16, flexWrap:"wrap" }}>
-            {[
-              { label:"Acertos", val:bancoPlacar.acertos, cor:T.verde2 },
-              { label:"Erros",   val:bancoPlacar.erros,   cor:T.red },
-              { label:"Taxa",    val:`${taxaBanco}%`,     cor:taxaBanco>=70?T.verde2:taxaBanco>=50?T.amarelo:T.red },
-              { label:"Banco",   val:`${bancoIdx+1}/${bancoQuestoes.length||0}`, cor:T.accent },
-            ].map(item => (
-              <div key={item.label} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"8px 14px", flex:1, minWidth:70, textAlign:"center" }}>
-                <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:900, color:item.cor, lineHeight:1 }}>{item.val}</div>
-                <div style={{ fontSize:10, color:T.cinza3, marginTop:2, fontWeight:600 }}>{item.label}</div>
+      {!online && (
+        <div style={{ background:"rgba(237,137,54,0.08)", border:`1px solid rgba(237,137,54,0.25)`, borderRadius:9, padding:"10px 13px", marginBottom:16, fontSize:12, color:"#FCD34D", display:"flex", gap:8 }}>
+          <span>📡</span><span>Simulado requer conexão com a internet para gerar questões.</span>
+        </div>
+      )}
+
+      <div style={{ display:"flex", gap:isMobile?0:20, flexDirection:isMobile?"column":"row", alignItems:"flex-start" }}>
+
+        {/* ── PAINEL ESQUERDO: CONFIGURAÇÃO ── */}
+        <div style={{ width:isMobile?"100%":280, flexShrink:0, marginBottom:isMobile?16:0 }}>
+          <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"18px 16px", marginBottom:12 }}>
+            <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:14 }}>⚙️ Configurar questão</div>
+
+            {/* Seleção de disciplina */}
+            <div style={{ marginBottom:12 }}>
+              <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Disciplina</div>
+              <div style={{ display:"flex", flexDirection:"column", gap:5, maxHeight:280, overflowY:"auto" }}>
+                {DISC_SIMULADO.map(d => (
+                  <button key={d.id} onClick={() => { setDiscSel(d.id); setSubtema(""); setTemaLivre(""); }} className="btn" style={{
+                    padding:"8px 11px", borderRadius:8, fontSize:12, fontWeight:discSel===d.id?700:400, textAlign:"left",
+                    background:discSel===d.id?"rgba(0,107,63,0.18)":"transparent",
+                    border:`1px solid ${discSel===d.id?"rgba(0,107,63,0.4)":"transparent"}`,
+                    color:discSel===d.id?T.verde3:T.cinza3,
+                    display:"flex", alignItems:"center", gap:7,
+                  }}>
+                    <span style={{ fontSize:14 }}>{d.icon}</span>
+                    <span style={{ lineHeight:1.3 }}>{d.label}</span>
+                  </button>
+                ))}
               </div>
-            ))}
-            {bancoPlacar.total > 0 && (
-              <button onClick={() => setBancoPlacar({acertos:0,erros:0,total:0})} className="btn"
-                style={{ background:"transparent", border:`1px solid ${T.borda2}`, color:T.cinza3, borderRadius:10, padding:"8px 12px", fontSize:11 }}>
-                🗑️
+            </div>
+
+            {/* Subtema */}
+            {disc && (
+              <div style={{ marginBottom:12 }}>
+                <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Subtema (opcional)</div>
+                <div style={{ display:"flex", flexDirection:"column", gap:4, maxHeight:180, overflowY:"auto" }}>
+                  <button onClick={() => setSubtema("")} className="btn" style={{
+                    padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
+                    background:!subtema?"rgba(249,194,49,0.1)":"transparent",
+                    border:`1px solid ${!subtema?"rgba(249,194,49,0.3)":"transparent"}`,
+                    color:!subtema?T.amarelo:T.cinza3,
+                  }}>🎲 Aleatório</button>
+                  {disc.subtemas.map(s => (
+                    <button key={s} onClick={() => setSubtema(s)} className="btn" style={{
+                      padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
+                      background:subtema===s?"rgba(0,107,63,0.15)":"transparent",
+                      border:`1px solid ${subtema===s?"rgba(0,107,63,0.35)":"transparent"}`,
+                      color:subtema===s?T.verde3:T.cinza3,
+                    }}>{s}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tema livre */}
+            <div style={{ marginBottom:14 }}>
+              <div style={{ fontSize:11, color:T.cinza3, marginBottom:6, fontWeight:600 }}>Ou escreva o tema</div>
+              <input value={temaLivre} onChange={e=>setTemaLivre(e.target.value)}
+                placeholder="Ex: responsabilidade tributária do sócio..."
+                style={{ width:"100%", background:T.fundo2, border:`1px solid ${T.borda2}`, borderRadius:8, padding:"8px 11px", color:T.branco, fontSize:12, outline:"none" }} />
+            </div>
+
+            {/* Quantidade */}
+            <div style={{ marginBottom:16 }}>
+              <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Quantidade de questões</div>
+              <div style={{ display:"flex", gap:6 }}>
+                {[1,3,5,10].map(n => (
+                  <button key={n} onClick={() => setQty(n)} className="btn" style={{
+                    flex:1, padding:"7px 4px", borderRadius:7, fontSize:12, fontWeight:700,
+                    background:qty===n?T.verde2:T.fundo2,
+                    color:qty===n?"#fff":T.cinza3,
+                    border:`1px solid ${qty===n?T.verde2:T.borda2}`,
+                  }}>{n}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Botão: Gerar no estilo provas reais */}
+            {discSel && getSugestaoProvaReal(discSel) && (
+              <button onClick={async () => {
+                const sugestao = getSugestaoProvaReal(discSel);
+                if (!sugestao || gerando || !online) return;
+                setGerando(true); setFila([]); setFilaIdx(0); setQuestao(null); setRespUser(null); setMostrarGab(false);
+                const promptEspecial = `${PROMPT_FGV}
+
+REFERÊNCIA DE PROVA REAL: Esta questão deve seguir o padrão exato de uma questão real da ${sugestao.origem}.
+Tema: ${sugestao.tema}
+Contexto de enunciado: "${sugestao.q}"
+Gere uma questão nova e original neste mesmo estilo e dificuldade, com personagem diferente.`;
+                const q = await gerarQuestao(sugestao.tema, discSel, promptEspecial);
+                if (q) { setFila([q]); setQuestao(q); setModo("resultado"); setStats(s => ({ ...s, questoesGeradas: s.questoesGeradas + 1, pontos: s.pontos + 5 })); }
+                setGerando(false);
+              }} disabled={gerando||!online} className="btn" style={{
+                width:"100%", padding:"10px", borderRadius:9, fontWeight:700, fontSize:12,
+                background:"rgba(159,122,234,0.15)", border:"1px solid rgba(159,122,234,0.4)",
+                color:"#C084FC", cursor:"pointer", marginBottom:8,
+              }}>
+                📋 Gerar no Estilo das Provas Reais
               </button>
             )}
+
+            {/* Botão gerar */}
+            <button onClick={gerarFila} disabled={!discSel||gerando||!online} className="btn" style={{
+              width:"100%", padding:"13px", borderRadius:10, fontWeight:800, fontSize:14,
+              background:(!discSel||gerando||!online)?T.fundo2:`linear-gradient(135deg,${T.verde},${T.verde2})`,
+              color:(!discSel||gerando||!online)?T.cinza3:"#fff",
+              cursor:(!discSel||gerando||!online)?"not-allowed":"pointer",
+              boxShadow:(!discSel||gerando||!online)?"none":`0 6px 24px rgba(0,107,63,0.3)`,
+            }}>
+              {gerando ? `⏳ Gerando ${qty} questão${qty>1?'es':''}…` : `🎯 Gerar ${qty} Questão${qty>1?'es':''} FGV`}
+            </button>
+
+            {!discSel && <div style={{ fontSize:11, color:T.cinza3, textAlign:"center", marginTop:8 }}>Selecione uma disciplina acima</div>}
           </div>
 
-          {/* Filtro de disciplina */}
-          <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:16 }}>
-            {DISCIPLINAS_BANCO.map(d => (
-              <button key={d} onClick={() => { setBancoDisc(d); setBancoIdx(0); setBancoResp(null); setBancoGab(false); }} className="btn" style={{
-                padding:"6px 14px", borderRadius:20, fontSize:11, fontWeight:700,
-                background: bancoDisciplina===d ? "rgba(0,107,63,0.2)" : T.fundo3,
-                border: `1px solid ${bancoDisciplina===d ? "rgba(0,107,63,0.5)" : T.borda2}`,
-                color: bancoDisciplina===d ? T.verde3 : T.cinza3,
-              }}>{d.replace("Direito ","").replace(" Geral","")}</button>
-            ))}
-          </div>
-
-          {/* Loading */}
-          {bancoCarreg && (
-            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:40, textAlign:"center" }}>
-              <Spinner label="Carregando questões FGV reais…" />
-            </div>
-          )}
-
-          {/* Banco vazio */}
-          {!bancoCarreg && bancoVazio && (
-            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"40px 24px", textAlign:"center" }}>
-              <div style={{ fontSize:48, marginBottom:12 }}>📭</div>
-              <h3 style={{ color:"#fff", fontFamily:"'Playfair Display',serif", marginBottom:8 }}>Banco ainda não populado</h3>
-              <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, maxWidth:400, margin:"0 auto 20px" }}>
-                As questões FGV reais de <strong style={{ color:T.amarelo }}>{bancoDisciplina}</strong> ainda não foram inseridas no banco.<br/>
-                Execute a migration SQL no painel do Supabase para populá-lo.
-              </p>
-              <div style={{ background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.2)", borderRadius:10, padding:"12px 16px", maxWidth:420, margin:"0 auto 20px", textAlign:"left" }}>
-                <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:6 }}>📋 Como popular o banco:</div>
-                <div style={{ fontSize:12, color:T.cinza3, lineHeight:1.8 }}>
-                  1. Supabase → SQL Editor<br/>
-                  2. Cole o arquivo <code style={{ color:T.verde2, fontFamily:"monospace" }}>supabase/migrations/20260617_seed_questoes_fgv.sql</code><br/>
-                  3. Clique em Run
+          {/* Histórico recente */}
+          {historico.length > 0 && (
+            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:12, padding:"14px 16px" }}>
+              <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:10 }}>📋 Últimas questões</div>
+              {historico.slice(0,6).map((h,i) => (
+                <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:8, padding:"6px 0", borderBottom:`1px solid ${T.borda2}` }}>
+                  <span style={{ fontSize:11, color:T.cinza3, flexShrink:0 }}>{new Date(h.data).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</span>
+                  <div>
+                    <div style={{ fontSize:11, color:T.branco, lineHeight:1.4 }}>{h.tema}</div>
+                    <div style={{ fontSize:10, color:T.cinza3 }}>{h.disciplina}</div>
+                  </div>
                 </div>
-              </div>
-              <button onClick={() => setAbaSel("ia")} className="btn" style={{
-                padding:"10px 24px", borderRadius:9, background:`linear-gradient(135deg,${T.verde},${T.verde2})`,
-                color:"#fff", fontWeight:700, fontSize:13,
-              }}>🤖 Usar IA enquanto isso</button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── ÁREA DA QUESTÃO ── */}
+        <div style={{ flex:1, minWidth:0 }}>
+          {gerando && !questao && (
+            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:40, textAlign:"center" }}>
+              <Spinner label={`Elaborando ${qty} questão${qty>1?'es':''} no padrão FGV…`} />
+              <p style={{ color:T.cinza3, fontSize:12, marginTop:8 }}>Analisando situação-problema, criando alternativas e distratores…</p>
             </div>
           )}
 
-          {/* Questão do banco */}
-          {!bancoCarreg && !bancoVazio && questaoAtual && (
+          {questao && (
             <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, overflow:"hidden" }}>
-
-              {/* Header */}
+              {/* Header da questão */}
               <div style={{ background:"rgba(0,107,63,0.1)", borderBottom:`1px solid rgba(0,107,63,0.2)`, padding:"12px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
-                  <span style={{ background:"#1a5c36", color:T.verde3, fontSize:10, fontWeight:800, borderRadius:6, padding:"3px 10px", border:`1px solid rgba(0,107,63,0.4)` }}>
-                    FGV REAL
+                  <span style={{ background:T.verde2, color:"#fff", fontSize:11, fontWeight:800, borderRadius:6, padding:"3px 10px" }}>
+                    FGV {fila.length>1?`${filaidx+1}/${fila.length}`:""}
                   </span>
-                  <span style={{ fontSize:12, color:T.verde3, fontWeight:600 }}>{questaoAtual.disciplina}</span>
-                  <span style={{ fontSize:11, color:T.cinza3 }}>→ {questaoAtual.tema}</span>
+                  <span style={{ fontSize:12, color:T.verde3, fontWeight:600 }}>{questao.disciplina}</span>
+                  <span style={{ fontSize:11, color:T.cinza3 }}>→ {questao.tema}</span>
                 </div>
-                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                  {questaoAtual.dificuldade && (
-                    <span style={{ fontSize:11, fontWeight:700, color: questaoAtual.dificuldade==="Difícil"?T.orange:questaoAtual.dificuldade==="Muito Difícil"?T.red:T.amarelo }}>
-                      {questaoAtual.dificuldade==="Difícil"?"🟠":questaoAtual.dificuldade==="Muito Difícil"?"🔴":"🟡"} {questaoAtual.dificuldade}
-                    </span>
-                  )}
-                  <span style={{ fontSize:10, color:T.cinza3 }}>{questaoAtual.prova_referencia}</span>
+                <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+                  <span style={{ fontSize:11, color:questao.dificuldade==="Muito Difícil"?T.red:questao.dificuldade==="Difícil"?T.orange:T.amarelo, fontWeight:700 }}>
+                    {questao.dificuldade==="Muito Difícil"?"🔴":questao.dificuldade==="Difícil"?"🟠":"🟡"} {questao.dificuldade}
+                  </span>
+                  <button onClick={() => { setQuestao(null); setRespUser(null); setMostrarGab(false); setModo("gerar"); }} className="btn"
+                    style={{ background:"rgba(255,255,255,0.05)", border:`1px solid ${T.borda2}`, color:T.cinza3, padding:"4px 10px", borderRadius:6, fontSize:11 }}>✕</button>
                 </div>
               </div>
 
-              {/* Body */}
-              <div style={{ padding:"20px 22px" }}>
-                <p style={{ fontSize:isMobile?13:14.5, color:T.branco, lineHeight:1.85, marginBottom:22, fontFamily:"'Georgia',serif" }}>
-                  {questaoAtual.enunciado}
+              {/* Enunciado */}
+              <div style={{ padding:"22px 22px 18px" }}>
+                <p style={{ fontSize:isMobile?13:14, color:T.branco, lineHeight:1.85, marginBottom:22, fontFamily:"'Georgia',serif" }}>
+                  {questao.enunciado}
                 </p>
 
                 {/* Alternativas */}
-                <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:20 }}>
+                <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
                   {["A","B","C","D","E"].map(letra => {
-                    const alternativas = typeof questaoAtual.alternativas === "string"
-                      ? JSON.parse(questaoAtual.alternativas)
-                      : questaoAtual.alternativas;
-                    const estilo = corAltBanco(letra);
+                    const estilo = corAlt(letra);
                     return (
-                      <button key={letra} onClick={() => responderBanco(letra)} disabled={!!bancoResp} className="btn" style={{
-                        display:"flex", alignItems:"flex-start", gap:10, padding:"11px 14px",
-                        borderRadius:10, border:`1px solid ${estilo.border}`,
-                        background:estilo.bg, cursor:bancoResp?"default":"pointer", textAlign:"left",
+                      <button key={letra} onClick={() => responder(letra)} disabled={!!respostaUser} className="btn" style={{
+                        display:"flex", alignItems:"flex-start", gap:12, padding:"12px 14px",
+                        background:estilo.bg, border:`1px solid ${estilo.border}`,
+                        borderRadius:9, textAlign:"left", cursor:respostaUser?"default":"pointer",
+                        transition:"all .2s",
                       }}>
                         <span style={{ fontWeight:900, fontSize:14, color:estilo.color, flexShrink:0, fontFamily:"'JetBrains Mono',monospace", marginTop:1 }}>{letra}</span>
-                        <span style={{ fontSize:13, color:estilo.color, lineHeight:1.65 }}>{alternativas?.[letra]}</span>
-                        {bancoResp && letra === questaoAtual.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>✅</span>}
-                        {bancoResp && letra === bancoResp && letra !== questaoAtual.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>❌</span>}
+                        <span style={{ fontSize:13, color:estilo.color, lineHeight:1.65 }}>{questao.alternativas[letra]}</span>
+                        {respostaUser && letra === questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>✅</span>}
+                        {respostaUser && letra === respostaUser && letra !== questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>❌</span>}
                       </button>
                     );
                   })}
                 </div>
+              </div>
 
-                {/* Gabarito + explicação */}
-                {bancoGab && (
-                  <div style={{ borderTop:`1px solid ${T.borda2}`, paddingTop:18 }}>
-                    <div style={{
-                      display:"flex", alignItems:"center", gap:12, padding:"12px 16px",
-                      background: bancoResp===questaoAtual.gabarito?"rgba(0,107,63,0.15)":"rgba(229,62,62,0.1)",
-                      border:`1px solid ${bancoResp===questaoAtual.gabarito?"rgba(0,107,63,0.4)":"rgba(229,62,62,0.3)"}`,
-                      borderRadius:9, marginBottom:16,
-                    }}>
-                      <span style={{ fontSize:24 }}>{bancoResp===questaoAtual.gabarito?"✅":"❌"}</span>
-                      <div>
-                        <div style={{ fontSize:13, fontWeight:700, color:bancoResp===questaoAtual.gabarito?T.verde3:"#FCA5A5" }}>
-                          {bancoResp===questaoAtual.gabarito ? "Correto! +20 pontos" : `Incorreto. Gabarito: ${questaoAtual.gabarito}`}
-                        </div>
-                        {questaoAtual.fundamentacao && (
-                          <div style={{ fontSize:11, color:T.cinza3, marginTop:2 }}>Base legal: {questaoAtual.fundamentacao}</div>
-                        )}
+              {/* Gabarito + Explicação */}
+              {mostrarGab && (
+                <div style={{ borderTop:`1px solid ${T.borda2}`, padding:"18px 22px", background:"rgba(0,0,0,0.15)" }}>
+                  {/* Resultado */}
+                  <div style={{
+                    display:"flex", alignItems:"center", gap:12, padding:"12px 16px",
+                    background:respostaUser===questao.gabarito?"rgba(0,107,63,0.15)":"rgba(229,62,62,0.1)",
+                    border:`1px solid ${respostaUser===questao.gabarito?"rgba(0,107,63,0.4)":"rgba(229,62,62,0.3)"}`,
+                    borderRadius:9, marginBottom:16,
+                  }}>
+                    <span style={{ fontSize:24 }}>{respostaUser===questao.gabarito?"✅":"❌"}</span>
+                    <div>
+                      <div style={{ fontSize:13, fontWeight:700, color:respostaUser===questao.gabarito?T.verde3:"#FCA5A5" }}>
+                        {respostaUser===questao.gabarito?"Correto! +20 pontos":"Incorreto. Gabarito: "+questao.gabarito}
                       </div>
+                      <div style={{ fontSize:11, color:T.cinza3, marginTop:2 }}>Base legal: {questao.fundamentacao}</div>
                     </div>
-
-                    {questaoAtual.explicacao_gabarito && (
-                      <div style={{ marginBottom:14 }}>
-                        <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>
-                          📖 Por que a alternativa {questaoAtual.gabarito} está correta
-                        </div>
-                        <p style={{ fontSize:13, color:T.branco, lineHeight:1.8 }}>{questaoAtual.explicacao_gabarito}</p>
-                      </div>
-                    )}
-
-                    {questaoAtual.explicacao_distratores && (
-                      <div style={{ marginBottom:14 }}>
-                        <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>
-                          ❌ Por que as demais estão erradas
-                        </div>
-                        <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-                          {["A","B","C","D","E"].filter(l => l !== questaoAtual.gabarito).map(l => {
-                            const dist = typeof questaoAtual.explicacao_distratores === "string"
-                              ? JSON.parse(questaoAtual.explicacao_distratores)
-                              : questaoAtual.explicacao_distratores;
-                            return dist?.[l] ? (
-                              <div key={l} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, lineHeight:1.6 }}>
-                                <span style={{ fontWeight:700, color:"#FCA5A5", flexShrink:0, fontFamily:"monospace" }}>{l})</span>
-                                <span>{dist[l]}</span>
-                              </div>
-                            ) : null;
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {questaoAtual.dica_prova && (
-                      <div style={{ background:"rgba(249,194,49,0.06)", border:"1px solid rgba(249,194,49,0.2)", borderRadius:9, padding:"12px 16px", marginBottom:16 }}>
-                        <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:5 }}>💡 Dica para não errar mais</div>
-                        <p style={{ fontSize:12, color:T.cinza3, lineHeight:1.7 }}>{questaoAtual.dica_prova}</p>
-                      </div>
-                    )}
-
-                    <button onClick={proximaBanco} className="btn" style={{
-                      width:"100%", padding:"13px", borderRadius:10, fontWeight:700, fontSize:14,
-                      background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
-                      boxShadow:`0 6px 20px rgba(0,107,63,0.3)`,
-                    }}>
-                      {bancoIdx + 1 < bancoQuestoes.length ? `Próxima Questão →` : `🔄 Reiniciar Disciplina`}
-                    </button>
                   </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
 
-      {/* ══════════════════════════════════════
-          ABA: GERAR POR IA
-          ══════════════════════════════════════ */}
-      {abaSel === "ia" && (
-        <div>
-          {/* Placar IA */}
-          <div style={{ display:"flex", gap:10, marginBottom:20, flexWrap:"wrap" }}>
-            {[
-              { label:"Acertos", val:placar.acertos, cor:T.verde2 },
-              { label:"Erros",   val:placar.erros,   cor:T.red },
-              { label:"Total",   val:placar.total,   cor:T.cinza3 },
-              { label:"Taxa",    val:`${taxaAcerto}%`, cor:taxaAcerto>=70?T.verde2:taxaAcerto>=50?T.amarelo:T.red },
-            ].map(item => (
-              <div key={item.label} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"10px 16px", flex:1, minWidth:80, textAlign:"center" }}>
-                <div style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:900, color:item.cor, lineHeight:1 }}>{item.val}</div>
-                <div style={{ fontSize:10, color:T.cinza3, marginTop:3, fontWeight:600 }}>{item.label}</div>
-              </div>
-            ))}
-            {placar.total > 0 && (
-              <button onClick={() => { setPlacar({acertos:0,erros:0,total:0}); localStorage.setItem("simulado_placar","{}"); }} className="btn"
-                style={{ background:"transparent", border:`1px solid ${T.borda2}`, color:T.cinza3, borderRadius:10, padding:"10px 14px", fontSize:11 }}>
-                🗑️ Zerar
-              </button>
-            )}
-          </div>
-
-          {!online && (
-            <div style={{ background:"rgba(237,137,54,0.08)", border:`1px solid rgba(237,137,54,0.25)`, borderRadius:9, padding:"10px 13px", marginBottom:16, fontSize:12, color:"#FCD34D", display:"flex", gap:8 }}>
-              <span>📡</span><span>Simulado por IA requer conexão com a internet.</span>
-            </div>
-          )}
-
-          <div style={{ display:"flex", gap:isMobile?0:20, flexDirection:isMobile?"column":"row", alignItems:"flex-start" }}>
-
-            {/* Painel esquerdo config */}
-            <div style={{ width:isMobile?"100%":280, flexShrink:0, marginBottom:isMobile?16:0 }}>
-              <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"18px 16px", marginBottom:12 }}>
-                <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:14 }}>⚙️ Configurar questão</div>
-
-                <div style={{ marginBottom:12 }}>
-                  <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Disciplina</div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:5, maxHeight:280, overflowY:"auto" }}>
-                    {DISC_SIMULADO.map(d => (
-                      <button key={d.id} onClick={() => { setDiscSel(d.id); setSubtema(""); setTemaLivre(""); }} className="btn" style={{
-                        padding:"8px 11px", borderRadius:8, fontSize:12, fontWeight:discSel===d.id?700:400, textAlign:"left",
-                        background:discSel===d.id?"rgba(0,107,63,0.18)":"transparent",
-                        border:`1px solid ${discSel===d.id?"rgba(0,107,63,0.4)":"transparent"}`,
-                        color:discSel===d.id?T.verde3:T.cinza3,
-                        display:"flex", alignItems:"center", gap:7,
-                      }}>
-                        <span style={{ fontSize:14 }}>{d.icon}</span>
-                        <span style={{ lineHeight:1.3 }}>{d.label}</span>
-                      </button>
-                    ))}
+                  {/* Explicação do gabarito */}
+                  <div style={{ marginBottom:14 }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>📖 Por que a alternativa {questao.gabarito} está correta</div>
+                    <p style={{ fontSize:13, color:T.branco, lineHeight:1.8 }}>{questao.explicacao_gabarito}</p>
                   </div>
-                </div>
 
-                {disc && (
-                  <div style={{ marginBottom:12 }}>
-                    <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Subtema (opcional)</div>
-                    <div style={{ display:"flex", flexDirection:"column", gap:4, maxHeight:180, overflowY:"auto" }}>
-                      <button onClick={() => setSubtema("")} className="btn" style={{
-                        padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
-                        background:!subtema?"rgba(249,194,49,0.1)":"transparent",
-                        border:`1px solid ${!subtema?"rgba(249,194,49,0.3)":"transparent"}`,
-                        color:!subtema?T.amarelo:T.cinza3,
-                      }}>🎲 Aleatório</button>
-                      {disc.subtemas.map(s => (
-                        <button key={s} onClick={() => setSubtema(s)} className="btn" style={{
-                          padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
-                          background:subtema===s?"rgba(0,107,63,0.15)":"transparent",
-                          border:`1px solid ${subtema===s?"rgba(0,107,63,0.35)":"transparent"}`,
-                          color:subtema===s?T.verde3:T.cinza3,
-                        }}>{s}</button>
+                  {/* Distratores */}
+                  <div style={{ marginBottom:14 }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>🔍 Por que as outras estão erradas</div>
+                    <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                      {["A","B","C","D","E"].filter(l=>l!==questao.gabarito).map(l => (
+                        <div key={l} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, lineHeight:1.6 }}>
+                          <span style={{ fontWeight:700, color:"#FCA5A5", flexShrink:0, fontFamily:"'JetBrains Mono',monospace" }}>{l})</span>
+                          <span>{questao.explicacao_distratores?.[l]}</span>
+                        </div>
                       ))}
                     </div>
                   </div>
-                )}
 
-                <div style={{ marginBottom:14 }}>
-                  <div style={{ fontSize:11, color:T.cinza3, marginBottom:6, fontWeight:600 }}>Ou escreva o tema</div>
-                  <input value={temaLivre} onChange={e=>setTemaLivre(e.target.value)}
-                    placeholder="Ex: responsabilidade tributária do sócio..."
-                    style={{ width:"100%", background:T.fundo2, border:`1px solid ${T.borda2}`, borderRadius:8, padding:"8px 11px", color:T.branco, fontSize:12, outline:"none" }} />
-                </div>
-
-                <div style={{ marginBottom:16 }}>
-                  <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Quantidade de questões</div>
-                  <div style={{ display:"flex", gap:6 }}>
-                    {[1,3,5,10].map(n => (
-                      <button key={n} onClick={() => setQty(n)} className="btn" style={{
-                        flex:1, padding:"7px 4px", borderRadius:7, fontSize:12, fontWeight:700,
-                        background:qty===n?T.verde2:T.fundo2,
-                        color:qty===n?"#fff":T.cinza3,
-                        border:`1px solid ${qty===n?T.verde2:T.borda2}`,
-                      }}>{n}</button>
-                    ))}
+                  {/* Dica de prova */}
+                  <div style={{ background:"rgba(249,194,49,0.06)", border:`1px solid rgba(249,194,49,0.2)`, borderRadius:9, padding:"10px 14px", marginBottom:16 }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:5 }}>💡 Dica para nunca mais errar</div>
+                    <p style={{ fontSize:12, color:T.cinza3, lineHeight:1.7 }}>{questao.dica_prova}</p>
                   </div>
-                </div>
 
-                {discSel && getSugestaoProvaReal(discSel) && (
-                  <button onClick={async () => {
-                    const sugestao = getSugestaoProvaReal(discSel);
-                    if (!sugestao || gerando || !online) return;
-                    setGerando(true); setFila([]); setFilaIdx(0); setQuestao(null); setRespUser(null); setMostrarGab(false);
-                    const promptEspecial = `${PROMPT_FGV}\n\nREFERÊNCIA DE PROVA REAL: Esta questão deve seguir o padrão exato de uma questão real da ${sugestao.origem}.\nTema: ${sugestao.tema}\nContexto de enunciado: "${sugestao.q}"\nGere uma questão nova e original neste mesmo estilo e dificuldade, com personagem diferente.`;
-                    const q = await gerarQuestao(sugestao.tema, discSel, promptEspecial);
-                    if (q) { setFila([q]); setQuestao(q); setModo("resultado"); setStats(s => ({ ...s, questoesGeradas: s.questoesGeradas + 1, pontos: s.pontos + 5 })); }
-                    setGerando(false);
-                  }} disabled={gerando||!online} className="btn" style={{
-                    width:"100%", padding:"10px", borderRadius:9, fontWeight:700, fontSize:12,
-                    background:"rgba(159,122,234,0.15)", border:"1px solid rgba(159,122,234,0.4)",
-                    color:"#C084FC", cursor:"pointer", marginBottom:8,
+                  {/* Botão próxima */}
+                  <button onClick={proximaQuestao} className="btn" style={{
+                    width:"100%", padding:"13px", borderRadius:10, fontWeight:700, fontSize:14,
+                    background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
+                    boxShadow:`0 6px 20px rgba(0,107,63,0.3)`,
                   }}>
-                    📋 Gerar no Estilo das Provas Reais
+                    {filaidx+1 < fila.length ? `➡️ Próxima questão (${filaidx+2}/${fila.length})` : "🎯 Gerar nova questão"}
                   </button>
-                )}
+                </div>
+              )}
+            </div>
+          )}
 
-                <button onClick={gerarFila} disabled={!discSel||gerando||!online} className="btn" style={{
-                  width:"100%", padding:"13px", borderRadius:10, fontWeight:800, fontSize:14,
-                  background:(!discSel||gerando||!online)?T.fundo2:`linear-gradient(135deg,${T.verde},${T.verde2})`,
-                  color:(!discSel||gerando||!online)?T.cinza3:"#fff",
-                  cursor:(!discSel||gerando||!online)?"not-allowed":"pointer",
-                  boxShadow:(!discSel||gerando||!online)?"none":`0 6px 24px rgba(0,107,63,0.3)`,
-                }}>
-                  {gerando ? `⏳ Gerando ${qty} questão${qty>1?'es':''}…` : `🎯 Gerar ${qty} Questão${qty>1?'es':''} FGV`}
-                </button>
-                {!discSel && <div style={{ fontSize:11, color:T.cinza3, textAlign:"center", marginTop:8 }}>Selecione uma disciplina acima</div>}
+          {/* Estado vazio */}
+          {!questao && !gerando && (
+            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"48px 32px", textAlign:"center", color:T.cinza3 }}>
+              <div style={{ fontSize:52, marginBottom:16 }}>🎯</div>
+              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"#fff", marginBottom:10 }}>Pronto para simular</h2>
+              <p style={{ fontSize:13, maxWidth:380, margin:"0 auto 20px", lineHeight:1.7 }}>
+                Selecione uma disciplina, escolha o subtema (ou deixe aleatório) e clique em <strong style={{ color:T.verde2 }}>Gerar Questão FGV</strong>. A IA elabora no padrão exato da banca.
+              </p>
+              <div style={{ background:"rgba(0,107,63,0.08)", border:`1px solid rgba(0,107,63,0.2)`, borderRadius:10, padding:"14px 18px", maxWidth:400, margin:"0 auto", textAlign:"left" }}>
+                <div style={{ fontSize:11, fontWeight:700, color:T.verde2, marginBottom:8 }}>🔍 Padrão FGV aplicado:</div>
+                {["Situação-problema com personagem nomeado","5 alternativas com distratores sutis","Gabarito com fundamentação legal exata","Explicação de cada alternativa incorreta","Dica estratégica para não errar mais"].map((item,i) => (
+                  <div key={i} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, marginBottom:4 }}>
+                    <span style={{ color:T.verde2 }}>✓</span>{item}
+                  </div>
+                ))}
               </div>
-
-              {historico.length > 0 && (
-                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:12, padding:"14px 16px" }}>
-                  <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:10 }}>📋 Últimas questões</div>
-                  {historico.slice(0,6).map((h,i) => (
-                    <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:8, padding:"6px 0", borderBottom:`1px solid ${T.borda2}` }}>
-                      <span style={{ fontSize:11, color:T.cinza3, flexShrink:0 }}>{new Date(h.data).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</span>
-                      <div>
-                        <div style={{ fontSize:11, color:T.branco, lineHeight:1.4 }}>{h.tema}</div>
-                        <div style={{ fontSize:10, color:T.cinza3 }}>{h.disciplina}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
-
-            {/* Área da questão IA */}
-            <div style={{ flex:1, minWidth:0 }}>
-              {gerando && !questao && (
-                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:40, textAlign:"center" }}>
-                  <Spinner label={`Elaborando ${qty} questão${qty>1?'es':''} no padrão FGV…`} />
-                  <p style={{ color:T.cinza3, fontSize:12, marginTop:8 }}>Analisando situação-problema, criando alternativas e distratores…</p>
-                </div>
-              )}
-
-              {questao && (
-                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, overflow:"hidden" }}>
-                  <div style={{ background:"rgba(0,107,63,0.1)", borderBottom:`1px solid rgba(0,107,63,0.2)`, padding:"12px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
-                    <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
-                      <span style={{ background:T.verde2, color:"#fff", fontSize:11, fontWeight:800, borderRadius:6, padding:"3px 10px" }}>
-                        FGV {fila.length>1?`${filaidx+1}/${fila.length}`:""}
-                      </span>
-                      <span style={{ fontSize:12, color:T.verde3, fontWeight:600 }}>{questao.disciplina}</span>
-                      <span style={{ fontSize:11, color:T.cinza3 }}>→ {questao.tema}</span>
-                    </div>
-                    <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-                      <span style={{ fontSize:11, color:questao.dificuldade==="Muito Difícil"?T.red:questao.dificuldade==="Difícil"?T.orange:T.amarelo, fontWeight:700 }}>
-                        {questao.dificuldade==="Muito Difícil"?"🔴":questao.dificuldade==="Difícil"?"🟠":"🟡"} {questao.dificuldade}
-                      </span>
-                      <button onClick={() => { setQuestao(null); setRespUser(null); setMostrarGab(false); setModo("gerar"); }} className="btn"
-                        style={{ background:"rgba(255,255,255,0.05)", border:`1px solid ${T.borda2}`, color:T.cinza3, padding:"4px 10px", borderRadius:6, fontSize:11 }}>✕</button>
-                    </div>
-                  </div>
-
-                  <div style={{ padding:"20px 22px" }}>
-                    <p style={{ fontSize:isMobile?13:14, color:T.branco, lineHeight:1.85, marginBottom:22, fontFamily:"'Georgia',serif" }}>
-                      {questao.enunciado}
-                    </p>
-                    <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
-                      {["A","B","C","D","E"].map(letra => {
-                        const estilo = corAlt(letra);
-                        return (
-                          <button key={letra} onClick={() => responder(letra)} disabled={!!respostaUser} className="btn" style={{
-                            display:"flex", alignItems:"flex-start", gap:10, padding:"11px 14px",
-                            borderRadius:10, border:`1px solid ${estilo.border}`,
-                            background:estilo.bg, cursor:respostaUser?"default":"pointer", textAlign:"left",
-                          }}>
-                            <span style={{ fontWeight:900, fontSize:14, color:estilo.color, flexShrink:0, fontFamily:"'JetBrains Mono',monospace", marginTop:1 }}>{letra}</span>
-                            <span style={{ fontSize:13, color:estilo.color, lineHeight:1.65 }}>{questao.alternativas[letra]}</span>
-                            {respostaUser && letra === questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>✅</span>}
-                            {respostaUser && letra === respostaUser && letra !== questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>❌</span>}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {mostrarGab && (
-                      <div style={{ borderTop:`1px solid ${T.borda2}`, paddingTop:18, marginTop:18 }}>
-                        <div style={{
-                          display:"flex", alignItems:"center", gap:12, padding:"12px 16px",
-                          background:respostaUser===questao.gabarito?"rgba(0,107,63,0.15)":"rgba(229,62,62,0.1)",
-                          border:`1px solid ${respostaUser===questao.gabarito?"rgba(0,107,63,0.4)":"rgba(229,62,62,0.3)"}`,
-                          borderRadius:9, marginBottom:16,
-                        }}>
-                          <span style={{ fontSize:24 }}>{respostaUser===questao.gabarito?"✅":"❌"}</span>
-                          <div>
-                            <div style={{ fontSize:13, fontWeight:700, color:respostaUser===questao.gabarito?T.verde3:"#FCA5A5" }}>
-                              {respostaUser===questao.gabarito?"Correto! +20 pontos":"Incorreto. Gabarito: "+questao.gabarito}
-                            </div>
-                            <div style={{ fontSize:11, color:T.cinza3, marginTop:2 }}>Base legal: {questao.fundamentacao}</div>
-                          </div>
-                        </div>
-
-                        <div style={{ marginBottom:14 }}>
-                          <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>📖 Por que a alternativa {questao.gabarito} está correta</div>
-                          <p style={{ fontSize:13, color:T.branco, lineHeight:1.8 }}>{questao.explicacao_gabarito}</p>
-                        </div>
-
-                        {questao.explicacao_distratores && (
-                          <div style={{ marginBottom:14 }}>
-                            <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>❌ Por que as demais estão erradas</div>
-                            <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-                              {["A","B","C","D","E"].filter(l=>l!==questao.gabarito).map(l => (
-                                <div key={l} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, lineHeight:1.6 }}>
-                                  <span style={{ fontWeight:700, color:"#FCA5A5", flexShrink:0, fontFamily:"'JetBrains Mono',monospace" }}>{l})</span>
-                                  <span>{questao.explicacao_distratores?.[l]}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {questao.dica_prova && (
-                          <div style={{ background:"rgba(249,194,49,0.06)", border:"1px solid rgba(249,194,49,0.2)", borderRadius:9, padding:"12px 16px", marginBottom:16 }}>
-                            <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:5 }}>💡 Dica para nunca mais errar</div>
-                            <p style={{ fontSize:12, color:T.cinza3, lineHeight:1.7 }}>{questao.dica_prova}</p>
-                          </div>
-                        )}
-
-                        <button onClick={proximaQuestao} className="btn" style={{
-                          width:"100%", padding:"13px", borderRadius:10, fontWeight:700, fontSize:14,
-                          background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
-                          boxShadow:`0 6px 20px rgba(0,107,63,0.3)`,
-                        }}>
-                          {filaidx + 1 < fila.length ? "Próxima Questão →" : "🎯 Nova Sessão"}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {!questao && !gerando && (
-                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"48px 32px", textAlign:"center", color:T.cinza3 }}>
-                  <div style={{ fontSize:52, marginBottom:16 }}>🎯</div>
-                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"#fff", marginBottom:10 }}>Pronto para simular</h2>
-                  <p style={{ fontSize:13, maxWidth:380, margin:"0 auto 20px", lineHeight:1.7 }}>
-                    Selecione uma disciplina e clique em <strong style={{ color:T.verde2 }}>Gerar Questão FGV</strong>. A IA elabora no padrão exato da banca.
-                  </p>
-                  <div style={{ background:"rgba(0,107,63,0.08)", border:`1px solid rgba(0,107,63,0.2)`, borderRadius:10, padding:"14px 18px", maxWidth:400, margin:"0 auto", textAlign:"left" }}>
-                    <div style={{ fontSize:11, fontWeight:700, color:T.verde2, marginBottom:8 }}>🔍 Padrão FGV aplicado:</div>
-                    {["Situação-problema com personagem nomeado","5 alternativas com distratores sutis","Gabarito com fundamentação legal exata","Explicação de cada alternativa incorreta","Dica estratégica para não errar mais"].map((item,i) => (
-                      <div key={i} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, marginBottom:4 }}>
-                        <span style={{ color:T.verde2 }}>✓</span>{item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
-      )}
-
+      </div>
     </div>
   );
 }
