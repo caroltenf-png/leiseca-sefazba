@@ -153,6 +153,93 @@ function TelaAuth({ onLogin }) {
   );
 }
 
+
+// ─── CACHE COMPARTILHADO SUPABASE ─────────────────────────────────────────────
+// Lógica: busca no Supabase primeiro → se não tem, gera via IA → salva para todos
+
+async function getCacheLei(leiId) {
+  try {
+    const { data } = await supabase
+      .from("cache_leis")
+      .select("texto_html")
+      .eq("id", leiId)
+      .single();
+    return data?.texto_html || null;
+  } catch { return null; }
+}
+
+async function saveCacheLei(leiId, nome, textoHtml, userId) {
+  try {
+    await supabase.from("cache_leis").upsert({
+      id: leiId, nome, texto_html: textoHtml, gerado_por: userId,
+      atualizado_em: new Date().toISOString()
+    }, { onConflict: "id" });
+  } catch(e) { console.warn("saveCacheLei:", e.message); }
+}
+
+async function getCacheJuris(jurisId) {
+  try {
+    const { data } = await supabase
+      .from("cache_juris")
+      .select("resumo_ia, questao_ia")
+      .eq("id", jurisId)
+      .single();
+    return data || null;
+  } catch { return null; }
+}
+
+async function saveCacheJuris(item, resumoIa, questaoIa, userId) {
+  try {
+    await supabase.from("cache_juris").upsert({
+      id: item.id, fonte: item.fonte, numero: item.numero,
+      area: item.area, titulo: item.titulo, tese: item.tese,
+      resumo_ia: resumoIa, questao_ia: questaoIa, gerado_por: userId
+    }, { onConflict: "id" });
+  } catch(e) { console.warn("saveCacheJuris:", e.message); }
+}
+
+async function getCacheQuestoes(disciplina, tema, limite=5) {
+  try {
+    const { data } = await supabase
+      .from("cache_questoes")
+      .select("*")
+      .eq("disciplina", disciplina)
+      .eq("tema", tema)
+      .order("criado_em", { ascending: false })
+      .limit(limite);
+    return data || [];
+  } catch { return []; }
+}
+
+async function saveCacheQuestao(questao, userId) {
+  try {
+    await supabase.from("cache_questoes").insert({
+      ...questao, gerado_por: userId
+    });
+  } catch(e) { console.warn("saveCacheQuestao:", e.message); }
+}
+
+async function getCacheFlashcards(leiId) {
+  try {
+    const { data } = await supabase
+      .from("cache_flashcards")
+      .select("*")
+      .eq("lei_id", leiId)
+      .eq("aprovado", true)
+      .order("criado_em", { ascending: false })
+      .limit(20);
+    return data || [];
+  } catch { return []; }
+}
+
+async function saveCacheFlashcard(flashcard, userId) {
+  try {
+    await supabase.from("cache_flashcards").insert({
+      ...flashcard, gerado_por: userId
+    });
+  } catch(e) { console.warn("saveCacheFlashcard:", e.message); }
+}
+
 // ─── HOOK: detecta mobile ──────────────────────────────────────────────────
 function useIsMobile() {
   const [mobile, setMobile] = useState(window.innerWidth < 768);
@@ -335,38 +422,49 @@ export default function App() {
     setTela("leitura");
     setCarregando(true);
     setTextoLei("");
-    // Tenta cache local primeiro
-    const cached = getCacheTexto(lei.id);
-    if (cached && !online) { setTextoLei(cached); setCarregando(false); return; }
-    if (cached) { setTextoLei(cached); setCarregando(false); }
-    // Busca atualizado se online
-    if (online) {
-      try {
-        // Proxy serverless — busca texto direto do Planalto sem bloqueio CORS
-        const proxyUrl = `/api/lei?url=${encodeURIComponent(lei.url)}`;
-        const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(20000) });
-        if (!r.ok) throw new Error(`${r.status}`);
-        const textoRaw = await r.text();
-        const linhas = textoRaw.split("\n").filter(l => l.trim());
-        const html = linhas.map(l => {
-          const t = l.trim();
-          if (/^(CAPÍTULO|TÍTULO|SEÇÃO|SUBSEÇÃO|LIVRO)/i.test(t)) return "<h2>" + t + "</h2>";
-          if (/^Art\.\ *\d+/i.test(t)) return "<p><strong>" + t.substring(0,12) + "</strong>" + t.substring(12) + "</p>";
-          if (t.length > 0) return "<p>" + t + "</p>";
-          return "";
-        }).join("");
-        const textoFinal = html || "<p>" + textoRaw + "</p>";
-        setTextoLei(textoFinal);
-        setCacheTexto(lei.id, textoFinal);
-        setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
-      } catch(err) {
-        if (!cached) setTextoLei(
-          "<div style=\"padding:16px;background:rgba(249,194,49,0.08);border:1px solid rgba(249,194,49,0.2);border-radius:12px\">" +
-          "<p style=\"color:#F9C231;font-weight:700;margin-bottom:8px\">⚠️ Texto não disponível via acesso direto</p>" +
-          "<p style=\"color:#8BA7BF;font-size:13px;line-height:1.7\">Configure a API key do Claude para gerar o texto via IA, ou acesse diretamente:<br><br>" +
-          "<a href=\"" + lei.url + "\" target=\"_blank\" style=\"color:#68D391\">" + lei.url + "</a></p></div>"
-        );
-      }
+
+    // 1. Cache local (offline imediato)
+    const cachedLocal = getCacheTexto(lei.id);
+    if (cachedLocal) { setTextoLei(cachedLocal); setCarregando(false); }
+    if (!online) { if (!cachedLocal) setTextoLei("<p style=\"color:#FCA5A5\">⚠️ Sem conexão e sem cache.</p>"); setCarregando(false); return; }
+
+    // 2. Cache compartilhado Supabase (gerado por qualquer membro do grupo)
+    const cachedSupabase = await getCacheLei(lei.id);
+    if (cachedSupabase) {
+      setTextoLei(cachedSupabase);
+      setCacheTexto(lei.id, cachedSupabase); // salva local tb
+      setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
+      setCarregando(false);
+      return;
+    }
+
+    // 3. Proxy serverless — busca texto direto do Planalto/SEFAZ-BA
+    try {
+      const proxyUrl = "/api/lei?url=" + encodeURIComponent(lei.url);
+      const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(20000) });
+      if (!r.ok) throw new Error(r.status);
+      const textoRaw = await r.text();
+      const linhas = textoRaw.split("\n").filter(l => l.trim());
+      const html = linhas.map(l => {
+        const t = l.trim();
+        if (/^(CAPÍTULO|TÍTULO|SEÇÃO|SUBSEÇÃO|LIVRO|DISPOSIÇÃO)/i.test(t)) return "<h2>" + t + "</h2>";
+        if (/^Art\.\s*\d+/i.test(t)) return "<p><strong>" + t.substring(0,14) + "</strong>" + t.substring(14) + "</p>";
+        if (t.length > 0) return "<p>" + t + "</p>";
+        return "";
+      }).join("");
+      const textoFinal = html || "<p>" + textoRaw + "</p>";
+      setTextoLei(textoFinal);
+      setCacheTexto(lei.id, textoFinal);
+      // Salva no Supabase para todo o grupo
+      await saveCacheLei(lei.id, lei.nome, textoFinal, user?.id);
+      setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
+    } catch(err) {
+      if (!cachedLocal) setTextoLei(
+        "<div style=\"padding:16px;background:rgba(249,194,49,0.08);border:1px solid rgba(249,194,49,0.2);border-radius:12px\">" +
+        "<p style=\"color:#F9C231;font-weight:700;margin-bottom:8px\">⚠️ Texto não disponível via acesso direto</p>" +
+        "<p style=\"color:#8BA7BF;font-size:13px;line-height:1.7\">Configure a API key do Claude nas configurações para gerar o texto via IA, ou acesse:<br><br>" +
+        "<a href=\"" + lei.url + "\" target=\"_blank\" style=\"color:#68D391\">" + lei.url + "</a></p></div>"
+      );
     }
     setCarregando(false);
   }
@@ -1708,9 +1806,21 @@ function TelaJuris({ isMobile, online, leiAtiva, stats, setStats }) {
   async function gerarComentario(item) {
     setSelecionado(item);
     const cacheKey = `${item.fonte}_${item.titulo}`;
-    const cached = savedComents[cacheKey];
-    if (cached) { setComentario(cached); return; }
+
+    // 1. Cache local
+    const cachedLocal = savedComents[cacheKey];
+    if (cachedLocal) { setComentario(cachedLocal); return; }
+
     if (!online) { setComentario("⚠️ Sem conexão para gerar comentário."); return; }
+
+    // 2. Cache Supabase — já gerado por outro membro do grupo?
+    const cachedSupa = await getCacheJuris(item.id);
+    if (cachedSupa?.resumo_ia) {
+      setComentario(cachedSupa.resumo_ia);
+      setSaved(s => ({ ...s, [cacheKey]: cachedSupa.resumo_ia }));
+      return;
+    }
+
     setGerando(true); setComentario("");
     const prompt = `Você é um professor preparatório especializado em concursos fiscais (SEFAZ-BA, Receita Federal).
 Analise este informativo jurídico e produza um comentário didático no seguinte formato:
