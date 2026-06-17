@@ -1108,6 +1108,459 @@ III — vedação de obter garantias da União.</p>
 
 <hr>
 <p><em>⚠️ Atenção: Se você buscava a LC 200/2023 referente à Reforma Tributária — a norma correta é a LC 214/2025 (IBS/CBS/IS). Se buscava a LC 87/96 (Lei Kandir — ICMS), ela está cadastrada separadamente no acervo. Verifique qual LC 200 é objeto do seu edital.</em></p>`,
+"lkandir": `<h2>LEI COMPLEMENTAR Nº 87, DE 13 DE SETEMBRO DE 1996 — LEI KANDIR</h2>
+<p>Dispõe sobre o imposto dos Estados e do Distrito Federal sobre operações relativas à circulação de mercadorias e sobre prestações de serviços de transporte interestadual e intermunicipal e de comunicação, e dá outras providências.</p>
+
+<h2>CAPÍTULO I — DA INCIDÊNCIA</h2>
+
+<p><strong>Art. 1º</strong> Compete aos Estados e ao Distrito Federal instituir o imposto sobre operações relativas à circulação de mercadorias e sobre prestações de serviços de transporte interestadual e intermunicipal e de comunicação, ainda que as operações e as prestações se iniciem no exterior.</p>
+
+<p><strong>Art. 2º</strong> O imposto incide sobre:<br>
+I — operações relativas à circulação de mercadorias, inclusive o fornecimento de alimentação e bebidas em bares, restaurantes e estabelecimentos similares;<br>
+II — prestações de serviços de transporte interestadual e intermunicipal, por qualquer via, de pessoas, bens, mercadorias ou valores;<br>
+III — prestações onerosas de serviços de comunicação, por qualquer meio, inclusive a geração, a emissão, a recepção, a transmissão, a retransmissão, a repetição e a ampliação de comunicação de qualquer natureza;<br>
+IV — fornecimento de mercadorias com prestação de serviços não compreendidos na competência tributária dos Municípios;<br>
+V — fornecimento de mercadorias com prestação de serviços sujeitos ao imposto sobre serviços, de competência dos Municípios, quando a lei complementar aplicável expressamente o sujeitar à incidência do imposto estadual.<br>
+§1º O imposto incide também:<br>
+I — sobre a entrada de mercadoria ou bem importados do exterior, por pessoa física ou jurídica, ainda que não seja contribuinte habitual do imposto, qualquer que seja a sua finalidade;<br>
+II — sobre o serviço prestado no exterior ou cuja prestação se tenha iniciado no exterior;<br>
+III — sobre a entrada, no território do Estado destinatário, de petróleo, inclusive lubrificantes e combustíveis líquidos e gasosos dele derivados, e de energia elétrica, quando não destinados à comercialização ou à industrialização, decorrentes de operações interestaduais, cabendo o imposto ao Estado onde estiver localizado o adquirente.<br>
+§2º A caracterização do fato gerador independe da natureza jurídica da operação que o constitua.</p>
+
+<p><strong>Art. 3º</strong> O imposto não incide sobre:<br>
+I — operações com livros, jornais, periódicos e o papel destinado a sua impressão;<br>
+II — operações e prestações que destinem ao exterior mercadorias, inclusive produtos primários e produtos industrializados semielaborados, ou serviços;<br>
+III — operações interestaduais relativas a energia elétrica e petróleo, inclusive lubrificantes e combustíveis líquidos e gasosos dele derivados, quando destinados à industrialização ou à comercialização;<br>
+IV — operações com ouro, quando definido em lei como ativo financeiro ou instrumento cambial;<br>
+V — operações relativas a mercadorias que tenham sido ou que se destinem a ser utilizadas na prestação, pelo próprio autor da saída, de serviço de qualquer natureza definido em lei complementar como sujeito ao ISS;<br>
+VI — operações de qualquer natureza de que decorra a transferência de propriedade de estabelecimento industrial, comercial ou de outra espécie;<br>
+VII — operações decorrentes de alienação fiduciária em garantia, inclusive a operação efetuada pelo credor em decorrência do inadimplemento do devedor;<br>
+VIII — operações de arrendamento mercantil, não compreendida a venda do bem arrendado ao arrendatário;<br>
+IX — operações de qualquer natureza de que decorra a transferência de bens móveis salvados de sinistro para companhias seguradoras.</p>
+
+<p><strong>Art. 4º</strong> Contribuinte é qualquer pessoa, física ou jurídica, que realize, com habitualidade ou em volume que caracterize intuito comercial, operações de circulação de mercadoria ou prestações de serviços de transporte interestadual e intermunicipal e de comunicação, ainda que as operações e as prestações se iniciem no exterior.<br>
+Parágrafo único. É também contribuinte a pessoa física ou jurídica que, mesmo sem habitualidade ou intuito comercial: I — importe mercadorias ou bens do exterior, qualquer que seja a sua finalidade; II — seja destinatária de serviço prestado no exterior ou cuja prestação se tenha iniciado no exterior; III — adquira em licitação mercadorias ou bens apreendidos ou abandonados; IV — adquira lubrificantes e combustíveis líquidos e gasosos derivados de petróleo e energia elétrica oriundos de outro Estado, quando não destinados à comercialização ou à industrialização.</p>
+
+<h2>CAPÍTULO II — DA NÃO-CUMULATIVIDADE</h2>
+
+<p><strong>Art. 19.</strong> O imposto é não-cumulativo, compensando-se o que for devido em cada operação relativa à circulação de mercadorias ou prestação de serviços de transporte interestadual e intermunicipal e de comunicação com o montante cobrado nas anteriores pelo mesmo ou por outro Estado.</p>
+
+<p><strong>Art. 20.</strong> Para a compensação a que se refere o artigo anterior, é assegurado ao sujeito passivo o direito de creditar-se do imposto anteriormente cobrado em operações de que tenha resultado a entrada de mercadoria, real ou simbólica, no estabelecimento, inclusive a destinada ao seu uso ou consumo ou ao ativo permanente, ou o recebimento de serviços de transporte interestadual e intermunicipal ou de comunicação.<br>
+§1º Não dão direito a crédito as entradas de mercadorias ou utilização de serviços resultantes de operações ou prestações isentas ou não tributadas, ou que se refiram a mercadorias ou serviços alheios à atividade do estabelecimento.<br>
+§2º Salvo prova em contrário, presumem-se alheios à atividade do estabelecimento os veículos de transporte pessoal.<br>
+§3º É vedado o crédito relativo a mercadoria entrada no estabelecimento ou a prestação de serviços a ele feita:<br>
+I — para integração ou consumo em processo de industrialização ou produção rural, quando a saída do produto resultante não for tributada ou estiver isenta do imposto, exceto se tratar-se de saída para o exterior;<br>
+II — para comercialização ou prestação de serviço, quando a saída ou a prestação subsequente não forem tributadas ou estiverem isentas do imposto, exceto as destinadas ao exterior.<br>
+§5º Para efeito do disposto no caput deste artigo, relativamente aos créditos decorrentes de entrada de mercadorias no estabelecimento destinadas ao ativo permanente, deverá ser observado: I — a apropriação será feita à razão de um quarenta e oito avos por mês, devendo a primeira fração ser apropriada no mês em que ocorrer a entrada no estabelecimento (regra de 1/48 — ativo permanente).</p>
+
+<p><strong>Art. 21.</strong> O sujeito passivo deverá efetuar o estorno do imposto de que se tiver creditado sempre que o serviço tomado ou a mercadoria entrada no estabelecimento:<br>
+I — for objeto de saída ou prestação de serviço não tributada ou isenta, sendo esta circunstância imprevisível na data da entrada da mercadoria ou da utilização do serviço;<br>
+II — for integrada ou consumida em processo de produção ou industrialização, quando a saída do produto resultante for não tributada ou isenta;<br>
+III — vier a ser utilizada em fim alheio à atividade do estabelecimento;<br>
+IV — vier a perecer, deteriorar-se ou extraviar-se.</p>
+
+<h2>CAPÍTULO III — DA BASE DE CÁLCULO</h2>
+
+<p><strong>Art. 13.</strong> A base de cálculo do imposto é:<br>
+I — na saída de mercadoria prevista nos incisos I, III e IV do art. 12, o valor da operação;<br>
+II — na hipótese do inciso II do art. 12, o valor da operação, compreendendo mercadoria e serviço;<br>
+III — na prestação de serviço de transporte interestadual e intermunicipal e de comunicação, o preço do serviço;<br>
+IV — no fornecimento de que trata o inciso VIII do art. 2º: a) o valor da operação, na hipótese da alínea a; b) o preço corrente da mercadoria fornecida ou empregada, na hipótese da alínea b;<br>
+§1º Integra a base de cálculo do imposto, inclusive na hipótese do inciso V do caput deste artigo:<br>
+I — o montante do próprio imposto, constituindo o respectivo destaque mera indicação para fins de controle;<br>
+II — o valor correspondente a: a) seguros, juros e demais importâncias pagas, recebidas ou debitadas, bem como descontos concedidos sob condição; b) frete, caso o transporte seja efetuado pelo próprio remetente ou por sua conta e ordem e seja cobrado em separado.<br>
+§2º Não integra a base de cálculo do imposto o montante do IPI quando a operação, realizada entre contribuintes e relativa a produto destinado à industrialização ou à comercialização, configurar fato gerador de ambos os impostos.<br>
+§6º Nas operações e prestações interestaduais que destinem bens e serviços a consumidor final não contribuinte do imposto, o valor do imposto correspondente à diferença entre a alíquota interna e a interestadual será calculado pela fórmula: (DIFAL = [BC × ALQ interna] − [BC × ALQ interestadual]).</p>
+
+<h2>CAPÍTULO IV — DA SUBSTITUIÇÃO TRIBUTÁRIA</h2>
+
+<p><strong>Art. 6º</strong> Lei estadual poderá atribuir a contribuinte do imposto ou a depositário a qualquer título a responsabilidade pelo seu pagamento, hipótese em que assumirá a condição de substituto tributário.<br>
+§1º A responsabilidade poderá ser atribuída em relação ao imposto incidente sobre uma ou mais operações ou prestações, sejam antecedentes, concomitantes ou subsequentes, inclusive ao valor decorrente da diferença entre alíquotas interna e interestadual nas operações e prestações que destinem bens e serviços a consumidor final localizado em outro Estado, que seja contribuinte do imposto.<br>
+§2º A atribuição de responsabilidade dar-se-á em relação a mercadorias, bens ou serviços previstos em lei de cada Estado.</p>
+
+<p><strong>Art. 8º</strong> A base de cálculo, para fins de substituição tributária, será:<br>
+I — em relação às operações ou prestações antecedentes ou concomitantes, o valor da operação ou prestação praticado pelo contribuinte substituído;<br>
+II — em relação às operações ou prestações subsequentes, obtida pelo somatório das parcelas seguintes: a) o valor da operação ou prestação própria realizada pelo substituto tributário ou pelo substituído intermediário; b) o montante dos valores de seguro, de frete e de outros encargos cobrados ou transferíveis aos adquirentes ou tomadores de serviço; c) a margem de valor agregado, inclusive lucro, relativa às operações ou prestações subsequentes (MVA).</p>
+
+<p><strong>Art. 10.</strong> É assegurado ao contribuinte substituído o direito à restituição do valor do imposto pago por força da substituição tributária, correspondente ao fato gerador presumido que não se realizar. (RE 593.849 — STF: também quando BC real < BC presumida)</p>
+
+<h2>CAPÍTULO V — DO LOCAL DA OPERAÇÃO OU DA PRESTAÇÃO</h2>
+
+<p><strong>Art. 11.</strong> O local da operação ou da prestação, para os efeitos da cobrança do imposto e definição do estabelecimento responsável, é:<br>
+I — tratando-se de mercadoria ou bem: a) o do estabelecimento onde se encontre, no momento da ocorrência do fato gerador; b) onde se encontre, quando em situação irregular pela falta de documentação fiscal ou quando acompanhado de documentação inidônea; c) o do estabelecimento que transfira a propriedade, ou o título que a represente, de mercadoria por ele adquirida no País e que por ele não tenha transitado; d) importado do exterior, o do estabelecimento onde ocorrer a entrada física; e) importado do exterior, o do domicílio do adquirente, quando não estabelecido;<br>
+II — tratando-se de prestação de serviço de transporte: a) onde tenha início a prestação; b) onde se encontre o transportador, quando em situação irregular pela falta de documentação fiscal ou quando acompanhada de documentação inidônea;<br>
+III — tratando-se de prestação onerosa de serviço de comunicação: a) o da prestação do serviço de radiodifusão sonora e de som e imagem, assim entendido o da geração, emissão, transmissão e retransmissão, repetição, ampliação e recepção; b) o do estabelecimento da concessionária ou da permissionária que forneça ficha, cartão, ou assemelhados com que o serviço é pago; c) o do estabelecimento destinatário do serviço, na hipótese e para os efeitos do inciso XIII do art. 12; d) o do estabelecimento ou domicílio do tomador do serviço, quando prestado por meio de satélite.<br>
+§3º Para efeito desta Lei Complementar, estabelecimento é o local, privado ou público, edificado ou não, próprio ou de terceiro, onde pessoas físicas ou jurídicas exerçam suas atividades em caráter temporário ou permanente, bem como onde se encontrem armazenadas mercadorias.</p>`,
+"lc24": `<h2>LEI COMPLEMENTAR Nº 24, DE 7 DE JANEIRO DE 1975</h2>
+<p>Dispõe sobre os convênios para a concessão de isenções do imposto sobre operações relativas à circulação de mercadorias, e dá outras providências.</p>
+
+<p><strong>Art. 1º</strong> As isenções do imposto sobre operações relativas à circulação de mercadorias serão concedidas ou revogadas nos termos de convênios celebrados e ratificados pelos Estados e pelo Distrito Federal, segundo esta Lei.<br>
+Parágrafo único. O disposto neste artigo também se aplica: I — à redução da base de cálculo; II — à devolução total ou parcial, direta ou indireta, condicionada ou não, do tributo, ao contribuinte, a responsável ou a terceiros; III — à concessão de créditos presumidos; IV — a quaisquer outros incentivos ou favores fiscais ou financeiro-fiscais, concedidos com base no Imposto de Circulação de Mercadorias, dos quais resulte redução ou eliminação, direta ou indireta, do respectivo ônus; V — às prorrogações e às extensões das isenções vigentes nesta data.</p>
+
+<p><strong>Art. 2º</strong> Os convênios a que alude o art. 1º, serão celebrados em reuniões para esse fim convocadas pelo Ministério da Fazenda, das quais participarão representantes de todos os Estados e do Distrito Federal.<br>
+§1º As reuniões se realizarão com a presença de representantes da maioria das Unidades da Federação.<br>
+§2º A concessão de benefícios dependerá sempre de decisão unânime dos Estados representados (unanimidade para conceder).<br>
+§3º A revogação total ou parcial dependerá de aprovação de quatro quintos, pelo menos, dos representantes presentes (4/5 para revogar).</p>
+
+<p><strong>Art. 8º</strong> A inobservância dos dispositivos desta Lei acarretará, cumulativamente:<br>
+I — a nulidade do ato e a ineficácia do crédito fiscal atribuído ao estabelecimento recebedor da mercadoria;<br>
+II — a exigibilidade do imposto não pago ou devolvido e a ineficácia da lei ou ato que conceda remissão do débito correspondente.<br>
+Parágrafo único. As sanções previstas neste artigo poder-se-ão acrescer a presunção de irregularidade das operações acobertadas, incidentalmente, por documentos fiscais remetidos por estabelecimento beneficiário de isenção concedida nos termos desta lei.</p>
+
+<p><strong>⚠️ RELEVÂNCIA PARA CONCURSO:</strong> A LC 24/75 é a base da regra do CONFAZ — qualquer benefício de ICMS concedido sem convênio unânime do CONFAZ é inconstitucional (Tema 745 STF — Guerra Fiscal). A EC 132/2023 manteve o CONFAZ transitoriamente até a extinção do ICMS (2033).</p>`,
+"lrf": `<h2>LEI COMPLEMENTAR Nº 101, DE 4 DE MAIO DE 2000 — LEI DE RESPONSABILIDADE FISCAL</h2>
+<p>Estabelece normas de finanças públicas voltadas para a responsabilidade na gestão fiscal e dá outras providências.</p>
+
+<h2>CAPÍTULO I — DISPOSIÇÕES PRELIMINARES</h2>
+
+<p><strong>Art. 1º</strong> Esta Lei Complementar estabelece normas de finanças públicas voltadas para a responsabilidade na gestão fiscal, com amparo no Capítulo II do Título VI da Constituição.<br>
+§1º A responsabilidade na gestão fiscal pressupõe a ação planejada e transparente, em que se previnem riscos e corrigem desvios capazes de afetar o equilíbrio das contas públicas, mediante o cumprimento de metas de resultados entre receitas e despesas e a obediência a limites e condições no que tange a renúncia de receita, geração de despesas com pessoal, da seguridade social e outras, dívidas consolidada e mobiliária, operações de crédito, inclusive por antecipação de receita, concessão de garantia e inscrição em Restos a Pagar.</p>
+
+<p><strong>Art. 2º</strong> Para os efeitos desta Lei Complementar, entende-se como:<br>
+I — ente da Federação: a União, cada Estado, o Distrito Federal e cada Município;<br>
+II — empresa controlada: sociedade cuja maioria do capital social com direito a voto pertença, direta ou indiretamente, a ente da Federação;<br>
+III — empresa estatal dependente: empresa controlada que receba do ente controlador recursos financeiros para pagamento de despesas com pessoal ou de custeio em geral ou de capital;<br>
+IV — receita corrente líquida: somatório das receitas tributárias, de contribuições, patrimoniais, industriais, agropecuárias, de serviços, transferências correntes e outras receitas também correntes, deduzidos: a) na União, os valores transferidos aos Estados e Municípios por determinação constitucional ou legal, e as contribuições mencionadas na alínea a do inciso I e no inciso II do art. 195, e no art. 239 da Constituição; b) nos Estados, as parcelas entregues aos Municípios por determinação constitucional; c) na União, nos Estados e nos Municípios, a contribuição dos servidores para o custeio do seu sistema de previdência e assistência social e as receitas provenientes da compensação financeira citada no § 9º do art. 201 da Constituição.</p>
+
+<h2>CAPÍTULO II — DO PLANEJAMENTO</h2>
+
+<p><strong>Art. 4º</strong> A lei de diretrizes orçamentárias atenderá o disposto no § 2º do art. 165 da Constituição e: I — disporá também sobre equilíbrio entre receitas e despesas; II — critérios e forma de limitação de empenho; III — normas relativas ao controle de custos e à avaliação dos resultados dos programas financiados com recursos dos orçamentos; IV — demais condições e exigências para transferências de recursos a entidades públicas e privadas.<br>
+§1º Integrará o projeto de lei de diretrizes orçamentárias o Anexo de Metas Fiscais, em que serão estabelecidas metas anuais, em valores correntes e constantes, relativas a receitas, despesas, resultados nominal e primário e montante da dívida pública, para o exercício a que se referirem e para os dois seguintes.</p>
+
+<h2>CAPÍTULO III — DA RECEITA PÚBLICA</h2>
+
+<p><strong>Art. 11.</strong> Constituem requisitos essenciais da responsabilidade na gestão fiscal a instituição, previsão e efetiva arrecadação de todos os tributos da competência constitucional do ente da Federação.<br>
+Parágrafo único. É vedada a realização de transferências voluntárias para o ente que não observe o disposto no caput, no que se refere aos impostos.</p>
+
+<p><strong>Art. 14.</strong> A concessão ou ampliação de incentivo ou benefício de natureza tributária da qual decorra renúncia de receita deverá estar acompanhada de estimativa do impacto orçamentário-financeiro no exercício em que deva iniciar sua vigência e nos dois seguintes, atender ao disposto na lei de diretrizes orçamentárias e a pelo menos uma das seguintes condições: I — demonstração pelo proponente de que a renúncia foi considerada na estimativa de receita da lei orçamentária, na forma do art. 12, e de que não afetará as metas de resultados fiscais previstas no anexo próprio da lei de diretrizes orçamentárias; II — estar acompanhada de medidas de compensação, no período mencionado no caput, por meio do aumento de receita, proveniente da elevação de alíquotas, ampliação da base de cálculo, majoração ou criação de tributo ou contribuição.</p>
+
+<h2>CAPÍTULO IV — DA DESPESA PÚBLICA</h2>
+
+<p><strong>Art. 15.</strong> Serão consideradas não autorizadas, irregulares e lesivas ao patrimônio público a geração de despesa ou assunção de obrigação que não atendam o disposto nos arts. 16 e 17.</p>
+
+<p><strong>Art. 16.</strong> A criação, expansão ou aperfeiçoamento de ação governamental que acarrete aumento da despesa será acompanhado de: I — estimativa do impacto orçamentário-financeiro no exercício em que deva entrar em vigor e nos dois subsequentes; II — declaração do ordenador da despesa de que o aumento tem adequação orçamentária e financeira com a lei orçamentária anual e compatibilidade com o plano plurianual e com a lei de diretrizes orçamentárias.</p>
+
+<h2>Seção II — Das Despesas com Pessoal</h2>
+
+<p><strong>Art. 19.</strong> Para os fins do disposto no caput do art. 169 da Constituição, a despesa total com pessoal, em cada período de apuração e em cada ente da Federação, não poderá exceder os percentuais da receita corrente líquida, a seguir discriminados:<br>
+I — União: 50%;<br>
+II — Estados: 60%;<br>
+III — Municípios: 60%.</p>
+
+<p><strong>Art. 20.</strong> A repartição dos limites globais do art. 19 não poderá exceder os seguintes percentuais:<br>
+I — na esfera federal: a) 2,5% para o Legislativo, incluído o Tribunal de Contas da União; b) 6% para o Judiciário; c) 40,9% para o Executivo; d) 0,6% para o Ministério Público da União;<br>
+II — na esfera estadual: a) 3% para o Legislativo, incluído o Tribunal de Contas do Estado; b) 6% para o Judiciário; c) 49% para o Executivo; d) 2% para o Ministério Público dos Estados;<br>
+III — na esfera municipal: a) 6% para o Legislativo, incluído o Tribunal de Contas do Município, quando houver; b) 54% para o Executivo.</p>
+
+<p><strong>Art. 22.</strong> A verificação do cumprimento dos limites estabelecidos nos arts. 19 e 20 será realizada ao final de cada quadrimestre.<br>
+Parágrafo único. Se a despesa total com pessoal exceder a 95% do limite, são vedados ao Poder ou órgão referido no art. 20 que houver incorrido no excesso: I — concessão de vantagem, aumento, reajuste ou adequação de remuneração a qualquer título; II — criação de cargo, emprego ou função; III — alteração de estrutura de carreira que implique aumento de despesa; IV — provimento de cargo público, admissão ou contratação de pessoal a qualquer título; V — contratação de hora extra, salvo para situações previstas na LDO.</p>
+
+<h2>CAPÍTULO VII — DO CONTROLE E DA FISCALIZAÇÃO</h2>
+
+<p><strong>Art. 48.</strong> São instrumentos de transparência da gestão fiscal, aos quais será dada ampla divulgação, inclusive em meios eletrônicos de acesso público: os planos, orçamentos e leis de diretrizes orçamentárias; as prestações de contas e o respectivo parecer prévio; o Relatório Resumido da Execução Orçamentária e o Relatório de Gestão Fiscal; e as versões simplificadas desses documentos.<br>
+§1º A transparência será assegurada também mediante: I — incentivo à participação popular e realização de audiências públicas, durante os processos de elaboração e discussão dos planos, lei de diretrizes orçamentárias e orçamentos; II — liberação ao pleno conhecimento e acompanhamento da sociedade, em tempo real, de informações pormenorizadas sobre a execução orçamentária e financeira, em meios eletrônicos de acesso público.</p>
+
+<p><strong>Art. 54.</strong> Ao final de cada quadrimestre será emitido pelos titulares dos Poderes e órgãos referidos no art. 20 o Relatório de Gestão Fiscal, assinado pelo: I — Chefe do Poder Executivo; II — Presidente e demais membros da Mesa Diretora ou órgão decisório equivalente, conforme regimentos internos dos órgãos do Poder Legislativo; III — Presidente de Tribunal e demais membros de Conselho de Administração ou órgão decisório equivalente, conforme regimentos internos dos órgãos do Poder Judiciário; IV — Chefe do Ministério Público, da Defensoria Pública e do Tribunal de Contas.</p>`,
+"lei9613": `<h2>LEI Nº 9.613, DE 3 DE MARÇO DE 1998 — LEI DE LAVAGEM DE DINHEIRO</h2>
+<p>Dispõe sobre os crimes de "lavagem" ou ocultação de bens, direitos e valores; a prevenção da utilização do sistema financeiro para os ilícitos previstos nesta Lei; cria o Conselho de Controle de Atividades Financeiras — COAF.</p>
+
+<h2>CAPÍTULO I — DOS CRIMES DE "LAVAGEM" OU OCULTAÇÃO DE BENS, DIREITOS E VALORES</h2>
+
+<p><strong>Art. 1º</strong> Ocultar ou dissimular a natureza, origem, localização, disposição, movimentação ou propriedade de bens, direitos ou valores provenientes, direta ou indiretamente, de infração penal.<br>
+Pena: reclusão, de 3 (três) a 10 (dez) anos, e multa.<br>
+§1º Incorre na mesma pena quem, para ocultar ou dissimular a utilização de bens, direitos ou valores provenientes de infração penal: I — os converte em ativos lícitos; II — os adquire, recebe, troca, negocia, dá ou recebe em garantia, guarda, tem em depósito, movimenta ou transfere; III — importa ou exporta bens com valores não correspondentes aos verdadeiros.<br>
+§2º Incorre, ainda, na mesma pena quem: I — utiliza, na atividade econômica ou financeira, bens, direitos ou valores provenientes de infração penal; II — participa de grupo, associação ou escritório tendo conhecimento de que sua atividade principal ou secundária é dirigida à prática de crimes previstos nesta Lei.<br>
+§3º A tentativa é punida.<br>
+§4º A pena será aumentada de um a dois terços, se os crimes definidos nesta Lei forem cometidos de forma reiterada ou por intermédio de organização criminosa.<br>
+§5º A pena poderá ser reduzida de um a dois terços e ser cumprida em regime aberto ou semiaberto, facultando-se ao juiz deixar de aplicá-la ou substituí-la, a qualquer tempo, por pena restritiva de direitos, se o autor, coautor ou partícipe colaborar espontaneamente com as autoridades, prestando esclarecimentos que conduzam à apuração das infrações penais, à identificação dos autores, coautores e partícipes, ou à localização dos bens, direitos ou valores objeto do crime (colaboração premiada).</p>
+
+<h2>CAPÍTULO V — DO COAF</h2>
+
+<p><strong>Art. 14.</strong> É criado, no âmbito do Ministério da Fazenda, o Conselho de Controle de Atividades Financeiras — COAF, com a finalidade de disciplinar, aplicar penas administrativas, receber, examinar e identificar as ocorrências suspeitas de atividades ilícitas previstas nesta Lei, sem prejuízo da competência de outros órgãos e entidades.<br>
+§1º As instruções referidas no art. 10 destinadas aos setores referidos no art. 9º, para os quais não exista órgão próprio fiscalizador ou regulador, serão expedidas pelo COAF, competindo-lhe, para esses setores, a definição das pessoas abrangidas e a aplicação das sanções enumeradas no art. 12.<br>
+§2º O COAF deverá, ainda, coordenar e propor mecanismos de cooperação e de troca de informações que viabilizem ações rápidas e eficientes no combate à ocultação ou dissimulação de bens, direitos e valores.</p>`,
+"crimes": `<h2>LEI Nº 8.137, DE 27 DE DEZEMBRO DE 1990</h2>
+<p>Define crimes contra a ordem tributária, econômica e contra as relações de consumo, e dá outras providências.</p>
+
+<h2>CAPÍTULO I — DOS CRIMES CONTRA A ORDEM TRIBUTÁRIA</h2>
+<h2>Seção I — Dos crimes praticados por particulares</h2>
+
+<p><strong>Art. 1º</strong> Constitui crime contra a ordem tributária suprimir ou reduzir tributo, ou contribuição social e qualquer acessório, mediante as seguintes condutas:<br>
+I — omitir informação, ou prestar declaração falsa às autoridades fazendárias;<br>
+II — fraudar a fiscalização tributária, inserindo elementos inexatos, ou omitindo operação de qualquer natureza, em documento ou livro exigido pela lei fiscal;<br>
+III — falsificar ou alterar nota fiscal, fatura, duplicata, nota de venda, ou qualquer outro documento relativo à operação tributável;<br>
+IV — elaborar, distribuir, fornecer, emitir ou utilizar documento que saiba ou deva saber falso ou inexato;<br>
+V — negar ou deixar de fornecer, quando obrigatório, nota fiscal ou documento equivalente, relativa a venda de mercadoria ou prestação de serviço, efetivamente realizada, ou fornecê-la em desacordo com a legislação.<br>
+Pena: reclusão de 2 (dois) a 5 (cinco) anos, e multa.<br>
+Parágrafo único. A falta de atendimento da exigência da autoridade, no prazo de 10 (dez) dias, que poderá ser convertido em horas em razão da maior ou menor complexidade da matéria ou da dificuldade quanto ao atendimento da exigência, caracteriza a infração prevista no inciso V.</p>
+
+<p><strong>Art. 2º</strong> Constitui crime da mesma natureza:<br>
+I — fazer declaração falsa ou omitir declaração sobre rendas, bens ou fatos, ou empregar outra fraude, para eximir-se, total ou parcialmente, de pagamento de tributo;<br>
+II — deixar de recolher, no prazo legal, valor de tributo ou de contribuição social, descontado ou cobrado, na qualidade de sujeito passivo de obrigação e que deveria recolher aos cofres públicos;<br>
+III — exigir, pagar ou receber, para si ou para o contribuinte beneficiário, qualquer percentagem sobre a parcela dedutível ou deduzida de imposto ou de contribuição como incentivo fiscal;<br>
+IV — deixar de aplicar, ou aplicar em desacordo com o estatuído, incentivo fiscal ou parcelas de imposto liberadas por órgão ou entidade de desenvolvimento;<br>
+V — utilizar ou divulgar programa de processamento de dados que permita ao sujeito passivo da obrigação tributária possuir informação contábil diversa daquela que é, por lei, fornecida à Fazenda Pública.<br>
+Pena: detenção, de 6 (seis) meses a 2 (dois) anos, e multa.</p>
+
+<h2>Seção II — Dos crimes praticados por funcionários públicos</h2>
+
+<p><strong>Art. 3º</strong> Constitui crime funcional contra a ordem tributária, além dos previstos no Decreto-Lei nº 2.848, de 7 de dezembro de 1940 — Código Penal (Título XI, Capítulo I):<br>
+I — extraviar livro oficial, processo fiscal ou qualquer documento, de que tenha a guarda em razão da função; sonegá-lo, ou inutilizá-lo, total ou parcialmente, acarretando pagamento indevido ou inexato de tributo ou contribuição social;<br>
+II — exigir, solicitar ou receber, para si ou para outrem, direta ou indiretamente, ainda que fora da função ou antes de iniciar seu exercício, mas em razão dela, vantagem indevida; ou aceitar promessa de tal vantagem, para deixar de lançar ou cobrar tributo ou contribuição social, ou cobrá-los parcialmente;<br>
+III — patrocinar, direta ou indiretamente, interesse privado perante a administração fazendária, valendo-se da qualidade de funcionário público.<br>
+Pena: reclusão, de 3 (três) a 8 (oito) anos, e multa.</p>
+
+<p><strong>EXTINÇÃO DA PUNIBILIDADE — SÚMULA VINCULANTE 24:</strong> Não se tipifica crime material contra a ordem tributária, previsto no art. 1º, incisos I a IV, da Lei nº 8.137/1990, antes do lançamento definitivo do tributo. O pagamento do tributo, a qualquer tempo, extingue a punibilidade do crime tributário material (art. 9º da Lei 10.684/2003 — entendimento atual do STJ/STF).</p>`,
+"lef": `<h2>LEI Nº 6.830, DE 22 DE SETEMBRO DE 1980 — LEI DE EXECUÇÃO FISCAL</h2>
+<p>Dispõe sobre a cobrança judicial da Dívida Ativa da Fazenda Pública, e dá outras providências.</p>
+
+<p><strong>Art. 1º</strong> A execução judicial para cobrança da Dívida Ativa da União, dos Estados, do Distrito Federal, dos Municípios e respectivas autarquias será regida por esta Lei e, subsidiariamente, pelo Código de Processo Civil.</p>
+
+<p><strong>Art. 2º</strong> Constitui Dívida Ativa da Fazenda Pública aquela definida como tributária ou não tributária na Lei nº 4.320, de 17 de março de 1964, com as alterações posteriores, que estatui normas gerais de direito financeiro para elaboração e controle dos orçamentos e balanços da União, dos Estados, dos Municípios e do Distrito Federal.<br>
+§2º A Dívida Ativa Tributária é o crédito da Fazenda Pública dessa natureza, proveniente de obrigação legal relativa a tributos e respectivos adicionais e multas, e a Dívida Ativa não Tributária são os demais créditos da Fazenda Pública, tais como os provenientes de empréstimos compulsórios, contribuições estabelecidas em lei, multa de qualquer origem ou natureza, exceto as tributárias, foros, laudêmios, alugueis ou taxas de ocupação, custas processuais, preços de serviços prestados por estabelecimentos públicos, indenizações, reposições, restituições, alcances dos responsáveis definitivamente julgados, bem assim os créditos decorrentes de obrigações em moeda estrangeira, de subrogação de hipoteca, fiança, aval ou outra garantia, de contratos em geral ou de outras obrigações legais.<br>
+§5º A Certidão de Dívida Ativa (CDA) conterá: I — o nome do devedor, dos co-responsáveis e, sempre que conhecido, o domicílio ou residência de um e de outros; II — o valor originário da dívida, bem como o termo inicial e a forma de calcular os juros de mora e demais encargos previstos em lei ou contrato; III — a origem, a natureza e o fundamento legal ou contratual da dívida; IV — a indicação, se for o caso, de estar a dívida sujeita à atualização monetária, bem como o respectivo fundamento legal e o termo inicial para o cálculo; V — a data e o número da inscrição, no Registro de Dívida Ativa; VI — o número do processo administrativo ou do auto de infração, se neles estiver apurado o valor da dívida.</p>
+
+<p><strong>Art. 4º</strong> A execução fiscal poderá ser promovida contra: I — o devedor; II — o fiador; III — o espólio; IV — a massa; V — o responsável, nos termos da lei, por dívidas, tributárias ou não, de pessoas físicas ou pessoas jurídicas de direito privado; VI — os sucessores a qualquer título.</p>
+
+<p><strong>Art. 8º</strong> O executado será citado para, no prazo de 5 (cinco) dias, pagar a dívida com os juros e multa de mora e encargos indicados na Certidão de Dívida Ativa, ou garantir a execução.<br>
+§2º O despacho do Juiz, que ordenar a citação, interrompe a prescrição.</p>
+
+<p><strong>Art. 9º</strong> Em garantia da execução, pelo valor da dívida, juros e multa de mora e encargos indicados na Certidão de Dívida Ativa, o executado poderá: I — efetuar depósito em dinheiro, à ordem do Juízo em estabelecimento oficial de crédito, que assegure atualização monetária; II — oferecer fiança bancária ou seguro garantia; III — nomear bens à penhora, observada a ordem do art. 11; IV — indicar à penhora bens oferecidos por terceiros e aceitos pela Fazenda Pública.</p>
+
+<p><strong>Art. 11.</strong> A penhora ou arresto de bens obedecerá à seguinte ordem: I — dinheiro; II — título da dívida pública, bem como título de crédito, que tenham cotação em bolsa; III — pedras e metais preciosos; IV — imóveis; V — navios e aeronaves; VI — veículos; VII — móveis ou semoventes; e VIII — direitos e ações.</p>
+
+<p><strong>Art. 16.</strong> O executado oferecerá embargos, no prazo de 30 (trinta) dias, contados: I — do depósito; II — da juntada da prova da fiança bancária ou do seguro garantia; III — da intimação da penhora.<br>
+§1º Não são admissíveis embargos do executado antes de garantida a execução.<br>
+§2º No prazo dos embargos, o executado deverá alegar toda matéria útil à defesa, requerer provas e juntar aos autos os documentos e rol de testemunhas, até três, ou, a critério do juiz, até o dobro desse limite.</p>
+
+<p><strong>Art. 40.</strong> O Juiz suspenderá o curso da execução, enquanto não for localizado o devedor ou encontrados bens sobre os quais possa recair a penhora, e, nesses casos, não correrá o prazo de prescrição.<br>
+§4º Se da decisão que ordenar o arquivamento tiver decorrido o prazo prescricional, o juiz, depois de ouvida a Fazenda Pública, poderá, de ofício, reconhecer a prescrição intercorrente e decretá-la de imediato (prescrição intercorrente na execução fiscal).</p>`,
+"lei4320": `<h2>LEI Nº 4.320, DE 17 DE MARÇO DE 1964</h2>
+<p>Estatui Normas Gerais de Direito Financeiro para elaboração e controle dos orçamentos e balanços da União, dos Estados, dos Municípios e do Distrito Federal.</p>
+
+<h2>TÍTULO I — DA LEI DE ORÇAMENTO</h2>
+
+<p><strong>Art. 1º</strong> Esta lei estatui normas gerais de direito financeiro para elaboração e controle dos orçamentos e balanços da União, dos Estados, dos Municípios e do Distrito Federal, de acordo com o disposto no art. 5º, inciso XV, letra b, da Constituição Federal.</p>
+
+<p><strong>Art. 2º</strong> A Lei do Orçamento conterá a discriminação da receita e despesa de forma a evidenciar a política econômica financeira e o programa de trabalho do Governo, obedecidos os princípios de unidade, universalidade e anualidade.<br>
+§1º Integrarão a Lei de Orçamento: I — Sumário geral da receita por fontes e da despesa por funções do Governo; II — Quadro demonstrativo da Receita e Despesa segundo as Categorias Econômicas; III — Quadro discriminativo da receita por fontes e respectiva legislação; IV — Quadro das dotações por órgãos do Governo e da Administração.<br>
+§2º Acompanharão a Lei de Orçamento: I — Quadros demonstrativos da receita e planos de aplicação dos fundos especiais; II — Quadros demonstrativos da despesa, na forma dos Anexos nºs 6 a 9; III — Quadro demonstrativo do programa anual de trabalho do Governo, em termos de realização de obras e de prestação de serviços.</p>
+
+<p><strong>Art. 8º</strong> A discriminação da despesa far-se-á, no mínimo, por elementos. Parágrafo único. Para efeito desta lei, entende-se por elementos o desdobramento da despesa com pessoal, material, serviços, obras e outros meios de que se serve a administração pública para consecução dos seus fins.</p>
+
+<h2>TÍTULO III — DA RECEITA E DA DESPESA</h2>
+<h2>Capítulo I — Da Receita</h2>
+
+<p><strong>Art. 9º</strong> Tributo é a receita derivada instituída pelas entidades de direito público, compreendendo os impostos, as taxas e contribuições nos termos da constituição e das leis vigentes em matéria financeira, destinado-se o seu produto ao custeio de atividades gerais ou específicas exercidas por essas entidades.</p>
+
+<p><strong>Art. 11.</strong> A receita classificar-se-á nas seguintes categorias econômicas: Receitas Correntes e Receitas de Capital.<br>
+§1º São Receitas Correntes as receitas tributária, de contribuições, patrimonial, agropecuária, industrial, de serviços e outras e, ainda, as provenientes de recursos financeiros recebidos de outras pessoas de direito público ou privado, quando destinadas a atender despesas classificáveis em Despesas Correntes.<br>
+§2º São Receitas de Capital as provenientes da realização de recursos financeiros oriundos de constituição de dívidas; da conversão, em espécie, de bens e direitos; os recursos recebidos de outras pessoas de direito público ou privado, destinados a atender despesas classificáveis em Despesas de Capital e, ainda, o superávit do Orçamento Corrente.<br>
+§4º A classificação da receita obedecerá ao seguinte esquema: (11) Receita Tributária: (111) Impostos; (112) Taxas; (113) Contribuições de Melhoria.</p>
+
+<h2>Capítulo II — Da Despesa</h2>
+
+<p><strong>Art. 12.</strong> A despesa será classificada nas seguintes categorias econômicas: Despesas Correntes e Despesas de Capital.<br>
+§1º Classificam-se como Despesas Correntes as dotações para manutenção dos serviços anteriormente criados, inclusive as destinadas a atender a obras de conservação e adaptação de bens imóveis.<br>
+§2º Classificam-se como Despesas de Capital as dotações para o planejamento e a execução de obras, inclusive as destinadas à aquisição de imóveis considerados necessários à realização destas últimas, bem como para os programas especiais de trabalho, aquisição de instalações, equipamentos e material permanente e constituição ou aumento do capital de empresas que não sejam de caráter comercial ou financeiro.</p>
+
+<p><strong>Art. 13.</strong> Observada a discriminação constante dos Anexos nºs 4 e 5, as Despesas Correntes classificam-se em: Despesas de Custeio e Transferências Correntes. As Despesas de Capital classificam-se em: Investimentos, Inversões Financeiras e Transferências de Capital.</p>
+
+<p><strong>Art. 16.</strong> Fundamentalmente e nos termos da legislação vigente, a despesa só pode ser realizada se houver prévia autorização legislativa.</p>
+
+<h2>TÍTULO IV — DOS CRÉDITOS ADICIONAIS</h2>
+
+<p><strong>Art. 40.</strong> São créditos adicionais, as autorizações de despesa não computadas ou insuficientemente dotadas na Lei de Orçamento.</p>
+
+<p><strong>Art. 41.</strong> Os créditos adicionais classificam-se em: I — suplementares, os destinados a refôrço de dotação orçamentária; II — especiais, os destinados a despesas para as quais não haja dotação orçamentária específica; III — extraordinários, os destinados a despesas urgentes e imprevistas, em caso de guerra, comoção intestina ou calamidade pública.</p>
+
+<p><strong>Art. 42.</strong> Os créditos suplementares e especiais serão autorizados por lei e abertos por decreto executivo. Os créditos extraordinários serão abertos por decreto do Poder Executivo, que deles dará imediato conhecimento ao Poder Legislativo.</p>
+
+<h2>TÍTULO V — DO EXERCÍCIO FINANCEIRO</h2>
+
+<p><strong>Art. 34.</strong> O exercício financeiro coincidirá com o ano civil.</p>
+
+<p><strong>Art. 35.</strong> Pertencem ao exercício financeiro: I — as receitas nele arrecadadas; II — as despesas nele legalmente empenhadas (regime de competência para despesas — empenho).</p>
+
+<p><strong>Art. 36.</strong> Consideram-se Restos a Pagar as despesas empenhadas mas não pagas até o dia 31 de dezembro distinguindo-se as processadas das não processadas. Parágrafo único. Os empenhos que sorvem Restos a Pagar com prescrição interrompida e os empenhados à conta de créditos com vigência plurianual, que não reúnam os requisitos estabelecidos no art. 67 da Lei nº 5.172, de 25 de outubro de 1966, poderão ser cancelados, podendo os respectivos créditos serem reabertos no exercício seguinte à conta de despesas de exercícios anteriores.</p>`,
+"ec132": `<h2>EMENDA CONSTITUCIONAL Nº 132, DE 20 DE DEZEMBRO DE 2023 — REFORMA TRIBUTÁRIA</h2>
+<p>Altera o Sistema Tributário Nacional.</p>
+
+<h2>PRINCIPAIS DISPOSIÇÕES</h2>
+
+<p><strong>Art. 1º</strong> A Constituição Federal passa a vigorar com as seguintes alterações: [EC 132 altera arts. 145, 148, 153, 155, 156, 167, 195 e acrescenta arts. 156-A, 195-A e Ato das Disposições Constitucionais Transitórias — ADCT]</p>
+
+<h2>IBS — IMPOSTO SOBRE BENS E SERVIÇOS (Art. 156-A)</h2>
+
+<p><strong>Art. 156-A.</strong> Lei complementar instituirá imposto sobre bens e serviços de competência compartilhada entre Estados, Distrito Federal e Municípios.<br>
+§1º O imposto previsto no caput será informado pelo princípio da neutralidade e atenderá ao seguinte:<br>
+I — incidirá sobre operações com bens materiais ou imateriais, inclusive direitos, ou com serviços;<br>
+II — será não cumulativo, compensando-se o imposto devido pelo contribuinte com o montante cobrado sobre todas as operações nas quais seja adquirente de bem material ou imaterial, inclusive direito, ou de serviço, excetuadas exclusivamente as consideradas de uso ou consumo pessoal especificadas em lei complementar e as hipóteses previstas nesta Constituição;<br>
+III — não incidirá sobre as exportações de bens materiais ou imateriais, inclusive direitos, ou de serviços, e será assegurada a manutenção e o aproveitamento dos créditos relativos às operações antecedentes;<br>
+IV — incidirá também sobre a importação de bens materiais ou imateriais, inclusive direitos, ou de serviços realizada por pessoa física ou jurídica, ainda que não seja sujeito passivo habitual do imposto;<br>
+V — terá legislação uniforme em todo o território nacional, ressalvadas as exceções previstas nesta Constituição;<br>
+VI — será cobrado pelo destino;<br>
+VII — não incidirá sobre as prestações de serviço de comunicação nas modalidades de radiodifusão sonora e de sons e imagens de recepção livre e gratuita;<br>
+VIII — terá suas alíquotas fixadas por lei de cada Estado e do Distrito Federal, no âmbito de suas competências, para os contribuintes localizados em seus territórios, e por lei de cada Município e do Distrito Federal, no âmbito de suas competências, para os contribuintes localizados em seus territórios;<br>
+IX — as alíquotas dos Estados e dos Municípios serão iguais para todas as operações com bens materiais ou imateriais, inclusive direitos, ou com serviços, ressalvadas as exceções previstas nesta Constituição;</p>
+
+<h2>CBS — CONTRIBUIÇÃO SOBRE BENS E SERVIÇOS</h2>
+
+<p>A CBS substitui o PIS e a COFINS, com competência federal. Mesmas regras gerais do IBS — não cumulativa, cobrada no destino, legislação uniforme. Regulamentada pela LC 214/2025.</p>
+
+<h2>IS — IMPOSTO SELETIVO (Art. 153, VIII)</h2>
+
+<p><strong>Art. 153, VIII.</strong> A União poderá instituir imposto sobre produção, extração, comercialização ou importação de bens e serviços prejudiciais à saúde ou ao meio ambiente, nos termos de lei complementar.<br>
+§6º O imposto previsto no inciso VIII: I — não incidirá sobre as exportações; II — poderá incidir sobre os mesmos bens e serviços sujeitos às contribuições de que trata o art. 195-A, hipótese em que terá as suas alíquotas reduzidas; III — não constituirá base de cálculo para a incidência do IBS e da CBS.</p>
+
+<h2>COMITÊ GESTOR DO IBS</h2>
+
+<p>Criado para administrar o IBS de forma compartilhada entre estados e municípios. Cada estado tem um voto e cada município tem um voto (ponderados pela participação na receita). Responsável por editar normas, fiscalizar, arrecadar e distribuir o IBS.</p>
+
+<h2>FUNDO DE DESENVOLVIMENTO REGIONAL (FNDR)</h2>
+
+<p>Criado para compensar as regiões menos desenvolvidas pela perda do poder de concessão de benefícios fiscais de ICMS (guerra fiscal). Dotação de R$ 60 bilhões ao ano até 2043, com prioridade para Norte, Nordeste e Centro-Oeste.</p>
+
+<h2>TRANSIÇÃO — CRONOGRAMA</h2>
+
+<p>2026: alíquota teste de IBS e CBS (0,1% cada) para fins de validação;<br>
+2027–2028: cobrança plena de CBS, extinção do PIS/COFINS;<br>
+2029–2032: redução gradual de ICMS e ISS, aumento de IBS;<br>
+01/01/2033: extinção total do ICMS e do ISS; IBS pleno.<br>
+IPVA: alíquotas mínimas pelo Senado; incidirá sobre veículos aquáticos e aéreos.<br>
+ITCMD: caberá ao Senado fixar alíquotas progressivas máximas.<br>
+IPTU: base de cálculo poderá ser atualizada por decreto, sem lei (nova regra).</p>
+
+<p><strong>CASHBACK:</strong> IBS e CBS deverão prever a devolução do imposto para famílias de baixa renda (mecanismo regulamentado pela LC 214/2025).</p>`,
+"lc214": `<h2>LEI COMPLEMENTAR Nº 214, DE 16 DE JANEIRO DE 2025</h2>
+<p>Regulamenta a Emenda Constitucional nº 132, de 2023 (Reforma Tributária). Institui o IBS, a CBS e o Imposto Seletivo.</p>
+
+<h2>LIVRO I — DA CBS (Contribuição sobre Bens e Serviços)</h2>
+
+<p><strong>Art. 1º</strong> Esta Lei Complementar institui, em conformidade com o art. 195-A da Constituição Federal e com fundamento nos arts. 146, III, e 195, § 4º, da Constituição Federal: I — a Contribuição sobre Bens e Serviços — CBS; II — o Imposto sobre Bens e Serviços — IBS; III — o Imposto Seletivo — IS.</p>
+
+<p><strong>Art. 3º</strong> A CBS e o IBS têm como fato gerador as operações onerosas que envolvam: I — a transmissão de bens tangíveis; II — a transmissão de bens intangíveis; III — a prestação de serviços; IV — a licença de direitos.<br>
+Parágrafo único. A CBS e o IBS incidem sobre todas as etapas da cadeia econômica, vedada a cumulatividade.</p>
+
+<p><strong>Art. 5º</strong> Considera-se contribuinte da CBS e do IBS a pessoa física ou jurídica que realize operações de forma habitual ou em volume que caracterize intuito econômico.</p>
+
+<p><strong>Art. 10.</strong> A CBS e o IBS são não cumulativos, assegurando-se ao contribuinte o direito de crédito do valor da CBS e do IBS incidente sobre as operações de aquisição de bens e serviços utilizados na atividade econômica.<br>
+§1º O crédito será apurado na forma de crédito financeiro — incidindo sobre qualquer aquisição utilizada na atividade econômica, inclusive bens de capital.<br>
+§2º Não geram crédito as aquisições de bens e serviços de uso e consumo pessoal.</p>
+
+<h2>REGIMES DIFERENCIADOS</h2>
+
+<p><strong>Art. 30.</strong> Ficam sujeitos a regimes diferenciados da CBS e do IBS: I — os serviços financeiros; II — os seguros; III — os planos de saúde; IV — o mercado imobiliário; V — as cooperativas; VI — os combustíveis e lubrificantes; VII — o transporte coletivo; VIII — as operações com bens imóveis; IX — as agências de viagens e operadoras de turismo.</p>
+
+<h2>LIVRO II — DO IBS</h2>
+
+<p><strong>Art. 156-A.</strong> O IBS tem competência compartilhada entre Estados, Distrito Federal e Municípios. A arrecadação é centralizada pelo Comitê Gestor e distribuída conforme participação de cada ente.<br>
+Alíquota de referência: fixada pelo Comitê Gestor para garantir manutenção das receitas dos entes durante a transição. Estados e Municípios podem ajustar dentro dos limites fixados pelo Comitê.</p>
+
+<h2>LIVRO III — DO IMPOSTO SELETIVO (IS)</h2>
+
+<p><strong>Art. 409.</strong> O Imposto Seletivo tem como fato gerador a produção, extração, comercialização ou importação de bens e serviços prejudiciais à saúde ou ao meio ambiente, incluindo:<br>
+I — veículos automotores;<br>
+II — embarcações e aeronaves;<br>
+III — produtos fumígenos;<br>
+IV — bebidas alcoólicas;<br>
+V — bebidas açucaradas;<br>
+VI — bens minerais extraídos;<br>
+VII — concursos de prognósticos e fantasias esportivas.</p>
+
+<h2>CASHBACK — DEVOLUÇÃO DE TRIBUTO</h2>
+
+<p><strong>Art. 33.</strong> A CBS e o IBS preverão a devolução de parte do imposto pago por pessoas físicas de baixa renda (Cadastro Único — CadÚnico). O percentual de devolução será maior para: I — energia elétrica e gás de cozinha (100% da CBS e IBS para famílias CadÚnico); II — serviços de telecomunicações (100% para beneficiários do CadÚnico); III — demais bens e serviços (percentual definido em lei).</p>
+
+<h2>CRONOGRAMA DE TRANSIÇÃO</h2>
+
+<p>2026: alíquotas de teste — CBS 0,9% e IBS 0,1% (offset do PIS/COFINS). Arrecadação usada para validar sistemas.<br>
+2027–2028: CBS plena substituindo PIS/COFINS integralmente. IBS em 0,1%.<br>
+2029: IBS começa a crescer; ICMS e ISS começam a cair proporcionalmente.<br>
+2033: Extinção total do ICMS e do ISS. IBS e CBS em pleno funcionamento.<br>
+Prazos especiais: serviços financeiros, imóveis e combustíveis têm cronogramas próprios.</p>`,
+"lc116": `<h2>LEI COMPLEMENTAR Nº 116, DE 31 DE JULHO DE 2003</h2>
+<p>Dispõe sobre o Imposto Sobre Serviços de Qualquer Natureza, de competência dos Municípios e do Distrito Federal, e dá outras providências.</p>
+
+<p><strong>Art. 1º</strong> O Imposto Sobre Serviços de Qualquer Natureza, de competência dos Municípios e do Distrito Federal, tem como fato gerador a prestação de serviços constantes da lista anexa, ainda que esses não se constituam como atividade preponderante do prestador.<br>
+§1º O imposto incide também sobre o serviço proveniente do exterior do País ou cuja prestação se tenha iniciado no exterior do País.<br>
+§2º Ressalvadas as exceções expressas na lista anexa, os serviços nela mencionados não ficam sujeitos ao ICMS, ainda que sua prestação envolva fornecimento de mercadorias.<br>
+§3º O imposto de que trata esta Lei Complementar incide ainda sobre os serviços prestados mediante a utilização de bens e serviços públicos explorados economicamente mediante autorização, permissão ou concessão, com o pagamento de tarifa, preço ou pedágio pelo usuário final do serviço.</p>
+
+<p><strong>Art. 2º</strong> O imposto não incide sobre:<br>
+I — as exportações de serviços para o exterior do País;<br>
+II — a prestação de serviços em relação de emprego, dos trabalhadores avulsos, dos diretores e membros de conselho consultivo ou de conselho fiscal de sociedades e fundações, bem como dos sócios-gerentes e dos gerentes-delegados;<br>
+III — o valor intermediado no mercado de títulos e valores mobiliários, o valor dos depósitos bancários, o principal, juros e acréscimos moratórios relativos a operações de crédito realizadas por instituições financeiras.<br>
+Parágrafo único. Não se enquadram no disposto no inciso I os serviços desenvolvidos no Brasil, cujo resultado aqui se verifique, ainda que o pagamento seja feito por residente no exterior.</p>
+
+<p><strong>Art. 3º</strong> O serviço considera-se prestado, e o imposto, devido, no local do estabelecimento prestador ou, na falta do estabelecimento, no local do domicílio do prestador, exceto nas hipóteses previstas nos incisos I a XXV, quando o imposto será devido nos seguintes locais:<br>
+I — no local do estabelecimento do tomador ou intermediário do serviço ou, na falta de estabelecimento, onde ele estiver domiciliado, na hipótese do § 1º do art. 1º desta Lei Complementar;<br>
+II — no local da instalação dos andaimes, palcos, coberturas e outras estruturas, no caso dos serviços descritos no subitem 3.05 da lista anexa;<br>
+III — no local da execução da obra, no caso dos serviços descritos no subitem 7.02 e 7.19 da lista anexa;<br>
+IV — no local da demolição, no caso dos serviços descritos no subitem 7.04 da lista anexa;</p>
+
+<p><strong>Art. 7º</strong> A base de cálculo do imposto é o preço do serviço.<br>
+§1º Quando os serviços descritos pelo subitem 3.04 da lista anexa forem prestados no território de mais de um Município, a base de cálculo será proporcional, conforme o caso, à extensão da ferrovia, rodovia, dutos e condutos de qualquer natureza, cabos de qualquer natureza, ou ao número de postes, existentes em cada Município.<br>
+§2º Não se incluem na base de cálculo do Imposto Sobre Serviços de Qualquer Natureza: I — o valor dos materiais fornecidos pelo prestador dos serviços previstos nos itens 7.02 e 7.05 da lista de serviços anexa a esta Lei Complementar.</p>
+
+<p><strong>Art. 8º</strong> As alíquotas máximas do Imposto Sobre Serviços de Qualquer Natureza são as seguintes: II — demais serviços: 5%.<br>
+§2º (Omitido na redação original) — Alíquota mínima: 2% (LC 157/2016 fixou em 2% para evitar guerra fiscal municipal).</p>
+
+<p><strong>Art. 10.</strong> É instituída a Lista de Serviços anexa a esta Lei Complementar.<br>
+Principais grupos da lista: 1. Serviços de informática e congêneres; 2. Serviços de pesquisas e desenvolvimento; 3. Serviços prestados mediante locação, cessão de direito de uso e congêneres; 4. Serviços de saúde, assistência médica e congêneres; 5. Serviços de medicina e assistência veterinária; 6. Serviços de cuidados pessoais, estética, atividades físicas e congêneres; 7. Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil, manutenção, limpeza, meio ambiente, saneamento e congêneres; 8. Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento e avaliação pessoal de qualquer grau ou natureza; 14. Serviços bancários, financeiros, de crédito e congêneres; 17. Serviços de apoio técnico, administrativo, jurídico, contábil, comercial e congêneres; 26. Serviços de coleta, remessa ou entrega de correspondências, documentos, objetos, bens ou valores.</p>`,
+"lei8429": `<h2>LEI Nº 8.429, DE 2 DE JUNHO DE 1992 — LEI DE IMPROBIDADE ADMINISTRATIVA</h2>
+<p>Dispõe sobre as sanções aplicáveis em virtude da prática de atos de improbidade administrativa. Alterada pela Lei 14.230/2021.</p>
+
+<p><strong>Art. 1º</strong> O sistema de responsabilização por atos de improbidade administrativa, na forma desta Lei, tem por objetivo proteger a probidade na organização do Estado e no exercício das funções administrativas, incluindo toda a atividade realizada pelo agente público, representante ou administrador de entidades referidas no art. 1º, parágrafo único, com recursos dos entes públicos.<br>
+§1º Consideram-se atos de improbidade administrativa as condutas dolosas tipificadas nos arts. 9º, 10 e 11 desta Lei, ressalvados tipos previstos em leis especiais.<br>
+§2º Apenas são improbidade administrativa intencionais as condutas de que trata esta Lei. (Após Lei 14.230/21 — exige DOLO; não há mais improbidade culposa)</p>
+
+<p><strong>Art. 2º</strong> Para os efeitos desta Lei, consideram-se agente público o agente político, o servidor público e todo aquele que exerce, ainda que transitoriamente ou sem remuneração, por eleição, nomeação, designação, contratação ou qualquer outra forma de investidura ou vínculo, mandato, cargo, emprego ou função nas entidades referidas no art. 1º desta Lei.</p>
+
+<p><strong>Art. 9º</strong> Constituem atos de improbidade administrativa que importam enriquecimento ilícito auferir qualquer tipo de vantagem patrimonial indevida em razão do exercício de cargo, de mandato, de função, de emprego ou de atividade nas entidades referidas no art. 1º desta Lei, e notadamente:<br>
+I — receber, para si ou para outrem, dinheiro, bem móvel ou imóvel, ou qualquer outra vantagem econômica, direta ou indireta, a título de comissão, percentagem, gratificação ou presente de quem tenha interesse, direto ou indireto, que possa ser atingido ou amparado por ação ou omissão decorrente das atribuições do agente público;<br>
+II — perceber vantagem econômica, direta ou indireta, para facilitar a aquisição, permuta ou locação de bem móvel ou imóvel, ou a contratação de serviços pelas entidades referidas no art. 1º desta Lei por preço superior ao valor de mercado.</p>
+
+<p><strong>Art. 10.</strong> Constituem atos de improbidade administrativa que causam dano ao erário qualquer ação ou omissão dolosa para conceder, aplicar ou manter benefício financeiro ou tributário contrário ao que dispõem o caput e o § 1º do art. 8º-A da Lei Complementar nº 116, de 31 de julho de 2003; e notadamente:<br>
+I — facilitar ou concorrer, por qualquer forma, para a indevida incorporação ao patrimônio particular, de pessoa física ou jurídica, de bens, rendas, verbas ou valores integrantes do acervo patrimonial das entidades mencionadas no art. 1º desta Lei;<br>
+IX — agir negligentemente na celebração, fiscalização e análise das prestações de contas de parcerias firmadas pela administração pública com entidades privadas (DOLO necessário — não há mais negligência como fundamento).</p>
+
+<p><strong>Art. 11.</strong> Constituem atos de improbidade administrativa que atentam contra os princípios da administração pública a ação ou omissão dolosa que viole os deveres de honestidade, de imparcialidade e de legalidade, caracterizada por uma das seguintes condutas:<br>
+I — praticar ato visando fim proibido em lei ou regulamento ou diverso daquele previsto na regra de competência;<br>
+II — retardar ou deixar de praticar, indevidamente, ato de ofício;<br>
+VI — celebrar contrato de rateio de consórcio público sem suficiente e prévia dotação orçamentária, ou sem observar as formalidades previstas na lei.</p>
+
+<p><strong>SANÇÕES (Art. 12 — após Lei 14.230/21):</strong><br>
+Enriquecimento ilícito (Art. 9): perda dos bens, ressarcimento integral, suspensão direitos políticos 14 anos, multa civil 3x valor do acréscimo patrimonial, proibição de contratar com Poder Público 14 anos.<br>
+Dano ao erário (Art. 10): perda dos bens, ressarcimento integral, suspensão direitos políticos 12 anos, multa civil 2x valor do dano, proibição de contratar com Poder Público 12 anos.<br>
+Violação aos princípios (Art. 11): ressarcimento integral (se houver dano), suspensão direitos políticos 4 anos, multa civil até 24x a remuneração, proibição de contratar com Poder Público 4 anos.</p>
+
+<p><strong>PRESCRIÇÃO (Art. 23 — após Lei 14.230/21):</strong> 8 anos após a prática do ato ou, no caso de infração permanente ou continuada, do dia em que cessou a permanência ou continuidade. O ressarcimento ao erário é imprescritível (art. 37, §5º CF).</p>`,
+"lei14133": `<h2>LEI Nº 14.133, DE 1º DE ABRIL DE 2021 — NOVA LEI DE LICITAÇÕES</h2>
+<p>Lei de Licitações e Contratos Administrativos.</p>
+
+<p><strong>Art. 1º</strong> Esta Lei estabelece normas gerais de licitação e contratação para as Administrações Públicas diretas, autárquicas e fundacionais da União, dos Estados, do Distrito Federal e dos Municípios, e abrange: I — os órgãos dos Poderes Legislativo e Judiciário da União, dos Estados e do Distrito Federal e os órgãos do Poder Legislativo dos Municípios, quando no desempenho de função administrativa; II — os fundos especiais e as demais entidades controladas direta ou indiretamente pela Administração Pública.</p>
+
+<p><strong>Art. 5º</strong> Na aplicação desta Lei, serão observados os princípios da legalidade, da impessoalidade, da moralidade, da publicidade, da eficiência, do interesse público, da probidade administrativa, da igualdade, do planejamento, da transparência, da eficácia, da segregação de funções, da motivação, da vinculação ao edital, do julgamento objetivo, da segurança jurídica, da razoabilidade, da competitividade, da proporcionalidade, da celeridade, da economicidade e do desenvolvimento nacional sustentável.</p>
+
+<p><strong>Art. 6º</strong> Para os fins desta Lei, consideram-se:<br>
+I — obra: toda construção, reforma, fabricação, recuperação ou ampliação de bem imóvel público;<br>
+II — serviço: toda atividade destinada a obter determinada utilidade de interesse para a Administração;<br>
+XXIV — contratação direta: contratação que pode ser realizada sem licitação, nas hipóteses de inexigibilidade ou dispensa previstas nesta Lei;<br>
+XLII — dispensa de licitação: modalidade de contratação direta em que a licitação é dispensável ou dispensada;<br>
+XLIII — inexigibilidade de licitação: modalidade de contratação direta em que é inviável a competição.</p>
+
+<p><strong>MODALIDADES DE LICITAÇÃO (Art. 28):</strong> I — pregão; II — concorrência; III — concurso; IV — leilão; V — diálogo competitivo. (Fim da tomada de preços e convite da Lei 8.666/93).</p>
+
+<p><strong>Art. 29.</strong> A concorrência e o pregão seguem o rito procedimental comum a que se refere o art. 17 desta Lei. A concorrência é obrigatória para contratos de grande valor e obras acima de R$ 3.300.000,00. O pregão é obrigatório para bens e serviços comuns.</p>
+
+<p><strong>DISPENSA DE LICITAÇÃO (Art. 75):</strong> I — obras e serviços de engenharia de valor até R$ 100.000,00; II — outros serviços e compras de valor até R$ 50.000,00; III — obras e serviços de engenharia para manutenção e conservação de bens e instalações de valor até R$ 50.000,00; XV — para aquisição ou locação de imóvel cujas características de instalações e de localização tornem necessária sua escolha; XVI — nas compras de hortifrutigranjeiros, pão e outros gêneros perecíveis.</p>
+
+<p><strong>INEXIGIBILIDADE (Art. 74):</strong> I — aquisição de materiais, de equipamentos ou de gêneros ou contratação de serviços que só possam ser fornecidos por produtor, empresa ou representante comercial exclusivos; II — contratação de profissional do setor artístico, diretamente ou mediante empresário exclusivo, desde que consagrado pela crítica especializada ou pela opinião pública; III — contratação dos seguintes serviços técnicos especializados de natureza predominantemente intelectual com profissionais ou empresas de notória especialização.</p>
+
+<p><strong>CRIMES (Arts. 337-E a 337-P):</strong> Contratação direta ilegal, frustrar caráter competitivo, manipular licitação, afastar licitante — penas de 4 a 8 anos de reclusão + multa. Agravamento: 1/3 a 1/2 se envolver agente público.</p>
+
+<p><strong>MICROEMPRESA E EPP:</strong> Tratamento favorecido mantido — empate ficto (5%), cota reservada de 25% para ME/EPP em licitações para bens de natureza divisível, preferência no desempate.</p>`,
 };
 
 
