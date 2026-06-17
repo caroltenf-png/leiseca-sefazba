@@ -1606,13 +1606,24 @@ function Spinner({ label="" }) {
 
 // ─── CLAUDE API ──────────────────────────────────────────────────────────
 async function callClaude(system, user, maxTokens=1000) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ model:"claude-sonnet-4-6", max_tokens:maxTokens, system, messages:[{role:"user",content:user}] }),
-  });
-  const data = await res.json();
-  return data.content?.[0]?.text || "";
+  // Proxy /api/ai: tenta Claude primeiro, fallback automático para OpenAI
+  try {
+    const res = await fetch("/api/ai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ system, user, maxTokens }),
+      signal: AbortSignal.timeout(35000),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || "Erro " + res.status);
+    }
+    const data = await res.json();
+    return data.text || "";
+  } catch(err) {
+    console.error("callClaude:", err.message);
+    throw err;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
