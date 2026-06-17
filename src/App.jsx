@@ -342,20 +342,30 @@ export default function App() {
     // Busca atualizado se online
     if (online) {
       try {
-        const texto = await callClaude(
-          `Você é um assistente jurídico. Retorne APENAS o texto completo da lei em HTML simples:
-           - <h2> para títulos/capítulos
-           - <h3> para seções
-           - <p><strong>Art. N.</strong> texto...</p> para artigos
-           Sem explicações. Primeiros 40 artigos se a lei for longa.`,
-          `Texto completo (primeiros 40 artigos): ${lei.nome}. URL fonte: ${lei.url}`,
-          4000
-        );
-        setTextoLei(texto);
-        setCacheTexto(lei.id, texto); // salva no cache offline
+        // Proxy serverless — busca texto direto do Planalto sem bloqueio CORS
+        const proxyUrl = `/api/lei?url=${encodeURIComponent(lei.url)}`;
+        const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(20000) });
+        if (!r.ok) throw new Error(`${r.status}`);
+        const textoRaw = await r.text();
+        const linhas = textoRaw.split("\n").filter(l => l.trim());
+        const html = linhas.map(l => {
+          const t = l.trim();
+          if (/^(CAPÍTULO|TÍTULO|SEÇÃO|SUBSEÇÃO|LIVRO)/i.test(t)) return "<h2>" + t + "</h2>";
+          if (/^Art\.\ *\d+/i.test(t)) return "<p><strong>" + t.substring(0,12) + "</strong>" + t.substring(12) + "</p>";
+          if (t.length > 0) return "<p>" + t + "</p>";
+          return "";
+        }).join("");
+        const textoFinal = html || "<p>" + textoRaw + "</p>";
+        setTextoLei(textoFinal);
+        setCacheTexto(lei.id, textoFinal);
         setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
-      } catch {
-        if (!cached) setTextoLei(`<p style="color:#FCA5A5">⚠️ Sem conexão e sem cache para esta lei.</p>`);
+      } catch(err) {
+        if (!cached) setTextoLei(
+          "<div style=\"padding:16px;background:rgba(249,194,49,0.08);border:1px solid rgba(249,194,49,0.2);border-radius:12px\">" +
+          "<p style=\"color:#F9C231;font-weight:700;margin-bottom:8px\">⚠️ Texto não disponível via acesso direto</p>" +
+          "<p style=\"color:#8BA7BF;font-size:13px;line-height:1.7\">Configure a API key do Claude para gerar o texto via IA, ou acesse diretamente:<br><br>" +
+          "<a href=\"" + lei.url + "\" target=\"_blank\" style=\"color:#68D391\">" + lei.url + "</a></p></div>"
+        );
       }
     }
     setCarregando(false);
