@@ -640,6 +640,35 @@ function AudioPlayer({ texto, lei }) {
     return div.innerText || div.textContent || "";
   }
 
+  // Fallback: Web Speech API (gratuito, voz do browser)
+  const synthRef = useRef(null);
+
+  function usarWebSpeech(textoPuro) {
+    if (!window.speechSynthesis) {
+      setErro("Seu browser não suporta síntese de voz.");
+      setStatus("idle"); return;
+    }
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(textoPuro);
+    utter.lang = "pt-BR";
+    utter.rate = velocidade;
+    // Tentar voz em português
+    const vozes = window.speechSynthesis.getVoices();
+    const vozPT = vozes.find(v => v.lang.startsWith("pt")) || vozes[0];
+    if (vozPT) utter.voice = vozPT;
+    utter.onstart  = () => setStatus("playing");
+    utter.onend    = () => { setStatus("idle"); setProgresso(0); };
+    utter.onerror  = () => { setErro("Erro na síntese de voz."); setStatus("idle"); };
+    utter.onboundary = (e) => {
+      if (utter.text.length > 0) setProgresso(Math.round(e.charIndex / utter.text.length * 100));
+    };
+    synthRef.current = utter;
+    window.speechSynthesis.speak(utter);
+    setModoTTS("web");
+  }
+
+  const [modoTTS, setModoTTS] = useState("openai"); // openai | web
+
   async function gerar() {
     if (!texto) return;
     setStatus("loading"); setErro("");
@@ -656,8 +685,8 @@ function AudioPlayer({ texto, lei }) {
       });
 
       if (!resp.ok) {
-        const err = await resp.json();
-        throw new Error(err.error || "Erro ao gerar áudio");
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error || `Erro ${resp.status}`);
       }
 
       const blob = await resp.blob();
@@ -669,20 +698,31 @@ function AudioPlayer({ texto, lei }) {
         audioRef.current.playbackRate = velocidade;
         await audioRef.current.play();
         setStatus("playing");
+        setModoTTS("openai");
       }
     } catch(err) {
-      setErro(err.message);
-      setStatus("idle");
+      // Fallback automático para Web Speech API
+      console.warn("OpenAI TTS falhou, usando Web Speech:", err.message);
+      setErro("");
+      usarWebSpeech(textoPuro);
     }
   }
 
   function togglePlay() {
-    if (!audioRef.current) return;
+    if (modoTTS === "web" && status === "playing") {
+      window.speechSynthesis.pause();
+      setStatus("paused"); return;
+    }
+    if (modoTTS === "web" && status === "paused") {
+      window.speechSynthesis.resume();
+      setStatus("playing"); return;
+    }
+    if (!audioRef.current && modoTTS !== "web") return;
     if (status === "playing") {
-      audioRef.current.pause();
+      audioRef.current?.pause();
       setStatus("paused");
     } else if (status === "paused") {
-      audioRef.current.play();
+      audioRef.current?.play();
       setStatus("playing");
     } else {
       gerar();
@@ -690,8 +730,9 @@ function AudioPlayer({ texto, lei }) {
   }
 
   function parar() {
+    window.speechSynthesis.cancel();
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
-    setStatus("idle"); setProgresso(0);
+    setStatus("idle"); setProgresso(0); setModoTTS("openai");
   }
 
   function mudarVelocidade() {
@@ -765,13 +806,18 @@ function AudioPlayer({ texto, lei }) {
 
       {/* Status / erro */}
       {status === "loading" && (
-        <p style={{ fontSize:11, color:T.cinza3 }}>⏳ Gerando áudio com OpenAI TTS…</p>
+        <p style={{ fontSize:11, color:T.cinza3 }}>⏳ Gerando áudio…</p>
+      )}
+      {status === "playing" && (
+        <p style={{ fontSize:11, color:T.verde3 }}>
+          {modoTTS === "openai" ? "🎙️ OpenAI TTS" : "🔊 Voz do dispositivo (fallback)"}
+        </p>
       )}
       {erro && (
         <p style={{ fontSize:11, color:"#FCA5A5" }}>⚠️ {erro}</p>
       )}
       {status === "idle" && !erro && (
-        <p style={{ fontSize:11, color:T.cinza3 }}>Toque ▶️ para ouvir o texto desta lei</p>
+        <p style={{ fontSize:11, color:T.cinza3 }}>▶️ Toque para ouvir — usa OpenAI TTS ou voz do dispositivo</p>
       )}
 
       {/* Audio element oculto */}
