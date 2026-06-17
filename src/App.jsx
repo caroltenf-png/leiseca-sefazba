@@ -1779,30 +1779,170 @@ function setJurisCache(key, val) {
 
 // Informativos STJ numerados mais recentes (vamos buscar por XML do RSS)
 
-// ─── BANCO DE INFORMATIVOS REAIS STJ / STF ────────────────────────────────────
-// Teses extraídas de informativos reais — atualizadas a cada versão
+// ─── BANCO DE JURISPRUDÊNCIAS TRIBUTÁRIAS — SEFAZ-BA (Jun/2026) ──────────────
+// Curado por Carolina Teixeira · 9 julgados essenciais para FGV
 const INFORMATIVOS_BASE = [
-  // ── STJ ──
-  { id:"stj001", fonte:"STJ", numero:"833", area:"Tributário",       titulo:"ICMS-ST: restituição quando BC real < BC presumida", tese:"É devida a restituição da diferença do ICMS pago a mais no regime de substituição tributária para frente se a base de cálculo efetiva da operação for inferior à presumida (RE 593.849 — repercussão geral aplicada pelo STJ).", relator:"Min. Benedito Gonçalves", data:"2024" },
-  { id:"stj002", fonte:"STJ", numero:"830", area:"Tributário",       titulo:"ISS: local de recolhimento para serviços de planos de saúde", tese:"O ISS incide no município onde está o estabelecimento prestador dos serviços de planos de saúde, e não no domicílio do tomador. Aplicação do art. 3º da LC 116/2003.", relator:"Min. Gurgel de Faria", data:"2024" },
-  { id:"stj003", fonte:"STJ", numero:"827", area:"Tributário",       titulo:"CSLL: dedutibilidade de juros sobre capital próprio", tese:"Os juros sobre capital próprio (JCP) são dedutíveis da base de cálculo da CSLL, por equiparação às despesas financeiras, nos termos do art. 9º da Lei 9.249/95.", relator:"Min. Regina Helena Costa", data:"2024" },
-  { id:"stj004", fonte:"STJ", numero:"825", area:"Tributário",       titulo:"Decadência: lançamento por homologação — prazo quinquenal", tese:"No lançamento por homologação, o prazo decadencial é de 5 anos a contar do fato gerador (art. 150, §4º CTN), salvo comprovada a ausência de declaração ou pagamento, quando aplica-se o art. 173, I do CTN.", relator:"Min. Mauro Campbell", data:"2024" },
-  { id:"stj005", fonte:"STJ", numero:"822", area:"Tributário",       titulo:"Responsabilidade tributária: sócio gerente e dissolução irregular", tese:"A dissolução irregular da sociedade autoriza o redirecionamento da execução fiscal para o sócio-gerente, independentemente de dolo, sendo suficiente a prova de que ele exercia a gerência à época do fato gerador (Súmula 435/STJ).", relator:"Min. Herman Benjamin", data:"2024" },
-  { id:"stj006", fonte:"STJ", numero:"820", area:"Tributário",       titulo:"IPTU: imunidade de entidade de assistência social", tese:"A imunidade tributária das entidades de assistência social (art. 150, VI, 'c' CF) abrange o IPTU de imóvel alugado a terceiros quando a renda é revertida às atividades finalísticas da entidade (Súmula 724/STF).", relator:"Min. Paulo Sérgio Domingues", data:"2024" },
-  { id:"stj007", fonte:"STJ", numero:"818", area:"Administrativo",   titulo:"Servidor público: acumulação de cargos — requisitos", tese:"A acumulação de dois cargos de professor é lícita (art. 37, XVI CF) independentemente da compatibilidade de horários ser aferida concretamente, não sendo possível negar a acumulação com base em presunção abstrata de incompatibilidade.", relator:"Min. Sérgio Kukina", data:"2024" },
-  { id:"stj008", fonte:"STJ", numero:"815", area:"Civil/Empresarial", titulo:"Responsabilidade civil: dano moral por negativação indevida", tese:"A negativação indevida em cadastro de inadimplentes gera dano moral in re ipsa, sendo desnecessária a comprovação do efetivo prejuízo. O valor da indenização deve ser proporcional ao grau de culpa e ao porte econômico das partes.", relator:"Min. Nancy Andrighi", data:"2024" },
-  { id:"stj009", fonte:"STJ", numero:"812", area:"Tributário",       titulo:"PIS/COFINS: exclusão do ICMS da base de cálculo", tese:"O ICMS destacado na nota fiscal não compõe a base de cálculo do PIS e da COFINS. Tese firmada pelo STF no RE 574.706 (Tema 69), de observância obrigatória pelo STJ.", relator:"Min. Gurgel de Faria", data:"2023" },
-  { id:"stj010", fonte:"STJ", numero:"810", area:"Tributário",       titulo:"ITD: progressividade de alíquotas — constitucionalidade", tese:"É constitucional a progressividade das alíquotas do ITCMD (ITD) em razão do valor do quinhão, do legado ou da doação, conforme RE 562.045 (Tema 21 STF — repercussão geral).", relator:"Min. Benedito Gonçalves", data:"2023" },
-  // ── STF ──
-  { id:"stf001", fonte:"STF", numero:"1166", area:"Tributário",      titulo:"Reforma Tributária: ICMS — transição para IBS (EC 132/23)", tese:"A EC 132/2023 extingue o ICMS paulatinamente até 2032, substituindo-o pelo IBS (Imposto sobre Bens e Serviços). As alíquotas de referência serão fixadas por lei complementar pelo Comitê Gestor do IBS.", relator:"Min. Alexandre de Moraes", data:"2024" },
-  { id:"stf002", fonte:"STF", numero:"1164", area:"Tributário",      titulo:"DIFAL/ICMS: constitucionalidade da LC 190/22", tese:"A LC 190/2022, que regulamentou a cobrança do DIFAL do ICMS em operações destinadas a consumidores finais não contribuintes, aplica-se a partir de 2022, respeitando a anterioridade anual.", relator:"Min. Dias Toffoli", data:"2024" },
-  { id:"stf003", fonte:"STF", numero:"1162", area:"Tributário",      titulo:"Imunidade tributária: entidades fechadas de previdência — IPTU", tese:"As entidades fechadas de previdência complementar sem fins lucrativos gozam de imunidade tributária do IPTU relativamente aos imóveis vinculados às suas atividades essenciais (art. 150, VI, 'c' CF).", relator:"Min. Luiz Fux", data:"2024" },
-  { id:"stf004", fonte:"STF", numero:"1160", area:"Tributário",      titulo:"ITBI: fato gerador — transmissão efetiva da propriedade", tese:"O ITBI não incide sobre a transmissão de bens imóveis quando realizada em integralização de capital social, nos limites do valor do capital integralizado (art. 156, §2º, I CF). Tema 796 — repercussão geral.", relator:"Min. Alexandre de Moraes", data:"2024" },
-  { id:"stf005", fonte:"STF", numero:"1158", area:"Administrativo",  titulo:"Nepotismo: nomeação de cônjuge para cargo comissionado", tese:"A nomeação de cônjuge, companheiro ou parente até o 3º grau para cargo em comissão ou função de confiança no âmbito dos Poderes configura nepotismo e viola a Súmula Vinculante 13, ainda que haja lei autorizativa local.", relator:"Min. Rosa Weber", data:"2023" },
-  { id:"stf006", fonte:"STF", numero:"1155", area:"Tributário",      titulo:"IPVA: incidência sobre aeronaves e embarcações", tese:"É constitucional a incidência do IPVA sobre aeronaves e embarcações, por se enquadrarem no conceito de veículos automotores. Cabe aos Estados legislar sobre o tema (Temas 708 e 1355 STF).", relator:"Min. Edson Fachin", data:"2023" },
-  { id:"stf007", fonte:"STF", numero:"1152", area:"Tributário",      titulo:"Simples Nacional: vedação de benefício fiscal estadual a optante", tese:"É inconstitucional lei estadual que veda a concessão de benefícios fiscais de ICMS a contribuintes optantes pelo Simples Nacional, por violar o art. 146, III CF e a LC 123/2006.", relator:"Min. Roberto Barroso", data:"2023" },
-  { id:"stf008", fonte:"STF", numero:"1150", area:"Tributário",      titulo:"Contribuição previdenciária: base de cálculo — terço de férias", tese:"Não incide contribuição previdenciária patronal sobre o terço constitucional de férias, por ter natureza indenizatória e não se incorporar à remuneração do servidor para fins de aposentadoria (Tema 985 — repercussão geral).", relator:"Min. Marco Aurélio", data:"2023" },
+  {
+    id:"adc49", fonte:"STF", numero:"ADC 49 · Tema 1.099", area:"Tributário",
+    titulo:"Transferência entre Filiais — Sem ICMS",
+    tier:"1",
+    tese:"O ICMS não incide nas transferências de mercadorias entre estabelecimentos do mesmo contribuinte (filiais), mesmo interestaduais. O art. 12, I, da LC 87/96 (trecho 'ainda que para outro estabelecimento do mesmo titular') foi declarado inconstitucional. Efeitos a partir de 01/01/2024.",
+    modulacao:"Prospectiva — efeitos a partir de 01/01/2024. Ressalva: processos pendentes até 29/04/2021.",
+    pegadinhas:[
+      "A modulação NÃO autorizou estados a cobrarem retroativamente. Autuações pré-2024 sem processo pendente foram anuladas (Tema 1.367, set/2025).",
+      "Mesmo sem ICMS, o crédito das operações anteriores é MANTIDO e transferido obrigatoriamente ao destinatário (LC 204/2023 + Conv. 178/2023).",
+      "Bahia: Lei 14.790/2024 regulamentou a transferência de créditos no âmbito estadual."
+    ],
+    mnemonico:"FATO = FICÇÃO → SEM ICMS. Transferência entre filiais = fato físico, mas ficção jurídica de circulação. Sem circulação jurídica, sem ICMS. Mas há crédito!",
+    relator:"Min. Edson Fachin", data:"2021/2023",
+    questoes:[
+      {
+        enunciado:"A empresa Nordeste Distribuidora LTDA, com sede na Bahia e filial no Ceará, transferiu, em março de 2024, mercadorias de seu estoque baiano para a filial cearense. O Estado do Ceará, ao receber as mercadorias, exigiu o estorno dos créditos de ICMS. Assinale a alternativa correta:",
+        alternativas:{
+          A:"O ICMS incide normalmente sobre a transferência, pois o art. 12, I, da LC 87/96 permanece vigente.",
+          B:"O ICMS incide sobre a transferência apenas se o valor da mercadoria for superior a R$ 10.000,00.",
+          C:"O ICMS não incide sobre a transferência a partir de 2024, sendo garantida a manutenção e transferência dos créditos ao estabelecimento destinatário.",
+          D:"O ICMS não incide, mas os créditos da operação anterior devem ser estornados, pois não há operação tributada subsequente.",
+          E:"A modulação de efeitos da ADC 49 permite que o Estado do Ceará cobre retroativamente o ICMS de 2022 e 2023."
+        },
+        gabarito:"C",
+        explicacao:"C é correta: desde 01/01/2024, o ICMS não incide e o crédito é obrigatoriamente transferido ao destinatário (LC 204/2023). A: art. 12, I foi declarado inconstitucional. B: não há limite por valor. D: o crédito é mantido pela não-cumulatividade. E: Tema 1.367 vedou cobrança retroativa.",
+        dificuldade:"Difícil"
+      }
+    ]
+  },
+  {
+    id:"tema69", fonte:"STF", numero:"Tema 69 · RE 574.706", area:"Tributário",
+    titulo:"ICMS Fora da Base do PIS/COFINS",
+    tier:"1",
+    tese:"O ICMS não compõe a base de cálculo para a incidência do PIS e da COFINS. O ICMS excluído é o DESTACADO NA NOTA FISCAL (não o recolhido). Efeitos a partir de 15/03/2017.",
+    modulacao:"Efeitos a partir de 15/03/2017. Ressalvadas ações judiciais e administrativas protocoladas até essa data.",
+    pegadinhas:[
+      "O ICMS excluído é o DESTACADO na NF, não o RECOLHIDO ao estado. Diferença pode ser significativa.",
+      "A tese NÃO se aplica retroativamente — marco temporal: 15/03/2017.",
+      "ICMS-ST na base do PIS/COFINS é tema INFRACONSTITUCIONAL (Tema 1.098 STF) — quem decide é o STJ."
+    ],
+    mnemonico:"ICMS = PASSAGEM, NÃO PATRIMÔNIO. Regra prática: 'Nota exclui, cheque não.' Exclui o que está na nota (destacado), não o que foi para o estado (recolhido).",
+    relator:"Min. Cármen Lúcia", data:"2017",
+    questoes:[
+      {
+        enunciado:"Com base no entendimento fixado pelo STF no julgamento do RE 574.706 (Tema 69), é correto afirmar que:",
+        alternativas:{
+          A:"O ICMS recolhido ao Estado deve ser excluído da base de cálculo do PIS e da COFINS.",
+          B:"O ICMS destacado na nota fiscal não integra a base de cálculo do PIS e da COFINS, com efeitos a partir de 15/03/2017.",
+          C:"O ICMS-ST pode ser excluído da base do PIS/COFINS diretamente com base no Tema 69, por decisão constitucional do STF.",
+          D:"A tese do Tema 69 se aplica retroativamente a todos os fatos geradores, sem modulação de efeitos.",
+          E:"O ISS também incide sobre a base do PIS/COFINS, pois o Tema 69 é restrito ao ICMS."
+        },
+        gabarito:"B",
+        explicacao:"B é correta: tese exata do RE 574.706 com modulação temporal. A: pegadinha principal — exclui o DESTACADO, não o RECOLHIDO. C: Tema 1.098 definiu que ICMS-ST é infraconstitucional — quem decide é o STJ. D: há modulação (marco: 15/03/2017). E: ISS também é excluído (Tema 118, RE 592.616).",
+        dificuldade:"Médio"
+      }
+    ]
+  },
+  {
+    id:"sumula166", fonte:"STJ", numero:"Súmula 166 STJ · Tema 259", area:"Tributário",
+    titulo:"Transferência entre Filiais — Antecedente Histórico",
+    tier:"2",
+    tese:"Não constitui fato gerador do ICMS o simples deslocamento de mercadoria de um para outro estabelecimento do mesmo contribuinte.",
+    modulacao:"Sem modulação — eficácia infraconstitucional. Precede a ADC 49.",
+    pegadinhas:[
+      "A Súmula 166 STJ (1996) antecipou a ADC 49 no âmbito infraconstitucional. A diferença é que tinha eficácia inter partes até o STF pacificar constitucionalmente.",
+      "Hoje coexistem: Súmula 166 (STJ, infraconstitucional) + ADC 49 (STF, constitucional). A FGV pode cobrar a relação cronológica e hierárquica."
+    ],
+    mnemonico:"Súmula 166 = avô da ADC 49. Mesma ideia, geração mais antiga, menor força.",
+    relator:"STJ", data:"1996",
+    questoes:[]
+  },
+  {
+    id:"re593", fonte:"STF", numero:"RE 593.849 · Tema 201", area:"Tributário",
+    titulo:"Restituição do ICMS-ST quando BC Real < BC Presumida",
+    tier:"2",
+    tese:"É devida a restituição da diferença do ICMS pago a mais no regime de substituição tributária para a frente se a base de cálculo efetiva da operação for inferior à presumida.",
+    modulacao:"Sem modulação. Revisão da teoria da definitividade.",
+    pegadinhas:[
+      "Antes do RE 593.849: ICMS-ST era definitivo (teoria da definitividade). A corte reverteu.",
+      "O direito à restituição é do SUBSTITUÍDO (varejista que vendeu abaixo do presumido), não do substituto.",
+      "Se a operação real foi por valor SUPERIOR ao presumido → estado pode cobrar complementação."
+    ],
+    mnemonico:"BC real < BC presumida = restituição ao substituído. BC real > BC presumida = complementação ao estado.",
+    relator:"Min. Edson Fachin", data:"2016",
+    questoes:[]
+  },
+  {
+    id:"tema745", fonte:"STF", numero:"Tema 745 · RE 851.421", area:"Tributário",
+    titulo:"Guerra Fiscal — Benefícios Unilaterais de ICMS",
+    tier:"2",
+    tese:"É vedada a concessão unilateral de benefícios fiscais de ICMS sem convênio CONFAZ. Benefício concedido sem convênio é inconstitucional e o estado destinatário pode glosar os créditos correspondentes.",
+    modulacao:"Modulação: concessão de prazo para estados regularizarem benefícios mediante convênio.",
+    pegadinhas:[
+      "Relevante para a Bahia: pode glosar créditos de ICMS oriundos de benefícios ilegítimos concedidos por outros estados.",
+      "Reforma Tributária (EC 132/23) cria mecanismo de compensação para evitar litígios de guerra fiscal no IBS."
+    ],
+    mnemonico:"Sem CONFAZ = sem validade. Benefício de ICMS unilateral = inconstitucional = crédito glosável.",
+    relator:"STF Pleno", data:"2021",
+    questoes:[]
+  },
+  {
+    id:"imunidades", fonte:"STF", numero:"Súmulas 657 · 724 · 730 + RE 330.817", area:"Tributário",
+    titulo:"Imunidades Tributárias — Limites e Extensões",
+    tier:"2",
+    tese:"STF 657: imunidade cultural abrange filmes e papéis fotográficos para jornais. STF 724: imunidade de entidade do art. 150, VI, c permanece com imóvel alugado se renda reverte à atividade-fim. STF 730: entidade fechada de previdência só tem imunidade se não houver contribuição dos beneficiários. RE 330.817 (Tema 593): imunidade de livros abrange e-books.",
+    modulacao:"Sem modulação.",
+    pegadinhas:[
+      "Imunidade de livros (art. 150, VI, d) abrange e-books — critério é o CONTEÚDO, não o suporte físico.",
+      "Fundos de pensão COM contribuição dos participantes NÃO têm imunidade (Súmula 730).",
+      "Imunidade de templos abrange estacionamento voltado à atividade religiosa (RE 694.453).",
+      "NUNCA confunda: imunidade (constitucional) ≠ isenção (legal) ≠ não incidência."
+    ],
+    mnemonico:"PARTE = Patrimônio recíproco + Autarquias + Religiosos + Terceiro setor + Educação/Livros.",
+    relator:"STF", data:"Diversas datas",
+    questoes:[]
+  },
+  {
+    id:"lc204", fonte:"STF", numero:"LC 204/2023 · Conv. 178/2023", area:"Tributário",
+    titulo:"Implementação Legislativa da ADC 49",
+    tier:"2",
+    tese:"A LC 204/2023 e o Convênio ICMS 178/2023 implementaram a ADC 49 na legislação infraconstitucional. Transferência de crédito ao destinatário é obrigatória nas operações interestaduais entre estabelecimentos do mesmo titular.",
+    modulacao:"Vigência: fevereiro/2024.",
+    pegadinhas:[
+      "A transferência de crédito é OBRIGATÓRIA ao destinatário — não é faculdade.",
+      "Bahia editou Lei 14.790/2024 para regulamentar no âmbito estadual."
+    ],
+    mnemonico:"ADC 49 = tese constitucional. LC 204/2023 = implementação legal. Lei 14.790/2024-BA = regulamentação estadual.",
+    relator:"Legislativo Federal", data:"2023",
+    questoes:[]
+  },
+  {
+    id:"tema1367", fonte:"STF", numero:"Tema 1.367 · ADC 49-ED", area:"Tributário",
+    titulo:"Modulação ADC 49 — Vedação de Cobrança Retroativa",
+    tier:"1",
+    tese:"A modulação prospectiva da ADC 49 (efeitos a partir de 01/01/2024) NÃO autorizou os estados a cobrarem ICMS retroativamente sobre fatos geradores pré-2024. Autuações sobre operações de 2022-2023 sem processo pendente até 29/04/2021 foram anuladas.",
+    modulacao:"Julgado em setembro/2025.",
+    pegadinhas:[
+      "Pegadinha clássica: modulação prospectiva ≠ autorização de cobrança retroativa pelos estados.",
+      "Processos pendentes até 29/04/2021 são ressalvados."
+    ],
+    mnemonico:"Modulação PROSPECTIVA = apenas para o futuro. Não vira autorização retroativa para os estados.",
+    relator:"Min. Edson Fachin", data:"2025",
+    questoes:[]
+  },
+  {
+    id:"re330817", fonte:"STF", numero:"RE 330.817 · Tema 593", area:"Tributário",
+    titulo:"Imunidade de Livros — E-books e Suportes Digitais",
+    tier:"2",
+    tese:"A imunidade tributária de livros, jornais, periódicos e papel (CF/88, art. 150, VI, d) abrange os livros eletrônicos (e-books) e os suportes exclusivamente utilizados para fixá-los. O critério é o CONTEÚDO veiculado, não o suporte físico.",
+    modulacao:"Sem modulação.",
+    pegadinhas:[
+      "E-book SIM. Impressora de e-books NÃO — o suporte deve ser exclusivamente destinado ao livro.",
+      "Audiolivro: tema pendente — FGV pode cobrar como questão aberta."
+    ],
+    mnemonico:"Imunidade segue o CONTEÚDO, não o suporte. E-book = livro digital = imune.",
+    relator:"Min. Dias Toffoli", data:"2017",
+    questoes:[]
+  },
 ];
+
 
 async function buscarInformativosSTJ() {
   // Retorna informativos do banco local (STJ)
@@ -1864,6 +2004,22 @@ function TelaJuris({ isMobile, online, leiAtiva, stats, setStats }) {
     if (cachedSupa?.resumo_ia) {
       setComentario(cachedSupa.resumo_ia);
       setSaved(s => ({ ...s, [cacheKey]: cachedSupa.resumo_ia }));
+      return;
+    }
+
+    // Comentário local imediato com tese + pegadinhas + mnemônico (sem precisar de IA)
+    const comentarioLocal = [
+      item.tese ? `📌 **TESE:**\n${item.tese}` : "",
+      item.modulacao ? `⏰ **MODULAÇÃO:**\n${item.modulacao}` : "",
+      item.pegadinhas?.length ? `🚨 **PEGADINHAS FGV:**\n${item.pegadinhas.map((p,i) => `${i+1}. ${p}`).join("\n")}` : "",
+      item.mnemonico ? `🧠 **MNEMÔNICO:**\n${item.mnemonico}` : "",
+    ].filter(Boolean).join("\n\n");
+
+    if (comentarioLocal) {
+      setComentario(comentarioLocal);
+      setSaved(s => ({ ...s, [cacheKey]: comentarioLocal }));
+      await saveCacheJuris(item, comentarioLocal, null, null);
+      setGerando(false);
       return;
     }
 
@@ -1989,16 +2145,22 @@ Resumo disponível: ${item.resumo}`;
                   <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:10, marginBottom:8 }}>
                     <div style={{ flex:1 }}>
                       <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:6, flexWrap:"wrap" }}>
-                        <Badge color={item.fonte==="STJ"?"verde":"cinza"} style={{ fontSize:10 }}>{item.fonte} {item.numero}</Badge>
-                        <Badge color={
-                          item.area==="Tributário"?"amarelo":
-                          item.area==="Administrativo"?"roxo":"cinza"
-                        } style={{ fontSize:10 }}>{item.area}</Badge>
-                        {temComent && <Badge color="verde" style={{ fontSize:10 }}>✅ comentado</Badge>}
-                        <span style={{ fontSize:10, color:T.cinza3 }}>{item.data}</span>
+                        <span style={{ fontSize:10, fontWeight:700, padding:"2px 8px", borderRadius:99,
+                          background: item.fonte==="STJ"?"rgba(0,107,63,0.15)":"rgba(139,167,191,0.1)",
+                          border: `1px solid ${item.fonte==="STJ"?"rgba(0,107,63,0.4)":"rgba(139,167,191,0.2)"}`,
+                          color: item.fonte==="STJ"?T.verde3:T.cinza3
+                        }}>{item.fonte}</span>
+                        <span style={{ fontSize:10, fontWeight:700, padding:"2px 8px", borderRadius:99,
+                          background: item.tier==="1"?"rgba(229,62,62,0.1)":item.tier==="2"?"rgba(249,194,49,0.08)":"rgba(139,167,191,0.08)",
+                          border: `1px solid ${item.tier==="1"?"rgba(229,62,62,0.3)":item.tier==="2"?"rgba(249,194,49,0.25)":"rgba(139,167,191,0.2)"}`,
+                          color: item.tier==="1"?"#FCA5A5":item.tier==="2"?T.amarelo:T.cinza3
+                        }}>{item.tier==="1"?"🔴 Obrigatório":item.tier==="2"?"🟡 Alta prob.":"⚪ Complementar"}</span>
+                        {temComent && <span style={{ fontSize:10, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.3)", color:T.verde3 }}>✅ comentado</span>}
+                        {item.questoes?.length > 0 && <span style={{ fontSize:10, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"rgba(159,122,234,0.1)", border:"1px solid rgba(159,122,234,0.25)", color:"#C084FC" }}>📝 {item.questoes.length} questão</span>}
                       </div>
-                      <div style={{ fontSize:13, fontWeight:700, color:"#fff", lineHeight:1.4, marginBottom:6 }}>{item.titulo}</div>
-                      <div style={{ fontSize:11, color:T.cinza3, lineHeight:1.6 }}>{item.tese?.slice(0,120)}…</div>
+                      <div style={{ fontSize:13, fontWeight:700, color:"#fff", lineHeight:1.4, marginBottom:4 }}>{item.titulo}</div>
+                      <div style={{ fontSize:10, color:T.cinza3, marginBottom:6, fontFamily:"monospace" }}>{item.numero} · {item.relator} · {item.data}</div>
+                      <div style={{ fontSize:11, color:T.cinza3, lineHeight:1.6 }}>{item.tese?.slice(0,130)}…</div>
                     </div>
                   </div>
                   {item.resumo && (
