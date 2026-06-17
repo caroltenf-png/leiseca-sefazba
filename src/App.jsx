@@ -521,6 +521,174 @@ export default function App() {
 // ═══════════════════════════════════════════════════════════════════════════
 // TELA: ACERVO
 // ═══════════════════════════════════════════════════════════════════════════
+
+// ─── COMPONENTE: AUDIO PLAYER ESTILO SPEECHIFY ───────────────────────────────
+function AudioPlayer({ texto, lei }) {
+  const [status, setStatus]     = useState("idle"); // idle | loading | playing | paused
+  const [velocidade, setVel]    = useState(1.0);
+  const [voz, setVoz]           = useState("nova");
+  const [progresso, setProgresso] = useState(0);
+  const [erro, setErro]         = useState("");
+  const audioRef                = useRef(null);
+  const urlRef                  = useRef(null);
+
+  // Limpa URL do audio ao desmontar
+  useEffect(() => () => { if (urlRef.current) URL.revokeObjectURL(urlRef.current); }, []);
+
+  // Extrai texto puro do HTML
+  function extrairTexto(html) {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.innerText || div.textContent || "";
+  }
+
+  async function gerar() {
+    if (!texto) return;
+    setStatus("loading"); setErro("");
+    if (urlRef.current) URL.revokeObjectURL(urlRef.current);
+
+    const textoPuro = extrairTexto(texto).slice(0, 4000);
+
+    try {
+      const resp = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto: textoPuro, voz, velocidade }),
+        signal: AbortSignal.timeout(40000),
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json();
+        throw new Error(err.error || "Erro ao gerar áudio");
+      }
+
+      const blob = await resp.blob();
+      const url  = URL.createObjectURL(blob);
+      urlRef.current = url;
+
+      if (audioRef.current) {
+        audioRef.current.src = url;
+        audioRef.current.playbackRate = velocidade;
+        await audioRef.current.play();
+        setStatus("playing");
+      }
+    } catch(err) {
+      setErro(err.message);
+      setStatus("idle");
+    }
+  }
+
+  function togglePlay() {
+    if (!audioRef.current) return;
+    if (status === "playing") {
+      audioRef.current.pause();
+      setStatus("paused");
+    } else if (status === "paused") {
+      audioRef.current.play();
+      setStatus("playing");
+    } else {
+      gerar();
+    }
+  }
+
+  function parar() {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    setStatus("idle"); setProgresso(0);
+  }
+
+  function mudarVelocidade() {
+    const opcoes = [0.75, 1.0, 1.25, 1.5, 2.0];
+    const idx = opcoes.indexOf(velocidade);
+    const nova = opcoes[(idx + 1) % opcoes.length];
+    setVel(nova);
+    if (audioRef.current) audioRef.current.playbackRate = nova;
+  }
+
+  const vozes = [
+    { id:"nova",    label:"Nova (feminina)" },
+    { id:"alloy",   label:"Alloy (neutra)"  },
+    { id:"shimmer", label:"Shimmer (suave)" },
+    { id:"onyx",    label:"Onyx (grave)"    },
+  ];
+
+  return (
+    <div style={{
+      background:"rgba(0,107,63,0.08)", border:"1px solid rgba(0,107,63,0.25)",
+      borderRadius:13, padding:"12px 14px", marginBottom:12
+    }}>
+      {/* Título */}
+      <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:10 }}>
+        🎧 Leitura em Áudio
+      </div>
+
+      {/* Barra de progresso */}
+      {(status === "playing" || status === "paused") && (
+        <div style={{ background:T.fundo2, borderRadius:99, height:4, marginBottom:10, overflow:"hidden" }}>
+          <div style={{ height:"100%", width:`${progresso}%`, background:`linear-gradient(90deg,${T.verde},${T.verde2})`, borderRadius:99, transition:"width .5s" }} />
+        </div>
+      )}
+
+      {/* Controles principais */}
+      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
+        {/* Play/Pause */}
+        <button onClick={togglePlay} disabled={status==="loading"} style={{
+          width:44, height:44, borderRadius:"50%",
+          background: status==="loading" ? T.fundo2 : `linear-gradient(135deg,${T.verde},${T.verde2})`,
+          border:"none", color:"#fff", fontSize:18, cursor: status==="loading"?"wait":"pointer",
+          display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
+          boxShadow:`0 4px 14px rgba(0,107,63,0.3)`
+        }}>
+          {status==="loading" ? "⏳" : status==="playing" ? "⏸" : "▶️"}
+        </button>
+
+        {/* Stop */}
+        {(status==="playing"||status==="paused") && (
+          <button onClick={parar} style={{
+            width:36, height:36, borderRadius:"50%", background:T.fundo2,
+            border:`1px solid ${T.borda2}`, color:T.cinza3, fontSize:14, cursor:"pointer",
+            display:"flex", alignItems:"center", justifyContent:"center"
+          }}>⏹</button>
+        )}
+
+        {/* Velocidade */}
+        <button onClick={mudarVelocidade} style={{
+          padding:"6px 10px", borderRadius:7, background:T.fundo2,
+          border:`1px solid ${T.borda2}`, color:T.amarelo, fontSize:12, fontWeight:700, cursor:"pointer"
+        }}>{velocidade}x</button>
+
+        {/* Seletor de voz */}
+        <select value={voz} onChange={e=>setVoz(e.target.value)} disabled={status==="playing"||status==="loading"} style={{
+          flex:1, padding:"6px 8px", borderRadius:7, background:T.fundo2,
+          border:`1px solid ${T.borda2}`, color:T.branco, fontSize:11, cursor:"pointer"
+        }}>
+          {vozes.map(v => <option key={v.id} value={v.id}>{v.label}</option>)}
+        </select>
+      </div>
+
+      {/* Status / erro */}
+      {status === "loading" && (
+        <p style={{ fontSize:11, color:T.cinza3 }}>⏳ Gerando áudio com OpenAI TTS…</p>
+      )}
+      {erro && (
+        <p style={{ fontSize:11, color:"#FCA5A5" }}>⚠️ {erro}</p>
+      )}
+      {status === "idle" && !erro && (
+        <p style={{ fontSize:11, color:T.cinza3 }}>Toque ▶️ para ouvir o texto desta lei</p>
+      )}
+
+      {/* Audio element oculto */}
+      <audio ref={audioRef} style={{ display:"none" }}
+        onTimeUpdate={e => {
+          const el = e.target;
+          if (el.duration) setProgresso(Math.round(el.currentTime/el.duration*100));
+        }}
+        onEnded={() => { setStatus("idle"); setProgresso(0); }}
+        onError={() => { setErro("Erro ao reproduzir áudio"); setStatus("idle"); }}
+      />
+    </div>
+  );
+}
+
 function TelaAcervo({ leis, areas, onAbrir, marcacoes, isMobile, online }) {
   const [busca, setBusca]           = useState("");
   const [area, setArea]             = useState("Todas");
@@ -725,7 +893,8 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
       <div style={{ flex:1,display:"flex",overflow:"hidden",flexDirection:isMobile?"column":"row" }}>
         {/* Texto */}
         <div style={{ flex:1,overflow:"auto",padding:isMobile?"14px 14px":"24px 28px" }}>
-          {carregando ? <Spinner label={`Carregando ${lei.nome} via IA…`} /> : (
+          <AudioPlayer texto={texto} lei={lei} />
+          {carregando ? <Spinner label={`Carregando ${lei.nome}…`} /> : (
             <div style={{ fontSize:13,lineHeight:2,color:T.branco }} dangerouslySetInnerHTML={{ __html:texto||`<p style="color:${T.cinza3}">Nenhum conteúdo carregado.</p>` }} />
           )}
         </div>
