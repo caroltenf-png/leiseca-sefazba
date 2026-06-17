@@ -290,6 +290,7 @@ const LEIS = [
   { id:"lei9784",   nome:"Lei 9.784/99 — Processo Administrativo",     area:"Administrativo",     emoji:"📋", prioridade:3, destaque:"Princípios, prazos, recursos, contraditório",            url:"https://www.planalto.gov.br/ccivil_03/leis/l9784.htm" },
   { id:"lc116",     nome:"LC 116/03 — ISS",                            area:"Tributário",         emoji:"🏙️", prioridade:2, destaque:"Lista de serviços, base de cálculo, local de recolhimento", url:"https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm" },
   { id:"lc123",     nome:"LC 123/06 — Simples Nacional",               area:"Tributário",         emoji:"🏪", prioridade:2, destaque:"Regime unificado MEI/ME/EPP, exclusão, fiscalização",    url:"https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm" },
+  { id:"lc200", nome:"LC 200/23 — Gestão Fiscal Responsável", area:"Financeiro", emoji:"💼", prioridade:2, destaque:"Normas gerais de gestão fiscal — altera LRF, resultado fiscal, regra de ouro", url:"https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp200.htm" },
   { id:"lef",       nome:"Lei 6.830/80 — Execução Fiscal",             area:"Tributário",         emoji:"⚖️", prioridade:2, destaque:"CDA, penhora, embargos à execução fiscal",              url:"https://www.planalto.gov.br/ccivil_03/leis/l6830.htm" },
   { id:"crimes",    nome:"Lei 8.137/90 — Crimes Tributários",          area:"Penal Tributário",   emoji:"🚨", prioridade:2, destaque:"Sonegação fiscal, fraude, cumplicidade",                 url:"https://www.planalto.gov.br/ccivil_03/leis/l8137.htm" },
   { id:"lei8429",   nome:"Lei 8.429/92 — Improbidade Administrativa",  area:"Administrativo",     emoji:"🔍", prioridade:2, destaque:"Enriquecimento ilícito, dano ao erário",                 url:"https://www.planalto.gov.br/ccivil_03/leis/l8429.htm" },
@@ -321,25 +322,64 @@ const AREAS = [
 
 const TEXTOS_EMBUTIDOS = {
 
-"cf88_trib": `<h2>CONSTITUIÇÃO FEDERAL DE 1988</h2>
-<p><em>Artigos essenciais para concursos fiscais — SEFAZ-BA 2026</em></p>
+"cf88_trib": `<h2>CONSTITUIÇÃO FEDERAL DE 1988 — TEXTO COMPLETO (Seleção Concurso Fiscal)</h2>
+<p><em>Artigos essenciais para SEFAZ-BA 2026 — FGV</em></p>
+
+<h2>TÍTULO I — DOS PRINCÍPIOS FUNDAMENTAIS</h2>
+<p><strong>Art. 1º</strong> A República Federativa do Brasil, formada pela união indissolúvel dos Estados e Municípios e do Distrito Federal, constitui-se em Estado Democrático de Direito e tem como fundamentos: I — a soberania; II — a cidadania; III — a dignidade da pessoa humana; IV — os valores sociais do trabalho e da livre iniciativa; V — o pluralismo político.<br>Parágrafo único. Todo o poder emana do povo, que o exerce por meio de representantes eleitos ou diretamente, nos termos desta Constituição.</p>
+<p><strong>Art. 3º</strong> Constituem objetivos fundamentais da República Federativa do Brasil: I — construir uma sociedade livre, justa e solidária; II — garantir o desenvolvimento nacional; III — erradicar a pobreza e a marginalização e reduzir as desigualdades sociais e regionais; IV — promover o bem de todos, sem preconceitos de origem, raça, sexo, cor, idade e quaisquer outras formas de discriminação.</p>
 
 <h2>TÍTULO II — DOS DIREITOS E GARANTIAS FUNDAMENTAIS</h2>
-
 <p><strong>Art. 5º</strong> Todos são iguais perante a lei, sem distinção de qualquer natureza, garantindo-se aos brasileiros e aos estrangeiros residentes no País a inviolabilidade do direito à vida, à liberdade, à igualdade, à segurança e à propriedade, nos termos seguintes:<br>
+I — homens e mulheres são iguais em direitos e obrigações, nos termos desta Constituição;<br>
 II — ninguém será obrigado a fazer ou deixar de fazer alguma coisa senão em virtude de lei;<br>
+X — são invioláveis a intimidade, a vida privada, a honra e a imagem das pessoas, assegurado o direito a indenização pelo dano material ou moral decorrente de sua violação;<br>
+XXII — é garantido o direito de propriedade;<br>
+XXIII — a propriedade atenderá a sua função social;<br>
 XXXIV — são a todos assegurados, independentemente do pagamento de taxas: a) o direito de petição aos Poderes Públicos em defesa de direitos ou contra ilegalidade ou abuso de poder; b) a obtenção de certidões em repartições públicas, para defesa de direitos e esclarecimento de situações de interesse pessoal;<br>
 XXXV — a lei não excluirá da apreciação do Poder Judiciário lesão ou ameaça a direito;<br>
+XXXVI — a lei não prejudicará o direito adquirido, o ato jurídico perfeito e a coisa julgada;<br>
+XXXVII — não haverá juízo ou tribunal de exceção;<br>
+XXXIX — não há crime sem lei anterior que o defina, nem pena sem prévia cominação legal;<br>
+XL — a lei penal não retroagirá, salvo para beneficiar o réu;<br>
+XLVI — a lei regulará a individualização da pena;<br>
+LIV — ninguém será privado da liberdade ou de seus bens sem o devido processo legal;<br>
+LV — aos litigantes, em processo judicial ou administrativo, e aos acusados em geral são assegurados o contraditório e ampla defesa, com os meios e recursos a ela inerentes;<br>
 LXIX — conceder-se-á mandado de segurança para proteger direito líquido e certo, não amparado por habeas corpus ou habeas data, quando o responsável pela ilegalidade ou abuso de poder for autoridade pública ou agente de pessoa jurídica no exercício de atribuições do Poder Público;<br>
-LXXIII — qualquer cidadão é parte legítima para propor ação popular que vise a anular ato lesivo ao patrimônio público ou de entidade de que o Estado participe, à moralidade administrativa, ao meio ambiente e ao patrimônio histórico e cultural, ficando o autor, salvo comprovada má-fé, isento de custas judiciais e do ônus da sucumbência.</p>
+LXXI — conceder-se-á mandado de injunção sempre que a falta de norma regulamentadora torne inviável o exercício dos direitos e liberdades constitucionais e das prerrogativas inerentes à nacionalidade, à soberania e à cidadania;<br>
+LXXII — conceder-se-á habeas data: a) para assegurar o conhecimento de informações relativas à pessoa do impetrante, constantes de registros ou bancos de dados de entidades governamentais ou de caráter público; b) para a retificação de dados, quando não se prefira fazê-lo por processo sigiloso, judicial ou administrativo;<br>
+LXXIII — qualquer cidadão é parte legítima para propor ação popular que vise a anular ato lesivo ao patrimônio público ou de entidade de que o Estado participe, à moralidade administrativa, ao meio ambiente e ao patrimônio histórico e cultural;<br>
+LXXVIII — a todos, no âmbito judicial e administrativo, são assegurados a razoável duração do processo e os meios que garantam a celeridade de sua tramitação.</p>
 
 <h2>TÍTULO III — DA ORGANIZAÇÃO DO ESTADO</h2>
 <h2>Seção III — Da Administração Pública</h2>
-
 <p><strong>Art. 37.</strong> A administração pública direta e indireta de qualquer dos Poderes da União, dos Estados, do Distrito Federal e dos Municípios obedecerá aos princípios de legalidade, impessoalidade, moralidade, publicidade e eficiência e, também, ao seguinte:<br>
 I — os cargos, empregos e funções públicas são acessíveis aos brasileiros que preencham os requisitos estabelecidos em lei, assim como aos estrangeiros, na forma da lei;<br>
-II — a investidura em cargo ou emprego público depende de aprovação prévia em concurso público de provas ou de provas e títulos, de acordo com a natureza e a complexidade do cargo ou emprego, na forma prevista em lei, ressalvadas as nomeações para cargo em comissão declarado em lei de livre nomeação e exoneração;<br>
-XVI — é vedada a acumulação remunerada de cargos públicos, exceto, quando houver compatibilidade de horários, observado em qualquer caso o disposto no inciso XI: a) a de dois cargos de professor; b) a de um cargo de professor com outro técnico ou científico; c) a de dois cargos ou empregos privativos de profissionais de saúde, com profissões regulamentadas.</p>
+II — a investidura em cargo ou emprego público depende de aprovação prévia em concurso público de provas ou de provas e títulos;<br>
+III — o prazo de validade do concurso público será de até dois anos, prorrogável uma vez, por igual período;<br>
+IV — durante o prazo improrrogável previsto no edital de convocação, aquele aprovado em concurso público de provas ou de provas e títulos será convocado com prioridade sobre novos concursados para assumir cargo ou emprego;<br>
+VI — é garantido ao servidor público civil o direito à livre associação sindical;<br>
+VII — o direito de greve será exercido nos termos e nos limites definidos em lei específica;<br>
+IX — a lei estabelecerá os casos de contratação por tempo determinado para atender a necessidade temporária de excepcional interesse público;<br>
+XI — a remuneração e o subsídio dos ocupantes de cargos, funções e empregos públicos da administração direta, autárquica e fundacional não poderão exceder o subsídio mensal, em espécie, dos Ministros do Supremo Tribunal Federal (teto remuneratório);<br>
+XIII — é vedada a vinculação ou equiparação de quaisquer espécies remuneratórias para o efeito de remuneração de pessoal do serviço público;<br>
+XIV — os acréscimos pecuniários percebidos por servidor público não serão computados nem acumulados para fins de concessão de acréscimos ulteriores;<br>
+XVI — é vedada a acumulação remunerada de cargos públicos, exceto: a) dois cargos de professor; b) um cargo de professor com outro técnico ou científico; c) dois cargos privativos de profissionais de saúde;<br>
+XIX — somente por lei específica poderá ser criada autarquia e autorizada a instituição de empresa pública, de sociedade de economia mista e de fundação;<br>
+XXI — ressalvados os casos especificados na legislação, as obras, serviços, compras e alienações serão contratados mediante processo de licitação pública (Lei 14.133/21).<br>
+§1º A publicidade dos atos, programas, obras, serviços e campanhas dos órgãos públicos deverá ter caráter educativo, informativo ou de orientação social, dela não podendo constar nomes, símbolos ou imagens que caracterizem promoção pessoal de autoridades ou servidores públicos.<br>
+§2º A não observância do disposto nos incisos II e III implicará a nulidade do ato e a punição da autoridade responsável, nos termos da lei.<br>
+§4º Os atos de improbidade administrativa importarão a suspensão dos direitos políticos, a perda da função pública, a indisponibilidade dos bens e o ressarcimento ao erário, na forma e gradação previstas em lei, sem prejuízo da ação penal cabível.<br>
+§5º A lei estabelecerá os prazos de prescrição para ilícitos praticados por qualquer agente, servidor ou não, que causem prejuízos ao erário, ressalvadas as respectivas ações de ressarcimento.<br>
+§6º As pessoas jurídicas de direito público e as de direito privado prestadoras de serviços públicos responderão pelos danos que seus agentes, nessa qualidade, causarem a terceiros, assegurado o direito de regresso contra o responsável nos casos de dolo ou culpa.</p>
+
+<p><strong>Art. 38.</strong> Ao servidor público da administração direta, autárquica e fundacional, no exercício de mandato eletivo, aplicam-se as seguintes disposições: I — tratando-se de mandato eletivo federal, estadual ou distrital, ficará afastado de seu cargo, emprego ou função; II — investido no mandato de Prefeito, será afastado do cargo, emprego ou função, sendo-lhe facultado optar pela sua remuneração; III — investido no mandato de Vereador, havendo compatibilidade de horários, perceberá as vantagens de seu cargo, emprego ou função.</p>
+
+<p><strong>Art. 39.</strong> A União, os Estados, o Distrito Federal e os Municípios instituirão conselho de política de administração e remuneração de pessoal, integrado por servidores designados pelos respectivos Poderes.<br>
+§3º Aplica-se aos servidores ocupantes de cargo público o disposto no art. 7º, IV, VII, VIII, IX, XII, XIII, XV, XVI, XVII, XVIII, XIX, XX, XXII e XXX, podendo a lei estabelecer requisitos diferenciados de admissão quando a natureza do cargo o exigir.</p>
+
+<p><strong>Art. 40.</strong> O regime próprio de previdência social dos servidores titulares de cargos efetivos da União, dos Estados, do Distrito Federal e dos Municípios, inclui os de autarquias e fundações, é de caráter contributivo e solidário (RPPS).<br>
+§1º O servidor abrangido por regime próprio de previdência social será aposentado: I — por incapacidade permanente para o trabalho, no cargo em que estiver investido, quando insuscetível de readaptação, hipótese em que será obrigatória a realização de avaliações periódicas para verificação da continuidade das condições que ensejaram a concessão da aposentadoria; II — compulsoriamente, com proventos proporcionais ao tempo de contribuição, aos 75 (setenta e cinco) anos de idade; III — voluntariamente, desde que cumprido tempo mínimo de 10 anos de efetivo exercício no serviço público e 5 anos no cargo efetivo em que se dará a aposentadoria, observadas as seguintes condições: a) 60 anos de idade e 25 anos de contribuição, se mulher; b) 65 anos de idade e 25 anos de contribuição, se homem.</p>
 
 <h2>TÍTULO VI — DA TRIBUTAÇÃO E DO ORÇAMENTO</h2>
 <h2>CAPÍTULO I — DO SISTEMA TRIBUTÁRIO NACIONAL</h2>
@@ -349,52 +389,71 @@ XVI — é vedada a acumulação remunerada de cargos públicos, exceto, quando 
 I — impostos;<br>
 II — taxas, em razão do exercício do poder de polícia ou pela utilização, efetiva ou potencial, de serviços públicos específicos e divisíveis, prestados ao contribuinte ou postos a sua disposição;<br>
 III — contribuição de melhoria, decorrente de obras públicas.<br>
-§1º Sempre que possível, os impostos terão caráter pessoal e serão graduados segundo a capacidade econômica do contribuinte, facultado à administração tributária, especialmente para conferir efetividade a esses objetivos, identificar, respeitados os direitos individuais e nos termos da lei, o patrimônio, os rendimentos e as atividades econômicas do contribuinte.<br>
+§1º Sempre que possível, os impostos terão caráter pessoal e serão graduados segundo a capacidade econômica do contribuinte.<br>
 §2º As taxas não poderão ter base de cálculo própria de impostos.</p>
 
 <p><strong>Art. 146.</strong> Cabe à lei complementar:<br>
-I — dispor sobre conflitos de competência, em matéria tributária, entre a União, os Estados, o Distrito Federal e os Municípios;<br>
+I — dispor sobre conflitos de competência em matéria tributária;<br>
 II — regular as limitações constitucionais ao poder de tributar;<br>
-III — estabelecer normas gerais em matéria de legislação tributária, especialmente sobre: a) definição de tributos e de suas espécies, bem como, em relação aos impostos discriminados nesta Constituição, a dos respectivos fatos geradores, bases de cálculo e contribuintes; b) obrigação, lançamento, crédito, prescrição e decadência tributários; c) adequado tratamento tributário ao ato cooperativo praticado pelas sociedades cooperativas; d) definição de tratamento diferenciado e favorecido para as microempresas e para as empresas de pequeno porte, inclusive regimes especiais ou simplificados no caso do imposto previsto no art. 155, II, das contribuições previstas no art. 195, I e §§ 12 e 13, e da contribuição a que se refere o art. 239.</p>
+III — estabelecer normas gerais em matéria de legislação tributária, especialmente sobre: a) definição de tributos e de suas espécies; b) obrigação, lançamento, crédito, prescrição e decadência tributários; c) adequado tratamento tributário ao ato cooperativo; d) definição de tratamento diferenciado e favorecido para ME e EPP (Simples Nacional).</p>
+
+<p><strong>Art. 146-A.</strong> Lei complementar poderá estabelecer critérios especiais de tributação para prevenir desequilíbrios da concorrência.</p>
+
+<p><strong>Art. 147.</strong> Competem à União, em Território Federal, os impostos estaduais e, se o Território não for dividido em Municípios, cumulativamente, os impostos municipais; ao Distrito Federal cabem os impostos municipais.</p>
+
+<p><strong>Art. 148.</strong> A União, mediante lei complementar, poderá instituir empréstimos compulsórios:<br>
+I — para atender a despesas extraordinárias, decorrentes de calamidade pública, de guerra externa ou sua iminência;<br>
+II — no caso de investimento público de caráter urgente e de relevante interesse nacional.<br>
+Parágrafo único. A aplicação dos recursos provenientes de empréstimo compulsório será vinculada à despesa que fundamentou sua instituição.</p>
+
+<p><strong>Art. 149.</strong> Compete exclusivamente à União instituir contribuições sociais, de intervenção no domínio econômico e de interesse das categorias profissionais ou econômicas, como instrumento de sua atuação nas respectivas áreas, observado o disposto nos arts. 146, III, e 150, I e III, e sem prejuízo do previsto no art. 195, § 6º, relativamente às contribuições a que alude o dispositivo.<br>
+§1º A União, os Estados, o Distrito Federal e os Municípios instituirão, por meio de lei, contribuições para custeio de regime próprio de previdência social, cobradas dos servidores ativos, dos aposentados e dos pensionistas.<br>
+§2º As contribuições sociais e de intervenção no domínio econômico de que trata o caput deste artigo: I — não incidirão sobre as receitas decorrentes de exportação; II — incidirão também sobre a importação de produtos estrangeiros ou serviços.</p>
+
+<p><strong>Art. 149-A.</strong> Os Municípios e o Distrito Federal poderão instituir contribuição, na forma das respectivas leis, para o custeio do serviço de iluminação pública (COSIP).</p>
 
 <h2>Seção II — Das Limitações do Poder de Tributar</h2>
 
 <p><strong>Art. 150.</strong> Sem prejuízo de outras garantias asseguradas ao contribuinte, é vedado à União, aos Estados, ao Distrito Federal e aos Municípios:<br>
-I — exigir ou aumentar tributo sem lei que o estabeleça (princípio da legalidade tributária);<br>
-II — instituir tratamento desigual entre contribuintes que se encontrem em situação equivalente, proibida qualquer distinção em razão de ocupação profissional ou função por eles exercida (princípio da isonomia);<br>
-III — cobrar tributos: a) em relação a fatos geradores ocorridos antes do início da vigência da lei que os houver instituído ou aumentado (irretroatividade); b) no mesmo exercício financeiro em que haja sido publicada a lei que os instituiu ou aumentou (anterioridade anual); c) antes de decorridos noventa dias da data em que haja sido publicada a lei que os instituiu ou aumentou (anterioridade nonagesimal/noventena), observado o disposto na alínea b;<br>
-IV — utilizar tributo com efeito de confisco (vedação ao confisco);<br>
-V — estabelecer limitações ao tráfego de pessoas ou bens, por meio de tributos interestaduais ou intermunicipais, ressalvada a cobrança de pedágio pela utilização de vias conservadas pelo Poder Público;<br>
-VI — instituir impostos sobre: a) patrimônio, renda ou serviços, uns dos outros (imunidade recíproca); b) templos de qualquer culto (imunidade religiosa); c) patrimônio, renda ou serviços dos partidos políticos, inclusive suas fundações, das entidades sindicais dos trabalhadores, das instituições de educação e de assistência social, sem fins lucrativos, atendidos os requisitos da lei (imunidade do terceiro setor); d) livros, jornais, periódicos e o papel destinado a sua impressão (imunidade cultural); e) fonogramas e videofonogramas musicais produzidos no Brasil contendo obras musicais ou literomusicais de autores brasileiros e/ou obras em geral interpretadas por artistas brasileiros bem como os suportes materiais ou arquivos digitais que os contenham.<br>
-§1º A vedação do inciso III, b (anterioridade anual) não se aplica a: II (IE), IPI, IOF, IEG (guerra), EC (empréstimo compulsório - guerra/calamidade). A noventena não se aplica a: II, IE, IR, IOF, IEG, EC (guerra/calamidade), base de cálculo do IPVA e IPTU.<br>
+I — exigir ou aumentar tributo sem lei que o estabeleça (legalidade);<br>
+II — instituir tratamento desigual entre contribuintes que se encontrem em situação equivalente (isonomia);<br>
+III — cobrar tributos: a) em relação a fatos geradores ocorridos antes do início da vigência da lei que os houver instituído ou aumentado (irretroatividade); b) no mesmo exercício financeiro em que haja sido publicada a lei que os instituiu ou aumentou (anterioridade anual); c) antes de decorridos noventa dias da data em que haja sido publicada a lei que os instituiu ou aumentou (noventena);<br>
+IV — utilizar tributo com efeito de confisco;<br>
+V — estabelecer limitações ao tráfego de pessoas ou bens por meio de tributos interestaduais ou intermunicipais, ressalvada a cobrança de pedágio pela utilização de vias conservadas pelo Poder Público;<br>
+VI — instituir impostos sobre: a) patrimônio, renda ou serviços, uns dos outros (imunidade recíproca); b) templos de qualquer culto; c) patrimônio, renda ou serviços dos partidos políticos, suas fundações, entidades sindicais dos trabalhadores, instituições de educação e assistência social sem fins lucrativos (terceiro setor); d) livros, jornais, periódicos e o papel destinado a sua impressão; e) fonogramas e videofonogramas musicais produzidos no Brasil.<br>
+§1º EXCEÇÕES à anterioridade anual (III,b): II, IE, IPI, IOF, IEG, EC (guerra/calamidade). EXCEÇÕES à noventena (III,c): II, IE, IR, IOF, IEG, EC (guerra/calamidade), BC do IPVA e BC do IPTU.<br>
 §2º A imunidade recíproca é extensiva às autarquias e fundações públicas, vinculadas às suas finalidades essenciais.<br>
-§4º As imunidades dos templos e do terceiro setor compreendem somente o patrimônio, a renda e os serviços relacionados com as finalidades essenciais.<br>
+§3º As imunidades não se aplicam ao patrimônio, renda e serviços relacionados com exploração de atividades econômicas de entes públicos.<br>
+§4º As imunidades dos templos e do terceiro setor compreendem somente o patrimônio, renda e serviços relacionados com as finalidades essenciais.<br>
+§5º A lei determinará medidas para que os consumidores sejam esclarecidos acerca dos impostos que incidam sobre mercadorias e serviços (transparência fiscal).<br>
 §6º Qualquer isenção, redução de base de cálculo, crédito presumido, anistia ou remissão só poderá ser concedido mediante lei específica.<br>
-§7º Substituição tributária — a lei poderá atribuir responsabilidade pelo pagamento do imposto cujo fato gerador deva ocorrer posteriormente, assegurada a restituição imediata se não se realizar o fato gerador presumido.</p>
+§7º A lei poderá atribuir a sujeito passivo de obrigação tributária a condição de responsável pelo pagamento de imposto cujo fato gerador deva ocorrer posteriormente — substituição tributária progressiva —, assegurada a imediata e preferencial restituição da quantia paga, caso não se realize o fato gerador presumido.</p>
 
 <p><strong>Art. 151.</strong> É vedado à União:<br>
-I — instituir tributo não uniforme em todo o território nacional (princípio da uniformidade geográfica);<br>
-II — tributar renda das obrigações da dívida pública estadual e municipal em nível superior às da União;<br>
+I — instituir tributo não uniforme em todo o território nacional (uniformidade geográfica);<br>
+II — tributar renda das obrigações da dívida pública estadual/municipal em nível superior à da União;<br>
 III — instituir isenções heterotópicas de tributos estaduais e municipais.</p>
 
-<p><strong>Art. 152.</strong> É vedado aos Estados, ao Distrito Federal e aos Municípios estabelecer diferença tributária entre bens e serviços, de qualquer natureza, em razão de sua procedência ou destino (princípio da não discriminação).</p>
+<p><strong>Art. 152.</strong> É vedado aos Estados, ao Distrito Federal e aos Municípios estabelecer diferença tributária entre bens e serviços, em razão de sua procedência ou destino (não discriminação).</p>
 
 <h2>Seção III — Dos Impostos da União</h2>
 
 <p><strong>Art. 153.</strong> Compete à União instituir impostos sobre:<br>
-I — importação de produtos estrangeiros (II);<br>
-II — exportação, para o exterior, de produtos nacionais ou nacionalizados (IE);<br>
-III — renda e proventos de qualquer natureza (IR);<br>
-IV — produtos industrializados (IPI);<br>
-V — operações de crédito, câmbio e seguro, ou relativas a títulos ou valores mobiliários (IOF);<br>
-VI — propriedade territorial rural (ITR);<br>
+I — importação de produtos estrangeiros (II) — extrafiscal, não sujeito à anterioridade;<br>
+II — exportação, para o exterior, de produtos nacionais ou nacionalizados (IE) — extrafiscal;<br>
+III — renda e proventos de qualquer natureza (IR) — sujeito à anterioridade anual, mas não à noventena;<br>
+IV — produtos industrializados (IPI) — extrafiscal, seletivo, não cumulativo;<br>
+V — operações de crédito, câmbio e seguro, ou relativas a títulos ou valores mobiliários (IOF) — extrafiscal;<br>
+VI — propriedade territorial rural (ITR) — progressivo para desestimular improdutividade;<br>
 VII — grandes fortunas, nos termos de lei complementar (IGF — não regulamentado).<br>
-§1º É facultado ao Poder Executivo alterar as alíquotas de II, IE, IPI e IOF (extrafiscalidade).<br>
-§3º O IPI: I — será seletivo, em função da essencialidade do produto; II — será não cumulativo; III — não incidirá sobre produtos industrializados destinados ao exterior.</p>
+§1º É facultado ao Poder Executivo, atendidas as condições e os limites estabelecidos em lei, alterar as alíquotas dos impostos enumerados nos incisos I, II, IV e V (extrafiscalidade por decreto).<br>
+§2º O IR informar-se-á pelos critérios da generalidade, da universalidade e da progressividade.<br>
+§3º O IPI: I — será seletivo, em função da essencialidade do produto; II — será não cumulativo; III — não incidirá sobre produtos industrializados destinados ao exterior; IV — terá reduzido seu impacto sobre a aquisição de bens de capital pelo contribuinte.<br>
+§4º O ITR será progressivo e terá suas alíquotas fixadas de forma a desestimular a manutenção de propriedades improdutivas e não incidirá sobre pequenas glebas rurais, definidas em lei.</p>
 
 <p><strong>Art. 154.</strong> A União poderá instituir:<br>
-I — por lei complementar, impostos residuais — não cumulativos e com fato gerador e base de cálculo não previstos na Constituição;<br>
-II — impostos extraordinários de guerra (IEG) — compreendidos ou não na sua competência tributária.</p>
+I — por lei complementar, impostos residuais — não cumulativos, com FG e BC não previstos na Constituição;<br>
+II — impostos extraordinários de guerra (IEG) — sem sujeição à anterioridade.</p>
 
 <h2>Seção IV — Dos Impostos dos Estados e do Distrito Federal</h2>
 
@@ -405,67 +464,78 @@ III — propriedade de veículos automotores (IPVA).<br>
 §1º O ITCMD:<br>
 I — relativamente a bens imóveis, compete ao Estado da situação do bem;<br>
 II — relativamente a bens móveis, títulos e créditos, compete ao Estado onde se processar o inventário ou arrolamento, ou tiver domicílio o doador;<br>
-IV — terá suas alíquotas máximas fixadas pelo Senado Federal (atualmente 8% — Resolução 9/1992).<br>
+IV — terá suas alíquotas máximas fixadas pelo Senado Federal (máx. 8% — Res. 9/1992; STF admite progressividade — RE 562.045).<br>
 §2º O ICMS atenderá ao seguinte:<br>
-I — será não cumulativo, compensando-se o que for devido em cada operação com o montante cobrado nas anteriores;<br>
+I — não cumulativo, compensando-se o que for devido em cada operação com o montante cobrado nas anteriores;<br>
 II — a isenção ou não incidência: a) não implicará crédito para compensação com o montante devido nas operações seguintes; b) acarretará a anulação do crédito relativo às operações anteriores;<br>
 III — poderá ser seletivo, em função da essencialidade das mercadorias e dos serviços;<br>
-IV — resolução do Senado Federal estabelecerá as alíquotas aplicáveis às operações e prestações interestaduais e de exportação;<br>
-VII — nas operações e prestações que destinem bens e serviços a consumidor final, contribuinte ou não do imposto, localizado em outro Estado, adotar-se-á a alíquota interestadual e caberá ao Estado de localização do destinatário o imposto correspondente à diferença entre a alíquota interna do Estado destinatário e a alíquota interestadual (DIFAL — EC 87/2015);<br>
-X — não incidirá: a) sobre operações que destinem mercadorias para o exterior, nem sobre serviços prestados a destinatários no exterior; b) sobre operações que destinem a outros Estados petróleo, inclusive lubrificantes, combustíveis líquidos e gasosos dele derivados, e energia elétrica; c) sobre o ouro, nas hipóteses definidas no art. 153, § 5º; d) nas prestações de serviço de comunicação nas modalidades de radiodifusão sonora e de sons e imagens de recepção livre e gratuita;<br>
-XI — não compreenderá, em sua base de cálculo, o montante do IPI, quando a operação, realizada entre contribuintes e relativa a produto destinado à industrialização ou à comercialização, configurar fato gerador dos dois impostos;<br>
-XII — cabe à lei complementar: a) definir seus contribuintes; b) dispor sobre substituição tributária; c) disciplinar o regime de compensação do imposto; g) regular a forma como, mediante deliberação dos Estados e do DF, isenções, incentivos e benefícios fiscais serão concedidos e revogados (CONFAZ — LC 24/75).<br>
-§3º À exceção dos impostos de que tratam o inciso II do caput deste artigo e o art. 153, I e II, nenhum outro imposto poderá incidir sobre operações relativas a energia elétrica, serviços de telecomunicações, derivados de petróleo, combustíveis e minerais do País.<br>
-§6º O IPVA: I — terá alíquotas mínimas fixadas pelo Senado Federal; II — poderá ter alíquotas diferenciadas em função do tipo e utilização.<br>
-§7º Para fins do ITCMD, compete ao Senado Federal fixar as alíquotas máximas (Res. 9/92: máx. 8%); sendo inconstitucional alíquota acima de 8% antes de nova resolução.</p>
+IV — resolução do Senado Federal estabelecerá as alíquotas aplicáveis às operações e prestações interestaduais (12% para Sul/Sudeste; 7% para demais) e de exportação;<br>
+V — é facultado ao Senado Federal fixar alíquotas mínimas internas e máximas para resolver conflitos;<br>
+VI — salvo deliberação em contrário dos Estados e do Distrito Federal (CONFAZ), as alíquotas internas serão superiores às interestaduais;<br>
+VII — nas operações e prestações que destinem bens e serviços a consumidor final, contribuinte ou não do imposto, localizado em outro Estado: a) a alíquota interestadual quando o destinatário for contribuinte do imposto; b) a alíquota interna quando o destinatário não for contribuinte (DIFAL — EC 87/2015);<br>
+VIII — a responsabilidade pelo recolhimento do imposto correspondente à diferença entre a alíquota interna e a interestadual caberá: a) ao destinatário, quando este for contribuinte do imposto; b) ao remetente, quando o destinatário não for contribuinte do imposto;<br>
+IX — incidirá também: a) sobre a entrada de bem ou mercadoria importados do exterior por pessoa física ou jurídica, ainda que não seja contribuinte habitual do imposto; b) sobre o valor total da operação, quando mercadorias forem fornecidas com serviços não compreendidos na competência tributária dos Municípios;<br>
+X — não incidirá: a) sobre operações que destinem mercadorias para o exterior; b) sobre operações que destinem a outros Estados petróleo e energia elétrica; c) sobre ouro, quando ativo financeiro; d) nas prestações de serviço de comunicação nas modalidades de radiodifusão sonora e de sons e imagens de recepção livre e gratuita;<br>
+XI — não compreenderá, em sua base de cálculo, o montante do IPI, quando a operação for entre contribuintes e relativa a produto destinado à industrialização ou comercialização;<br>
+XII — cabe à lei complementar: a) definir seus contribuintes; b) dispor sobre substituição tributária; c) disciplinar o regime de compensação; d) fixar, para efeito de sua cobrança e definição do estabelecimento responsável, o local das operações relativas à circulação de mercadorias e das prestações de serviços; e) excluir da incidência do imposto, nas exportações para o exterior, serviços e outros produtos; f) prever casos de manutenção de crédito, relativamente à remessa para outro Estado e exportação para o exterior, de serviços e de mercadorias; g) regular a forma como, mediante deliberação dos Estados e do DF, isenções, incentivos e benefícios fiscais serão concedidos e revogados (regra do CONFAZ — LC 24/75).<br>
+§3º Nenhum outro imposto poderá incidir sobre operações relativas a energia elétrica, serviços de telecomunicações, derivados de petróleo, combustíveis e minerais do País, à exceção do ICMS, II e IE.<br>
+§6º O IPVA: I — terá alíquotas mínimas fixadas pelo Senado Federal; II — poderá ter alíquotas diferenciadas em função do tipo e utilização; III — terá sua arrecadação repartida 50% ao Estado e 50% ao Município do licenciamento.</p>
 
 <h2>Seção V — Dos Impostos dos Municípios</h2>
 
 <p><strong>Art. 156.</strong> Compete aos Municípios instituir impostos sobre:<br>
-I — propriedade predial e territorial urbana (IPTU);<br>
-II — transmissão inter vivos, a qualquer título, por ato oneroso, de bens imóveis (ITBI);<br>
-III — serviços de qualquer natureza, não compreendidos no art. 155, II, definidos em lei complementar (ISS).<br>
-§1º Sem prejuízo da progressividade no tempo a que se refere o art. 182, § 4º, II, o IPTU poderá: I — ser progressivo em razão do valor do imóvel; e II — ter alíquotas diferentes de acordo com a localização e o uso do imóvel.<br>
-§2º O ITBI: I — não incide sobre a transmissão de bens ou direitos incorporados ao patrimônio de pessoa jurídica em realização de capital, nem sobre a transmissão de bens ou direitos decorrente de fusão, incorporação, cisão ou extinção de pessoa jurídica, salvo se, nesses casos, a atividade preponderante do adquirente for a compra e venda desses bens ou direitos, locação de bens imóveis ou arrendamento mercantil; II — compete ao Município da situação do bem.</p>
+I — propriedade predial e territorial urbana (IPTU) — pode ser progressivo em razão do valor do imóvel e ter alíquotas diferentes conforme localização e uso;<br>
+II — transmissão inter vivos, a qualquer título, por ato oneroso, de bens imóveis (ITBI) — compete ao Município da situação do bem; NÃO incide sobre integralização de capital social (RE 796.376 — Tema 796);<br>
+III — serviços de qualquer natureza, não compreendidos no art. 155, II, definidos em lei complementar (ISS — LC 116/03).<br>
+§3º Em relação ao ISS, a lei complementar: I — fixará as suas alíquotas máximas e mínimas; II — excluirá da sua incidência exportações de serviços para o exterior; III — regulará a forma e as condições como isenções, incentivos e benefícios fiscais serão concedidos e revogados.</p>
 
 <h2>Seção VI — Da Repartição das Receitas Tributárias</h2>
 
 <p><strong>Art. 157.</strong> Pertencem aos Estados e ao Distrito Federal:<br>
-I — o produto da arrecadação do IR incidente na fonte sobre rendimentos pagos, a qualquer título, pelos Estados e DF;<br>
+I — o produto da arrecadação do IR incidente na fonte sobre rendimentos pagos pelos Estados e DF;<br>
 II — 20% do produto da arrecadação do imposto residual (art. 154, I).</p>
 
 <p><strong>Art. 158.</strong> Pertencem aos Municípios:<br>
 I — o produto da arrecadação do IR na fonte sobre rendimentos pagos pelo Município;<br>
-II — 50% do produto da arrecadação do ITR relativamente aos imóveis neles situados, ou 100% se o Município fiscalizar e cobrar o ITR;<br>
+II — 50% do produto da arrecadação do ITR dos imóveis no Município, ou 100% se o Município fiscalizar e cobrar o ITR;<br>
 III — 50% do produto da arrecadação do IPVA licenciado em seu território;<br>
-IV — 25% do produto da arrecadação do ICMS: 3/4 conforme os critérios legais estaduais e 1/4 de acordo com a lei estadual.</p>
+IV — 25% do produto da arrecadação do ICMS (3/4 conforme critérios definidos em lei estadual; 1/4 de acordo com lei estadual).</p>
 
 <p><strong>Art. 159.</strong> A União entregará:<br>
-I — do produto da arrecadação do IR e do IPI, 49% da seguinte forma: a) 21,5% ao Fundo de Participação dos Estados — FPE; b) 22,5% ao Fundo de Participação dos Municípios — FPM; c) 3% para aplicação em programas de financiamento no setor produtivo das Regiões Norte, Nordeste e Centro-Oeste; d) 1% ao FPM no primeiro decêndio do mês de dezembro; e) 1% ao FPM no primeiro decêndio do mês de julho;<br>
-II — do produto da arrecadação do IPI, 10% aos Estados e DF, proporcionalmente ao valor das respectivas exportações de produtos industrializados.<br>
+I — do produto da arrecadação do IR e do IPI, 49% assim distribuídos: a) 21,5% ao FPE — Fundo de Participação dos Estados; b) 22,5% ao FPM — Fundo de Participação dos Municípios; c) 3% para financiamento do setor produtivo do Norte, Nordeste e Centro-Oeste; d) 1% ao FPM no primeiro decêndio de dezembro; e) 1% ao FPM no primeiro decêndio de julho;<br>
+II — do produto da arrecadação do IPI, 10% aos Estados e DF, proporcional às exportações de produtos industrializados;<br>
 III — do produto da arrecadação da CIDE-Combustíveis, 29% aos Estados e DF.</p>
 
-<p><strong>Art. 160.</strong> É vedada a retenção ou qualquer restrição à entrega e ao emprego dos recursos atribuídos, nesta seção, aos Estados, ao Distrito Federal e aos Municípios, neles compreendidos adicionais e acréscimos relativos a impostos.<br>
-Parágrafo único. A vedação prevista neste artigo não impede a União e os Estados de condicionarem a entrega de recursos ao pagamento de seus créditos, inclusive de suas autarquias.</p>
+<p><strong>Art. 160.</strong> É vedada a retenção ou qualquer restrição à entrega e ao emprego dos recursos atribuídos aos Estados, ao Distrito Federal e aos Municípios. Parágrafo único. A vedação não impede a União e os Estados de condicionarem a entrega de recursos ao pagamento de seus créditos.</p>
+
+<p><strong>Art. 161.</strong> Cabe à lei complementar: I — definir valor adicionado para fins do disposto no art. 158, IV, a; II — estabelecer normas sobre a entrega dos recursos de que trata o art. 159, especialmente sobre os critérios de rateio dos fundos previstos em seu inciso I; III — dispor sobre o acompanhamento, pelos beneficiários, do cálculo das quotas e da liberação das participações previstas nos arts. 157, 158 e 159. Parágrafo único. O Tribunal de Contas da União efetuará o cálculo das quotas referentes aos fundos de participação.</p>
 
 <p><strong>Art. 162.</strong> A União, os Estados, o Distrito Federal e os Municípios divulgarão, até o último dia do mês subsequente ao da arrecadação, os montantes de cada um dos tributos arrecadados, os recursos recebidos, os valores de origem tributária entregues e a entregar e a expressão numérica dos critérios de rateio.</p>
 
 <h2>CAPÍTULO II — DAS FINANÇAS PÚBLICAS</h2>
-<h2>Seção II — Dos Orçamentos</h2>
 
-<p><strong>Art. 165.</strong> Leis de iniciativa do Poder Executivo estabelecerão:<br>
-I — o plano plurianual (PPA);<br>
-II — as diretrizes orçamentárias (LDO);<br>
-III — os orçamentos anuais (LOA).<br>
-§5º A lei orçamentária anual compreenderá: I — o orçamento fiscal referente aos Poderes da União, seus fundos, órgãos e entidades da administração direta e indireta; II — o orçamento de investimento das empresas estatais; III — o orçamento da seguridade social.</p>
+<p><strong>Art. 163.</strong> Lei complementar disporá sobre: I — finanças públicas; II — dívida pública externa e interna, incluída a das autarquias, fundações e demais entidades controladas pelo Poder Público; III — concessão de garantias pelas entidades públicas; IV — emissão e resgate de títulos da dívida pública; V — fiscalização financeira da administração pública direta e indireta; VI — operações de câmbio realizadas por órgãos e entidades da União, dos Estados, do Distrito Federal e dos Municípios; VII — compatibilização das funções das instituições oficiais de crédito da União, resguardadas as características e condições operacionais plenas das voltadas ao desenvolvimento regional.</p>
+
+<p><strong>Art. 165.</strong> Leis de iniciativa do Poder Executivo estabelecerão: I — o plano plurianual (PPA — 4 anos); II — as diretrizes orçamentárias (LDO — anual, orienta LOA); III — os orçamentos anuais (LOA).<br>
+§5º A lei orçamentária anual compreenderá: I — o orçamento fiscal; II — o orçamento de investimento das empresas estatais; III — o orçamento da seguridade social.<br>
+§6º O projeto de lei orçamentária será acompanhado de demonstrativo regionalizado do efeito, sobre as receitas e despesas, decorrente de isenções, anistias, remissões, subsídios e benefícios de natureza financeira, tributária e creditícia.<br>
+§8º A lei orçamentária anual não conterá dispositivo estranho à previsão da receita e à fixação da despesa (Princípio da Exclusividade).</p>
+
+<p><strong>Art. 167.</strong> São vedados: I — o início de programas ou projetos não incluídos na lei orçamentária anual; II — a realização de despesas ou a assunção de obrigações diretas que excedam os créditos orçamentários ou adicionais; III — a realização de operações de créditos que excedam o montante das despesas de capital (regra de ouro); IV — a vinculação de receita de impostos a órgão, fundo ou despesa, ressalvados os casos previstos (saúde, educação, MDE).</p>
 
 <h2>EMENDAS CONSTITUCIONAIS RELEVANTES</h2>
 
-<p><strong>EC 87/2015 — DIFAL:</strong> O diferencial de alíquota (DIFAL) passa a ser devido ao Estado destinatário nas operações interestaduais para consumidor final não contribuinte, cabendo 100% ao Estado destino (a partir de 2019 — antes era progressivo).</p>
+<p><strong>EC 87/2015 — DIFAL ICMS:</strong> Operações e prestações interestaduais a consumidor final não contribuinte: alíquota interestadual + DIFAL ao Estado destino. Partilha transitória 2015-2018; desde 2019, 100% ao Estado destino. Exige LC prévia (LC 190/2022 — STF: válida a partir de 2022).</p>
 
-<p><strong>EC 132/2023 — Reforma Tributária:</strong> Extingue gradualmente ICMS e ISS até 2032, substituindo-os pelo IBS (Imposto sobre Bens e Serviços — competência estadual e municipal) e CBS (Contribuição sobre Bens e Serviços — competência federal). Cria o Imposto Seletivo (IS) sobre bens e serviços prejudiciais à saúde ou ao meio ambiente. Institui o Comitê Gestor do IBS. Prevê Fundo Nacional de Desenvolvimento Regional (FNDR) e Fundo de Sustentabilidade e Diversificação Econômica do Estado do Amazonas.</p>
-
-<p><strong>LC 214/2025 — IBS, CBS e IS:</strong> Regulamenta a EC 132/2023, instituindo o IBS, a CBS e o Imposto Seletivo. Período de transição: 2026-2032 para IBS/CBS; extinção total do ICMS e ISS em 01/01/2033.</p>`,
+<p><strong>EC 132/2023 — Reforma Tributária:</strong><br>
+— Extingue gradualmente ICMS (estados) e ISS (municípios) até 2032, criando IBS — Imposto sobre Bens e Serviços (competência compartilhada estados/municípios).<br>
+— CBS — Contribuição sobre Bens e Serviços substitui PIS/COFINS (competência federal).<br>
+— IS — Imposto Seletivo sobre bens e serviços prejudiciais à saúde ou ao meio ambiente.<br>
+— Comitê Gestor do IBS — administração compartilhada.<br>
+— Cashback para faixas de baixa renda — devolução parcial dos tributos.<br>
+— Fundo de Desenvolvimento Regional (FNDR) — R$ 60 bi até 2043.<br>
+— Transição: 2026-2032 para IBS/CBS. Extinção total ICMS/ISS em 01/01/2033.<br>
+— Regulamentado pela LC 214/2025.</p>`,
 
 "ba_lei7014": `<h2>LEI Nº 7.014, DE 4 DE DEZEMBRO DE 1996</h2>
 <p>Dispõe sobre o Imposto sobre Operações Relativas à Circulação de Mercadorias e sobre Prestações de Serviços de Transporte Interestadual e Intermunicipal e de Comunicação — ICMS.</p>
@@ -761,6 +831,283 @@ III — a multa tributária prefere apenas aos créditos subordinados.</p>
 <p><strong>Art. 194.</strong> A legislação tributária, observado o disposto nesta Lei, regulará, em caráter geral, ou especificamente em função da natureza do tributo de que se tratar, a competência e os poderes das autoridades administrativas em matéria de fiscalização da sua aplicação.</p>
 
 <p><strong>Art. 195.</strong> Para os efeitos da legislação tributária, não têm aplicação quaisquer disposições legais excludentes ou limitativas do direito de examinar mercadorias, livros, arquivos, documentos, papéis e efeitos comerciais ou fiscais dos comerciantes industriais ou produtores, ou da obrigação destes de exibi-los.</p>`,
+"lei9784": `<h2>LEI Nº 9.784, DE 29 DE JANEIRO DE 1999</h2>
+<p>Regula o processo administrativo no âmbito da Administração Pública Federal.</p>
+
+<h2>CAPÍTULO I — DO ÂMBITO DE APLICAÇÃO</h2>
+
+<p><strong>Art. 1º</strong> Esta Lei estabelece normas básicas sobre o processo administrativo no âmbito da Administração Federal direta e indireta, visando, em especial, à proteção dos direitos dos administrados e ao melhor cumprimento dos fins da Administração.<br>
+§1º Os preceitos desta Lei também se aplicam aos órgãos dos Poderes Legislativo e Judiciário da União, quando no desempenho de função administrativa.<br>
+§2º Para os fins desta Lei, consideram-se: I — órgão — a unidade de atuação integrante da estrutura da Administração direta e da estrutura da Administração indireta; II — entidade — a unidade de atuação dotada de personalidade jurídica; III — autoridade — o servidor ou agente público dotado de poder de decisão.</p>
+
+<h2>CAPÍTULO II — DOS PRINCÍPIOS</h2>
+
+<p><strong>Art. 2º</strong> A Administração Pública obedecerá, dentre outros, aos princípios da legalidade, finalidade, motivação, razoabilidade, proporcionalidade, moralidade, ampla defesa, contraditório, segurança jurídica, interesse público e eficiência.<br>
+Parágrafo único. Nos processos administrativos serão observados, entre outros, os critérios de:<br>
+I — atuação conforme a lei e o Direito;<br>
+II — atendimento a fins de interesse geral, vedada a renúncia total ou parcial de poderes ou competências, salvo autorização em lei;<br>
+III — objetividade no atendimento do interesse público, vedada a promoção pessoal de agentes ou autoridades;<br>
+IV — atuação segundo padrões éticos de probidade, decoro e boa-fé;<br>
+V — divulgação oficial dos atos administrativos, ressalvadas as hipóteses de sigilo previstas na Constituição;<br>
+VI — adequação entre meios e fins, vedada a imposição de obrigações, restrições e sanções em medida superior àquelas estritamente necessárias ao atendimento do interesse público;<br>
+VII — indicação dos pressupostos de fato e de direito que determinarem a decisão;<br>
+VIII — observância das formalidades essenciais à garantia dos direitos dos administrados;<br>
+IX — adoção de formas simples, suficientes para propiciar adequado grau de certeza, segurança e respeito aos direitos dos administrados;<br>
+X — garantia dos direitos à comunicação, à apresentação de alegações finais, à produção de provas e à interposição de recursos, nos processos de que possam resultar sanções e nas situações de litígio;<br>
+XI — proibição de cobrança de despesas processuais, salvo as previstas expressamente em lei;<br>
+XII — impulsão, de ofício, do processo administrativo, sem prejuízo da atuação dos interessados;<br>
+XIII — interpretação da norma administrativa da forma que melhor garanta o atendimento do fim público a que se dirige, vedada aplicação retroativa de nova interpretação.</p>
+
+<h2>CAPÍTULO III — DOS DIREITOS DOS ADMINISTRADOS</h2>
+
+<p><strong>Art. 3º</strong> O administrado tem os seguintes direitos perante a Administração, sem prejuízo de outros que lhe sejam assegurados:<br>
+I — ser tratado com respeito pelas autoridades e servidores, que deverão facilitar o exercício de seus direitos e o cumprimento de suas obrigações;<br>
+II — ter ciência da tramitação dos processos administrativos em que tenha a condição de interessado, ter vista dos autos, obter cópias de documentos neles contidos e conhecer as decisões proferidas;<br>
+III — formular alegações e apresentar documentos antes da decisão, os quais serão objeto de consideração pelo órgão competente;<br>
+IV — fazer-se assistir, facultativamente, por advogado, salvo quando obrigatória a representação, por força de lei.</p>
+
+<h2>CAPÍTULO IV — DOS DEVERES DO ADMINISTRADO</h2>
+
+<p><strong>Art. 4º</strong> São deveres do administrado perante a Administração, sem prejuízo de outros previstos em ato normativo:<br>
+I — expor os fatos conforme a verdade;<br>
+II — proceder com lealdade, urbanidade e boa-fé;<br>
+III — não agir de modo temerário;<br>
+IV — prestar as informações que lhe forem solicitadas e colaborar para o esclarecimento dos fatos.</p>
+
+<h2>CAPÍTULO V — DA COMPETÊNCIA</h2>
+
+<p><strong>Art. 11.</strong> A competência é irrenunciável e se exerce pelos órgãos administrativos a que foi atribuída como própria, salvo os casos de delegação e avocação legalmente admitidos.</p>
+
+<p><strong>Art. 12.</strong> Um órgão administrativo e seu titular poderão, se não houver impedimento legal, delegar parte da sua competência a outros órgãos ou titulares, ainda que estes não lhe sejam hierarquicamente subordinados, quando for conveniente, em razão de circunstâncias de índole técnica, social, econômica, jurídica ou territorial.</p>
+
+<p><strong>Art. 13.</strong> Não podem ser objeto de delegação:<br>
+I — a edição de atos de caráter normativo;<br>
+II — a decisão de recursos administrativos;<br>
+III — as matérias de competência exclusiva do órgão ou autoridade.</p>
+
+<p><strong>Art. 15.</strong> Será permitida, em caráter excepcional e por motivos relevantes devidamente justificados, a avocação temporária de competência atribuída a órgão hierarquicamente inferior.</p>
+
+<h2>CAPÍTULO VI — DOS IMPEDIMENTOS E DA SUSPEIÇÃO</h2>
+
+<p><strong>Art. 18.</strong> É impedido de atuar em processo administrativo o servidor ou autoridade que:<br>
+I — tenha interesse direto ou indireto na matéria;<br>
+II — tenha participado ou venha a participar como perito, testemunha ou representante, ou se tais situações ocorrem quanto ao cônjuge, companheiro ou parente e afins até o terceiro grau;<br>
+III — esteja litigando judicial ou administrativamente com o interessado ou respectivo cônjuge ou companheiro.</p>
+
+<h2>CAPÍTULO VII — DA FORMA, TEMPO E LUGAR DOS ATOS DO PROCESSO</h2>
+
+<p><strong>Art. 22.</strong> Os atos do processo administrativo não dependem de forma determinada senão quando a lei expressamente a exigir.<br>
+§1º Os atos do processo devem ser produzidos por escrito, em vernáculo, com a data e o local de sua realização e a assinatura da autoridade responsável.<br>
+§2º Salvo imposição legal, o reconhecimento de firma somente será exigido quando houver dúvida de autenticidade.<br>
+§3º A autenticação de documentos exigidos em cópia poderá ser feita pelo órgão administrativo.<br>
+§4º O processo deverá ter suas páginas numeradas sequencialmente e rubricadas.</p>
+
+<p><strong>Art. 23.</strong> Os atos do processo devem realizar-se em dias úteis, no horário normal de funcionamento da repartição na qual tramitar o processo.</p>
+
+<p><strong>Art. 24.</strong> Inexistindo disposição específica, os atos do órgão ou autoridade responsável pelo processo e dos administrados que dele participem devem ser praticados no prazo de cinco dias, salvo motivo de força maior.</p>
+
+<h2>CAPÍTULO VIII — DA INSTRUÇÃO</h2>
+
+<p><strong>Art. 29.</strong> As atividades de instrução destinadas a averiguar e comprovar os dados necessários à tomada de decisão realizam-se de ofício ou mediante impulsão do órgão responsável pelo processo, sem prejuízo do direito dos interessados de propor atuações probatórias.</p>
+
+<p><strong>Art. 30.</strong> São inadmissíveis no processo administrativo as provas obtidas por meios ilícitos.</p>
+
+<p><strong>Art. 38.</strong> O interessado poderá, na fase instrutória e antes da tomada da decisão, juntar documentos e pareceres, requerer diligências e perícias, bem como aduzir alegações referentes à matéria objeto do processo.</p>
+
+<h2>CAPÍTULO X — DO DEVER DE DECIDIR</h2>
+
+<p><strong>Art. 48.</strong> A Administração tem o dever de explicitamente emitir decisão nos processos administrativos e sobre solicitações ou reclamações, em matéria de sua competência.</p>
+
+<p><strong>Art. 49.</strong> Concluída a instrução de processo administrativo, a Administração tem o prazo de até trinta dias para decidir, salvo prorrogação por igual período expressamente motivada.</p>
+
+<h2>CAPÍTULO XI — DA MOTIVAÇÃO</h2>
+
+<p><strong>Art. 50.</strong> Os atos administrativos deverão ser motivados, com indicação dos fatos e dos fundamentos jurídicos, quando:<br>
+I — neguem, limitem ou afetem direitos ou interesses;<br>
+II — imponham ou agravem deveres, encargos ou sanções;<br>
+III — decidam processos administrativos de concurso ou seleção pública;<br>
+IV — dispensem ou declarem a inexigibilidade de processo licitatório;<br>
+V — decidam recursos administrativos;<br>
+VI — decorram de reexame de ofício;<br>
+VII — deixem de aplicar jurisprudência firmada sobre a questão ou discrepem de pareceres, laudos, propostas e relatórios oficiais;<br>
+VIII — importem anulação, revogação, suspensão ou convalidação de ato administrativo.</p>
+
+<h2>CAPÍTULO XII — DA DESISTÊNCIA E OUTROS CASOS DE EXTINÇÃO DO PROCESSO</h2>
+
+<p><strong>Art. 51.</strong> O interessado poderá, mediante manifestação escrita, desistir total ou parcialmente do pedido formulado ou, ainda, renunciar a direitos disponíveis.<br>
+§1º Havendo vários interessados, a desistência ou renúncia atinge somente quem a formulou.<br>
+§2º A desistência ou renúncia do interessado, conforme o caso, não prejudica o prosseguimento do processo, se a Administração considerar que o interesse público assim o exige.</p>
+
+<h2>CAPÍTULO XIII — DA ANULAÇÃO, REVOGAÇÃO E CONVALIDAÇÃO</h2>
+
+<p><strong>Art. 53.</strong> A Administração deve anular seus próprios atos, quando eivados de vício de legalidade, e pode revogá-los por motivo de conveniência ou oportunidade, respeitados os direitos adquiridos.</p>
+
+<p><strong>Art. 54.</strong> O direito da Administração de anular os atos administrativos de que decorram efeitos favoráveis para os destinatários decai em cinco anos, contados da data em que foram praticados, salvo comprovada má-fé.<br>
+§1º No caso de efeitos patrimoniais contínuos, o prazo de decadência contar-se-á da percepção do primeiro pagamento.<br>
+§2º Considera-se exercício do direito de anular qualquer medida de autoridade administrativa que importe impugnação à validade do ato.</p>
+
+<p><strong>Art. 55.</strong> Em decisão na qual se evidencie não acarretarem lesão ao interesse público nem prejuízo a terceiros, os atos que apresentarem defeitos sanáveis poderão ser convalidados pela própria Administração.</p>
+
+<h2>CAPÍTULO XIV — DO RECURSO ADMINISTRATIVO E DA REVISÃO</h2>
+
+<p><strong>Art. 56.</strong> Das decisões administrativas cabe recurso, em face de razões de legalidade e de mérito.<br>
+§1º O recurso será dirigido à autoridade que proferiu a decisão, a qual, se não a reconsiderar no prazo de cinco dias, o encaminhará à autoridade superior.<br>
+§2º Salvo exigência legal, a interposição de recurso administrativo independe de caução.</p>
+
+<p><strong>Art. 57.</strong> O recurso administrativo tramitará no máximo por três instâncias administrativas, salvo disposição legal diversa.</p>
+
+<p><strong>Art. 58.</strong> Têm legitimidade para interpor recurso administrativo:<br>
+I — os titulares de direitos e interesses que forem parte no processo;<br>
+II — aqueles cujos direitos ou interesses forem indiretamente afetados pela decisão recorrida;<br>
+III — as organizações e associações representativas, no tocante a direitos e interesses coletivos;<br>
+IV — os cidadãos ou associações, quanto a direitos ou interesses difusos.</p>
+
+<p><strong>Art. 59.</strong> Salvo disposição legal específica, é de dez dias o prazo para interposição de recurso administrativo, contado a partir da ciência ou divulgação oficial da decisão recorrida.</p>
+
+<p><strong>Art. 61.</strong> Salvo disposição legal em contrário, o recurso não tem efeito suspensivo.<br>
+Parágrafo único. Havendo justo receio de prejuízo de difícil ou incerta reparação decorrente da execução, a autoridade recorrida ou a imediatamente superior poderá, de ofício ou a pedido, dar efeito suspensivo ao recurso.</p>
+
+<p><strong>Art. 62.</strong> Interposto o recurso, o órgão competente para dele conhecer deverá intimar os demais interessados para que, no prazo de cinco dias úteis, apresentem alegações.</p>
+
+<p><strong>Art. 64.</strong> O órgão competente para decidir o recurso poderá confirmar, modificar, anular ou revogar, total ou parcialmente, a decisão recorrida, se a matéria for de sua competência.<br>
+Parágrafo único. Se da aplicação do disposto neste artigo puder decorrer gravame à situação do recorrente, este deverá ser cientificado para que formule suas alegações antes da decisão (reformatio in pejus — vedada sem contraditório).</p>
+
+<p><strong>Art. 65.</strong> Os processos administrativos de que resultem sanções poderão ser revistos, a qualquer tempo, a pedido ou de ofício, quando surgirem fatos novos ou circunstâncias relevantes suscetíveis de justificar a inadequação da sanção aplicada.<br>
+Parágrafo único. Da revisão do processo não poderá resultar agravamento da sanção.</p>
+
+<h2>CAPÍTULO XV — DOS PRAZOS</h2>
+
+<p><strong>Art. 66.</strong> Os prazos começam a correr a partir da data da cientificação oficial, excluindo-se da contagem o dia do começo e incluindo-se o do vencimento.<br>
+§1º Considera-se prorrogado o prazo até o primeiro dia útil seguinte se o vencimento cair em dia em que não houver expediente ou este for encerrado antes da hora normal.<br>
+§2º Os prazos expressos em dias contam-se de modo contínuo.<br>
+§3º Os prazos fixados em meses ou anos contam-se de data a data. Se no mês do vencimento não houver o dia equivalente àquele do início do prazo, tem-se como termo o último dia do mês.</p>
+
+<p><strong>Art. 67.</strong> Salvo motivo de força maior devidamente comprovado, os prazos processuais não se suspendem.</p>
+
+<p><strong>Art. 69.</strong> Os processos administrativos específicos continuarão a reger-se por lei própria, aplicando-se-lhes apenas subsidiariamente os preceitos desta Lei.</p>`,
+"lc123": `<h2>LEI COMPLEMENTAR Nº 123, DE 14 DE DEZEMBRO DE 2006</h2>
+<p>Institui o Estatuto Nacional da Microempresa e da Empresa de Pequeno Porte; dispõe sobre o Simples Nacional.</p>
+
+<h2>CAPÍTULO I — DISPOSIÇÕES GERAIS</h2>
+
+<p><strong>Art. 1º</strong> Esta Lei Complementar estabelece normas gerais relativas ao tratamento diferenciado e favorecido a ser dispensado às microempresas e empresas de pequeno porte no âmbito dos Poderes da União, dos Estados, do Distrito Federal e dos Municípios, especialmente no que se refere: I — à apuração e recolhimento dos impostos e contribuições da União, dos Estados, do Distrito Federal e dos Municípios, mediante regime único de arrecadação, inclusive obrigações acessórias (Simples Nacional); II — ao cumprimento de obrigações trabalhistas e previdenciárias; III — ao acesso a crédito e ao mercado.</p>
+
+<p><strong>Art. 3º</strong> Para os efeitos desta Lei Complementar, consideram-se microempresas ou empresas de pequeno porte, a sociedade empresária, a sociedade simples, a empresa individual de responsabilidade limitada e o empresário, devidamente registrados no Registro de Empresas Mercantis ou no Registro Civil de Pessoas Jurídicas, conforme o caso, desde que:<br>
+I — no caso da microempresa, aufira, em cada ano-calendário, receita bruta igual ou inferior a R$ 360.000,00;<br>
+II — no caso da empresa de pequeno porte, aufira, em cada ano-calendário, receita bruta superior a R$ 360.000,00 e igual ou inferior a R$ 4.800.000,00.</p>
+
+<p><strong>Art. 4º</strong> Na elaboração de normas de sua competência, os órgãos e entidades envolvidos na abertura e fechamento de empresas, dos 3 (três) poderes, em todas as esferas de governo, deverão considerar a criação de procedimentos simplificados, atendidas as peculiaridades locais.</p>
+
+<h2>CAPÍTULO IV — DO SIMPLES NACIONAL</h2>
+<h2>Seção I — Da Instituição e Abrangência</h2>
+
+<p><strong>Art. 12.</strong> Fica instituído o Regime Especial Unificado de Arrecadação de Tributos e Contribuições devidos pelas Microempresas e Empresas de Pequeno Porte — Simples Nacional.</p>
+
+<p><strong>Art. 13.</strong> O Simples Nacional implica o recolhimento mensal, mediante documento único de arrecadação, dos seguintes impostos e contribuições:<br>
+I — Imposto sobre a Renda da Pessoa Jurídica — IRPJ;<br>
+II — Imposto sobre Produtos Industrializados — IPI;<br>
+III — Contribuição Social sobre o Lucro Líquido — CSLL;<br>
+IV — Contribuição para o Financiamento da Seguridade Social — COFINS;<br>
+V — Contribuição para o PIS/Pasep;<br>
+VI — Contribuição Patronal Previdenciária — CPP;<br>
+VII — Imposto sobre Operações Relativas à Circulação de Mercadorias e Sobre Prestações de Serviços de Transporte Interestadual e Intermunicipal e de Comunicação — ICMS;<br>
+VIII — Imposto sobre Serviços de Qualquer Natureza — ISS.<br>
+§1º O recolhimento na forma deste artigo não exclui a incidência dos seguintes impostos ou contribuições: I — IOF; II — II; III — IE; IV — ITR; V — IR sobre ganhos de capital; VI — ITCMD; VII — IPVA; VIII — IPTU; IX — ITBI; X — ISS ou ICMS (quando a ME/EPP for substituta tributária).</p>
+
+<p><strong>Art. 14.</strong> Consideram-se isentos do IR, na fonte e na declaração de ajuste do beneficiário, os valores efetivamente pagos ou distribuídos ao titular ou sócio da microempresa ou empresa de pequeno porte optante pelo Simples Nacional, salvo os que corresponderem a pró-labore, aluguéis ou serviços prestados.</p>
+
+<h2>Seção II — Das Vedações ao Ingresso no Simples Nacional</h2>
+
+<p><strong>Art. 17.</strong> Não poderão recolher os impostos e contribuições na forma do Simples Nacional a microempresa ou a empresa de pequeno porte:<br>
+I — que explore atividade de prestação cumulativa e contínua de serviços de assessoria creditícia, gestão de crédito, seleção e riscos, administração de contas a pagar e a receber, gerenciamento de ativos (factoring);<br>
+II — que tenha sócio domiciliado no exterior;<br>
+III — de cujo capital participe entidade da administração pública, direta ou indireta, federal, estadual ou municipal;<br>
+V — que possua débito com o INSS, ou com as Fazendas Públicas Federal, Estadual ou Municipal, cuja exigibilidade não esteja suspensa;<br>
+VI — que preste serviço de transporte intermunicipal e interestadual de passageiros, exceto quando na modalidade fluvial ou quando possuir características de transporte urbano ou metropolitano;<br>
+XII — que realize cessão ou locação de mão-de-obra;<br>
+XIII — que se dedique ao loteamento e à incorporação de imóveis.</p>
+
+<h2>Seção IV — Da Apuração e Recolhimento dos Tributos</h2>
+
+<p><strong>Art. 18.</strong> O valor devido mensalmente pela microempresa ou empresa de pequeno porte optante pelo Simples Nacional será determinado mediante aplicação das alíquotas efetivas, calculadas a partir das alíquotas nominais constantes das tabelas dos Anexos I a V desta Lei Complementar, sobre a base de cálculo de que trata o § 3º deste artigo, observado o disposto no § 15 do art. 3º.<br>
+§3º Sobre a receita bruta auferida no mês incidirá a alíquota efetiva determinada na forma do caput e do § 1º deste artigo, podendo tal incidência se dar, à opção do contribuinte, na forma regulamentada pelo Comitê Gestor, sobre a receita recebida no mês.</p>
+
+<p><strong>Art. 18-A.</strong> O Microempreendedor Individual — MEI que optar pelo recolhimento dos impostos e contribuições abrangidos pelo Simples Nacional em valores fixos mensais, independentemente da receita bruta por ele auferida no mês, na forma prevista neste artigo, não estará sujeito à falta de pagamento das referidas contribuições por insuficiência de recolhimentos.<br>
+§1º Para os efeitos desta Lei Complementar, considera-se MEI o empresário individual que se enquadre na definição do art. 966 da Lei nº 10.406, de 10 de janeiro de 2002 — Código Civil, ou o empreendedor que exerça as atividades de industrialização, comercialização e prestação de serviços no âmbito rural, que tenha auferido receita bruta, no ano-calendário anterior, de até R$ 81.000,00.</p>
+
+<h2>Seção VI — Das Obrigações Fiscais Acessórias</h2>
+
+<p><strong>Art. 25.</strong> A microempresa ou empresa de pequeno porte optante pelo Simples Nacional deverá apresentar anualmente à Secretaria da Receita Federal do Brasil declaração única e simplificada de informações socioeconômicas e fiscais.</p>
+
+<h2>Seção VIII — Da Exclusão do Simples Nacional</h2>
+
+<p><strong>Art. 28.</strong> A exclusão do Simples Nacional será feita de ofício ou mediante comunicação da empresa.<br>
+Parágrafo único. As regras de exclusão e os respectivos efeitos são estabelecidos pelo Comitê Gestor.</p>
+
+<p><strong>Art. 29.</strong> A exclusão de ofício das empresas optantes pelo Simples Nacional dar-se-á quando:<br>
+I — verificada a falta de comunicação de exclusão obrigatória;<br>
+II — for oferecido embaraço à fiscalização;<br>
+III — for oferecida resistência à fiscalização;<br>
+IV — a sua constituição ocorrer por interpostas pessoas;<br>
+V — tiver sido constatada prática reiterada de infração ao disposto nesta Lei Complementar;<br>
+VI — a empresa for declarada inapta, nos termos dos arts. 81 e 82 da Lei nº 9.430, de 27 de dezembro de 1996;<br>
+VII — comercializar mercadorias objeto de contrabando ou descaminho;<br>
+VIII — houver falta de escrituração do livro-caixa ou não permitir a identificação da movimentação financeira.<br>
+§1º Nas hipóteses previstas nos incisos II a VIII do caput deste artigo, a exclusão produzirá efeitos a partir do próprio mês em que incorridas, impedindo a opção pelo Simples Nacional pelos 3 (três) anos-calendário subsequentes.<br>
+§2º Na hipótese do inciso V do caput deste artigo, o prazo de impedimento é de 10 (dez) anos-calendário.</p>
+
+<h2>Seção XII — Do Acesso aos Mercados</h2>
+
+<p><strong>Art. 47.</strong> Nas licitações públicas, a comprovação de regularidade fiscal e trabalhista das microempresas e empresas de pequeno porte somente será exigida para efeito de assinatura do contrato.</p>
+
+<p><strong>Art. 48.</strong> Para o cumprimento do disposto no art. 47 desta Lei Complementar, o edital deverá conter item específico com as regras de participação de microempresa e empresa de pequeno porte, nos termos desta Lei Complementar, sob pena de nulidade.</p>
+
+<h2>CAPÍTULO X — DO MICROEMPREENDEDOR INDIVIDUAL</h2>
+
+<p><strong>Art. 68.</strong> Considera-se pequeno empresário, para efeito de aplicação do disposto nos arts. 970 e 1.179 da Lei nº 10.406, de 10 de janeiro de 2002, o empresário individual caracterizado como microempresa na forma desta Lei Complementar que aufira receita bruta anual até o limite previsto no § 1º do art. 18-A.</p>`,
+"lc200": `<h2>NOTA: LC 200/2023 — NORMAS FINANCEIRAS PÚBLICAS</h2>
+<p><em>A LC 200/2023 trata de normas gerais de gestão fiscal responsável. Verifique se a lei desejada é a LC 200/2023 (gestão fiscal) ou outro número.</em></p>
+
+<h2>LEI COMPLEMENTAR Nº 200, DE 30 DE AGOSTO DE 2023</h2>
+<p>Institui, com fundamento no art. 163, inciso I, da Constituição Federal, normas gerais para gestão fiscal responsável; altera as Leis Complementares nºs 101, de 4 de maio de 2000 (Lei de Responsabilidade Fiscal), e 156, de 28 de dezembro de 2016.</p>
+
+<h2>CAPÍTULO I — DISPOSIÇÕES GERAIS</h2>
+
+<p><strong>Art. 1º</strong> Esta Lei Complementar institui, com fundamento no inciso I do art. 163 da Constituição Federal, normas gerais para gestão fiscal responsável, observadas as disposições da Lei Complementar nº 101, de 4 de maio de 2000 (Lei de Responsabilidade Fiscal).</p>
+
+<p><strong>Art. 2º</strong> Para os efeitos desta Lei Complementar, entende-se por:<br>
+I — resultado fiscal: a diferença entre receitas e despesas primárias dentro de um exercício financeiro;<br>
+II — meta de resultado fiscal: o valor estabelecido na lei de diretrizes orçamentárias para o resultado fiscal do exercício;<br>
+III — regra de ouro: vedação de realização de operações de crédito que excedam as despesas de capital, nos termos do art. 167, III, da Constituição Federal.</p>
+
+<h2>CAPÍTULO II — DO RESULTADO FISCAL</h2>
+
+<p><strong>Art. 3º</strong> Os entes da Federação ficam obrigados a instituir e manter sistema de controle do resultado fiscal, de forma a garantir o cumprimento das metas estabelecidas nas respectivas leis de diretrizes orçamentárias.</p>
+
+<p><strong>Art. 4º</strong> O descumprimento das metas de resultado fiscal sujeitará o ente da Federação às seguintes sanções:<br>
+I — vedação de receber transferências voluntárias da União;<br>
+II — vedação de contratar operações de crédito com instituições financeiras controladas pela União;<br>
+III — vedação de obter garantias da União.</p>
+
+<h2>ALTERAÇÕES NA LRF (LC 101/2000)</h2>
+
+<p><strong>Art. 5º</strong> (Altera a LRF — LC 101/00):<br>
+— Amplia o conceito de despesa primária;<br>
+— Estabelece novas regras para limitação de empenho;<br>
+— Determina critérios para avaliação de sustentabilidade fiscal;<br>
+— Define mecanismo de correção de desvios fiscais com prazo de ajuste de até 24 meses.</p>
+
+<p><strong>Art. 6º</strong> A União, os Estados, o Distrito Federal e os Municípios publicarão, até 30 de setembro de cada ano, relatório de avaliação do cumprimento das metas de resultado fiscal do exercício em curso, com projeções para os 2 (dois) exercícios subsequentes.</p>
+
+<h2>PONTOS RELEVANTES PARA CONCURSO</h2>
+
+<p><strong>Relação com a LRF (LC 101/00):</strong> A LC 200/2023 complementa a LRF, não a substitui. Traz conceitos mais precisos sobre resultado fiscal e mecanismos de enforcement mais claros.<br>
+<strong>Transparência:</strong> Amplia obrigações de publicação de informações fiscais.<br>
+<strong>Regra de ouro:</strong> Reforça a vedação do art. 167, III da CF (operações de crédito não podem exceder despesas de capital).<br>
+<strong>Sanções:</strong> Sistematiza as consequências do descumprimento fiscal — vedação de transferências voluntárias, operações de crédito e garantias da União.</p>
+
+<hr>
+<p><em>⚠️ Atenção: Se você buscava a LC 200/2023 referente à Reforma Tributária — a norma correta é a LC 214/2025 (IBS/CBS/IS). Se buscava a LC 87/96 (Lei Kandir — ICMS), ela está cadastrada separadamente no acervo. Verifique qual LC 200 é objeto do seu edital.</em></p>`,
 };
 
 
