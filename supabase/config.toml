@@ -1,0 +1,5 @@
+[project]
+ref = "aitjobeyandnopaflubf"
+
+[db.migrations]
+schema_paths = ["./supabase/migrations/*"]
