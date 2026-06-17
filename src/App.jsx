@@ -2800,38 +2800,123 @@ function addHistorico(q) {
   } catch {}
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// TELA: SIMULADO FGV — com Banco de Questões Reais + Geração por IA
+// ═══════════════════════════════════════════════════════════════════════════
 function TelaSimulado({ isMobile, online, stats, setStats }) {
-  const [discSel, setDiscSel]       = useState(null);      // disciplina selecionada
-  const [subtema, setSubtema]       = useState("");         // subtema livre ou da lista
-  const [temaLivre, setTemaLivre]   = useState("");         // campo livre
-  const [questao, setQuestao]       = useState(null);       // questão gerada
+
+  // ── MODO PRINCIPAL: "banco" (questões reais) | "ia" (gerar por IA) ──
+  const [abaSel, setAbaSel]         = useState("banco");
+
+  // ── ESTADO BANCO FGV ──
+  const [bancoDisciplina, setBancoDisc] = useState("Direito Constitucional");
+  const [bancoQuestoes, setBancoQ]  = useState([]);
+  const [bancoCarreg, setBancoCarreg] = useState(false);
+  const [bancoIdx, setBancoIdx]     = useState(0);
+  const [bancoResp, setBancoResp]   = useState(null);
+  const [bancoGab, setBancoGab]     = useState(false);
+  const [bancoPlacar, setBancoPlacar] = useState({ acertos:0, erros:0, total:0 });
+  const [bancoVazio, setBancoVazio] = useState(false);
+
+  // ── ESTADO IA (mantido) ──
+  const [discSel, setDiscSel]       = useState(null);
+  const [subtema, setSubtema]       = useState("");
+  const [temaLivre, setTemaLivre]   = useState("");
+  const [questao, setQuestao]       = useState(null);
   const [gerando, setGerando]       = useState(false);
-  const [respostaUser, setRespUser] = useState(null);       // letra escolhida
+  const [respostaUser, setRespUser] = useState(null);
   const [mostrarGab, setMostrarGab] = useState(false);
   const [historico, setHistorico]   = useState(() => getHistoricoSimulado());
-  const [modo, setModo]             = useState("gerar");    // gerar | resultado | historico
+  const [modo, setModo]             = useState("gerar");
   const [placar, setPlacar]         = useState(() => JSON.parse(localStorage.getItem("simulado_placar")||'{"acertos":0,"erros":0,"total":0}'));
-  const [qty, setQty]               = useState(1);          // quantas questões gerar de vez
-  const [fila, setFila]             = useState([]);         // fila de questões
+  const [qty, setQty]               = useState(1);
+  const [fila, setFila]             = useState([]);
   const [filaidx, setFilaIdx]       = useState(0);
 
   useEffect(() => { localStorage.setItem("simulado_placar", JSON.stringify(placar)); }, [placar]);
 
   const disc = DISC_SIMULADO.find(d => d.id === discSel);
 
+  const DISCIPLINAS_BANCO = [
+    "Direito Constitucional",
+    "Direito Tributário",
+    "Direito Administrativo",
+    "Contabilidade Geral",
+    "Auditoria",
+  ];
+
+  // ── CARREGAR QUESTÕES DO BANCO FGV ──
+  async function carregarBanco(disciplina) {
+    setBancoCarreg(true); setBancoVazio(false); setBancoResp(null); setBancoGab(false);
+    try {
+      const { data } = await supabase
+        .from("cache_questoes")
+        .select("*")
+        .eq("disciplina", disciplina)
+        .eq("origem", "fgv_real")
+        .order("criado_em", { ascending: false })
+        .limit(50);
+      if (data && data.length > 0) {
+        // Embaralha
+        const shuffled = [...data].sort(() => Math.random() - 0.5);
+        setBancoQ(shuffled);
+        setBancoIdx(0);
+        setBancoVazio(false);
+      } else {
+        setBancoQ([]);
+        setBancoVazio(true);
+      }
+    } catch(e) {
+      setBancoQ([]);
+      setBancoVazio(true);
+    }
+    setBancoCarreg(false);
+  }
+
+  useEffect(() => {
+    if (abaSel === "banco") carregarBanco(bancoDisciplina);
+  }, [abaSel, bancoDisciplina]);
+
+  const questaoAtual = bancoQuestoes[bancoIdx] || null;
+
+  function responderBanco(letra) {
+    if (bancoResp) return;
+    setBancoResp(letra);
+    setBancoGab(true);
+    const acertou = letra === questaoAtual?.gabarito;
+    setBancoPlacar(p => ({ acertos: p.acertos+(acertou?1:0), erros: p.erros+(acertou?0:1), total: p.total+1 }));
+    setStats(s => ({ ...s, pontos: s.pontos + (acertou ? 20 : 5) }));
+  }
+
+  function proximaBanco() {
+    if (bancoIdx + 1 < bancoQuestoes.length) {
+      setBancoIdx(i => i+1);
+      setBancoResp(null);
+      setBancoGab(false);
+    } else {
+      // Fim — reembaralha
+      setBancoQ(q => [...q].sort(() => Math.random() - 0.5));
+      setBancoIdx(0);
+      setBancoResp(null);
+      setBancoGab(false);
+    }
+  }
+
+  function corAltBanco(letra) {
+    if (!bancoResp) return { bg: T.fundo3, border: T.borda2, color: T.branco };
+    if (letra === questaoAtual?.gabarito) return { bg:"rgba(0,107,63,0.15)", border:"rgba(0,107,63,0.6)", color:T.verde3 };
+    if (letra === bancoResp) return { bg:"rgba(229,62,62,0.12)", border:"rgba(229,62,62,0.5)", color:"#FCA5A5" };
+    return { bg: T.fundo3, border: T.borda2, color: T.cinza3 };
+  }
+
+  // ── IA functions (mantidas) ──
   async function gerarQuestao(temaAlvo, discAlvo, promptCustom) {
     if (!online) return null;
     const d = DISC_SIMULADO.find(x => x.id === discAlvo) || disc;
     const tema = temaAlvo || subtema || temaLivre || (d?.subtemas[Math.floor(Math.random()*d.subtemas.length)]);
     const hist = getHistoricoSimulado().slice(0,10).map(h=>h.tema).join(", ");
-
     const systemPrompt = promptCustom || PROMPT_FGV;
-    const prompt = `Gere uma questão padrão FGV para concurso Auditor Fiscal SEFAZ-BA 2026.
-Disciplina: ${d?.label || "Direito Tributário"}
-Tema específico: ${tema}
-${hist ? `Temas já cobrados recentemente (EVITE repetir): ${hist}` : ""}
-Nível: médio-alto, candidato preparado para concurso fiscal estadual.`;
-
+    const prompt = `Gere uma questão padrão FGV para concurso Auditor Fiscal SEFAZ-BA 2026.\nDisciplina: ${d?.label || "Direito Tributário"}\nTema específico: ${tema}\n${hist ? `Temas já cobrados recentemente (EVITE repetir): ${hist}` : ""}\nNível: médio-alto, candidato preparado para concurso fiscal estadual.`;
     const resp = await callClaude(systemPrompt, prompt, 1500);
     try {
       const clean = resp.replace(/```json|```/g,"").trim();
@@ -2868,21 +2953,12 @@ Nível: médio-alto, candidato preparado para concurso fiscal estadual.`;
   function proximaQuestao() {
     const next = filaidx + 1;
     if (next < fila.length) {
-      setFilaIdx(next);
-      setQuestao(fila[next]);
-      setRespUser(null);
-      setMostrarGab(false);
+      setFilaIdx(next); setQuestao(fila[next]); setRespUser(null); setMostrarGab(false);
     } else {
-      setModo("gerar");
-      setQuestao(null);
-      setRespUser(null);
-      setMostrarGab(false);
+      setModo("gerar"); setQuestao(null); setRespUser(null); setMostrarGab(false);
     }
   }
 
-  const taxaAcerto = placar.total > 0 ? Math.round(placar.acertos/placar.total*100) : 0;
-
-  // ── CORES DE ALTERNATIVA ──
   function corAlt(letra) {
     if (!respostaUser) return { bg: T.fundo3, border: T.borda2, color: T.branco };
     if (letra === questao?.gabarito) return { bg:"rgba(0,107,63,0.15)", border:"rgba(0,107,63,0.6)", color:T.verde3 };
@@ -2890,307 +2966,510 @@ Nível: médio-alto, candidato preparado para concurso fiscal estadual.`;
     return { bg: T.fundo3, border: T.borda2, color: T.cinza3 };
   }
 
+  const taxaAcerto = placar.total > 0 ? Math.round(placar.acertos/placar.total*100) : 0;
+  const taxaBanco  = bancoPlacar.total > 0 ? Math.round(bancoPlacar.acertos/bancoPlacar.total*100) : 0;
+
   return (
     <div style={{ flex:1, overflow:"auto", padding:isMobile?"12px 14px":"24px 32px" }}>
 
       {/* ── HEADER ── */}
-      <div style={{ marginBottom:20 }}>
+      <div style={{ marginBottom:18 }}>
         <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1.5, color:T.verde2, marginBottom:4 }}>🎯 Simulado Padrão FGV</div>
-        <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?20:26, fontWeight:900, color:"#fff", marginBottom:4 }}>
-          Questões no Estilo da Banca
+        <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?20:26, fontWeight:900, color:"#fff", marginBottom:0 }}>
+          Questões SEFAZ-BA
         </h1>
-        <p style={{ color:T.cinza3, fontSize:12 }}>
-          Geradas por IA com enunciado situacional, 5 alternativas, gabarito comentado e fundamentação legal — exatamente como a FGV elabora.
-        </p>
       </div>
 
-      {/* ── PLACAR GLOBAL ── */}
-      <div style={{ display:"flex", gap:10, marginBottom:20, flexWrap:"wrap" }}>
+      {/* ── ABAS: BANCO REAL | IA ── */}
+      <div style={{ display:"flex", gap:6, marginBottom:20, borderBottom:`1px solid ${T.borda2}`, paddingBottom:0 }}>
         {[
-          { label:"Acertos", val:placar.acertos, cor:T.verde2 },
-          { label:"Erros",   val:placar.erros,   cor:T.red },
-          { label:"Total",   val:placar.total,   cor:T.cinza3 },
-          { label:"Taxa",    val:`${taxaAcerto}%`, cor:taxaAcerto>=70?T.verde2:taxaAcerto>=50?T.amarelo:T.red },
-        ].map(item => (
-          <div key={item.label} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"10px 16px", flex:1, minWidth:80, textAlign:"center" }}>
-            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:900, color:item.cor, lineHeight:1 }}>{item.val}</div>
-            <div style={{ fontSize:10, color:T.cinza3, marginTop:3, fontWeight:600 }}>{item.label}</div>
-          </div>
-        ))}
-        {placar.total > 0 && (
-          <button onClick={() => { setPlacar({acertos:0,erros:0,total:0}); localStorage.setItem("simulado_placar","{}"); }} className="btn"
-            style={{ background:"transparent", border:`1px solid ${T.borda2}`, color:T.cinza3, borderRadius:10, padding:"10px 14px", fontSize:11 }}>
-            🗑️ Zerar
+          { id:"banco", icon:"📚", label:"Banco FGV Real", sub:"Questões de provas oficiais" },
+          { id:"ia",    icon:"🤖", label:"Gerar por IA",   sub:"No estilo da banca" },
+        ].map(aba => (
+          <button key={aba.id} onClick={() => setAbaSel(aba.id)} className="btn" style={{
+            padding:"10px 16px", borderRadius:"10px 10px 0 0", fontWeight:700, fontSize:12,
+            background: abaSel===aba.id ? T.fundo3 : "transparent",
+            border: abaSel===aba.id ? `1px solid ${T.borda2}` : "1px solid transparent",
+            borderBottom: abaSel===aba.id ? `1px solid ${T.fundo3}` : "none",
+            color: abaSel===aba.id ? "#fff" : T.cinza3,
+            marginBottom: abaSel===aba.id ? -1 : 0,
+            display:"flex", alignItems:"center", gap:6,
+          }}>
+            <span>{aba.icon}</span>
+            <div style={{ textAlign:"left" }}>
+              <div>{aba.label}</div>
+              {!isMobile && <div style={{ fontSize:10, fontWeight:400, color: abaSel===aba.id ? T.cinza3 : T.cinza3+"80" }}>{aba.sub}</div>}
+            </div>
           </button>
-        )}
+        ))}
       </div>
 
-      {!online && (
-        <div style={{ background:"rgba(237,137,54,0.08)", border:`1px solid rgba(237,137,54,0.25)`, borderRadius:9, padding:"10px 13px", marginBottom:16, fontSize:12, color:"#FCD34D", display:"flex", gap:8 }}>
-          <span>📡</span><span>Simulado requer conexão com a internet para gerar questões.</span>
-        </div>
-      )}
-
-      <div style={{ display:"flex", gap:isMobile?0:20, flexDirection:isMobile?"column":"row", alignItems:"flex-start" }}>
-
-        {/* ── PAINEL ESQUERDO: CONFIGURAÇÃO ── */}
-        <div style={{ width:isMobile?"100%":280, flexShrink:0, marginBottom:isMobile?16:0 }}>
-          <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"18px 16px", marginBottom:12 }}>
-            <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:14 }}>⚙️ Configurar questão</div>
-
-            {/* Seleção de disciplina */}
-            <div style={{ marginBottom:12 }}>
-              <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Disciplina</div>
-              <div style={{ display:"flex", flexDirection:"column", gap:5, maxHeight:280, overflowY:"auto" }}>
-                {DISC_SIMULADO.map(d => (
-                  <button key={d.id} onClick={() => { setDiscSel(d.id); setSubtema(""); setTemaLivre(""); }} className="btn" style={{
-                    padding:"8px 11px", borderRadius:8, fontSize:12, fontWeight:discSel===d.id?700:400, textAlign:"left",
-                    background:discSel===d.id?"rgba(0,107,63,0.18)":"transparent",
-                    border:`1px solid ${discSel===d.id?"rgba(0,107,63,0.4)":"transparent"}`,
-                    color:discSel===d.id?T.verde3:T.cinza3,
-                    display:"flex", alignItems:"center", gap:7,
-                  }}>
-                    <span style={{ fontSize:14 }}>{d.icon}</span>
-                    <span style={{ lineHeight:1.3 }}>{d.label}</span>
-                  </button>
-                ))}
+      {/* ══════════════════════════════════════
+          ABA: BANCO FGV REAL
+          ══════════════════════════════════════ */}
+      {abaSel === "banco" && (
+        <div>
+          {/* Placar do banco */}
+          <div style={{ display:"flex", gap:10, marginBottom:16, flexWrap:"wrap" }}>
+            {[
+              { label:"Acertos", val:bancoPlacar.acertos, cor:T.verde2 },
+              { label:"Erros",   val:bancoPlacar.erros,   cor:T.red },
+              { label:"Taxa",    val:`${taxaBanco}%`,     cor:taxaBanco>=70?T.verde2:taxaBanco>=50?T.amarelo:T.red },
+              { label:"Banco",   val:`${bancoIdx+1}/${bancoQuestoes.length||0}`, cor:T.accent },
+            ].map(item => (
+              <div key={item.label} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"8px 14px", flex:1, minWidth:70, textAlign:"center" }}>
+                <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:900, color:item.cor, lineHeight:1 }}>{item.val}</div>
+                <div style={{ fontSize:10, color:T.cinza3, marginTop:2, fontWeight:600 }}>{item.label}</div>
               </div>
-            </div>
-
-            {/* Subtema */}
-            {disc && (
-              <div style={{ marginBottom:12 }}>
-                <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Subtema (opcional)</div>
-                <div style={{ display:"flex", flexDirection:"column", gap:4, maxHeight:180, overflowY:"auto" }}>
-                  <button onClick={() => setSubtema("")} className="btn" style={{
-                    padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
-                    background:!subtema?"rgba(249,194,49,0.1)":"transparent",
-                    border:`1px solid ${!subtema?"rgba(249,194,49,0.3)":"transparent"}`,
-                    color:!subtema?T.amarelo:T.cinza3,
-                  }}>🎲 Aleatório</button>
-                  {disc.subtemas.map(s => (
-                    <button key={s} onClick={() => setSubtema(s)} className="btn" style={{
-                      padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
-                      background:subtema===s?"rgba(0,107,63,0.15)":"transparent",
-                      border:`1px solid ${subtema===s?"rgba(0,107,63,0.35)":"transparent"}`,
-                      color:subtema===s?T.verde3:T.cinza3,
-                    }}>{s}</button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Tema livre */}
-            <div style={{ marginBottom:14 }}>
-              <div style={{ fontSize:11, color:T.cinza3, marginBottom:6, fontWeight:600 }}>Ou escreva o tema</div>
-              <input value={temaLivre} onChange={e=>setTemaLivre(e.target.value)}
-                placeholder="Ex: responsabilidade tributária do sócio..."
-                style={{ width:"100%", background:T.fundo2, border:`1px solid ${T.borda2}`, borderRadius:8, padding:"8px 11px", color:T.branco, fontSize:12, outline:"none" }} />
-            </div>
-
-            {/* Quantidade */}
-            <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Quantidade de questões</div>
-              <div style={{ display:"flex", gap:6 }}>
-                {[1,3,5,10].map(n => (
-                  <button key={n} onClick={() => setQty(n)} className="btn" style={{
-                    flex:1, padding:"7px 4px", borderRadius:7, fontSize:12, fontWeight:700,
-                    background:qty===n?T.verde2:T.fundo2,
-                    color:qty===n?"#fff":T.cinza3,
-                    border:`1px solid ${qty===n?T.verde2:T.borda2}`,
-                  }}>{n}</button>
-                ))}
-              </div>
-            </div>
-
-            {/* Botão: Gerar no estilo provas reais */}
-            {discSel && getSugestaoProvaReal(discSel) && (
-              <button onClick={async () => {
-                const sugestao = getSugestaoProvaReal(discSel);
-                if (!sugestao || gerando || !online) return;
-                setGerando(true); setFila([]); setFilaIdx(0); setQuestao(null); setRespUser(null); setMostrarGab(false);
-                const promptEspecial = `${PROMPT_FGV}
-
-REFERÊNCIA DE PROVA REAL: Esta questão deve seguir o padrão exato de uma questão real da ${sugestao.origem}.
-Tema: ${sugestao.tema}
-Contexto de enunciado: "${sugestao.q}"
-Gere uma questão nova e original neste mesmo estilo e dificuldade, com personagem diferente.`;
-                const q = await gerarQuestao(sugestao.tema, discSel, promptEspecial);
-                if (q) { setFila([q]); setQuestao(q); setModo("resultado"); setStats(s => ({ ...s, questoesGeradas: s.questoesGeradas + 1, pontos: s.pontos + 5 })); }
-                setGerando(false);
-              }} disabled={gerando||!online} className="btn" style={{
-                width:"100%", padding:"10px", borderRadius:9, fontWeight:700, fontSize:12,
-                background:"rgba(159,122,234,0.15)", border:"1px solid rgba(159,122,234,0.4)",
-                color:"#C084FC", cursor:"pointer", marginBottom:8,
-              }}>
-                📋 Gerar no Estilo das Provas Reais
+            ))}
+            {bancoPlacar.total > 0 && (
+              <button onClick={() => setBancoPlacar({acertos:0,erros:0,total:0})} className="btn"
+                style={{ background:"transparent", border:`1px solid ${T.borda2}`, color:T.cinza3, borderRadius:10, padding:"8px 12px", fontSize:11 }}>
+                🗑️
               </button>
             )}
-
-            {/* Botão gerar */}
-            <button onClick={gerarFila} disabled={!discSel||gerando||!online} className="btn" style={{
-              width:"100%", padding:"13px", borderRadius:10, fontWeight:800, fontSize:14,
-              background:(!discSel||gerando||!online)?T.fundo2:`linear-gradient(135deg,${T.verde},${T.verde2})`,
-              color:(!discSel||gerando||!online)?T.cinza3:"#fff",
-              cursor:(!discSel||gerando||!online)?"not-allowed":"pointer",
-              boxShadow:(!discSel||gerando||!online)?"none":`0 6px 24px rgba(0,107,63,0.3)`,
-            }}>
-              {gerando ? `⏳ Gerando ${qty} questão${qty>1?'es':''}…` : `🎯 Gerar ${qty} Questão${qty>1?'es':''} FGV`}
-            </button>
-
-            {!discSel && <div style={{ fontSize:11, color:T.cinza3, textAlign:"center", marginTop:8 }}>Selecione uma disciplina acima</div>}
           </div>
 
-          {/* Histórico recente */}
-          {historico.length > 0 && (
-            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:12, padding:"14px 16px" }}>
-              <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:10 }}>📋 Últimas questões</div>
-              {historico.slice(0,6).map((h,i) => (
-                <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:8, padding:"6px 0", borderBottom:`1px solid ${T.borda2}` }}>
-                  <span style={{ fontSize:11, color:T.cinza3, flexShrink:0 }}>{new Date(h.data).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</span>
-                  <div>
-                    <div style={{ fontSize:11, color:T.branco, lineHeight:1.4 }}>{h.tema}</div>
-                    <div style={{ fontSize:10, color:T.cinza3 }}>{h.disciplina}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+          {/* Filtro de disciplina */}
+          <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:16 }}>
+            {DISCIPLINAS_BANCO.map(d => (
+              <button key={d} onClick={() => { setBancoDisc(d); setBancoIdx(0); setBancoResp(null); setBancoGab(false); }} className="btn" style={{
+                padding:"6px 14px", borderRadius:20, fontSize:11, fontWeight:700,
+                background: bancoDisciplina===d ? "rgba(0,107,63,0.2)" : T.fundo3,
+                border: `1px solid ${bancoDisciplina===d ? "rgba(0,107,63,0.5)" : T.borda2}`,
+                color: bancoDisciplina===d ? T.verde3 : T.cinza3,
+              }}>{d.replace("Direito ","").replace(" Geral","")}</button>
+            ))}
+          </div>
 
-        {/* ── ÁREA DA QUESTÃO ── */}
-        <div style={{ flex:1, minWidth:0 }}>
-          {gerando && !questao && (
+          {/* Loading */}
+          {bancoCarreg && (
             <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:40, textAlign:"center" }}>
-              <Spinner label={`Elaborando ${qty} questão${qty>1?'es':''} no padrão FGV…`} />
-              <p style={{ color:T.cinza3, fontSize:12, marginTop:8 }}>Analisando situação-problema, criando alternativas e distratores…</p>
+              <Spinner label="Carregando questões FGV reais…" />
             </div>
           )}
 
-          {questao && (
+          {/* Banco vazio */}
+          {!bancoCarreg && bancoVazio && (
+            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"40px 24px", textAlign:"center" }}>
+              <div style={{ fontSize:48, marginBottom:12 }}>📭</div>
+              <h3 style={{ color:"#fff", fontFamily:"'Playfair Display',serif", marginBottom:8 }}>Banco ainda não populado</h3>
+              <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, maxWidth:400, margin:"0 auto 20px" }}>
+                As questões FGV reais de <strong style={{ color:T.amarelo }}>{bancoDisciplina}</strong> ainda não foram inseridas no banco.<br/>
+                Execute a migration SQL no painel do Supabase para populá-lo.
+              </p>
+              <div style={{ background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.2)", borderRadius:10, padding:"12px 16px", maxWidth:420, margin:"0 auto 20px", textAlign:"left" }}>
+                <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:6 }}>📋 Como popular o banco:</div>
+                <div style={{ fontSize:12, color:T.cinza3, lineHeight:1.8 }}>
+                  1. Supabase → SQL Editor<br/>
+                  2. Cole o arquivo <code style={{ color:T.verde2, fontFamily:"monospace" }}>supabase/migrations/20260617_seed_questoes_fgv.sql</code><br/>
+                  3. Clique em Run
+                </div>
+              </div>
+              <button onClick={() => setAbaSel("ia")} className="btn" style={{
+                padding:"10px 24px", borderRadius:9, background:`linear-gradient(135deg,${T.verde},${T.verde2})`,
+                color:"#fff", fontWeight:700, fontSize:13,
+              }}>🤖 Usar IA enquanto isso</button>
+            </div>
+          )}
+
+          {/* Questão do banco */}
+          {!bancoCarreg && !bancoVazio && questaoAtual && (
             <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, overflow:"hidden" }}>
-              {/* Header da questão */}
+
+              {/* Header */}
               <div style={{ background:"rgba(0,107,63,0.1)", borderBottom:`1px solid rgba(0,107,63,0.2)`, padding:"12px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
-                  <span style={{ background:T.verde2, color:"#fff", fontSize:11, fontWeight:800, borderRadius:6, padding:"3px 10px" }}>
-                    FGV {fila.length>1?`${filaidx+1}/${fila.length}`:""}
+                  <span style={{ background:"#1a5c36", color:T.verde3, fontSize:10, fontWeight:800, borderRadius:6, padding:"3px 10px", border:`1px solid rgba(0,107,63,0.4)` }}>
+                    FGV REAL
                   </span>
-                  <span style={{ fontSize:12, color:T.verde3, fontWeight:600 }}>{questao.disciplina}</span>
-                  <span style={{ fontSize:11, color:T.cinza3 }}>→ {questao.tema}</span>
+                  <span style={{ fontSize:12, color:T.verde3, fontWeight:600 }}>{questaoAtual.disciplina}</span>
+                  <span style={{ fontSize:11, color:T.cinza3 }}>→ {questaoAtual.tema}</span>
                 </div>
-                <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-                  <span style={{ fontSize:11, color:questao.dificuldade==="Muito Difícil"?T.red:questao.dificuldade==="Difícil"?T.orange:T.amarelo, fontWeight:700 }}>
-                    {questao.dificuldade==="Muito Difícil"?"🔴":questao.dificuldade==="Difícil"?"🟠":"🟡"} {questao.dificuldade}
-                  </span>
-                  <button onClick={() => { setQuestao(null); setRespUser(null); setMostrarGab(false); setModo("gerar"); }} className="btn"
-                    style={{ background:"rgba(255,255,255,0.05)", border:`1px solid ${T.borda2}`, color:T.cinza3, padding:"4px 10px", borderRadius:6, fontSize:11 }}>✕</button>
+                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                  {questaoAtual.dificuldade && (
+                    <span style={{ fontSize:11, fontWeight:700, color: questaoAtual.dificuldade==="Difícil"?T.orange:questaoAtual.dificuldade==="Muito Difícil"?T.red:T.amarelo }}>
+                      {questaoAtual.dificuldade==="Difícil"?"🟠":questaoAtual.dificuldade==="Muito Difícil"?"🔴":"🟡"} {questaoAtual.dificuldade}
+                    </span>
+                  )}
+                  <span style={{ fontSize:10, color:T.cinza3 }}>{questaoAtual.prova_referencia}</span>
                 </div>
               </div>
 
-              {/* Enunciado */}
-              <div style={{ padding:"22px 22px 18px" }}>
-                <p style={{ fontSize:isMobile?13:14, color:T.branco, lineHeight:1.85, marginBottom:22, fontFamily:"'Georgia',serif" }}>
-                  {questao.enunciado}
+              {/* Body */}
+              <div style={{ padding:"20px 22px" }}>
+                <p style={{ fontSize:isMobile?13:14.5, color:T.branco, lineHeight:1.85, marginBottom:22, fontFamily:"'Georgia',serif" }}>
+                  {questaoAtual.enunciado}
                 </p>
 
                 {/* Alternativas */}
-                <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:20 }}>
                   {["A","B","C","D","E"].map(letra => {
-                    const estilo = corAlt(letra);
+                    const alternativas = typeof questaoAtual.alternativas === "string"
+                      ? JSON.parse(questaoAtual.alternativas)
+                      : questaoAtual.alternativas;
+                    const estilo = corAltBanco(letra);
                     return (
-                      <button key={letra} onClick={() => responder(letra)} disabled={!!respostaUser} className="btn" style={{
-                        display:"flex", alignItems:"flex-start", gap:12, padding:"12px 14px",
-                        background:estilo.bg, border:`1px solid ${estilo.border}`,
-                        borderRadius:9, textAlign:"left", cursor:respostaUser?"default":"pointer",
-                        transition:"all .2s",
+                      <button key={letra} onClick={() => responderBanco(letra)} disabled={!!bancoResp} className="btn" style={{
+                        display:"flex", alignItems:"flex-start", gap:10, padding:"11px 14px",
+                        borderRadius:10, border:`1px solid ${estilo.border}`,
+                        background:estilo.bg, cursor:bancoResp?"default":"pointer", textAlign:"left",
                       }}>
                         <span style={{ fontWeight:900, fontSize:14, color:estilo.color, flexShrink:0, fontFamily:"'JetBrains Mono',monospace", marginTop:1 }}>{letra}</span>
-                        <span style={{ fontSize:13, color:estilo.color, lineHeight:1.65 }}>{questao.alternativas[letra]}</span>
-                        {respostaUser && letra === questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>✅</span>}
-                        {respostaUser && letra === respostaUser && letra !== questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>❌</span>}
+                        <span style={{ fontSize:13, color:estilo.color, lineHeight:1.65 }}>{alternativas?.[letra]}</span>
+                        {bancoResp && letra === questaoAtual.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>✅</span>}
+                        {bancoResp && letra === bancoResp && letra !== questaoAtual.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>❌</span>}
                       </button>
                     );
                   })}
                 </div>
-              </div>
 
-              {/* Gabarito + Explicação */}
-              {mostrarGab && (
-                <div style={{ borderTop:`1px solid ${T.borda2}`, padding:"18px 22px", background:"rgba(0,0,0,0.15)" }}>
-                  {/* Resultado */}
-                  <div style={{
-                    display:"flex", alignItems:"center", gap:12, padding:"12px 16px",
-                    background:respostaUser===questao.gabarito?"rgba(0,107,63,0.15)":"rgba(229,62,62,0.1)",
-                    border:`1px solid ${respostaUser===questao.gabarito?"rgba(0,107,63,0.4)":"rgba(229,62,62,0.3)"}`,
-                    borderRadius:9, marginBottom:16,
-                  }}>
-                    <span style={{ fontSize:24 }}>{respostaUser===questao.gabarito?"✅":"❌"}</span>
-                    <div>
-                      <div style={{ fontSize:13, fontWeight:700, color:respostaUser===questao.gabarito?T.verde3:"#FCA5A5" }}>
-                        {respostaUser===questao.gabarito?"Correto! +20 pontos":"Incorreto. Gabarito: "+questao.gabarito}
-                      </div>
-                      <div style={{ fontSize:11, color:T.cinza3, marginTop:2 }}>Base legal: {questao.fundamentacao}</div>
-                    </div>
-                  </div>
-
-                  {/* Explicação do gabarito */}
-                  <div style={{ marginBottom:14 }}>
-                    <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>📖 Por que a alternativa {questao.gabarito} está correta</div>
-                    <p style={{ fontSize:13, color:T.branco, lineHeight:1.8 }}>{questao.explicacao_gabarito}</p>
-                  </div>
-
-                  {/* Distratores */}
-                  <div style={{ marginBottom:14 }}>
-                    <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>🔍 Por que as outras estão erradas</div>
-                    <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-                      {["A","B","C","D","E"].filter(l=>l!==questao.gabarito).map(l => (
-                        <div key={l} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, lineHeight:1.6 }}>
-                          <span style={{ fontWeight:700, color:"#FCA5A5", flexShrink:0, fontFamily:"'JetBrains Mono',monospace" }}>{l})</span>
-                          <span>{questao.explicacao_distratores?.[l]}</span>
+                {/* Gabarito + explicação */}
+                {bancoGab && (
+                  <div style={{ borderTop:`1px solid ${T.borda2}`, paddingTop:18 }}>
+                    <div style={{
+                      display:"flex", alignItems:"center", gap:12, padding:"12px 16px",
+                      background: bancoResp===questaoAtual.gabarito?"rgba(0,107,63,0.15)":"rgba(229,62,62,0.1)",
+                      border:`1px solid ${bancoResp===questaoAtual.gabarito?"rgba(0,107,63,0.4)":"rgba(229,62,62,0.3)"}`,
+                      borderRadius:9, marginBottom:16,
+                    }}>
+                      <span style={{ fontSize:24 }}>{bancoResp===questaoAtual.gabarito?"✅":"❌"}</span>
+                      <div>
+                        <div style={{ fontSize:13, fontWeight:700, color:bancoResp===questaoAtual.gabarito?T.verde3:"#FCA5A5" }}>
+                          {bancoResp===questaoAtual.gabarito ? "Correto! +20 pontos" : `Incorreto. Gabarito: ${questaoAtual.gabarito}`}
                         </div>
-                      ))}
+                        {questaoAtual.fundamentacao && (
+                          <div style={{ fontSize:11, color:T.cinza3, marginTop:2 }}>Base legal: {questaoAtual.fundamentacao}</div>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Dica de prova */}
-                  <div style={{ background:"rgba(249,194,49,0.06)", border:`1px solid rgba(249,194,49,0.2)`, borderRadius:9, padding:"10px 14px", marginBottom:16 }}>
-                    <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:5 }}>💡 Dica para nunca mais errar</div>
-                    <p style={{ fontSize:12, color:T.cinza3, lineHeight:1.7 }}>{questao.dica_prova}</p>
-                  </div>
+                    {questaoAtual.explicacao_gabarito && (
+                      <div style={{ marginBottom:14 }}>
+                        <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>
+                          📖 Por que a alternativa {questaoAtual.gabarito} está correta
+                        </div>
+                        <p style={{ fontSize:13, color:T.branco, lineHeight:1.8 }}>{questaoAtual.explicacao_gabarito}</p>
+                      </div>
+                    )}
 
-                  {/* Botão próxima */}
-                  <button onClick={proximaQuestao} className="btn" style={{
-                    width:"100%", padding:"13px", borderRadius:10, fontWeight:700, fontSize:14,
-                    background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
-                    boxShadow:`0 6px 20px rgba(0,107,63,0.3)`,
-                  }}>
-                    {filaidx+1 < fila.length ? `➡️ Próxima questão (${filaidx+2}/${fila.length})` : "🎯 Gerar nova questão"}
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+                    {questaoAtual.explicacao_distratores && (
+                      <div style={{ marginBottom:14 }}>
+                        <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>
+                          ❌ Por que as demais estão erradas
+                        </div>
+                        <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                          {["A","B","C","D","E"].filter(l => l !== questaoAtual.gabarito).map(l => {
+                            const dist = typeof questaoAtual.explicacao_distratores === "string"
+                              ? JSON.parse(questaoAtual.explicacao_distratores)
+                              : questaoAtual.explicacao_distratores;
+                            return dist?.[l] ? (
+                              <div key={l} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, lineHeight:1.6 }}>
+                                <span style={{ fontWeight:700, color:"#FCA5A5", flexShrink:0, fontFamily:"monospace" }}>{l})</span>
+                                <span>{dist[l]}</span>
+                              </div>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
 
-          {/* Estado vazio */}
-          {!questao && !gerando && (
-            <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"48px 32px", textAlign:"center", color:T.cinza3 }}>
-              <div style={{ fontSize:52, marginBottom:16 }}>🎯</div>
-              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"#fff", marginBottom:10 }}>Pronto para simular</h2>
-              <p style={{ fontSize:13, maxWidth:380, margin:"0 auto 20px", lineHeight:1.7 }}>
-                Selecione uma disciplina, escolha o subtema (ou deixe aleatório) e clique em <strong style={{ color:T.verde2 }}>Gerar Questão FGV</strong>. A IA elabora no padrão exato da banca.
-              </p>
-              <div style={{ background:"rgba(0,107,63,0.08)", border:`1px solid rgba(0,107,63,0.2)`, borderRadius:10, padding:"14px 18px", maxWidth:400, margin:"0 auto", textAlign:"left" }}>
-                <div style={{ fontSize:11, fontWeight:700, color:T.verde2, marginBottom:8 }}>🔍 Padrão FGV aplicado:</div>
-                {["Situação-problema com personagem nomeado","5 alternativas com distratores sutis","Gabarito com fundamentação legal exata","Explicação de cada alternativa incorreta","Dica estratégica para não errar mais"].map((item,i) => (
-                  <div key={i} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, marginBottom:4 }}>
-                    <span style={{ color:T.verde2 }}>✓</span>{item}
+                    {questaoAtual.dica_prova && (
+                      <div style={{ background:"rgba(249,194,49,0.06)", border:"1px solid rgba(249,194,49,0.2)", borderRadius:9, padding:"12px 16px", marginBottom:16 }}>
+                        <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:5 }}>💡 Dica para não errar mais</div>
+                        <p style={{ fontSize:12, color:T.cinza3, lineHeight:1.7 }}>{questaoAtual.dica_prova}</p>
+                      </div>
+                    )}
+
+                    <button onClick={proximaBanco} className="btn" style={{
+                      width:"100%", padding:"13px", borderRadius:10, fontWeight:700, fontSize:14,
+                      background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
+                      boxShadow:`0 6px 20px rgba(0,107,63,0.3)`,
+                    }}>
+                      {bancoIdx + 1 < bancoQuestoes.length ? `Próxima Questão →` : `🔄 Reiniciar Disciplina`}
+                    </button>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           )}
         </div>
-      </div>
+      )}
+
+      {/* ══════════════════════════════════════
+          ABA: GERAR POR IA
+          ══════════════════════════════════════ */}
+      {abaSel === "ia" && (
+        <div>
+          {/* Placar IA */}
+          <div style={{ display:"flex", gap:10, marginBottom:20, flexWrap:"wrap" }}>
+            {[
+              { label:"Acertos", val:placar.acertos, cor:T.verde2 },
+              { label:"Erros",   val:placar.erros,   cor:T.red },
+              { label:"Total",   val:placar.total,   cor:T.cinza3 },
+              { label:"Taxa",    val:`${taxaAcerto}%`, cor:taxaAcerto>=70?T.verde2:taxaAcerto>=50?T.amarelo:T.red },
+            ].map(item => (
+              <div key={item.label} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"10px 16px", flex:1, minWidth:80, textAlign:"center" }}>
+                <div style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:900, color:item.cor, lineHeight:1 }}>{item.val}</div>
+                <div style={{ fontSize:10, color:T.cinza3, marginTop:3, fontWeight:600 }}>{item.label}</div>
+              </div>
+            ))}
+            {placar.total > 0 && (
+              <button onClick={() => { setPlacar({acertos:0,erros:0,total:0}); localStorage.setItem("simulado_placar","{}"); }} className="btn"
+                style={{ background:"transparent", border:`1px solid ${T.borda2}`, color:T.cinza3, borderRadius:10, padding:"10px 14px", fontSize:11 }}>
+                🗑️ Zerar
+              </button>
+            )}
+          </div>
+
+          {!online && (
+            <div style={{ background:"rgba(237,137,54,0.08)", border:`1px solid rgba(237,137,54,0.25)`, borderRadius:9, padding:"10px 13px", marginBottom:16, fontSize:12, color:"#FCD34D", display:"flex", gap:8 }}>
+              <span>📡</span><span>Simulado por IA requer conexão com a internet.</span>
+            </div>
+          )}
+
+          <div style={{ display:"flex", gap:isMobile?0:20, flexDirection:isMobile?"column":"row", alignItems:"flex-start" }}>
+
+            {/* Painel esquerdo config */}
+            <div style={{ width:isMobile?"100%":280, flexShrink:0, marginBottom:isMobile?16:0 }}>
+              <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"18px 16px", marginBottom:12 }}>
+                <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:14 }}>⚙️ Configurar questão</div>
+
+                <div style={{ marginBottom:12 }}>
+                  <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Disciplina</div>
+                  <div style={{ display:"flex", flexDirection:"column", gap:5, maxHeight:280, overflowY:"auto" }}>
+                    {DISC_SIMULADO.map(d => (
+                      <button key={d.id} onClick={() => { setDiscSel(d.id); setSubtema(""); setTemaLivre(""); }} className="btn" style={{
+                        padding:"8px 11px", borderRadius:8, fontSize:12, fontWeight:discSel===d.id?700:400, textAlign:"left",
+                        background:discSel===d.id?"rgba(0,107,63,0.18)":"transparent",
+                        border:`1px solid ${discSel===d.id?"rgba(0,107,63,0.4)":"transparent"}`,
+                        color:discSel===d.id?T.verde3:T.cinza3,
+                        display:"flex", alignItems:"center", gap:7,
+                      }}>
+                        <span style={{ fontSize:14 }}>{d.icon}</span>
+                        <span style={{ lineHeight:1.3 }}>{d.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {disc && (
+                  <div style={{ marginBottom:12 }}>
+                    <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Subtema (opcional)</div>
+                    <div style={{ display:"flex", flexDirection:"column", gap:4, maxHeight:180, overflowY:"auto" }}>
+                      <button onClick={() => setSubtema("")} className="btn" style={{
+                        padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
+                        background:!subtema?"rgba(249,194,49,0.1)":"transparent",
+                        border:`1px solid ${!subtema?"rgba(249,194,49,0.3)":"transparent"}`,
+                        color:!subtema?T.amarelo:T.cinza3,
+                      }}>🎲 Aleatório</button>
+                      {disc.subtemas.map(s => (
+                        <button key={s} onClick={() => setSubtema(s)} className="btn" style={{
+                          padding:"6px 10px", borderRadius:7, fontSize:11, textAlign:"left",
+                          background:subtema===s?"rgba(0,107,63,0.15)":"transparent",
+                          border:`1px solid ${subtema===s?"rgba(0,107,63,0.35)":"transparent"}`,
+                          color:subtema===s?T.verde3:T.cinza3,
+                        }}>{s}</button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div style={{ marginBottom:14 }}>
+                  <div style={{ fontSize:11, color:T.cinza3, marginBottom:6, fontWeight:600 }}>Ou escreva o tema</div>
+                  <input value={temaLivre} onChange={e=>setTemaLivre(e.target.value)}
+                    placeholder="Ex: responsabilidade tributária do sócio..."
+                    style={{ width:"100%", background:T.fundo2, border:`1px solid ${T.borda2}`, borderRadius:8, padding:"8px 11px", color:T.branco, fontSize:12, outline:"none" }} />
+                </div>
+
+                <div style={{ marginBottom:16 }}>
+                  <div style={{ fontSize:11, color:T.cinza3, marginBottom:7, fontWeight:600 }}>Quantidade de questões</div>
+                  <div style={{ display:"flex", gap:6 }}>
+                    {[1,3,5,10].map(n => (
+                      <button key={n} onClick={() => setQty(n)} className="btn" style={{
+                        flex:1, padding:"7px 4px", borderRadius:7, fontSize:12, fontWeight:700,
+                        background:qty===n?T.verde2:T.fundo2,
+                        color:qty===n?"#fff":T.cinza3,
+                        border:`1px solid ${qty===n?T.verde2:T.borda2}`,
+                      }}>{n}</button>
+                    ))}
+                  </div>
+                </div>
+
+                {discSel && getSugestaoProvaReal(discSel) && (
+                  <button onClick={async () => {
+                    const sugestao = getSugestaoProvaReal(discSel);
+                    if (!sugestao || gerando || !online) return;
+                    setGerando(true); setFila([]); setFilaIdx(0); setQuestao(null); setRespUser(null); setMostrarGab(false);
+                    const promptEspecial = `${PROMPT_FGV}\n\nREFERÊNCIA DE PROVA REAL: Esta questão deve seguir o padrão exato de uma questão real da ${sugestao.origem}.\nTema: ${sugestao.tema}\nContexto de enunciado: "${sugestao.q}"\nGere uma questão nova e original neste mesmo estilo e dificuldade, com personagem diferente.`;
+                    const q = await gerarQuestao(sugestao.tema, discSel, promptEspecial);
+                    if (q) { setFila([q]); setQuestao(q); setModo("resultado"); setStats(s => ({ ...s, questoesGeradas: s.questoesGeradas + 1, pontos: s.pontos + 5 })); }
+                    setGerando(false);
+                  }} disabled={gerando||!online} className="btn" style={{
+                    width:"100%", padding:"10px", borderRadius:9, fontWeight:700, fontSize:12,
+                    background:"rgba(159,122,234,0.15)", border:"1px solid rgba(159,122,234,0.4)",
+                    color:"#C084FC", cursor:"pointer", marginBottom:8,
+                  }}>
+                    📋 Gerar no Estilo das Provas Reais
+                  </button>
+                )}
+
+                <button onClick={gerarFila} disabled={!discSel||gerando||!online} className="btn" style={{
+                  width:"100%", padding:"13px", borderRadius:10, fontWeight:800, fontSize:14,
+                  background:(!discSel||gerando||!online)?T.fundo2:`linear-gradient(135deg,${T.verde},${T.verde2})`,
+                  color:(!discSel||gerando||!online)?T.cinza3:"#fff",
+                  cursor:(!discSel||gerando||!online)?"not-allowed":"pointer",
+                  boxShadow:(!discSel||gerando||!online)?"none":`0 6px 24px rgba(0,107,63,0.3)`,
+                }}>
+                  {gerando ? `⏳ Gerando ${qty} questão${qty>1?'es':''}…` : `🎯 Gerar ${qty} Questão${qty>1?'es':''} FGV`}
+                </button>
+                {!discSel && <div style={{ fontSize:11, color:T.cinza3, textAlign:"center", marginTop:8 }}>Selecione uma disciplina acima</div>}
+              </div>
+
+              {historico.length > 0 && (
+                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:12, padding:"14px 16px" }}>
+                  <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:10 }}>📋 Últimas questões</div>
+                  {historico.slice(0,6).map((h,i) => (
+                    <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:8, padding:"6px 0", borderBottom:`1px solid ${T.borda2}` }}>
+                      <span style={{ fontSize:11, color:T.cinza3, flexShrink:0 }}>{new Date(h.data).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</span>
+                      <div>
+                        <div style={{ fontSize:11, color:T.branco, lineHeight:1.4 }}>{h.tema}</div>
+                        <div style={{ fontSize:10, color:T.cinza3 }}>{h.disciplina}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Área da questão IA */}
+            <div style={{ flex:1, minWidth:0 }}>
+              {gerando && !questao && (
+                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:40, textAlign:"center" }}>
+                  <Spinner label={`Elaborando ${qty} questão${qty>1?'es':''} no padrão FGV…`} />
+                  <p style={{ color:T.cinza3, fontSize:12, marginTop:8 }}>Analisando situação-problema, criando alternativas e distratores…</p>
+                </div>
+              )}
+
+              {questao && (
+                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, overflow:"hidden" }}>
+                  <div style={{ background:"rgba(0,107,63,0.1)", borderBottom:`1px solid rgba(0,107,63,0.2)`, padding:"12px 18px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
+                      <span style={{ background:T.verde2, color:"#fff", fontSize:11, fontWeight:800, borderRadius:6, padding:"3px 10px" }}>
+                        FGV {fila.length>1?`${filaidx+1}/${fila.length}`:""}
+                      </span>
+                      <span style={{ fontSize:12, color:T.verde3, fontWeight:600 }}>{questao.disciplina}</span>
+                      <span style={{ fontSize:11, color:T.cinza3 }}>→ {questao.tema}</span>
+                    </div>
+                    <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+                      <span style={{ fontSize:11, color:questao.dificuldade==="Muito Difícil"?T.red:questao.dificuldade==="Difícil"?T.orange:T.amarelo, fontWeight:700 }}>
+                        {questao.dificuldade==="Muito Difícil"?"🔴":questao.dificuldade==="Difícil"?"🟠":"🟡"} {questao.dificuldade}
+                      </span>
+                      <button onClick={() => { setQuestao(null); setRespUser(null); setMostrarGab(false); setModo("gerar"); }} className="btn"
+                        style={{ background:"rgba(255,255,255,0.05)", border:`1px solid ${T.borda2}`, color:T.cinza3, padding:"4px 10px", borderRadius:6, fontSize:11 }}>✕</button>
+                    </div>
+                  </div>
+
+                  <div style={{ padding:"20px 22px" }}>
+                    <p style={{ fontSize:isMobile?13:14, color:T.branco, lineHeight:1.85, marginBottom:22, fontFamily:"'Georgia',serif" }}>
+                      {questao.enunciado}
+                    </p>
+                    <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                      {["A","B","C","D","E"].map(letra => {
+                        const estilo = corAlt(letra);
+                        return (
+                          <button key={letra} onClick={() => responder(letra)} disabled={!!respostaUser} className="btn" style={{
+                            display:"flex", alignItems:"flex-start", gap:10, padding:"11px 14px",
+                            borderRadius:10, border:`1px solid ${estilo.border}`,
+                            background:estilo.bg, cursor:respostaUser?"default":"pointer", textAlign:"left",
+                          }}>
+                            <span style={{ fontWeight:900, fontSize:14, color:estilo.color, flexShrink:0, fontFamily:"'JetBrains Mono',monospace", marginTop:1 }}>{letra}</span>
+                            <span style={{ fontSize:13, color:estilo.color, lineHeight:1.65 }}>{questao.alternativas[letra]}</span>
+                            {respostaUser && letra === questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>✅</span>}
+                            {respostaUser && letra === respostaUser && letra !== questao.gabarito && <span style={{ marginLeft:"auto", fontSize:16, flexShrink:0 }}>❌</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {mostrarGab && (
+                      <div style={{ borderTop:`1px solid ${T.borda2}`, paddingTop:18, marginTop:18 }}>
+                        <div style={{
+                          display:"flex", alignItems:"center", gap:12, padding:"12px 16px",
+                          background:respostaUser===questao.gabarito?"rgba(0,107,63,0.15)":"rgba(229,62,62,0.1)",
+                          border:`1px solid ${respostaUser===questao.gabarito?"rgba(0,107,63,0.4)":"rgba(229,62,62,0.3)"}`,
+                          borderRadius:9, marginBottom:16,
+                        }}>
+                          <span style={{ fontSize:24 }}>{respostaUser===questao.gabarito?"✅":"❌"}</span>
+                          <div>
+                            <div style={{ fontSize:13, fontWeight:700, color:respostaUser===questao.gabarito?T.verde3:"#FCA5A5" }}>
+                              {respostaUser===questao.gabarito?"Correto! +20 pontos":"Incorreto. Gabarito: "+questao.gabarito}
+                            </div>
+                            <div style={{ fontSize:11, color:T.cinza3, marginTop:2 }}>Base legal: {questao.fundamentacao}</div>
+                          </div>
+                        </div>
+
+                        <div style={{ marginBottom:14 }}>
+                          <div style={{ fontSize:11, fontWeight:700, color:T.verde2, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>📖 Por que a alternativa {questao.gabarito} está correta</div>
+                          <p style={{ fontSize:13, color:T.branco, lineHeight:1.8 }}>{questao.explicacao_gabarito}</p>
+                        </div>
+
+                        {questao.explicacao_distratores && (
+                          <div style={{ marginBottom:14 }}>
+                            <div style={{ fontSize:11, fontWeight:700, color:T.cinza3, textTransform:"uppercase", letterSpacing:1, marginBottom:8 }}>❌ Por que as demais estão erradas</div>
+                            <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                              {["A","B","C","D","E"].filter(l=>l!==questao.gabarito).map(l => (
+                                <div key={l} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, lineHeight:1.6 }}>
+                                  <span style={{ fontWeight:700, color:"#FCA5A5", flexShrink:0, fontFamily:"'JetBrains Mono',monospace" }}>{l})</span>
+                                  <span>{questao.explicacao_distratores?.[l]}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {questao.dica_prova && (
+                          <div style={{ background:"rgba(249,194,49,0.06)", border:"1px solid rgba(249,194,49,0.2)", borderRadius:9, padding:"12px 16px", marginBottom:16 }}>
+                            <div style={{ fontSize:11, fontWeight:700, color:T.amarelo, marginBottom:5 }}>💡 Dica para nunca mais errar</div>
+                            <p style={{ fontSize:12, color:T.cinza3, lineHeight:1.7 }}>{questao.dica_prova}</p>
+                          </div>
+                        )}
+
+                        <button onClick={proximaQuestao} className="btn" style={{
+                          width:"100%", padding:"13px", borderRadius:10, fontWeight:700, fontSize:14,
+                          background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
+                          boxShadow:`0 6px 20px rgba(0,107,63,0.3)`,
+                        }}>
+                          {filaidx + 1 < fila.length ? "Próxima Questão →" : "🎯 Nova Sessão"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {!questao && !gerando && (
+                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:13, padding:"48px 32px", textAlign:"center", color:T.cinza3 }}>
+                  <div style={{ fontSize:52, marginBottom:16 }}>🎯</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"#fff", marginBottom:10 }}>Pronto para simular</h2>
+                  <p style={{ fontSize:13, maxWidth:380, margin:"0 auto 20px", lineHeight:1.7 }}>
+                    Selecione uma disciplina e clique em <strong style={{ color:T.verde2 }}>Gerar Questão FGV</strong>. A IA elabora no padrão exato da banca.
+                  </p>
+                  <div style={{ background:"rgba(0,107,63,0.08)", border:`1px solid rgba(0,107,63,0.2)`, borderRadius:10, padding:"14px 18px", maxWidth:400, margin:"0 auto", textAlign:"left" }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:T.verde2, marginBottom:8 }}>🔍 Padrão FGV aplicado:</div>
+                    {["Situação-problema com personagem nomeado","5 alternativas com distratores sutis","Gabarito com fundamentação legal exata","Explicação de cada alternativa incorreta","Dica estratégica para não errar mais"].map((item,i) => (
+                      <div key={i} style={{ display:"flex", gap:8, fontSize:12, color:T.cinza3, marginBottom:4 }}>
+                        <span style={{ color:T.verde2 }}>✓</span>{item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
