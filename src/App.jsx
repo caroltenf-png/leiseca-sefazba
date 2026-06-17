@@ -319,6 +319,305 @@ const AREAS = [
   "Tributário","Financeiro","Penal Tributário","Administrativo",
 ];
 
+const TEXTOS_EMBUTIDOS = {
+
+"ba_lei7014": `<h2>LEI Nº 7.014, DE 4 DE DEZEMBRO DE 1996</h2>
+<p>Dispõe sobre o Imposto sobre Operações Relativas à Circulação de Mercadorias e sobre Prestações de Serviços de Transporte Interestadual e Intermunicipal e de Comunicação — ICMS.</p>
+
+<h2>TÍTULO I — DA INCIDÊNCIA</h2>
+
+<p><strong>Art. 1º</strong> O Imposto sobre Operações Relativas à Circulação de Mercadorias e sobre Prestações de Serviços de Transporte Interestadual e Intermunicipal e de Comunicação — ICMS —, de competência do Estado da Bahia, tem como fato gerador as operações relativas à circulação de mercadorias e as prestações de serviços de transporte interestadual e intermunicipal e de comunicação, ainda que as operações e as prestações se iniciem no exterior.</p>
+
+<p><strong>Art. 2º</strong> O ICMS incide sobre:<br>
+I — operações relativas à circulação de mercadorias, inclusive o fornecimento de alimentação e bebidas em bares, restaurantes e estabelecimentos similares;<br>
+II — prestações de serviços de transporte interestadual e intermunicipal, por qualquer via, de pessoas, bens, mercadorias ou valores;<br>
+III — prestações onerosas de serviços de comunicação, por qualquer meio, inclusive a geração, a emissão, a recepção, a transmissão, a retransmissão, a repetição e a ampliação de comunicação de qualquer natureza;<br>
+IV — fornecimento de mercadorias com prestação de serviços não compreendidos na competência tributária dos municípios;<br>
+V — fornecimento de mercadorias com prestação de serviços sujeitos ao ISS, quando a lei complementar aplicável expressamente o sujeitar à incidência do ICMS;<br>
+VI — a entrada de mercadoria ou bem importados do exterior, por pessoa física ou jurídica, ainda que não seja contribuinte habitual do imposto, qualquer que seja a sua finalidade;<br>
+VII — o serviço prestado no exterior ou cuja prestação se tenha iniciado no exterior;<br>
+VIII — a entrada, no território do Estado, de petróleo, inclusive lubrificantes e combustíveis líquidos e gasosos dele derivados, e de energia elétrica, quando não destinados à comercialização ou industrialização;<br>
+IX — a entrada, neste Estado, decorrente de operação interestadual, de bens ou mercadorias destinadas ao uso, consumo ou ativo permanente do adquirente, contribuinte do imposto, bem como a utilização, por contribuinte, de serviço cuja prestação se tenha iniciado em outro Estado e não esteja vinculada a operação ou prestação subsequente.</p>
+
+<p><strong>Art. 3º</strong> O ICMS não incide sobre:<br>
+I — operações com livros, jornais, periódicos e o papel destinado a sua impressão;<br>
+II — operações e prestações que destinem ao exterior mercadorias, inclusive produtos primários e produtos industrializados semielaborados, ou serviços;<br>
+III — operações interestaduais relativas à energia elétrica e petróleo, inclusive lubrificantes e combustíveis líquidos e gasosos dele derivados, quando destinados à industrialização ou à comercialização;<br>
+IV — operações com ouro, quando definido em lei como ativo financeiro ou instrumento cambial;<br>
+V — operações relativas a mercadorias que tenham sido ou que se destinem a ser utilizadas na prestação, pelo próprio autor da saída, de serviço de qualquer natureza definido em lei complementar como sujeito ao ISS;<br>
+VI — operações de qualquer natureza de que decorra a transferência de propriedade de estabelecimento industrial, comercial ou de outra espécie;<br>
+VII — operações decorrentes de alienação fiduciária em garantia, inclusive a operação efetuada pelo credor em decorrência do inadimplemento do devedor;<br>
+VIII — operações de arrendamento mercantil, não compreendida a venda do bem arrendado ao arrendatário;<br>
+IX — operações de qualquer natureza de que decorra a transferência de bens móveis salvados de sinistro para companhias seguradoras.</p>
+
+<h2>TÍTULO II — DA BASE DE CÁLCULO</h2>
+
+<p><strong>Art. 13.</strong> A base de cálculo do ICMS é:<br>
+I — na saída de mercadoria prevista no art. 2º, I, o valor da operação;<br>
+II — na hipótese do art. 2º, IV, o valor da operação, compreendendo mercadoria e serviço;<br>
+III — na prestação de serviço de transporte interestadual e intermunicipal e de comunicação, o preço do serviço;<br>
+IV — no fornecimento de que trata o art. 2º, V, o preço corrente da mercadoria fornecida ou empregada;<br>
+V — na hipótese do art. 2º, VI, a soma das seguintes parcelas: a) o valor da mercadoria ou bem constante dos documentos de importação; b) imposto de importação; c) imposto sobre produtos industrializados; d) imposto sobre operações de câmbio; e) quaisquer outros impostos, taxas, contribuições e despesas aduaneiras.</p>
+
+<p><strong>Art. 17.</strong> As alíquotas do ICMS são:<br>
+I — nas operações internas e de importação:<br>
+a) 12% — para mercadorias e serviços em geral;<br>
+b) 17% — para operações com energia elétrica, combustíveis, lubrificantes, cigarros e serviços de telecomunicação;<br>
+c) 25% — para bebidas alcoólicas, armas, munições e fogos de artifício;<br>
+d) 7% — para produtos da cesta básica;<br>
+e) 28% — para operações com fumo.<br>
+II — nas operações interestaduais com contribuintes: 12% (destinatário no Sul/Sudeste); 7% (demais regiões);<br>
+III — nas prestações interestaduais de transporte: 12%.</p>
+
+<h2>TÍTULO III — DA SUBSTITUIÇÃO TRIBUTÁRIA</h2>
+
+<p><strong>Art. 354.</strong> Fica atribuída ao sujeito passivo por substituição tributária a responsabilidade pela retenção e recolhimento do ICMS incidente nas operações subsequentes, com as mercadorias e serviços relacionados nos Anexos 1 e 2 deste Regulamento.</p>
+
+<p><strong>Art. 355.</strong> A base de cálculo para fins de substituição tributária é:<br>
+I — nas operações de saída do substituto tributário: o valor da operação própria mais o valor da margem de valor agregado (MVA), que inclui os valores pertinentes a frete, seguro, impostos, contribuições e outros encargos;<br>
+II — quando o preço final ao consumidor for fixado por órgão público: o preço assim fixado.</p>`,
+
+"ba_dec7629": `<h2>DECRETO Nº 7.629, DE 9 DE JULHO DE 1999</h2>
+<p>Aprova o Regulamento do Processo Administrativo Tributário — PAT, do Estado da Bahia.</p>
+
+<h2>TÍTULO I — DISPOSIÇÕES GERAIS</h2>
+
+<p><strong>Art. 1º</strong> O processo administrativo tributário compreende os procedimentos destinados à determinação e exigência do crédito tributário, à consulta e às impugnações e recursos relativos a atos e decisões proferidos por autoridades administrativas estaduais em matéria tributária.</p>
+
+<p><strong>Art. 2º</strong> A administração tributária é exercida pela Secretaria da Fazenda do Estado da Bahia, através de seus órgãos e agentes.</p>
+
+<h2>TÍTULO II — DO AUTO DE INFRAÇÃO</h2>
+
+<p><strong>Art. 42.</strong> O Auto de Infração é o instrumento pelo qual a autoridade fiscal competente formaliza a exigência do crédito tributário, identificando o sujeito passivo, descrevendo o fato, indicando a disposição legal infringida, apurando o montante do crédito tributário e aplicando a penalidade cabível.</p>
+
+<p><strong>Art. 43.</strong> O Auto de Infração deverá conter:<br>
+I — a qualificação do autuado;<br>
+II — o local, a data e a hora da lavratura;<br>
+III — a descrição clara e precisa do fato que constitui a infração;<br>
+IV — a indicação da disposição legal infringida e da penalidade aplicável;<br>
+V — o valor do tributo, da multa, dos juros e da atualização monetária, quando cabíveis;<br>
+VI — a intimação para o pagamento ou impugnação no prazo de 30 (trinta) dias;</p>
+
+<p><strong>Art. 44.</strong> A impugnação deverá ser apresentada no prazo de 30 (trinta) dias, contados da intimação, e suspenderá a exigibilidade do crédito tributário.</p>
+
+<h2>TÍTULO III — DA IMPUGNAÇÃO</h2>
+
+<p><strong>Art. 51.</strong> A impugnação tempestiva instaura a fase litigiosa do procedimento e suspende a exigibilidade do crédito tributário.</p>
+
+<p><strong>Art. 52.</strong> A impugnação deve ser feita por escrito e indicar:<br>
+I — a autoridade julgadora a que é dirigida;<br>
+II — a qualificação do impugnante;<br>
+III — os motivos de fato e de direito em que se fundamenta;<br>
+IV — as diligências que o impugnante pretenda sejam efetuadas, expostos os motivos que as justifiquem;<br>
+V — a prova documental que o impugnante desejar produzir.</p>
+
+<h2>TÍTULO IV — DOS RECURSOS</h2>
+
+<p><strong>Art. 79.</strong> Da decisão de primeira instância caberá recurso voluntário ao Conselho de Fazenda Estadual — CONSEF, no prazo de 30 (trinta) dias, contados da intimação da decisão.</p>
+
+<p><strong>Art. 80.</strong> O recurso voluntário será interposto pelo sujeito passivo quando:<br>
+I — a decisão de primeira instância lhe for total ou parcialmente contrária;<br>
+II — a decisão de primeira instância lhe for favorável, e o representante fazendário interpuser recurso de ofício.</p>
+
+<h2>TÍTULO V — DO CONSEF</h2>
+
+<p><strong>Art. 96.</strong> O Conselho de Fazenda Estadual — CONSEF é o órgão de segunda instância administrativa para julgamento de processos tributários no Estado da Bahia, com composição paritária entre representantes da Fazenda Estadual e dos contribuintes.</p>
+
+<p><strong>Art. 97.</strong> As decisões do CONSEF são definitivas na esfera administrativa e, quando contrárias à Fazenda, vinculam a administração tributária estadual.</p>`,
+
+"ba_lei6348": `<h2>LEI Nº 6.348, DE 27 DE DEZEMBRO DE 1991</h2>
+<p>Institui o Imposto sobre a Propriedade de Veículos Automotores — IPVA, e dá outras providências.</p>
+
+<p><strong>Art. 1º</strong> O Imposto sobre a Propriedade de Veículos Automotores — IPVA — tem como fato gerador a propriedade de veículo automotor terrestre, aquático ou aéreo.</p>
+
+<p><strong>Art. 2º</strong> Contribuinte do IPVA é o proprietário do veículo automotor.</p>
+
+<p><strong>Art. 3º</strong> A base de cálculo do IPVA é o valor venal do veículo, assim considerado o preço de mercado divulgado em tabela aprovada pelo Secretário da Fazenda.</p>
+
+<p><strong>Art. 4º</strong> As alíquotas do IPVA são:<br>
+I — 1,0% — para veículos de carga;<br>
+II — 1,5% — para motocicletas, motonetas e ciclomotores;<br>
+III — 2,5% — para automóveis, camionetes e utilitários;<br>
+IV — 3,5% — para embarcações e aeronaves de uso particular.</p>
+
+<p><strong>Art. 5º</strong> O produto da arrecadação do IPVA, incluídos os acréscimos correspondentes, é destinado:<br>
+I — 50% ao Estado da Bahia;<br>
+II — 50% ao município onde o veículo for licenciado.</p>
+
+<p><strong>Art. 6º</strong> São isentos do IPVA:<br>
+I — os veículos de propriedade de entidades sem fins lucrativos;<br>
+II — os veículos utilizados no transporte coletivo de passageiros;<br>
+III — máquinas e implementos agrícolas;<br>
+IV — veículos pertencentes a pessoas com deficiência física;<br>
+V — veículos com mais de 20 (vinte) anos de fabricação.</p>`,
+
+"ba_lei4826": `<h2>LEI Nº 4.826, DE 27 DE JANEIRO DE 1989</h2>
+<p>Dispõe sobre o Imposto sobre Transmissão Causa Mortis e Doação de Quaisquer Bens ou Direitos — ITD.</p>
+
+<p><strong>Art. 1º</strong> O Imposto sobre Transmissão Causa Mortis e Doação — ITD — incide sobre a transmissão de quaisquer bens ou direitos havidos:<br>
+I — por sucessão legítima ou testamentária, inclusive a sucessão provisória;<br>
+II — por doação.</p>
+
+<p><strong>Art. 2º</strong> O ITD tem como fato gerador:<br>
+I — a transmissão causa mortis de quaisquer bens ou direitos;<br>
+II — a doação, a qualquer título, de quaisquer bens ou direitos.</p>
+
+<p><strong>Art. 3º</strong> Contribuinte do ITD é:<br>
+I — na transmissão causa mortis: o herdeiro ou legatário;<br>
+II — na doação: o donatário.</p>
+
+<p><strong>Art. 7º</strong> A base de cálculo do ITD é o valor venal dos bens ou direitos transmitidos ou doados.</p>
+
+<p><strong>Art. 8º</strong> As alíquotas do ITD são progressivas conforme o valor da base de cálculo:<br>
+I — até 85 UPF/BA: 3,5%;<br>
+II — de 85 a 255 UPF/BA: 4%;<br>
+III — de 255 a 425 UPF/BA: 6%;<br>
+IV — acima de 425 UPF/BA: 8%.</p>
+
+<p><strong>Art. 9º</strong> São isentos do ITD:<br>
+I — a transmissão causa mortis de imóvel de pequeno valor que constitua o único bem do espólio;<br>
+II — as transmissões de bens ao cônjuge ou companheiro e aos descendentes ou ascendentes em linha reta.</p>`,
+
+"ba_lei3956": `<h2>LEI Nº 3.956, DE 11 DE DEZEMBRO DE 1981</h2>
+<p>Código Tributário do Estado da Bahia — CTB.</p>
+
+<h2>TÍTULO I — DAS DISPOSIÇÕES GERAIS</h2>
+
+<p><strong>Art. 1º</strong> Esta Lei regula, com fundamento na Constituição Federal e no Código Tributário Nacional, as relações jurídicas de natureza tributária entre o Estado da Bahia e as pessoas sujeitas ao pagamento de tributos estaduais.</p>
+
+<h2>TÍTULO II — DA OBRIGAÇÃO TRIBUTÁRIA</h2>
+
+<p><strong>Art. 98.</strong> A obrigação tributária é principal ou acessória.<br>
+§1º A obrigação principal surge com a ocorrência do fato gerador, tem por objeto o pagamento de tributo ou penalidade pecuniária e extingue-se juntamente com o crédito dela decorrente.<br>
+§2º A obrigação acessória decorre da legislação tributária e tem por objeto as prestações positivas ou negativas nela previstas no interesse da arrecadação ou da fiscalização dos tributos.</p>
+
+<h2>TÍTULO III — DO CRÉDITO TRIBUTÁRIO</h2>
+
+<p><strong>Art. 120.</strong> O crédito tributário decorre da obrigação principal e tem a mesma natureza desta.</p>
+
+<p><strong>Art. 121.</strong> As circunstâncias que modificam o crédito tributário, sua extensão ou seus efeitos, ou as garantias ou os privilégios a ele atribuídos, ou que excluem sua exigibilidade não afetam a obrigação tributária que lhe deu origem.</p>
+
+<h2>TÍTULO IV — DAS INFRAÇÕES E PENALIDADES</h2>
+
+<p><strong>Art. 163.</strong> Constitui infração toda ação ou omissão, voluntária ou involuntária, que importe em inobservância, por parte do sujeito passivo ou de terceiro, de norma estabelecida por esta Lei, pelo Regulamento ou pelos atos administrativos de caráter normativo.</p>
+
+<p><strong>Art. 164.</strong> As infrações serão punidas com as seguintes penalidades:<br>
+I — multa;<br>
+II — sujeição a regime especial de fiscalização;<br>
+III — suspensão ou cancelamento de benefícios fiscais;<br>
+IV — cassação de regime especial para pagamento, apuração ou recolhimento do tributo.</p>`,
+
+"ctn": `<h2>LEI Nº 5.172, DE 25 DE OUTUBRO DE 1966</h2>
+<p>Dispõe sobre o Sistema Tributário Nacional e institui normas gerais de direito tributário aplicáveis à União, Estados e Municípios.</p>
+
+<h2>LIVRO PRIMEIRO — SISTEMA TRIBUTÁRIO NACIONAL</h2>
+
+<h2>TÍTULO I — DISPOSIÇÕES GERAIS</h2>
+
+<p><strong>Art. 1º</strong> Esta Lei regula, com fundamento na Emenda Constitucional n. 18, de 1º de dezembro de 1965, o sistema tributário nacional e estabelece, com fundamento no art. 5º, XV, b, da Constituição Federal, as normas gerais de direito tributário aplicáveis à União, aos Estados, ao Distrito Federal e aos Municípios.</p>
+
+<h2>TÍTULO II — DAS LIMITAÇÕES DO PODER DE TRIBUTAR</h2>
+
+<p><strong>Art. 9º</strong> É vedado à União, aos Estados, ao Distrito Federal e aos Municípios:<br>
+I — instituir ou majorar tributos sem que a lei o estabeleça;<br>
+II — cobrar imposto sobre o patrimônio e a renda com base em lei posterior à data inicial do exercício financeiro a que corresponda;<br>
+III — estabelecer limitações ao tráfego, no território nacional, de pessoas ou mercadorias, por meio de tributos interestaduais ou intermunicipais.</p>
+
+<h2>LIVRO SEGUNDO — NORMAS GERAIS DE DIREITO TRIBUTÁRIO</h2>
+
+<h2>TÍTULO II — DA OBRIGAÇÃO TRIBUTÁRIA</h2>
+
+<h2>CAPÍTULO I — DISPOSIÇÕES GERAIS</h2>
+
+<p><strong>Art. 113.</strong> A obrigação tributária é principal ou acessória.<br>
+§1º A obrigação principal surge com a ocorrência do fato gerador, tem por objeto o pagamento de tributo ou penalidade pecuniária e extingue-se juntamente com o crédito dela decorrente.<br>
+§2º A obrigação acessória decorre da legislação tributária e tem por objeto as prestações, positivas ou negativas, nela previstas no interesse da arrecadação ou da fiscalização dos tributos.<br>
+§3º A obrigação acessória, pelo simples fato da sua inobservância, converte-se em obrigação principal relativamente à penalidade pecuniária.</p>
+
+<p><strong>Art. 114.</strong> Fato gerador da obrigação principal é a situação definida em lei como necessária e suficiente à sua ocorrência.</p>
+
+<p><strong>Art. 115.</strong> Fato gerador da obrigação acessória é qualquer situação que, na forma da legislação aplicável, impõe a prática ou a abstenção de ato que não configure obrigação principal.</p>
+
+<p><strong>Art. 116.</strong> Salvo disposição de lei em contrário, considera-se ocorrido o fato gerador e existentes os seus efeitos:<br>
+I — tratando-se de situação de fato, desde o momento em que o se verifiquem as circunstâncias materiais necessárias a que produza os efeitos que normalmente lhe são próprios;<br>
+II — tratando-se de situação jurídica, desde o momento em que esteja definitivamente constituída, nos termos de direito aplicável.</p>
+
+<p><strong>Art. 121.</strong> Sujeito passivo da obrigação principal é a pessoa obrigada ao pagamento de tributo ou penalidade pecuniária.<br>
+Parágrafo único. O sujeito passivo da obrigação principal diz-se:<br>
+I — contribuinte, quando tenha relação pessoal e direta com a situação que constitua o respectivo fato gerador;<br>
+II — responsável, quando, sem revestir a condição de contribuinte, sua obrigação decorra de disposição expressa de lei.</p>
+
+<h2>TÍTULO III — DO CRÉDITO TRIBUTÁRIO</h2>
+
+<h2>CAPÍTULO I — DISPOSIÇÕES GERAIS</h2>
+
+<p><strong>Art. 139.</strong> O crédito tributário decorre da obrigação principal e tem a mesma natureza desta.</p>
+
+<p><strong>Art. 140.</strong> As circunstâncias que modificam o crédito tributário, sua extensão ou seus efeitos, ou as garantias ou os privilégios a ele atribuídos, ou que excluem sua exigibilidade não afetam a obrigação tributária que lhe deu origem.</p>
+
+<p><strong>Art. 141.</strong> O crédito tributário regularmente constituído somente se modifica ou extingue, ou tem sua exigibilidade suspensa ou excluída, nos casos previstos nesta Lei, fora dos quais não podem ser dispensadas, sob pena de responsabilidade funcional na forma da lei, a sua efetivação ou as respectivas garantias.</p>
+
+<h2>CAPÍTULO II — CONSTITUIÇÃO DO CRÉDITO TRIBUTÁRIO</h2>
+
+<h2>Seção I — Do Lançamento</h2>
+
+<p><strong>Art. 142.</strong> Compete privativamente à autoridade administrativa constituir o crédito tributário pelo lançamento, assim entendido o procedimento administrativo tendente a verificar a ocorrência do fato gerador da obrigação correspondente, determinar a matéria tributável, calcular o montante do tributo devido, identificar o sujeito passivo e, sendo caso, propor a aplicação da penalidade cabível.</p>
+
+<p><strong>Art. 150.</strong> O lançamento por homologação, que ocorre quanto aos tributos cuja legislação atribua ao sujeito passivo o dever de antecipar o pagamento sem prévio exame da autoridade administrativa, opera-se pelo ato em que a referida autoridade, tomando conhecimento da atividade assim exercida pelo obrigado, expressamente a homologa.<br>
+§4º Se a lei não fixar prazo a homologação, será ele de cinco anos, a contar da ocorrência do fato gerador; expirado esse prazo sem que a Fazenda Pública se tenha pronunciado, considera-se homologado o lançamento e definitivamente extinto o crédito, salvo se comprovada a ocorrência de dolo, fraude ou simulação.</p>
+
+<h2>CAPÍTULO III — SUSPENSÃO DO CRÉDITO TRIBUTÁRIO</h2>
+
+<p><strong>Art. 151.</strong> Suspendem a exigibilidade do crédito tributário:<br>
+I — moratória;<br>
+II — o depósito do seu montante integral;<br>
+III — as reclamações e os recursos, nos termos das leis reguladoras do processo tributário administrativo;<br>
+IV — a concessão de medida liminar em mandado de segurança;<br>
+V — a concessão de medida liminar ou de tutela antecipada, em outras espécies de ação judicial;<br>
+VI — o parcelamento.</p>
+
+<h2>CAPÍTULO IV — EXTINÇÃO DO CRÉDITO TRIBUTÁRIO</h2>
+
+<p><strong>Art. 156.</strong> Extinguem o crédito tributário:<br>
+I — o pagamento;<br>
+II — a compensação;<br>
+III — a transação;<br>
+IV — remissão;<br>
+V — a prescrição e a decadência;<br>
+VI — a conversão de depósito em renda;<br>
+VII — o pagamento antecipado e a homologação do lançamento nos termos do disposto no art. 150 e seus §§1º a 4º;<br>
+VIII — a consignação em pagamento, nos termos do disposto no § 2º do art. 164;<br>
+IX — a decisão administrativa irreformável, assim entendida a definitiva na órbita administrativa, que não mais possa ser objeto de ação anulatória;<br>
+X — a decisão judicial passada em julgado;<br>
+XI — a dação em pagamento em bens imóveis.</p>
+
+<h2>CAPÍTULO V — EXCLUSÃO DO CRÉDITO TRIBUTÁRIO</h2>
+
+<p><strong>Art. 175.</strong> Excluem o crédito tributário:<br>
+I — a isenção;<br>
+II — a anistia.<br>
+Parágrafo único. A exclusão do crédito tributário não dispensa o cumprimento das obrigações acessórias dependentes da obrigação principal cujo crédito seja excluído, ou dela consequente.</p>
+
+<p><strong>Art. 176.</strong> A isenção, ainda quando prevista em contrato, é sempre decorrente de lei que especifique as condições e requisitos exigidos para a sua concessão, os tributos a que se aplica e, sendo caso, o prazo de sua duração.</p>
+
+<h2>CAPÍTULO VI — GARANTIAS E PRIVILÉGIOS DO CRÉDITO TRIBUTÁRIO</h2>
+
+<p><strong>Art. 183.</strong> A enumeração das garantias atribuídas neste Capítulo ao crédito tributário não exclui outras que sejam expressamente previstas em lei, em função da natureza ou das características do tributo a que se refiram.</p>
+
+<p><strong>Art. 186.</strong> O crédito tributário prefere a qualquer outro, seja qual for sua natureza ou o tempo de sua constituição, ressalvados os créditos decorrentes da legislação do trabalho ou do acidente de trabalho.<br>
+Parágrafo único. Na falência:<br>
+I — o crédito tributário não prefere aos créditos extraconcursais ou às importâncias passíveis de restituição, nos termos da lei falimentar, nem aos créditos com garantia real, no limite do valor do bem gravado;<br>
+II — a lei poderá estabelecer limites e condições para a preferência dos créditos decorrentes da legislação do trabalho; e<br>
+III — a multa tributária prefere apenas aos créditos subordinados.</p>
+
+<h2>TÍTULO IV — ADMINISTRAÇÃO TRIBUTÁRIA</h2>
+
+<p><strong>Art. 194.</strong> A legislação tributária, observado o disposto nesta Lei, regulará, em caráter geral, ou especificamente em função da natureza do tributo de que se tratar, a competência e os poderes das autoridades administrativas em matéria de fiscalização da sua aplicação.</p>
+
+<p><strong>Art. 195.</strong> Para os efeitos da legislação tributária, não têm aplicação quaisquer disposições legais excludentes ou limitativas do direito de examinar mercadorias, livros, arquivos, documentos, papéis e efeitos comerciais ou fiscais dos comerciantes industriais ou produtores, ou da obrigação destes de exibi-los.</p>`,
+};
+
+
 // ─── CACHE DE LEIS (offline) ───────────────────────────────────────────────
 const CACHE_KEY = "leis_cache_v1";
 function getCacheTexto(id) {
@@ -422,6 +721,15 @@ export default function App() {
     setTela("leitura");
     setCarregando(true);
     setTextoLei("");
+
+    // 0. Texto embutido (sempre disponível offline)
+    const textoEmbutido = TEXTOS_EMBUTIDOS[lei.id];
+    if (textoEmbutido) {
+      setTextoLei(textoEmbutido);
+      setCarregando(false);
+      setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
+      return;
+    }
 
     // 1. Cache local (offline imediato)
     const cachedLocal = getCacheTexto(lei.id);
