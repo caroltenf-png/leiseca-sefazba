@@ -629,11 +629,11 @@ function setCacheTexto(id, texto) {
 
 // ─── CORES DE MARCAÇÃO ────────────────────────────────────────────────────
 const MARK_COLORS = [
-  { id:"amarelo", label:"Dourado",  bg:"rgba(249,194,49,0.35)",  border:"#F9C231" },
-  { id:"verde",   label:"Verde",    bg:"rgba(0,166,90,0.3)",     border:"#00A65A" },
-  { id:"azul",    label:"Azul",     bg:"rgba(66,153,225,0.3)",   border:"#4299E1" },
-  { id:"rosa",    label:"Rosa",     bg:"rgba(237,100,166,0.3)",  border:"#ED64A6" },
-  { id:"red",     label:"Vermelho", bg:"rgba(229,62,62,0.3)",    border:"#E53E3E" },
+  { id:"amarelo", label:"Dourado",  bg:"rgba(249,194,49,0.55)",  border:"#F9C231", text:"#000" },
+  { id:"verde",   label:"Verde",    bg:"rgba(0,220,100,0.45)",   border:"#00DC64", text:"#000" },
+  { id:"azul",    label:"Azul",     bg:"rgba(66,153,225,0.5)",   border:"#4299E1", text:"#fff" },
+  { id:"rosa",    label:"Rosa",     bg:"rgba(237,100,166,0.55)", border:"#ED64A6", text:"#000" },
+  { id:"red",     label:"Vermelho", bg:"rgba(252,100,100,0.5)",  border:"#FC6464", text:"#fff" },
 ];
 
 // ─── UTILIDADES ───────────────────────────────────────────────────────────
@@ -1320,7 +1320,7 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
     try {
       // Tenta surroundContents (funciona quando seleção é dentro de um único elemento)
       const mark = document.createElement("mark");
-      mark.style.cssText = `background:${cor.bg};border-radius:3px;padding:1px 2px;cursor:pointer;`;
+      mark.style.cssText = `background:${cor.bg};color:${cor.text};border-radius:3px;padding:1px 3px;cursor:pointer;font-weight:600;`;
       mark.title = "Duplo toque para remover";
       mark.addEventListener("dblclick", () => {
         const p = mark.parentNode;
@@ -1333,7 +1333,7 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
       try {
         const fragment = range.extractContents();
         const mark = document.createElement("mark");
-        mark.style.cssText = `background:${cor.bg};border-radius:3px;padding:1px 2px;cursor:pointer;`;
+        mark.style.cssText = `background:${cor.bg};color:${cor.text};border-radius:3px;padding:1px 3px;cursor:pointer;font-weight:600;`;
         mark.title = "Duplo toque para remover";
         mark.addEventListener("dblclick", () => {
           const p = mark.parentNode;
