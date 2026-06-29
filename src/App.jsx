@@ -1629,6 +1629,425 @@ async function callClaude(system, user, maxTokens=1000) {
 // ═══════════════════════════════════════════════════════════════════════════
 // APP PRINCIPAL
 // ═══════════════════════════════════════════════════════════════════════════
+
+// ─── DADOS DO CRONOGRAMA 90 DIAS ──────────────────────────────────────────────
+const DATA_INICIO = new Date("2026-06-29T00:00:00-03:00");
+
+const CRONOGRAMA_90 = [
+{d:1,mat:"DT",assunto:"Direito Tributário",tema:"Sistema Tributário Nacional — Conceito de tributo e espécies tributárias",arts:"CTN Arts. 1–18 · CF/88 Arts. 145–149-A",ancora:"art. 3 CTN · art. 5 CTN · art. 145 CF · art. 149 CF",juri:"STF Súm. 545 (preço público ≠ taxa) · STF Súm. 666 (contribuição confederativa) · STF RE 566.621 (pecunia non olet) · STF ADI 447 (natureza jurídica pelo fato gerador)"},
+{d:2,mat:"DT",assunto:"Direito Tributário",tema:"Competência Tributária — Privativa, comum, cumulativa, residual e extraordinária",arts:"CTN Arts. 6–15 · CF/88 Arts. 153–156",ancora:"art. 6 CTN · art. 8 CTN · art. 153 CF · art. 155 CF",juri:"STF Súm. 69 · STF ADI 2.056 (competência indelegável) · STJ REsp 1.221.170"},
+{d:3,mat:"DT",assunto:"Direito Tributário",tema:"Obrigação Tributária — Principal e acessória. Fato gerador. Hipótese de incidência",arts:"CTN Arts. 113–118",ancora:"art. 113 · art. 114 · art. 115 · art. 116",juri:"STJ REsp 1.141.990 · STF RE 598.677 (obrigação acessória autônoma) · STJ Súm. 391"},
+{d:4,mat:"DT",assunto:"Direito Tributário",tema:"Sujeito Ativo e Passivo — Solidariedade. Capacidade tributária. Domicílio",arts:"CTN Arts. 119–130",ancora:"art. 121 · art. 122 · art. 124 · art. 127",juri:"STJ Súm. 430 · STJ Súm. 435 · STF RE 562.276 (solidariedade exige interesse comum)"},
+{d:5,mat:"DT",assunto:"Direito Tributário",tema:"Lançamento Tributário — Conceito, natureza jurídica e modalidades",arts:"CTN Arts. 142–150",ancora:"art. 142 · art. 147 · art. 149 · art. 150",juri:"STF Súm. 436 (declaração constitui crédito) · STJ Súm. 397 · STJ REsp 1.130.545 · STF RE 94.462"},
+{d:6,mat:"DT",assunto:"Direito Tributário",tema:"Suspensão do Crédito Tributário — Moratória, parcelamento, depósito, liminar",arts:"CTN Arts. 151–155-A",ancora:"art. 151 · art. 152 · art. 155-A",juri:"STJ Súm. 112 (depósito integral em dinheiro) · STJ Súm. 213 · STF RE 389.808 · STJ REsp 1.167.543"},
+{d:7,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:8,mat:"DT",assunto:"Direito Tributário",tema:"Extinção do Crédito Tributário — Pagamento, compensação, remissão, decadência, prescrição",arts:"CTN Arts. 156–174",ancora:"art. 156 · art. 168 · art. 173 · art. 174",juri:"STJ Súm. 622 · STF RE 556.664 (prazo decadencial só por CTN) · STJ Súm. 555 · STJ REsp 1.120.295"},
+{d:9,mat:"DT",assunto:"Direito Tributário",tema:"Exclusão do Crédito — Isenção e Anistia. Diferenças e pegadinhas FGV",arts:"CTN Arts. 175–182",ancora:"art. 175 · art. 176 · art. 180 · art. 182",juri:"STF Súm. 544 · STF ADI 286 (isenção ≠ imunidade) · STJ REsp 1.240.045 · STF RE 204.062"},
+{d:10,mat:"DT",assunto:"Direito Tributário",tema:"Responsabilidade Tributária — Por transferência, dos sucessores, de terceiros, por infrações",arts:"CTN Arts. 128–138",ancora:"art. 128 · art. 130 · art. 134 · art. 135 · art. 138",juri:"STJ Súm. 430 · STJ Súm. 554 · STJ REsp 1.101.728 (denúncia espontânea) · STF RE 562.276"},
+{d:11,mat:"DC",assunto:"Dir. Constitucional",tema:"Princípios Constitucionais Tributários — Legalidade, anterioridade, irretroatividade, isonomia, capacidade contributiva",arts:"CF/88 Arts. 150–152",ancora:"art. 150, I · art. 150, III, b · art. 150, III, c · art. 150, VI",juri:"STF RE 627.543 (anterioridade nonagesimal) · STF ADI 939 · STF RE 566.032 · STF Súm. Vinc. 50"},
+{d:12,mat:"DC",assunto:"Dir. Constitucional",tema:"Imunidades Tributárias — Recíproca, religiosa, partidos, livros. Imunidade vs isenção",arts:"CF/88 Art. 150, VI · CTN Arts. 9–11",ancora:"art. 150, VI, a · b · c · d",juri:"STF Súm. 657 · STF RE 562.351 · STF RE 608.872 (templos) · STF RE 595.676 (e-books)"},
+{d:13,mat:"DC",assunto:"Dir. Constitucional",tema:"Repartição de Receitas Tributárias — FPM, FPE, fundos constitucionais, ICMS, IPI",arts:"CF/88 Arts. 157–162",ancora:"art. 157 · art. 158 · art. 159 · art. 160",juri:"STF RE 705.423 · STF ADI 1.075"},
+{d:14,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:15,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Fato Gerador: hipóteses de incidência, momento de ocorrência, territorialidade",arts:"Lei 7.014/96 Arts. 1–8 · LC 87/96 Arts. 1–3",ancora:"art. 1 · art. 2 · art. 3 · art. 7 Lei 7014",juri:"STF Súm. 660 · STF RE 540.829 (desembaraço aduaneiro) · STJ Súm. 350"},
+{d:16,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Não-Incidência Constitucional e Legal. Diferenças com isenção",arts:"CF/88 Art. 155, §2º, X · LC 87/96 Arts. 3–4 · Lei 7.014/96 Art. 5",ancora:"art. 155, §2º, X, a · b · art. 3 LC 87 · art. 5 Lei 7014",juri:"STF Súm. 536 · STF RE 439.796 · STJ REsp 1.085.376"},
+{d:17,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Contribuintes e Responsáveis. Sujeito passivo. Solidariedade",arts:"Lei 7.014/96 Arts. 9–16 · LC 87/96 Arts. 4–6",ancora:"art. 9 · art. 11 · art. 12 · art. 13",juri:"STF RE 781.926 · STJ Súm. 432 · STF ADI 1.945"},
+{d:18,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Base de Cálculo: regra geral, inclusão do ICMS, importação, casos especiais",arts:"Lei 7.014/96 Arts. 17–32 · LC 87/96 Arts. 8–13",ancora:"art. 17 · art. 18 · art. 19 · art. 24",juri:"STF RE 212.209 (cálculo por dentro) · STJ Súm. 68 · STF RE 274.639"},
+{d:19,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Alíquotas: internas BA, interestaduais, DIFAL (EC 87/15). Res. SF 13/12",arts:"Lei 7.014/96 Arts. 33–40 · CF/88 Art. 155, §2º, IV–V · Res. SF 13/12",ancora:"art. 33 · art. 34 · art. 155, §2º, IV CF · Res. SF 13 art. 1",juri:"STF ADI 4.628 (Protocolo 21/11 inconstitucional) · STF RE 1.287.019 · STF ADI 7.158 (DIFAL só 2023)"},
+{d:20,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Substituição Tributária: para frente, concomitante, MVA. Cálculo do ICMS-ST",arts:"Lei 7.014/96 Arts. 9–16 · LC 87/96 Arts. 6–10",ancora:"art. 9 Lei 7014 · art. 6 LC 87 · art. 8 LC 87 · art. 10 LC 87",juri:"STF RE 213.396 · STF ADI 1.851 (overruled) · STF RE 593.849 (restituição BC real < presumida — PONTO CERTO FGV)"},
+{d:21,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:22,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Crédito Fiscal: direito ao crédito, vedações, estorno obrigatório e facultativo",arts:"Lei 7.014/96 Arts. 59–78 · LC 87/96 Arts. 19–26",ancora:"art. 59 · art. 62 · art. 65 · art. 20 LC 87 · art. 21 LC 87",juri:"STF RE 161.031 · STJ Súm. 457 · STF RE 635.688 · STJ REsp 1.141.990"},
+{d:23,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Crédito Presumido, Transferência de Crédito e Saldo Credor Acumulado",arts:"Lei 7.014/96 Arts. 78–95",ancora:"art. 78 · art. 83 · art. 84 · art. 88",juri:"STF ADI 3.796 (vedação sem CONFAZ) · STF ADI 4.481 · STF RE 851.421"},
+{d:24,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Obrigações Acessórias: NF-e, EFD-ICMS/IPI, SPED. Prazo e responsabilidade",arts:"Lei 7.014/96 Arts. 96–120",ancora:"art. 96 · art. 97 · art. 100 · art. 104",juri:"STJ REsp 1.705.920 · STF RE 760.931 · STJ Súm. 360"},
+{d:25,mat:"LE",assunto:"Leg. Estadual BA",tema:"ICMS/BA — Infrações e Penalidades. Processo Administrativo Fiscal da Bahia (PAF-BA)",arts:"Lei 7.014/96 Arts. 121–155 · Dec. 7.629/99 Arts. 1–20",ancora:"art. 121 · art. 124 · art. 130 · art. 142",juri:"STF Súm. Vinc. 21 · STJ Súm. 565 · STF RE 640.452"},
+{d:26,mat:"LE",assunto:"Leg. Estadual BA",tema:"ITCD — Fato gerador, BC, alíquotas, obrigações. Lei 4.826/03",arts:"Lei 4.826/03 Arts. 1–30",ancora:"art. 1 · art. 3 · art. 7 · art. 10 · art. 13",juri:"STF RE 562.045 (progressividade constitucional) · STF Súm. 331 · STF RE 851.108"},
+{d:27,mat:"LE",assunto:"Leg. Estadual BA",tema:"IPVA — Fato gerador, base de cálculo, alíquotas, isenções. Lei 6.348/91",arts:"Lei 6.348/91 Arts. 1–25",ancora:"art. 1 · art. 2 · art. 5 · art. 8 · art. 10",juri:"STF RE 1.016.605 · STF Súm. 585"},
+{d:28,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:29,mat:"LE",assunto:"Leg. Estadual BA",tema:"LC 87/96 (Lei Kandir) — Estrutura completa: incidência, não-incidência, BC, alíquota, crédito",arts:"LC 87/96 Arts. 1–34",ancora:"art. 2 · art. 3 · art. 8 · art. 19 · art. 20 · art. 21",juri:"STF ADC 49 (sem ICMS em transferências entre estabelecimentos do mesmo titular) · STF RE 748.543"},
+{d:30,mat:"RE",assunto:"Revisão",tema:"🔁 REVISÃO FASE 01 — Simulado 30 questões: CTN + CF + ICMS/BA + ITCD + IPVA",arts:"CTN 1–182 · Lei 7.014/96 1–95 · CF/88 145–162",ancora:"Pontos críticos · Pegadinhas FGV",juri:""},
+{d:31,mat:"CO",assunto:"Contabilidade Geral",tema:"Balanço Patrimonial — Ativo, Passivo e PL. Grupos e subgrupos. Lei 6.404/76",arts:"Lei 6.404/76 Arts. 176–188 · NBC TG 26 Itens 54–76",ancora:"art. 179 · art. 180 · art. 181 · art. 182",juri:"STJ REsp 1.464.711 · STJ REsp 1.221.170 · STF RE 583.955"},
+{d:32,mat:"CO",assunto:"Contabilidade Geral",tema:"DRE — Receitas, custos e despesas. Resultado do exercício. Reconhecimento (CPC 47)",arts:"Lei 6.404/76 Arts. 187–189 · CPC 47 Itens 1–50",ancora:"art. 187 · art. 188 · CPC 47 item 31 · item 35",juri:"STF RE 949.297 (IRPJ/CSLL com base no lucro real)"},
+{d:33,mat:"CO",assunto:"Contabilidade Geral",tema:"Estoques — Custo de aquisição, PEPS, Custo Médio, NRV. Variações de estoque (CPC 16)",arts:"CPC 16 Itens 1–40 · Lei 6.404/76 Art. 183, II",ancora:"CPC 16 item 10 · item 25 · item 28 · art. 183 II",juri:"STF RE 592.616 (UEPS não aceito pelo Fisco)"},
+{d:34,mat:"CO",assunto:"Contabilidade Geral",tema:"Ativo Imobilizado — Reconhecimento, mensuração, depreciação, baixas (CPC 27)",arts:"CPC 27 Itens 1–62 · Lei 6.404/76 Art. 183, V",ancora:"CPC 27 item 6 · item 30 · item 43 · art. 183 V",juri:"STJ REsp 1.112. (depreciação contábil ≠ fiscal) · STF RE 588.322"},
+{d:35,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:36,mat:"CO",assunto:"Contabilidade Geral",tema:"Patrimônio Líquido — Capital social, reservas de capital, reservas de lucros, ajustes de avaliação",arts:"Lei 6.404/76 Arts. 182–200",ancora:"art. 182 · art. 182-A · art. 187 · art. 193 · art. 195",juri:"STF RE 445.134 (ajustes PL não tributáveis até realização)"},
+{d:37,mat:"CO",assunto:"Contabilidade Geral",tema:"DFC — Método direto e indireto. Atividades operacionais, de investimento e de financiamento (CPC 03)",arts:"CPC 03 Itens 1–55 · Lei 6.404/76 Art. 188, I",ancora:"CPC 03 item 18 · item 20 · item 38",juri:"STJ (DFC obrigatória para grandes companhias desde Lei 11.638/07)"},
+{d:38,mat:"CO",assunto:"Contabilidade Geral",tema:"Provisões, Passivos e Ativos Contingentes — Reconhecimento e mensuração (CPC 25)",arts:"CPC 25 Itens 1–63 · Lei 6.404/76 Art. 183, §2º",ancora:"CPC 25 item 14 · item 27 · item 31 · item 86",juri:"STF RE 614.464 (PDD dedutível conforme Lei 9.430/96)"},
+{d:39,mat:"CO",assunto:"Contabilidade Avançada",tema:"AVP (CPC 12) — Ajuste a valor presente: conceito, taxa de desconto, reconhecimento",arts:"CPC 12 Itens 1–30 · Lei 6.404/76 Art. 183, VIII",ancora:"CPC 12 item 4 · item 9 · item 17 · art. 183 VIII",juri:"STJ REsp 1.221.AVP · STF RE 591.033"},
+{d:40,mat:"CO",assunto:"Contabilidade Avançada",tema:"AVJ (CPC 46) — Valor justo: definição, hierarquia (Nível 1, 2, 3), mensuração",arts:"CPC 46 Itens 1–50",ancora:"CPC 46 item 9 · item 24 · item 72 · item 86",juri:"STF RE 627.543 (ajustes a valor justo integram BC do IRPJ na realização)"},
+{d:41,mat:"CO",assunto:"Contabilidade Avançada",tema:"Operações com Mercadorias — CMV, escrituração, inventário permanente e periódico",arts:"Lei 6.404/76 Arts. 183–187 · NBC TG 16 Itens 1–40",ancora:"art. 183 II · NBC TG 16 item 25 · item 28",juri:"STJ REsp 1.111.CMV · STJ Súm. 281"},
+{d:42,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:43,mat:"AF",assunto:"AFO",tema:"Orçamento Público — Princípios orçamentários, tipos, ciclo. PPA, LDO, LOA (CF arts. 165–169)",arts:"CF/88 Arts. 165–169 · Lei 4.320/64 Arts. 1–15",ancora:"art. 165 CF · art. 166 CF · art. 167 CF · art. 2 Lei 4.320",juri:"STF ADI 4.048 · STF ADPF 45 (orçamento não é peça de ficção)"},
+{d:44,mat:"AF",assunto:"AFO",tema:"Receita Pública — Conceito, classificações orçamentária e econômica. Estágios da receita",arts:"Lei 4.320/64 Arts. 51–73 · MCASP Cap. 2",ancora:"art. 51 · art. 52 · art. 53 · art. 57",juri:"TCU Acórdão 825/2015"},
+{d:45,mat:"AF",assunto:"AFO",tema:"Despesa Pública — Classificação funcional e por natureza. Estágios: empenho, liquidação, pagamento",arts:"Lei 4.320/64 Arts. 58–93",ancora:"art. 58 · art. 60 · art. 62 · art. 63 · art. 64",juri:"STF ADI 2.925 · STF RE 705.423 (empenho é pressuposto)"},
+{d:46,mat:"AF",assunto:"AFO",tema:"Créditos Adicionais — Suplementares, especiais e extraordinários. Fontes de recursos",arts:"Lei 4.320/64 Arts. 40–46",ancora:"art. 40 · art. 41 · art. 42 · art. 43 · art. 44",juri:"STF ADI 1.726 · STF RE 399.371"},
+{d:47,mat:"AF",assunto:"AFO",tema:"Lei de Responsabilidade Fiscal — Metas fiscais, resultado primário e nominal. Transparência",arts:"LC 101/00 Arts. 1–17",ancora:"art. 1 · art. 4 · art. 9 · art. 13 · art. 14",juri:"STF ADI 2.238 (LRF constitucional)"},
+{d:48,mat:"AF",assunto:"AFO",tema:"LRF — Limites de pessoal (arts. 18–23). Dívida pública e operações de crédito",arts:"LC 101/00 Arts. 18–42",ancora:"art. 18 · art. 19 · art. 20 · art. 29 · art. 30",juri:"STF ADI 3.756 · STF RE 961.263 (regra de ouro) · TCU Acórdão 3.030/2017"},
+{d:49,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:50,mat:"DA",assunto:"Dir. Administrativo",tema:"Atos Administrativos — Conceito, elementos, atributos e espécies",arts:"Lei 9.784/99 Arts. 22–30",ancora:"art. 22 · art. 26 · art. 27 · art. 29",juri:"STF Súm. 473 (autotutela) · STF MS 24.073 · STF RE 632.853"},
+{d:51,mat:"DA",assunto:"Dir. Administrativo",tema:"Poderes da Administração — Vinculado, discricionário, hierárquico, disciplinar, regulamentar, de polícia",arts:"CTN Arts. 194–208 · CF/88 Arts. 84–85",ancora:"art. 78 CTN · art. 84 CF · art. 194 CTN",juri:"STF RE 633.782 · STF Súm. Vinc. 12"},
+{d:52,mat:"DA",assunto:"Dir. Administrativo",tema:"Licitações — Lei 14.133/21: princípios, modalidades, fases, dispensa e inexigibilidade",arts:"Lei 14.133/21 Arts. 1–25 · Arts. 72–91",ancora:"art. 5 · art. 6 · art. 17 · art. 20 · art. 28",juri:"STF RE 341.905 · STJ Súm. 333 · STF AP 470"},
+{d:53,mat:"DA",assunto:"Dir. Administrativo",tema:"Contratos Administrativos — Cláusulas exorbitantes, equilíbrio econômico-financeiro, rescisão",arts:"Lei 14.133/21 Arts. 92–117",ancora:"art. 92 · art. 99 · art. 104 · art. 108 · art. 112",juri:"STF RE 594.477 · STF ADI 3.735"},
+{d:54,mat:"DA",assunto:"Dir. Administrativo",tema:"Agentes Públicos — Espécies. Lei 8.112/90: provimento, direitos, deveres, proibições",arts:"Lei 8.112/90 Arts. 1–30 · CF/88 Arts. 37–41",ancora:"art. 2 · art. 8 · art. 9 · art. 13 · art. 37 CF",juri:"STF Súm. Vinc. 13 (nepotismo — MAIS COBRADO FGV) · STF RE 598.099 · STJ Súm. 266"},
+{d:55,mat:"DA",assunto:"Dir. Administrativo",tema:"Controle da Administração — Interno, externo, TCU/TCE. Controle judicial",arts:"CF/88 Arts. 70–75 · Lei 8.443/92 Arts. 1–10",ancora:"art. 70 CF · art. 71 CF · art. 74 CF · art. 75 CF",juri:"STF Súm. Vinc. 37 · STF RE 848.826 · STJ REsp 1.236.controle"},
+{d:56,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:57,mat:"DC",assunto:"Dir. Constitucional",tema:"Administração Pública CF/88 — Arts. 37–41: LIMPE, concurso, estabilidade, teto, nepotismo",arts:"CF/88 Arts. 37–41 · Súm. Vinc. 13 e 43",ancora:"art. 37, I · II · XIX · art. 41",juri:"STF Súm. Vinc. 43 · STF RE 589.998 · STF ADI 2.135 · STF RE 638.971"},
+{d:58,mat:"DC",assunto:"Dir. Constitucional",tema:"Controle de Constitucionalidade — Concentrado (ADI, ADC, ADPF, ADO) e difuso. Efeitos",arts:"CF/88 Arts. 102–103 · Lei 9.868/99 Arts. 1–28",ancora:"art. 102, I, a CF · art. 103 CF · art. 10 Lei 9868 · art. 27 Lei 9868",juri:"STF ADI 3.522 (modulação) · STF ADPF 132 · STF RE 197.917 · STF MS 26.604"},
+{d:59,mat:"DC",assunto:"Dir. Constitucional",tema:"Poder Judiciário e MP — Organização, STF, STJ, competências. Garantias do MP",arts:"CF/88 Arts. 92–135",ancora:"art. 92 CF · art. 102 CF · art. 105 CF · art. 127 CF · art. 129 CF",juri:"STF RE 405.579 · STF ADI 4.811 · STF RE 593.727 · STJ REsp 1.696.396"},
+{d:60,mat:"RE",assunto:"Revisão",tema:"🔁 REVISÃO FASE 02 — Simulado 50 questões mistas: CO + AFO + Dir. Adm. + Dir. Const.",arts:"Todas as matérias da Fase 02",ancora:"Pontos críticos · Pegadinhas FGV",juri:""},
+{d:61,mat:"DT",assunto:"Dir. Tributário",tema:"2ª Leitura CTN Arts. 1–95 — Normas gerais, vigência, interpretação e integração",arts:"CTN Arts. 1–95",ancora:"art. 3 · art. 97 · art. 100 · art. 108",juri:"STF RE 343.446 · STJ (norma complementar e boa-fé) · STF ADI 2.556"},
+{d:62,mat:"DT",assunto:"Dir. Tributário",tema:"2ª Leitura CTN Arts. 96–218 — Administração tributária, fiscalização, sigilo, certidões",arts:"CTN Arts. 96–218",ancora:"art. 196 · art. 197 · art. 198 · art. 201 · art. 205",juri:"STF RE 389.808 · STJ REsp 1.134.257 · STJ Súm. 446"},
+{d:63,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:64,mat:"LE",assunto:"Leg. Estadual BA",tema:"2ª Leitura ICMS — Lei 7.014/96 Arts. 1–60: fato gerador, BC e alíquotas consolidados",arts:"Lei 7.014/96 Arts. 1–60",ancora:"art. 2 · art. 3 · art. 17 · art. 33 · art. 59",juri:"STF ADC 49 · STF RE 781.926 · STJ Súm. 457"},
+{d:65,mat:"LE",assunto:"Leg. Estadual BA",tema:"2ª Leitura ICMS — Lei 7.014/96 Arts. 61–155: crédito, obrigações, infrações",arts:"Lei 7.014/96 Arts. 61–155",ancora:"art. 62 · art. 65 · art. 78 · art. 97 · art. 121",juri:"STF RE 635.688 · STF ADI 3.796 · STJ REsp 1.705.920"},
+{d:66,mat:"LE",assunto:"Leg. Estadual BA",tema:"2ª Leitura LC 87/96 — Lei Kandir completa: estrutura e divergências com Lei 7.014/96",arts:"LC 87/96 Arts. 1–34",ancora:"art. 2 · art. 3 · art. 6 · art. 8 · art. 19 · art. 21",juri:"STF ADC 49 + LC 204/2023 · STF RE 539.130 · STJ REsp 1.125.416"},
+{d:67,mat:"CO",assunto:"Contabilidade",tema:"2ª Leitura CPCs críticos FGV: CPC 03, 16, 25, 27, 46, 47. Questões comentadas",arts:"CPC 03 + CPC 16 + CPC 25 + CPC 27 + CPC 46 + CPC 47",ancora:"CPC 16 item 25 · CPC 25 item 14 · CPC 27 item 43 · CPC 47 item 31",juri:"STF RE 949.297 · STJ REsp 1.221.170"},
+{d:68,mat:"CO",assunto:"Contabilidade Avançada",tema:"Combinações de Negócios (CPC 15) — Método de aquisição, ágio, goodwill",arts:"CPC 15 Itens 1–30",ancora:"CPC 15 item 4 · item 18 · item 32",juri:"STJ REsp 1.818. (goodwill = impairment anual) · STF RE 583.955 (ágio fiscal 60 meses)"},
+{d:69,mat:"CO",assunto:"Contabilidade Avançada",tema:"Equivalência Patrimonial (CPC 18 e CPC 36) — Coligadas, controladas, resultado de equivalência",arts:"CPC 18 Itens 1–25 · Lei 6.404/76 Art. 248",ancora:"art. 248 · CPC 18 item 10 · CPC 36 item 22",juri:"STJ REsp 1.122. (MEP não integra BC do IRPJ) · STF RE 611.586"},
+{d:70,mat:"DS",assunto:"",tema:"Descanso",arts:"",ancora:"",juri:""},
+{d:71,mat:"AF",assunto:"AFO",tema:"2ª Leitura LRF — LC 101/00 Arts. 1–28: metas, resultado primário, despesa com pessoal",arts:"LC 101/00 Arts. 1–28",ancora:"art. 1 · art. 4 · art. 9 · art. 17 · art. 18 · art. 19",juri:"STF ADI 2.238 · STF RE 591.054 · TCU Acórdão 1.084/2018"},
+{d:72,mat:"AF",assunto:"AFO",tema:"Contabilidade Pública — MCASP, PCASP, reconhecimento de receitas e despesas no setor público",arts:"MCASP 9ª ed. Cap. 2–4 · Lei 4.320/64 Arts. 1–115",ancora:"art. 35 Lei 4320 · art. 36 · art. 39",juri:"STF RE 213.739 · TCU Acórdão 825/2015 (PCASP obrigatório)"},
+{d:73,mat:"DA",assunto:"Dir. Administrativo",tema:"Improbidade Administrativa — Lei 8.429/92 c/c Lei 14.230/21: atos, sanções, prazo prescricional",arts:"Lei 8.429/92 Arts. 1–12 · Lei 14.230/21 Arts. 1–23",ancora:"art. 9 · art. 10 · art. 11 · art. 12",juri:"STF AP 470 · STF RE 852.475 (ressarcimento imprescritível) · STJ REsp 1.802. · STF RE 976.566"},
+{d:74,mat:"DA",assunto:"Dir. Administrativo",tema:"Processo Administrativo — Lei 9.784/99: princípios, competência, forma, prazos, recursos",arts:"Lei 9.784/99 Arts. 1–69",ancora:"art. 2 · art. 3 · art. 26 · art. 56 · art. 59",juri:"STF Súm. Vinc. 21 · STJ REsp 1.148.343 · STF RE 388.359"},
+{d:75,mat:"DC",assunto:"Dir. Constitucional",tema:"Direitos e Garantias Fundamentais — Art. 5º CF: rol, remédios constitucionais",arts:"CF/88 Art. 5º",ancora:"art. 5, LXIX · LXX · LXXI · LXXIII",juri:"STF RE 592.581 · STF Súm. 271 · STF RE 906.400 · STF Súm. Vinc. 28"},
+{d:76,mat:"RE",assunto:"Revisão",tema:"🔁 SIMULADO COMPLETO 01 — 100 questões FGV. Cronometrado (4h). Todas as matérias",arts:"Todas as matérias",ancora:"Estilo real FGV · Gestão de tempo",juri:""},
+{d:77,mat:"DS",assunto:"",tema:"Descanso — Análise detalhada do simulado 01",arts:"",ancora:"",juri:""},
+{d:78,mat:"DT",assunto:"Revisão Final",tema:"RF CTN — Súmulas STF tributárias: 112, 213, 436, 582. STJ: REsp repetitivos tributários",arts:"CTN pontos âncora · Súm. STF 112, 213, 436",ancora:"Súm. STF 112 · 213 · 436 · 582",juri:"STF Súm. 436 · STJ Súm. 213 · STF Súm. 112 · STF Súm. 582"},
+{d:79,mat:"LE",assunto:"Revisão Final",tema:"RF ICMS/BA — Mapa dos artigos mais cobrados. Não-incidência vs isenção. ADC 49",arts:"Lei 7.014/96 + LC 87/96 arts. âncora",ancora:"art. 5 Lei 7014 · art. 3 LC 87 · art. 19 LC 87 · art. 21 LC 87",juri:"STF ADC 49 · STF RE 593.849 · STF ADI 7.158"},
+{d:80,mat:"CO",assunto:"Revisão Final",tema:"RF Contabilidade — Fórmulas de BP, DRE e DFC. CPCs críticos. Mapa mental integrado",arts:"Lei 6.404/76 Arts. 176–200 · CPCs Resumo final",ancora:"CPC 16 item 25 · CPC 25 item 14 · CPC 46 item 9 · CPC 47 item 31",juri:"STF RE 949.297 · STJ REsp 1.122.MEP · STF RE 583.955"},
+{d:81,mat:"AF",assunto:"Revisão Final",tema:"RF AFO — Princípios orçamentários, LRF limites, MCASP. Tabela-resumo receita e despesa",arts:"CF/88 Arts. 165–169 · LC 101/00 arts. chave",ancora:"art. 167 CF · art. 19 LC 101 · art. 41 Lei 4320 · art. 58 Lei 4320",juri:"STF ADI 2.238 · STF RE 961.263 · TCU (PCASP obrigatório)"},
+{d:82,mat:"DA",assunto:"Revisão Final",tema:"RF Dir. Adm. + DC — Atos, licitações, agentes, art. 37 CF. Súmulas Vinculantes selecionadas",arts:"CF/88 Arts. 37–41 · Lei 14.133/21 Pontos críticos",ancora:"Súm. Vinc. 13 · Súm. Vinc. 43 · art. 37 CF · art. 41 CF",juri:"STF Súm. Vinc. 13 · STF RE 598.099 · STF Súm. Vinc. 43"},
+{d:83,mat:"RE",assunto:"Revisão",tema:"🔁 SIMULADO COMPLETO 02 — 100 questões. Foco nas matérias de maior peso no edital SEFAZ-BA",arts:"Todas as matérias",ancora:"Pesos edital SEFAZ-BA · Estilo real FGV",juri:""},
+{d:84,mat:"DS",assunto:"",tema:"Descanso — Análise e correção do simulado 02",arts:"",ancora:"",juri:""},
+{d:85,mat:"DT",assunto:"Reta Final",tema:"⚡ RETA FINAL DT — CTN: pontos mais errados nos simulados. Revisão cirúrgica",arts:"CTN arts. críticos",ancora:"art. 142 · art. 150 · art. 156 · art. 173 · art. 174",juri:"STF RE 556.664 · STF Súm. 436 · STJ REsp 1.101.728"},
+{d:86,mat:"LE",assunto:"Reta Final",tema:"⚡ RETA FINAL LE — ICMS/BA: artigos âncora. ST e crédito fiscal — pontos mais cobrados FGV",arts:"Lei 7.014/96 arts. âncora",ancora:"art. 3 · art. 17 · art. 59 · art. 62 · art. 65",juri:"STF ADC 49 · STF RE 593.849 · STF ADI 7.158"},
+{d:87,mat:"CO",assunto:"Reta Final",tema:"⚡ RETA FINAL CO — Checklist CPCs. Fórmulas e macetes. Questões relâmpago 20 itens",arts:"CPCs resumo geral",ancora:"CPC 03 · CPC 16 · CPC 25 · CPC 27 · CPC 46 · CPC 47",juri:"STF RE 949.297 · STJ (MEP) · STF RE 583.955"},
+{d:88,mat:"AF",assunto:"Reta Final",tema:"⚡ RETA FINAL AFO — Lei 4.320/64 + LRF: mapa visual de receita, despesa, créditos adicionais",arts:"Lei 4.320/64 arts. chave · LC 101/00 arts. chave",ancora:"art. 41 · art. 42 · art. 58 · art. 62 · art. 19 LC 101",juri:"STF ADPF 45 · STF ADI 1.726 · TCU Acórdão 3.030/2017"},
+{d:89,mat:"RE",assunto:"Reta Final",tema:"🎯 SIMULADO FINAL — 60 questões. Estratégia de prova: ordem, tempo, gestão de itens difíceis",arts:"Todas as matérias",ancora:"Gestão de 4h · Ordem de resolução",juri:"ADC 49 + RE 593.849 + ADI 7.158 (trio ICMS) · Súm. 436 + REsp 1.101.728 (CTN)"},
+{d:90,mat:"RE",assunto:"Reta Final",tema:"✅ VÉSPERA DE PROVA — Leitura dos artigos âncora, mapas mentais, descanso às 16h. Você chegou!",arts:"Artigos âncora",ancora:"Confiança · Foco · Você está pronta!",juri:"ADC 49 · RE 593.849 · ADI 7.158 · Súm. 436 · REsp 1.101.728 · Súm. Vinc. 13 · RE 598.099"},
+];
+
+const MAT_COR_SESSAO = {
+  DT:"#F9C231", LE:"#FDBA74", CO:"#68D391",
+  AF:"#8BA7BF", DA:"#00A65A", DC:"#8BA7BF",
+  RE:"#FCA5A5", DS:"rgba(255,255,255,0.15)"
+};
+const MAT_NOME_SESSAO = {
+  DT:"Direito Tributário", LE:"Legislação Estadual BA — ICMS/BA · Lei 7.014/96 · LC 87/96",
+  CO:"Contabilidade Geral e Avançada — CPC · Lei 6.404/76",
+  AF:"Administração Financeira e Orçamentária — AFO · LRF · Lei 4.320/64",
+  DA:"Direito Administrativo", DC:"Direito Constitucional",
+  RE:"Revisão/Simulado", DS:"Descanso"
+};
+
+function getDiaAtual() {
+  const hoje = new Date();
+  const inicio = new Date("2026-06-29T00:00:00-03:00");
+  const diffMs = hoje - inicio;
+  const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const dia = diffDias + 1;
+  if (dia < 1) return 1;
+  if (dia > 90) return 90;
+  return dia;
+}
+
+function getRevisoesHoje(diaAtual) {
+  const revisoes = [];
+  CRONOGRAMA_90.forEach(d => {
+    if (d.mat === "DS" || d.mat === "RE") return;
+    const r1 = d.d + 1;
+    const r2 = d.d + 7;
+    const r3 = d.d + 30;
+    if (r1 === diaAtual) revisoes.push({ tipo: "R1", dia: d, label: "Revisão 24h" });
+    if (r2 === diaAtual) revisoes.push({ tipo: "R2", dia: d, label: "Revisão 7 dias" });
+    if (r3 === diaAtual) revisoes.push({ tipo: "R3", dia: d, label: "Revisão 30 dias" });
+  });
+  return revisoes;
+}
+
+// ─── COMPONENTE: TELA SESSÃO DO DIA ──────────────────────────────────────────
+function TelaSessaoDia({ isMobile, online, user }) {
+  const diaAtual = getDiaAtual();
+  const dadosDia = CRONOGRAMA_90.find(d => d.d === diaAtual) || CRONOGRAMA_90[0];
+  const revisoes = getRevisoesHoje(diaAtual);
+
+  const [msgs, setMsgs] = useState([]);
+  const [input, setInput] = useState("");
+  const [enviando, setEnviando] = useState(false);
+  const [sessaoIniciada, setSessaoIniciada] = useState(false);
+  const [diaEscolhido, setDiaEscolhido] = useState(diaAtual);
+  const [dadosEscolhidos, setDadosEscolhidos] = useState(dadosDia);
+  const chatRef = useRef(null);
+
+  useEffect(() => {
+    if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [msgs]);
+
+  function buildSystemPrompt(d) {
+    const matNome = MAT_NOME_SESSAO[d.mat] || d.assunto;
+    return `Você é o maior especialista do Brasil em ${matNome} para concursos públicos de Auditor Fiscal — especificamente para a banca FGV e o edital SEFAZ-BA.
+
+Não é um professor genérico: você passou os últimos 20 anos analisando padrões de questões FGV, pegadinhas recorrentes e os artigos mais cobrados nessa banca específica.
+
+CONTEXTO DA SESSÃO DE HOJE:
+• Dia do cronograma: ${d.d} de 90
+• Tema: ${d.tema}
+• Artigos: ${d.arts || "—"}
+• Dispositivos âncora FGV: ${d.ancora || "—"}
+• Jurisprudência prioritária: ${d.juri || "—"}
+• Tempo disponível: 3 horas
+
+MÉTODO DE ENSINO — siga SEMPRE esta ordem em cada bloco:
+1. Explique o conceito com uma analogia do cotidiano (como se a pessoa tivesse 15 anos).
+2. Mostre como isso aparece numa questão FGV real.
+3. Destaque a pegadinha FGV desse ponto.
+4. No fim do bloco, peça para o aluno te explicar o conceito com as próprias palavras.
+
+FEEDBACK SOCRÁTICO:
+- Se acertar: confirme e aprofunde.
+- Se errar: NÃO dê a resposta. Dê uma pista. Só revele na terceira tentativa.
+
+FECHAMENTO DE BLOCO:
+1. Resumo em tópicos (estilo ficha de revisão FGV).
+2. 1 questão inédita no estilo FGV sobre o ponto mais cobrado.
+3. Pergunte se quer continuar ou revisar.
+
+FEYNMAN — quando o aluno disser "Feynman":
+1. Peça para fechar tudo.
+2. Peça para explicar sem consultar nada.
+3. Enquanto explica: se travar, anote; se errar, deixe terminar; se usar jargão, pergunte o significado.
+4. Ao final: relatório com o que acertou, onde travou (lacuna de memória) e onde errou (lacuna de compreensão) + questão FGV mais provável sobre o ponto de travamento.
+
+Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: faça exatamente 3 perguntas para entender o nível atual do aluno nesse tema antes de ensinar qualquer coisa.`;
+  }
+
+  async function iniciarSessao(d) {
+    if (!online) return;
+    setEnviando(true);
+    setSessaoIniciada(true);
+    setMsgs([]);
+    try {
+      const system = buildSystemPrompt(d);
+      const res = await callClaude(system, "Iniciar sessão de hoje.", 1000);
+      setMsgs([{ role: "assistant", content: res }]);
+    } catch(e) {
+      setMsgs([{ role: "assistant", content: "⚠️ Erro ao conectar com o assistente. Verifique sua conexão." }]);
+    }
+    setEnviando(false);
+  }
+
+  async function enviarMsg() {
+    if (!input.trim() || enviando || !online) return;
+    const novaMsg = { role: "user", content: input.trim() };
+    const novasMsgs = [...msgs, novaMsg];
+    setMsgs(novasMsgs);
+    setInput("");
+    setEnviando(true);
+    try {
+      const system = buildSystemPrompt(dadosEscolhidos);
+      const histUser = novasMsgs.filter(m => m.role === "user").map(m => m.content).join("\n\n---\n\n");
+      const histAll = novasMsgs.map(m => `${m.role === "user" ? "ALUNO" : "PROFESSOR"}: ${m.content}`).join("\n\n");
+      const res = await callClaude(system, histAll, 1200);
+      setMsgs(m => [...m, { role: "assistant", content: res }]);
+    } catch(e) {
+      setMsgs(m => [...m, { role: "assistant", content: "⚠️ Erro ao processar sua mensagem." }]);
+    }
+    setEnviando(false);
+  }
+
+  const corMat = MAT_COR_SESSAO[dadosEscolhidos.mat] || "#8BA7BF";
+  const isDescanso = dadosEscolhidos.mat === "DS";
+  const isSimulado = dadosEscolhidos.mat === "RE";
+
+  return (
+    <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column", height:"100%" }}>
+
+      {/* Header */}
+      <div style={{ background:`linear-gradient(135deg,#050D17 0%,#08170A 60%,#0A1628 100%)`, borderBottom:`1px solid rgba(255,255,255,0.07)`, padding:isMobile?"12px 14px":"16px 28px", flexShrink:0 }}>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
+          <div>
+            <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1.2, color:T.verde2, marginBottom:3 }}>🧠 Sessão do Dia</div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?17:20, fontWeight:900, color:"#fff", lineHeight:1.2 }}>
+              Dia {dadosEscolhidos.d} <span style={{ color:corMat }}>· {dadosEscolhidos.assunto || dadosEscolhidos.mat}</span>
+            </h2>
+          </div>
+          {/* Seletor de dia */}
+          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+            <span style={{ fontSize:11, color:T.cinza3 }}>Dia:</span>
+            <select value={diaEscolhido} onChange={e => {
+              const nd = parseInt(e.target.value);
+              setDiaEscolhido(nd);
+              const novo = CRONOGRAMA_90.find(d => d.d === nd) || CRONOGRAMA_90[0];
+              setDadosEscolhidos(novo);
+              setSessaoIniciada(false);
+              setMsgs([]);
+            }} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:7, color:T.branco, fontSize:12, padding:"5px 9px", cursor:"pointer" }}>
+              {CRONOGRAMA_90.map(d => (
+                <option key={d.d} value={d.d}>
+                  {String(d.d).padStart(2,"0")} — {d.mat === "DS" ? "Descanso" : d.tema.substring(0,40)+"..."}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Dados do dia */}
+        {!isDescanso && (
+          <div style={{ marginTop:10, display:"flex", gap:8, flexWrap:"wrap" }}>
+            {dadosEscolhidos.arts && (
+              <div style={{ background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.25)", borderRadius:7, padding:"4px 10px", fontSize:11, color:T.verde3 }}>
+                📖 {dadosEscolhidos.arts}
+              </div>
+            )}
+            {dadosEscolhidos.ancora && (
+              <div style={{ background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)", borderRadius:7, padding:"4px 10px", fontSize:11, color:T.amarelo }}>
+                ⭐ {dadosEscolhidos.ancora}
+              </div>
+            )}
+          </div>
+        )}
+        {dadosEscolhidos.juri && (
+          <div style={{ marginTop:6, background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)", borderLeft:`3px solid rgba(104,211,145,0.4)`, borderRadius:"0 7px 7px 0", padding:"5px 10px", fontSize:11, color:T.verde3 }}>
+            ⚖️ {dadosEscolhidos.juri}
+          </div>
+        )}
+
+        {/* Revisões de hoje */}
+        {revisoes.length > 0 && (
+          <div style={{ marginTop:8, display:"flex", gap:6, flexWrap:"wrap" }}>
+            {revisoes.map((r,i) => (
+              <div key={i} style={{ background:"rgba(229,62,62,0.10)", border:"1px solid rgba(229,62,62,0.28)", borderRadius:100, padding:"3px 10px", fontSize:10, fontWeight:700, color:"#FCA5A5", cursor:"pointer" }}
+                onClick={() => {
+                  setDiaEscolhido(r.dia.d);
+                  setDadosEscolhidos(r.dia);
+                  setSessaoIniciada(false);
+                  setMsgs([]);
+                }}>
+                🔁 {r.label}: Dia {r.dia.d} · {r.dia.assunto}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Corpo */}
+      {!sessaoIniciada ? (
+        /* Tela inicial */
+        <div style={{ flex:1, overflow:"auto", padding:isMobile?"16px":"28px 36px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+          {isDescanso ? (
+            <div style={{ textAlign:"center" }}>
+              <div style={{ fontSize:64, marginBottom:16 }}>😴</div>
+              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"#fff", marginBottom:8 }}>Dia de Descanso</h3>
+              <p style={{ color:T.cinza3, fontSize:14 }}>Recuperação é parte do método. Use o seletor acima para estudar outro dia se quiser.</p>
+            </div>
+          ) : isSimulado ? (
+            <div style={{ textAlign:"center", maxWidth:500 }}>
+              <div style={{ fontSize:56, marginBottom:14 }}>🎯</div>
+              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"#fff", marginBottom:8 }}>{dadosEscolhidos.tema}</h3>
+              <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, marginBottom:20 }}>
+                Nos dias de revisão e simulado, faça o simulado sem auxílio. Use o assistente abaixo <strong style={{color:"#fff"}}>apenas para corrigir erros depois</strong>: <em>"Errei esta questão. Me dê uma pista para eu entender onde errei, sem revelar a resposta."</em>
+              </p>
+              <button onClick={() => iniciarSessao(dadosEscolhidos)} disabled={!online} className="btn" style={{
+                background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
+                padding:"12px 28px", borderRadius:10, fontWeight:700, fontSize:14,
+                opacity:!online?0.5:1, cursor:!online?"not-allowed":"pointer"
+              }}>
+                🤖 Abrir Corretor de Erros
+              </button>
+            </div>
+          ) : (
+            <div style={{ textAlign:"center", maxWidth:520 }}>
+              <div style={{ fontSize:52, marginBottom:14 }}>🧠</div>
+              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?18:22, color:"#fff", marginBottom:6, lineHeight:1.3 }}>
+                {dadosEscolhidos.tema}
+              </h3>
+              <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, marginBottom:22 }}>
+                O assistente já sabe o tema, os artigos, os âncoras e a jurisprudência do dia. Clique em Iniciar e ele começa pelo Diagnóstico — 3 perguntas para calibrar o ensino ao seu nível atual.
+              </p>
+              <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
+                <button onClick={() => iniciarSessao(dadosEscolhidos)} disabled={!online || enviando} className="btn" style={{
+                  background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
+                  padding:"13px 32px", borderRadius:10, fontWeight:800, fontSize:15,
+                  opacity:!online||enviando?0.5:1, cursor:!online||enviando?"not-allowed":"pointer",
+                  boxShadow:`0 6px 24px rgba(0,107,63,0.3)`
+                }}>
+                  {enviando ? "⏳ Iniciando…" : "🚀 Iniciar Sessão de Hoje"}
+                </button>
+              </div>
+              {!online && <p style={{ color:"#FCD34D", fontSize:12, marginTop:12 }}>📡 Sem conexão — o assistente requer internet.</p>}
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Chat */
+        <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
+          {/* Mensagens */}
+          <div ref={chatRef} style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 28px", display:"flex", flexDirection:"column", gap:12 }}>
+            {msgs.map((m, i) => (
+              <div key={i} style={{
+                display:"flex", justifyContent:m.role==="user"?"flex-end":"flex-start"
+              }}>
+                <div style={{
+                  maxWidth:"82%", padding:"11px 15px", borderRadius:m.role==="user"?"14px 14px 4px 14px":"14px 14px 14px 4px",
+                  background:m.role==="user"?`linear-gradient(135deg,${T.verde},${T.verde2})`:`${T.fundo3}`,
+                  border:m.role==="user"?"none":`1px solid ${T.borda2}`,
+                  color:m.role==="user"?"#fff":T.branco,
+                  fontSize:isMobile?12.5:13, lineHeight:1.75,
+                  whiteSpace:"pre-wrap", wordBreak:"break-word"
+                }}>
+                  {m.role==="assistant" && <div style={{ fontSize:10, fontWeight:700, color:T.verde2, marginBottom:4, textTransform:"uppercase", letterSpacing:.8 }}>🧠 Assistente</div>}
+                  {m.content}
+                </div>
+              </div>
+            ))}
+            {enviando && (
+              <div style={{ display:"flex", justifyContent:"flex-start" }}>
+                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:"14px 14px 14px 4px", padding:"11px 15px", fontSize:12, color:T.cinza3 }}>
+                  ⏳ Pensando…
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Input */}
+          <div style={{ padding:isMobile?"10px 12px":"14px 24px", borderTop:`1px solid ${T.borda2}`, background:T.fundo2, flexShrink:0 }}>
+            <div style={{ display:"flex", gap:8, alignItems:"flex-end", maxWidth:800, margin:"0 auto" }}>
+              <textarea
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => { if(e.key==="Enter" && !e.shiftKey) { e.preventDefault(); enviarMsg(); }}}
+                placeholder='Digite sua resposta… (Enter para enviar · Shift+Enter para nova linha) · Diga "Feynman" nos últimos 10 min'
+                rows={2}
+                style={{
+                  flex:1, background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10,
+                  padding:"10px 13px", color:T.branco, fontSize:13, outline:"none",
+                  lineHeight:1.6, resize:"none"
+                }}
+              />
+              <button onClick={enviarMsg} disabled={!input.trim()||enviando||!online} className="btn" style={{
+                background:!input.trim()||enviando||!online?T.fundo3:`linear-gradient(135deg,${T.verde},${T.verde2})`,
+                color:!input.trim()||enviando||!online?T.cinza3:"#fff",
+                padding:"10px 16px", borderRadius:10, fontWeight:700, fontSize:13,
+                border:`1px solid ${T.borda2}`, cursor:!input.trim()||enviando||!online?"not-allowed":"pointer",
+                flexShrink:0, alignSelf:"flex-end"
+              }}>
+                {enviando ? "⏳" : "➤"}
+              </button>
+            </div>
+            <div style={{ textAlign:"center", marginTop:6 }}>
+              <button onClick={() => { setSessaoIniciada(false); setMsgs([]); }} className="btn" style={{
+                background:"transparent", border:"none", color:T.cinza3, fontSize:11, cursor:"pointer", textDecoration:"underline"
+              }}>
+                ← Nova sessão / Reiniciar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 export default function App() {
   // ─── TODOS os hooks ANTES de qualquer return condicional ───
   const [user, setUser]             = useState(null);
@@ -1737,6 +2156,7 @@ export default function App() {
   const navItems = [
     { id:"acervo",     icon:"📚", label:"Acervo" },
     { id:"leitura",    icon:"📖", label:"Leitura",    disabled:!leiAtiva },
+    { id:"sessao",     icon:"🧠", label:"Sessão" },
     { id:"flashcards", icon:"🃏", label:"Flashcards" },
     { id:"ia",         icon:"🤖", label:"IA" },
     { id:"guias",      icon:"📓", label:"Guias" },
@@ -1846,6 +2266,7 @@ export default function App() {
           {tela==="acervo"     && <TelaAcervo     leis={LEIS} areas={AREAS} onAbrir={abrirLei} marcacoes={marcacoes} isMobile={isMobile} online={online} />}
           {tela==="leitura"    && <TelaLeitura    lei={leiAtiva} texto={textoLei} carregando={carregando} marcacoes={marcacoes} setMarcacoes={setMarcacoes} anotacoes={anotacoes} setAnotacoes={setAnotacoes} flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
           {tela==="flashcards" && <TelaFlashcards flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
+          {tela==="sessao"     && <TelaSessaoDia  isMobile={isMobile} online={online} user={user} />}
           {tela==="ia"         && <TelaIA         leiAtiva={leiAtiva} stats={stats} setStats={setStats} online={online} isMobile={isMobile} />}
           {tela==="guias"      && <TelaGuias      isMobile={isMobile} online={online} />}
           {tela==="juris"      && <TelaJuris      isMobile={isMobile} online={online} leiAtiva={leiAtiva} stats={stats} setStats={setStats} />}
