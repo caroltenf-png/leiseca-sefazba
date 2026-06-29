@@ -1,3 +1,3 @@
 # Lei Seca SEFAZ-BA
 
-redeploy forçado: 1782776267
+redeploy: variavel vinculada ao projeto 1782776593
