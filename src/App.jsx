@@ -1631,6 +1631,130 @@ async function callClaude(system, user, maxTokens=1000) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 
+
+// ─── EXTRAI ARTIGO DO TEXTO EMBUTIDO ────────────────────────────────────────
+function extrairArtigos(textoHtml, ancora) {
+  if (!textoHtml || !ancora) return [];
+  // Pega números dos artigos âncora: "art. 113 · art. 114" → [113, 114]
+  const matches = ancora.matchAll(/art(?:s)?\.?\s*(\d[\w.-]*)/gi);
+  const nums = [...new Set([...matches].map(m => m[1]))];
+  const resultados = [];
+  // Parse simples: busca parágrafos com "Art. N"
+  const blocos = textoHtml.split(/<p[^>]*>/i).filter(b => b.trim());
+  nums.forEach(num => {
+    const bloco = blocos.find(b => {
+      const sem = b.replace(/<[^>]+>/g,"");
+      return new RegExp(`Art\\.\\s*${num}[^\\d]`,"i").test(sem);
+    });
+    if (bloco && !resultados.find(r => r.num === num)) {
+      const texto = bloco.replace(/<\/p>/i,"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+      if (texto.length > 10) resultados.push({ num, texto });
+    }
+  });
+  return resultados.slice(0, 5);
+}
+
+// ─── MAPEAMENTO LEI → CHAVE TEXTOS_EMBUTIDOS ─────────────────────────────────
+const LEI_KEY_MAP = {
+  "CTN": "ctn",
+  "CF/88": "cf88_trib",
+  "Lei 7.014/96": "ba_lei7014",
+  "LC 87/96": "ba_lei7014",
+  "Lei 4.826/03": "ba_lei4826",
+  "Lei 6.348/91": "ba_lei6348",
+  "Dec. 7.629/99": "ba_dec7629",
+};
+
+function getLeiKey(arts) {
+  if (!arts) return null;
+  for (const [nome, key] of Object.entries(LEI_KEY_MAP)) {
+    if (arts.includes(nome)) return key;
+  }
+  return null;
+}
+
+// ─── COMPONENTE ACCORDEON DE ARTIGOS ─────────────────────────────────────────
+function ArtigoAccordeon({ dia }) {
+  const [aberto, setAberto] = useState(false);
+  const [artigos, setArtigos] = useState([]);
+  const [carregando, setCarregando] = useState(false);
+
+  const leiKey = getLeiKey(dia.arts);
+
+  async function abrir() {
+    if (aberto) { setAberto(false); return; }
+    setAberto(true);
+    if (artigos.length > 0) return;
+    if (!leiKey) return;
+    setCarregando(true);
+    // Busca do TEXTOS_EMBUTIDOS (disponível globalmente)
+    try {
+      const textoHtml = TEXTOS_EMBUTIDOS[leiKey];
+      if (textoHtml) {
+        const extraidos = extrairArtigos(textoHtml, dia.ancora);
+        setArtigos(extraidos);
+      }
+    } catch(e) { console.warn("ArtigoAccordeon:", e); }
+    setCarregando(false);
+  }
+
+  return (
+    <div style={{ marginBottom:6 }}>
+      {/* Linha de artigos clicável */}
+      <div onClick={abrir} style={{
+        fontSize:10, fontFamily:"'JetBrains Mono',monospace", color:T.verde3,
+        lineHeight:1.6, cursor: leiKey ? "pointer" : "default",
+        display:"flex", alignItems:"flex-start", gap:6,
+        background:"rgba(0,107,63,0.06)", border:"1px solid rgba(0,107,63,0.18)",
+        borderRadius:6, padding:"5px 8px",
+      }}>
+        <span>📖</span>
+        <span style={{ flex:1 }}>{dia.arts}</span>
+        {leiKey && (
+          <span style={{ color:T.cinza3, fontSize:9, flexShrink:0, marginTop:1 }}>
+            {aberto ? "▲" : "▼"} ver artigos
+          </span>
+        )}
+      </div>
+
+      {/* Accordeon expandido */}
+      {aberto && (
+        <div style={{
+          marginTop:4, background:"rgba(0,107,63,0.04)",
+          border:"1px solid rgba(0,107,63,0.15)",
+          borderRadius:"0 0 8px 8px", overflow:"hidden"
+        }}>
+          {carregando && (
+            <div style={{ padding:"10px 12px", fontSize:11, color:T.cinza3 }}>⏳ Carregando artigos…</div>
+          )}
+          {!carregando && artigos.length === 0 && (
+            <div style={{ padding:"10px 12px", fontSize:11, color:T.cinza3 }}>
+              Texto não disponível offline para esta lei.
+            </div>
+          )}
+          {artigos.map((art, i) => (
+            <div key={i} style={{
+              padding:"10px 12px",
+              borderBottom: i < artigos.length-1 ? "1px solid rgba(0,107,63,0.10)" : "none"
+            }}>
+              <div style={{
+                fontFamily:"'JetBrains Mono',monospace", fontSize:9, fontWeight:700,
+                color:T.verde2, marginBottom:4, textTransform:"uppercase", letterSpacing:.5
+              }}>
+                Art. {art.num}
+              </div>
+              <div style={{ fontSize:11, color:T.branco, lineHeight:1.65 }}>
+                {art.texto.length > 500 ? art.texto.substring(0,500)+"…" : art.texto}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 // ─── COMPONENTE: TELA CRONOGRAMA VISUAL ──────────────────────────────────────
 function TelaCronograma({ isMobile, online, user, setTela }) {
 
@@ -1886,11 +2010,9 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
                               {dia.tema}
                             </div>
 
-                            {/* Artigos */}
+                            {/* Artigos — clique para ver texto literal */}
                             {dia.arts && (
-                              <div style={{ fontSize:10, fontFamily:"'JetBrains Mono',monospace", color:T.verde3, marginBottom:6, lineHeight:1.6 }}>
-                                📖 {dia.arts}
-                              </div>
+                              <ArtigoAccordeon dia={dia} />
                             )}
 
                             {/* Âncoras */}
