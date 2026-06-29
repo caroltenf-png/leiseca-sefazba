@@ -1561,6 +1561,189 @@ XLIII — inexigibilidade de licitação: modalidade de contratação direta em 
 <p><strong>CRIMES (Arts. 337-E a 337-P):</strong> Contratação direta ilegal, frustrar caráter competitivo, manipular licitação, afastar licitante — penas de 4 a 8 anos de reclusão + multa. Agravamento: 1/3 a 1/2 se envolver agente público.</p>
 
 <p><strong>MICROEMPRESA E EPP:</strong> Tratamento favorecido mantido — empate ficto (5%), cota reservada de 25% para ME/EPP em licitações para bens de natureza divisível, preferência no desempate.</p>`,
+
+"lei8112": `<h2>LEI Nº 8.112, DE 11 DE DEZEMBRO DE 1990</h2>
+<p>Dispõe sobre o regime jurídico dos servidores públicos civis da União, das autarquias e das fundações públicas federais.</p>
+
+<p><strong>Art. 1º</strong> Esta Lei institui o Regime Jurídico dos Servidores Públicos Civis da União, das autarquias, inclusive as em regime especial, e das fundações públicas federais.</p>
+
+<p><strong>Art. 2º</strong> Para os efeitos desta Lei, servidor é a pessoa legalmente investida em cargo público.</p>
+
+<p><strong>Art. 3º</strong> Cargo público é o conjunto de atribuições e responsabilidades previstas na estrutura organizacional que devem ser cometidas a um servidor. Parágrafo único. Os cargos públicos, acessíveis a todos os brasileiros, são criados por lei, com denominação própria e vencimento pago pelos cofres públicos, para provimento em caráter efetivo ou em comissão.</p>
+
+<p><strong>Art. 8º</strong> São formas de provimento de cargo público: I — nomeação; II — promoção; III — readaptação; IV — reversão; V — aproveitamento; VI — reintegração; VII — recondução.</p>
+
+<p><strong>Art. 9º</strong> A nomeação far-se-á: I — em caráter efetivo, quando se tratar de cargo isolado de provimento efetivo ou de carreira; II — em comissão, inclusive na condição de interino, para cargos de confiança vagos.</p>
+
+<p><strong>Art. 10.</strong> A nomeação para cargo de carreira ou cargo isolado de provimento efetivo depende de prévia habilitação em concurso público de provas ou de provas e títulos, obedecidos a ordem de classificação e o prazo de sua validade.</p>
+
+<p><strong>Art. 11.</strong> O concurso será de provas ou de provas e títulos, podendo ser realizado em duas etapas, conforme dispuserem a lei e o regulamento do respectivo plano de carreira, condicionada a inscrição do candidato ao pagamento do valor fixado no edital, quando indispensável ao seu custeio, e restituível quando o concurso não se realizar.</p>
+
+<p><strong>Art. 13.</strong> O provimento se dá pela posse. §1º A posse se dará pela assinatura do respectivo termo, no qual deverão constar as atribuições, os deveres, as responsabilidades e os direitos inerentes ao cargo ocupado. §2º A posse ocorrerá no prazo de trinta dias contados da publicação do ato de provimento. §3º A posse poderá dar-se mediante procuração específica. §4º Só haverá posse nos casos de provimento de cargo por nomeação.</p>
+
+<p><strong>Art. 20.</strong> Ao entrar em exercício, o servidor nomeado para cargo de provimento efetivo ficará sujeito a estágio probatório por período de 24 (vinte e quatro) meses, durante o qual a sua aptidão e capacidade serão objeto de avaliação para o desempenho do cargo.</p>
+
+<p><strong>Art. 21.</strong> O servidor habilitado em concurso público e empossado em cargo de provimento efetivo adquirirá estabilidade no serviço público ao completar 3 (três) anos de efetivo exercício.</p>
+
+<p><strong>Art. 41.</strong> São deveres do servidor: I — exercer com zelo e dedicação as atribuições do cargo; II — ser leal às instituições a que servir; III — observar as normas legais e regulamentares; IV — cumprir as ordens superiores, exceto quando manifestamente ilegais; V — atender com presteza: a) ao público em geral, prestando as informações requeridas; b) à expedição de certidões requeridas para defesa de direito ou esclarecimento de situações de interesse pessoal; c) às requisições para a defesa da Fazenda Pública.</p>
+
+<p><strong>Art. 116.</strong> São proibições ao servidor: I — ausentar-se do serviço durante o expediente, sem prévia autorização do chefe imediato; II — retirar, sem prévia anuência da autoridade competente, qualquer documento ou objeto da repartição; III — recusar fé a documentos públicos; IV — opor resistência injustificada ao andamento de documento e processo ou execução de serviço; V — promover manifestação de apreço ou desapreço no recinto da repartição; VI — cometer a pessoa estranha à repartição, fora dos casos previstos em lei, o desempenho de atribuição que seja de sua responsabilidade ou de seu subordinado.</p>`,
+
+"lei14230": `<h2>LEI Nº 14.230, DE 25 DE OUTUBRO DE 2021</h2>
+<p>Altera a Lei nº 8.429, de 2 de junho de 1992 — Lei de Improbidade Administrativa.</p>
+
+<p><strong>Art. 1º</strong> O sistema de responsabilização por atos de improbidade administrativa tutelará a probidade na organização do Estado e no exercício das funções administrativas, com o objetivo de proteger o patrimônio público e social, nos termos desta Lei.</p>
+
+<p><strong>Art. 1º, §1º</strong> Consideram-se atos de improbidade administrativa as condutas dolosas tipificadas nos arts. 9º, 10 e 11 desta Lei, ressalvados tipos previstos em leis especiais.</p>
+
+<p><strong>Art. 1º, §2º</strong> Considera-se dolo a vontade livre e consciente de alcançar o resultado ilícito tipificado nos arts. 9º, 10 e 11 desta Lei, não bastando a voluntariedade do agente.</p>
+
+<p><strong>Art. 1º, §3º</strong> O mero exercício da função ou desempenho de competências públicas, sem comprovação de ato doloso com fim ilícito, afasta a responsabilidade por ato de improbidade administrativa.</p>
+
+<p><strong>Art. 3º</strong> As disposições desta Lei são aplicáveis, no que couber, àquele que, mesmo não sendo agente público, induza ou concorra dolosamente para a prática do ato de improbidade.</p>
+
+<p><strong>Art. 17.</strong> O Ministério Público é parte legítima para o ajuizamento da ação por ato de improbidade administrativa. §14. Enquanto não transitada em julgado a sentença condenatória, é vedada a imposição das sanções previstas no art. 12 desta Lei.</p>
+
+<p><strong>Art. 17-B.</strong> O Ministério Público poderá, com o objetivo de apurar a existência de atos de improbidade, instaurar inquérito civil ou procedimento administrativo de investigação preliminar.</p>
+
+<p><strong>Art. 23.</strong> A ação para a aplicação das sanções previstas nesta Lei prescreve em 8 (oito) anos, contados da data do ato ou do fato impugnado.</p>`,
+
+"lei6404": `<h2>LEI Nº 6.404, DE 15 DE DEZEMBRO DE 1976</h2>
+<p>Dispõe sobre as Sociedades por Ações.</p>
+
+<p><strong>Art. 176.</strong> Ao fim de cada exercício social, a diretoria fará elaborar, com base na escrituração mercantil da companhia, as seguintes demonstrações financeiras: I — balanço patrimonial; II — demonstração dos lucros ou prejuízos acumulados; III — demonstração do resultado do exercício; IV — demonstração dos fluxos de caixa; V — se companhia aberta, demonstração do valor adicionado.</p>
+
+<p><strong>Art. 177.</strong> A escrituração da companhia será mantida em registros permanentes, com obediência aos preceitos da legislação comercial e desta Lei e aos princípios de contabilidade geralmente aceitos, devendo observar métodos ou critérios contábeis uniformes no tempo e registrar as mutações patrimoniais segundo o regime de competência.</p>
+
+<p><strong>Art. 178.</strong> No balanço, as contas serão classificadas segundo os elementos do patrimônio que registrem, e agrupadas de modo a facilitar o conhecimento e a análise da situação financeira da companhia. §1º No ativo, as contas serão dispostas em ordem decrescente de grau de liquidez. §2º No passivo, as contas serão classificadas nos seguintes grupos: a) passivo circulante; b) passivo não circulante; c) patrimônio líquido.</p>
+
+<p><strong>Art. 179.</strong> As contas serão classificadas do seguinte modo: I — no ativo circulante: as disponibilidades, os direitos realizáveis no curso do exercício social subsequente e as aplicações de recursos em despesas do exercício seguinte; II — no ativo realizável a longo prazo: os direitos realizáveis após o término do exercício seguinte; III — em investimentos; IV — no ativo imobilizado; V — no intangível.</p>
+
+<p><strong>Art. 182.</strong> A conta do capital social discriminará o montante subscrito e, por dedução, a parcela ainda não realizada. §1º Serão classificadas como reservas de capital as contas que registrarem: a) a contribuição do subscritor de ações que ultrapassar o valor nominal e a parte do preço de emissão das ações sem valor nominal que ultrapassar a importância destinada à formação do capital social; b) o produto da alienação de partes beneficiárias e bônus de subscrição.</p>
+
+<p><strong>Art. 183.</strong> No balanço, os elementos do ativo serão avaliados segundo os seguintes critérios: I — os títulos de negociação e os disponíveis para venda: pelo valor justo; II — os estoques: ao custo de aquisição ou produção; III — os investimentos em coligadas e controladas: pelo método de equivalência patrimonial; IV — os ativos imobilizados e intangíveis: ao custo de aquisição; V — os demais ativos: pelo custo de aquisição deduzido de provisão para ajustá-lo ao valor de mercado, quando este for inferior.</p>
+
+<p><strong>Art. 184.</strong> No balanço, os elementos do passivo serão avaliados pelos seguintes critérios: I — as obrigações, encargos e riscos, conhecidos ou calculáveis, pelo valor atualizado; II — as obrigações em moeda estrangeira: com a taxa de câmbio em vigor na data do balanço; III — as obrigações sujeitas a correção monetária: pelo valor atualizado.</p>
+
+<p><strong>Art. 187.</strong> A demonstração do resultado do exercício discriminará: I — a receita bruta das vendas e serviços; II — as deduções das vendas, os abatimentos e os impostos; III — a receita líquida; IV — o custo das mercadorias e serviços vendidos; V — o lucro bruto; VI — as despesas com vendas, as despesas financeiras, deduzidas das receitas, as despesas gerais e administrativas, e outras despesas operacionais; VII — o lucro ou prejuízo operacional; VIII — as outras receitas e outras despesas; IX — o resultado do exercício antes do imposto sobre a renda e a provisão para o imposto; X — as participações de debêntures, empregados, administradores e partes beneficiárias; XI — o lucro ou prejuízo líquido do exercício e o seu montante por ação do capital social.</p>
+
+<p><strong>Art. 188.</strong> As demonstrações referidas nos incisos IV e V do art. 176 desta Lei indicarão, no mínimo: I — demonstração dos fluxos de caixa — as alterações ocorridas no exercício no saldo de caixa e equivalentes de caixa, segregadas em, no mínimo, 3 (três) fluxos: a) das operações; b) dos financiamentos; c) dos investimentos.</p>
+
+<p><strong>Art. 193.</strong> Do lucro líquido do exercício, 5% (cinco por cento) serão aplicados, antes de qualquer outra destinação, na constituição da reserva legal, que não excederá de 20% (vinte por cento) do capital social.</p>
+
+<p><strong>Art. 195.</strong> A assembleia geral poderá, por proposta dos órgãos da administração, destinar para a reserva de lucros a realizar a parcela do lucro líquido do exercício resultante de receitas não recebidas. §1º Para os efeitos desta Lei, são receitas não recebidas os lucros em decorrência do método da equivalência patrimonial e o lucro na venda a prazo realizado após o término do exercício social seguinte.</p>
+
+<p><strong>Art. 248.</strong> No balanço patrimonial da companhia, os investimentos relevantes em sociedades coligadas sobre cuja administração tenha influência significativa, ou de que participe com 20% (vinte por cento) ou mais do capital votante, em sociedades controladas, e em outras sociedades que façam parte de um mesmo grupo serão avaliados pelo método da equivalência patrimonial.</p>`,
+
+"cpcs_contab": `<h2>CPCs — PRONUNCIAMENTOS DO COMITÊ DE PRONUNCIAMENTOS CONTÁBEIS</h2>
+<p><em>Resumo dos artigos/itens mais cobrados pela FGV — SEFAZ-BA 2026</em></p>
+
+<h2>CPC 03 — DEMONSTRAÇÃO DOS FLUXOS DE CAIXA</h2>
+
+<p><strong>Item 6.</strong> A demonstração dos fluxos de caixa deve apresentar os fluxos de caixa do período, classificados em atividades operacionais, de investimento e de financiamento.</p>
+
+<p><strong>Item 18.</strong> A entidade deve apresentar os fluxos de caixa das atividades operacionais usando um destes dois métodos: (a) método direto — classes de recebimentos brutos e pagamentos brutos são divulgadas; (b) método indireto — o lucro ou prejuízo é ajustado pelos efeitos de transações não monetárias, quaisquer diferimentos ou acréscimos de recebimentos ou pagamentos operacionais passados ou futuros e itens de receita ou despesa associados com fluxos de caixa das atividades de investimento ou financiamento.</p>
+
+<p><strong>Item 20.</strong> A entidade pode apresentar os fluxos de caixa das atividades operacionais usando o método indireto, pelo qual o lucro ou prejuízo é ajustado pelos efeitos das transações que não envolvem caixa.</p>
+
+<p><strong>Item 38.</strong> Os seguintes são exemplos de fluxos de caixa provenientes de atividades de financiamento: (a) caixa recebido pela emissão de ações; (b) pagamentos a proprietários para adquirir ou resgatar as ações da entidade; (c) caixa recebido de empréstimos de curto e longo prazos; (d) pagamentos de empréstimos.</p>
+
+<h2>CPC 12 — AJUSTE A VALOR PRESENTE</h2>
+
+<p><strong>Item 4.</strong> O ajuste a valor presente é o processo de trazer a valor presente um ativo ou passivo originado por uma transação de longo prazo.</p>
+
+<p><strong>Item 9.</strong> A taxa de desconto a ser utilizada deve ser aquela que melhor reflita as avaliações do mercado corrente com relação ao valor do dinheiro no tempo e os riscos específicos do ativo ou passivo.</p>
+
+<p><strong>Item 17.</strong> O ajuste a valor presente é obrigatório para os elementos dos ativos e dos passivos de longo prazo. Para elementos de curto prazo deve ser aplicado quando o efeito for considerado relevante em relação às demonstrações contábeis.</p>
+
+<h2>CPC 15 — COMBINAÇÃO DE NEGÓCIOS</h2>
+
+<p><strong>Item 4.</strong> Combinação de negócios é uma operação ou outro evento por meio do qual um adquirente obtém o controle de um ou mais negócios. Transações por vezes chamadas de fusões entre iguais ou fusões também são combinações de negócios conforme esse Pronunciamento.</p>
+
+<p><strong>Item 18.</strong> O adquirente deve mensurar os ativos identificáveis adquiridos e os passivos assumidos pelos respectivos valores justos na data da aquisição.</p>
+
+<p><strong>Item 32.</strong> O adquirente deve reconhecer o ágio por expectativa de rentabilidade futura (goodwill) como ativo. O goodwill não é amortizado; em vez disso, a entidade deve testá-lo quanto à redução ao valor recuperável anualmente.</p>
+
+<p><strong>Item 34.</strong> Se a participação do adquirente no valor justo líquido dos ativos identificáveis e passivos assumidos exceder o valor do custo da combinação, o adquirente deve reconhecer o ganho resultante — ganho por compra vantajosa (deságio) imediatamente no resultado.</p>
+
+<h2>CPC 16 — ESTOQUES</h2>
+
+<p><strong>Item 6.</strong> Estoques são ativos: (a) mantidos para venda no curso normal dos negócios; (b) em processo de produção para venda; ou (c) na forma de materiais ou suprimentos a serem consumidos no processo de produção ou na prestação de serviços.</p>
+
+<p><strong>Item 10.</strong> O custo dos estoques deve incluir todos os custos de aquisição e de transformação, bem como outros custos incorridos para trazer os estoques à sua condição e localização atuais.</p>
+
+<p><strong>Item 25.</strong> O custo dos estoques deve ser atribuído usando-se as fórmulas PEPS (primeiro a entrar, primeiro a sair) ou custo médio ponderado. A entidade deve usar a mesma fórmula de custo para todos os estoques que tenham natureza e uso similares.</p>
+
+<p><strong>Item 28.</strong> Os estoques devem ser mensurados pelo valor de custo ou pelo valor realizável líquido, dos dois o menor. Valor realizável líquido é o preço de venda estimado no curso normal dos negócios menos os custos estimados para completar a produção e os custos estimados para realizar a venda.</p>
+
+<h2>CPC 18 — INVESTIMENTO EM COLIGADA, EM CONTROLADA E EM EMPREENDIMENTO CONTROLADO EM CONJUNTO</h2>
+
+<p><strong>Item 10.</strong> Investimento em coligada deve ser contabilizado pelo método de equivalência patrimonial.</p>
+
+<p><strong>Item 11.</strong> Coligada é uma entidade sobre a qual o investidor tem influência significativa. Se o investidor detém, direta ou indiretamente, 20% ou mais do poder de voto da investida, presume-se que ele tem influência significativa.</p>
+
+<h2>CPC 25 — PROVISÕES, PASSIVOS CONTINGENTES E ATIVOS CONTINGENTES</h2>
+
+<p><strong>Item 14.</strong> Uma provisão deve ser reconhecida quando: (a) a entidade tem uma obrigação presente (legal ou não formalizada) como resultado de evento passado; (b) seja provável que uma saída de recursos que incorporam benefícios econômicos será necessária para liquidar a obrigação; e (c) possa ser feita uma estimativa confiável do valor da obrigação.</p>
+
+<p><strong>Item 27.</strong> Passivos contingentes não são reconhecidos. A entidade deve divulgar um passivo contingente quando é possível (mas não provável) que uma saída de recursos será necessária.</p>
+
+<p><strong>Item 31.</strong> Ativos contingentes não são reconhecidos nas demonstrações contábeis. Eles devem ser divulgados quando for provável a entrada de benefícios econômicos. Quando a entrada de benefícios for praticamente certa, o ativo correspondente não é contingente e deve ser reconhecido.</p>
+
+<p><strong>Item 86.</strong> Quando for provável a entrada de benefícios econômicos, a entidade deve divulgar o ativo contingente em notas explicativas.</p>
+
+<h2>CPC 27 — ATIVO IMOBILIZADO</h2>
+
+<p><strong>Item 6.</strong> Ativo imobilizado é o item tangível que: (a) é mantido para uso na produção ou fornecimento de mercadorias ou serviços, para aluguel a outros, ou para fins administrativos; e (b) se espera utilizar por mais de um período.</p>
+
+<p><strong>Item 30.</strong> Cada parte de um item do ativo imobilizado com custo significativo em relação ao custo total do item deve ser depreciada separadamente (componentização).</p>
+
+<p><strong>Item 43.</strong> A vida útil de um ativo é definida em termos de utilidade esperada do ativo para a entidade. A política de gestão de ativos da entidade pode envolver a alienação de ativos após um período especificado ou após o consumo de uma proporção específica dos benefícios econômicos futuros incorporados ao ativo.</p>
+
+<h2>CPC 46 — MENSURAÇÃO DO VALOR JUSTO</h2>
+
+<p><strong>Item 9.</strong> Valor justo é o preço que seria recebido pela venda de um ativo ou que seria pago pela transferência de um passivo em uma transação não forçada entre participantes do mercado na data de mensuração.</p>
+
+<p><strong>Item 24.</strong> Hierarquia do valor justo: Nível 1 — preços cotados em mercados ativos para ativos e passivos idênticos; Nível 2 — dados observáveis que não sejam os preços cotados do Nível 1; Nível 3 — dados não observáveis para o ativo ou passivo.</p>
+
+<p><strong>Item 72.</strong> A entidade deve divulgar informações que ajudem os usuários das demonstrações contábeis a avaliar: (a) para ativos e passivos mensurados pelo valor justo de forma recorrente após o reconhecimento inicial, as técnicas de avaliação e os dados utilizados.</p>
+
+<p><strong>Item 86.</strong> A entidade deve divulgar o nível da hierarquia do valor justo dentro do qual as mensurações do valor justo são categorizadas em sua totalidade.</p>
+
+<h2>CPC 47 — RECEITA DE CONTRATO COM CLIENTE</h2>
+
+<p><strong>Item 9.</strong> A entidade deve reconhecer a receita para representar a transferência de bens ou serviços prometidos a clientes em um valor que reflita a contraprestação à qual a entidade espera ter direito em troca desses bens ou serviços.</p>
+
+<p><strong>Item 31.</strong> A entidade deve reconhecer a receita quando (ou à medida que) satisfizer a obrigação de desempenho pela transferência do bem ou serviço prometido (ou seja, o ativo) ao cliente.</p>
+
+<p><strong>Item 35.</strong> A entidade transfere o controle de um bem ou serviço ao longo do tempo e, portanto, satisfaz a obrigação de desempenho e reconhece a receita ao longo do tempo se um dos seguintes critérios for atendido: (a) o cliente recebe e consome simultaneamente os benefícios proporcionados pelo desempenho da entidade à medida que a entidade realiza o desempenho; (b) o desempenho da entidade cria ou melhora um ativo que o cliente controla à medida que o ativo é criado ou melhorado; (c) o desempenho da entidade não cria um ativo com uso alternativo para a entidade e a entidade tem direito exequível a pagamento pelo desempenho concluído até a data.</p>
+
+<h2>NBC TG 16 — ESTOQUES (equivalente ao CPC 16)</h2>
+
+<p><strong>Item 25.</strong> O custo dos estoques deve ser atribuído usando-se as fórmulas PEPS (primeiro a entrar, primeiro a sair) ou custo médio ponderado. A entidade deve usar a mesma fórmula de custo para todos os estoques que tenham natureza e uso similares para a entidade.</p>
+
+<p><strong>Item 28.</strong> Os estoques devem ser mensurados pelo valor de custo ou pelo valor realizável líquido, dos dois o menor.</p>
+
+<h2>NBC TG 26 — APRESENTAÇÃO DAS DEMONSTRAÇÕES CONTÁBEIS</h2>
+
+<p><strong>Item 54.</strong> Uma entidade deve apresentar um balanço patrimonial classificado que distingue ativos e passivos correntes dos não correntes, a menos que uma apresentação baseada em liquidez forneça informações confiáveis e mais relevantes.</p>
+
+<p><strong>Item 60.</strong> Um ativo deve ser classificado como circulante quando satisfizer qualquer dos seguintes critérios: (a) espera-se que seja realizado, ou pretende-se que seja vendido ou consumido no decurso normal do ciclo operacional da entidade; (b) está mantido essencialmente com a finalidade de ser negociado; (c) espera-se que seja realizado até doze meses após a data do balanço; ou (d) é caixa ou equivalente de caixa.</p>
+
+<p><strong>Item 76.</strong> Uma entidade deve apresentar, no mínimo, os seguintes itens na demonstração do resultado: receitas, custos financeiros, participação nos lucros de associadas, imposto de renda, resultado único para operações descontinuadas, resultado do período.</p>
+
+<h2>MCASP — MANUAL DE CONTABILIDADE APLICADA AO SETOR PÚBLICO</h2>
+
+<p><strong>Princípio do regime de competência:</strong> As receitas e despesas devem ser reconhecidas no exercício em que ocorrem, independentemente do recebimento ou pagamento. No setor público, o orçamento segue o regime de caixa, mas a contabilidade patrimonial segue o regime de competência.</p>
+
+<p><strong>PCASP — Plano de Contas Aplicado ao Setor Público:</strong> Padroniza as contas de todos os entes da federação. Estrutura: Ativo (1), Passivo e PL (2), Variações Patrimoniais Diminutivas (3), Variações Patrimoniais Aumentativas (4), Controles (7 e 8).</p>
+
+<p><strong>Art. 35 Lei 4.320/64 — Regime orçamentário:</strong> Pertencem ao exercício financeiro as receitas nele arrecadadas e as despesas nele legalmente empenhadas. O regime orçamentário é o de caixa para receitas e de competência para despesas (empenho).</p>
+
+<p><strong>Art. 36 Lei 4.320/64 — Restos a pagar:</strong> Consideram-se Restos a Pagar as despesas empenhadas mas não pagas até o dia 31 de dezembro, distinguindo-se as processadas das não processadas.</p>
+
+<p><strong>Art. 39 Lei 4.320/64 — Dívida ativa:</strong> Os créditos da Fazenda Pública, de natureza tributária ou não tributária, serão escriturados como receita do exercício em que forem arrecadados, nas respectivas rubricas orçamentárias.`,
+
 };
 
 
@@ -1659,10 +1842,30 @@ const LEI_KEY_MAP = {
   "CTN": "ctn",
   "CF/88": "cf88_trib",
   "Lei 7.014/96": "ba_lei7014",
-  "LC 87/96": "ba_lei7014",
+  "LC 87/96": "lkandir",
   "Lei 4.826/03": "ba_lei4826",
   "Lei 6.348/91": "ba_lei6348",
   "Dec. 7.629/99": "ba_dec7629",
+  "Lei 4.320/64": "lei4320",
+  "LC 101/00": "lrf",
+  "Lei 14.133/21": "lei14133",
+  "Lei 8.429/92": "lei8429",
+  "Lei 9.784/99": "lei9784",
+  "Lei 8.112/90": "lei8112",
+  "Lei 14.230/21": "lei14230",
+  "Lei 6.404/76": "lei6404",
+  "CPC 03": "cpcs_contab",
+  "CPC 12": "cpcs_contab",
+  "CPC 15": "cpcs_contab",
+  "CPC 16": "cpcs_contab",
+  "CPC 18": "cpcs_contab",
+  "CPC 25": "cpcs_contab",
+  "CPC 27": "cpcs_contab",
+  "CPC 46": "cpcs_contab",
+  "CPC 47": "cpcs_contab",
+  "NBC TG 16": "cpcs_contab",
+  "NBC TG 26": "cpcs_contab",
+  "MCASP": "cpcs_contab",
 };
 
 function getLeiKey(arts) {
