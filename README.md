@@ -15,3 +15,6 @@ Plataforma de estudos para Auditor Fiscal · Banca FGV · Carolina Teixeira
 - Jurisprudência STF/STJ
 - Simulados
 - Dashboard de progresso
+
+## Deploy
+redeploy: ANTHROPIC_API_KEY configurada
