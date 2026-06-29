@@ -1630,6 +1630,330 @@ async function callClaude(system, user, maxTokens=1000) {
 // APP PRINCIPAL
 // ═══════════════════════════════════════════════════════════════════════════
 
+
+// ─── COMPONENTE: TELA CRONOGRAMA VISUAL ──────────────────────────────────────
+function TelaCronograma({ isMobile, online, user, setTela }) {
+
+  const MAT_COR_CRONO = {
+    DT:"#F9C231", LE:"#FDBA74", CO:"#68D391",
+    AF:"#8BA7BF", DA:"#00A65A", DC:"#8BA7BF",
+    RE:"#FCA5A5", DS:"rgba(255,255,255,0.08)"
+  };
+  const MAT_NOME_CRONO = {
+    DT:"Dir. Tributário", LE:"Leg. Estadual",
+    CO:"Contabilidade", AF:"AFO",
+    DA:"Dir. Adm.", DC:"Dir. Const.",
+    RE:"Revisão", DS:"Descanso"
+  };
+  const FASES = [
+    { num:"01", titulo:"Fundamentos", desc:"Dias 01–30 · CTN + CF + ICMS/BA", ini:1, fim:30 },
+    { num:"02", titulo:"Aprofundamento", desc:"Dias 31–60 · CO + AFO + DA + DC", ini:31, fim:60 },
+    { num:"03", titulo:"Consolidação", desc:"Dias 61–90 · 2ª Leitura + Simulados + Reta Final", ini:61, fim:90 },
+  ];
+
+  const [filtroMat, setFiltroMat]     = useState("TODOS");
+  const [concluidos, setConcluidos]   = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem("crono_concluidos") || "[]")); }
+    catch { return new Set(); }
+  });
+  const [vistaAtiva, setVistaAtiva]   = useState("cards"); // cards | calendario
+  const diaAtual                      = getDiaAtual();
+
+  // Salvar progresso localmente
+  function toggleDia(d) {
+    setConcluidos(prev => {
+      const next = new Set(prev);
+      if (next.has(d)) next.delete(d); else next.add(d);
+      localStorage.setItem("crono_concluidos", JSON.stringify([...next]));
+      return next;
+    });
+  }
+
+  const totalUteis = CRONOGRAMA_90.filter(d => d.mat !== "DS").length;
+  const totalFeitos = [...concluidos].filter(d => parseInt(d) >= 1 && parseInt(d) <= 90).length;
+  const pct = Math.round(totalFeitos / totalUteis * 100);
+
+  const revisoesPorDia = {};
+  CRONOGRAMA_90.forEach(d => {
+    if (d.mat === "DS" || d.mat === "RE") return;
+    [d.d+1, d.d+7, d.d+30].forEach((r, i) => {
+      if (r <= 90) {
+        if (!revisoesPorDia[r]) revisoesPorDia[r] = [];
+        revisoesPorDia[r].push({ tipo: ["R1","R2","R3"][i], diaOrigem: d.d, mat: d.mat });
+      }
+    });
+  });
+
+  const filtros = ["TODOS","DT","LE","CO","AF","DA","DC","RE"];
+
+  function corFiltro(mat) {
+    if (mat === "TODOS") return filtroMat === "TODOS";
+    return filtroMat === mat;
+  }
+
+  function cardVisivel(d) {
+    if (filtroMat === "TODOS") return true;
+    if (d.mat === "DS") return true;
+    return d.mat === filtroMat;
+  }
+
+  return (
+    <div style={{ flex:1, overflow:"auto", display:"flex", flexDirection:"column" }}>
+
+      {/* ── HEADER ── */}
+      <div style={{
+        background:"linear-gradient(135deg,#050D17 0%,#08170A 50%,#0A1628 100%)",
+        borderBottom:`1px solid rgba(255,255,255,0.07)`,
+        padding: isMobile ? "14px 14px 10px" : "20px 28px 14px",
+        flexShrink:0
+      }}>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:12 }}>
+          <div>
+            <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1.2, color:T.verde2, marginBottom:3 }}>
+              📅 Cronograma 90 Dias
+            </div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?18:22, fontWeight:900, color:"#fff" }}>
+              Lei Seca · <span style={{ color:T.amarelo }}>SEFAZ-BA · FGV</span>
+            </h2>
+          </div>
+          {/* Vista toggle */}
+          <div style={{ display:"flex", gap:6 }}>
+            {[{id:"cards",icon:"🗂️"},{id:"calendario",icon:"📆"}].map(v => (
+              <button key={v.id} onClick={() => setVistaAtiva(v.id)} className="btn" style={{
+                padding:"7px 12px", borderRadius:8, fontSize:12, fontWeight:700,
+                background: vistaAtiva===v.id ? `rgba(0,107,63,0.25)` : T.fundo3,
+                border: `1px solid ${vistaAtiva===v.id ? "rgba(0,107,63,0.5)" : T.borda2}`,
+                color: vistaAtiva===v.id ? T.verde3 : T.cinza3
+              }}>{v.icon}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* Barra de progresso */}
+        <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:10 }}>
+          <div style={{ flex:1, height:6, background:"rgba(255,255,255,0.07)", borderRadius:99, overflow:"hidden" }}>
+            <div style={{ height:"100%", width:`${pct}%`, background:`linear-gradient(90deg,${T.verde},${T.verde2})`, borderRadius:99, transition:"width .5s" }} />
+          </div>
+          <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:13, fontWeight:700, color:T.verde2, whiteSpace:"nowrap" }}>{pct}%</span>
+          <span style={{ fontSize:11, color:T.cinza3, whiteSpace:"nowrap" }}>{totalFeitos}/{totalUteis} dias</span>
+        </div>
+
+        {/* Filtros matéria */}
+        <div style={{ display:"flex", gap:5, flexWrap:"wrap" }}>
+          {filtros.map(mat => (
+            <button key={mat} onClick={() => setFiltroMat(mat)} className="btn" style={{
+              padding:"4px 11px", borderRadius:100, fontSize:10, fontWeight:700,
+              background: corFiltro(mat) ? (mat==="TODOS"?"rgba(0,107,63,0.2)":`rgba(0,0,0,0.3)`) : "rgba(255,255,255,0.04)",
+              border: `1px solid ${corFiltro(mat) ? (MAT_COR_CRONO[mat]||T.verde2)+"66" : T.borda2}`,
+              color: corFiltro(mat) ? (MAT_COR_CRONO[mat]||T.verde2) : T.cinza3,
+            }}>
+              {mat === "TODOS" ? "Todos" : MAT_NOME_CRONO[mat]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── VISTA CALENDÁRIO ── */}
+      {vistaAtiva === "calendario" && (
+        <div style={{ padding: isMobile?"14px":"24px 28px", flex:1, overflow:"auto" }}>
+          <div style={{ display:"grid", gridTemplateColumns:`repeat(${isMobile?5:10},1fr)`, gap:5, marginBottom:24 }}>
+            {CRONOGRAMA_90.map(dia => {
+              const isDs = dia.mat === "DS";
+              const feito = concluidos.has(String(dia.d));
+              const isHoje = dia.d === diaAtual;
+              const temRevisao = revisoesPorDia[dia.d]?.length > 0;
+              const cor = MAT_COR_CRONO[dia.mat] || "rgba(255,255,255,0.1)";
+              return (
+                <div key={dia.d} onClick={() => !isDs && toggleDia(String(dia.d))}
+                  title={isDs ? "Descanso" : `Dia ${dia.d} · ${dia.tema}`}
+                  style={{
+                    aspectRatio:"1", borderRadius:7,
+                    background: feito ? "rgba(0,107,63,0.18)" : T.fundo3,
+                    border: `1px solid ${isHoje ? T.amarelo : feito ? "rgba(0,107,63,0.4)" : T.borda2}`,
+                    display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+                    cursor: isDs ? "default" : "pointer", opacity: isDs ? 0.35 : 1,
+                    position:"relative", transition:"all .15s",
+                    borderTop: !isDs ? `2px solid ${cor}55` : undefined,
+                  }}>
+                  <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:11, fontWeight:700, color: feito ? T.verde2 : isHoje ? T.amarelo : "rgba(255,255,255,0.35)" }}>
+                    {dia.d}
+                  </span>
+                  {feito && <span style={{ fontSize:7, color:T.verde2 }}>✓</span>}
+                  {temRevisao && !feito && (
+                    <div style={{ width:5, height:5, borderRadius:"50%", background:"#FCA5A5", position:"absolute", top:3, right:3 }} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Legenda */}
+          <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
+            {Object.entries(MAT_COR_CRONO).filter(([k])=>k!=="DS").map(([mat,cor])=>(
+              <div key={mat} style={{ display:"flex", alignItems:"center", gap:5, fontSize:11, color:T.cinza3 }}>
+                <div style={{ width:8, height:8, borderRadius:"50%", background:cor }} />
+                {MAT_NOME_CRONO[mat]}
+              </div>
+            ))}
+            <div style={{ display:"flex", alignItems:"center", gap:5, fontSize:11, color:"#FCA5A5" }}>
+              <div style={{ width:5, height:5, borderRadius:"50%", background:"#FCA5A5" }} />
+              Revisão pendente
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── VISTA CARDS ── */}
+      {vistaAtiva === "cards" && (
+        <div style={{ padding: isMobile?"12px":"20px 24px", flex:1, overflow:"auto" }}>
+          {FASES.map(fase => {
+            const diasFase = CRONOGRAMA_90.filter(d => d.d >= fase.ini && d.d <= fase.fim && cardVisivel(d));
+            if (diasFase.length === 0) return null;
+            return (
+              <div key={fase.num} style={{ marginBottom:36 }}>
+                {/* Fase header */}
+                <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
+                  <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:28, fontWeight:700, color:T.amarelo, opacity:.7, lineHeight:1 }}>{fase.num}</span>
+                  <div>
+                    <div style={{ fontFamily:"'Playfair Display',serif", fontSize:16, fontWeight:900, color:"#fff" }}>{fase.titulo}</div>
+                    <div style={{ fontSize:11, color:T.cinza3, marginTop:2 }}>{fase.desc}</div>
+                  </div>
+                  <div style={{ flex:1, height:1, background:"linear-gradient(90deg,rgba(249,194,49,.2),transparent)" }} />
+                </div>
+
+                {/* Grid de cards */}
+                <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr":"repeat(2,1fr)", gap:10 }}>
+                  {diasFase.map(dia => {
+                    const isDs = dia.mat === "DS";
+                    const feito = concluidos.has(String(dia.d));
+                    const isHoje = dia.d === diaAtual;
+                    const revisoesDia = revisoesPorDia[dia.d] || [];
+                    const cor = MAT_COR_CRONO[dia.mat] || "rgba(255,255,255,0.1)";
+
+                    return (
+                      <div key={dia.d} style={{
+                        background: feito ? "rgba(0,107,63,0.09)" : T.fundo3,
+                        border: `1px solid ${isHoje ? T.amarelo+"88" : feito ? "rgba(0,107,63,0.32)" : T.borda2}`,
+                        borderTop: `3px solid ${isDs ? "rgba(255,255,255,0.06)" : cor+"99"}`,
+                        borderRadius:12, padding:"14px 16px",
+                        opacity: isDs ? 0.4 : 1,
+                        position:"relative"
+                      }}>
+                        {/* Topo */}
+                        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10 }}>
+                          <div>
+                            <div style={{ fontSize:9, textTransform:"uppercase", letterSpacing:.8, color:"rgba(255,255,255,0.2)", marginBottom:1 }}>
+                              {["","SEG","TER","QUA","QUI","SEX","SAB","DOM"][((dia.d-1)%7)+1] || ""}
+                            </div>
+                            <div style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:32, fontWeight:700, lineHeight:1, color: feito ? "rgba(0,166,90,0.25)" : "rgba(255,255,255,0.1)" }}>
+                              {String(dia.d).padStart(2,"0")}
+                            </div>
+                          </div>
+                          <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:4 }}>
+                            {/* Badge hoje */}
+                            {isHoje && (
+                              <div style={{ background:"rgba(249,194,49,0.15)", border:"1px solid rgba(249,194,49,0.4)", borderRadius:100, padding:"2px 8px", fontSize:9, fontWeight:700, color:T.amarelo }}>
+                                HOJE
+                              </div>
+                            )}
+                            {/* Check */}
+                            {!isDs && (
+                              <div onClick={() => toggleDia(String(dia.d))} style={{
+                                width:20, height:20, borderRadius:"50%",
+                                border: `2px solid ${feito ? T.verde2 : "rgba(255,255,255,0.2)"}`,
+                                background: feito ? T.verde2 : "transparent",
+                                display:"flex", alignItems:"center", justifyContent:"center",
+                                fontSize:9, color:"#fff", cursor:"pointer"
+                              }}>
+                                {feito ? "✓" : ""}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Pill matéria */}
+                        <div style={{
+                          display:"inline-block", padding:"2px 9px", borderRadius:100,
+                          fontSize:9, fontWeight:700, marginBottom:8,
+                          background: `${cor}18`, border:`1px solid ${cor}44`, color:cor
+                        }}>
+                          {MAT_NOME_CRONO[dia.mat]}
+                        </div>
+
+                        {!isDs && (
+                          <>
+                            <div style={{ fontSize:12, fontWeight:700, color:"#fff", lineHeight:1.4, marginBottom:8 }}>
+                              {dia.tema}
+                            </div>
+
+                            {/* Artigos */}
+                            {dia.arts && (
+                              <div style={{ fontSize:10, fontFamily:"'JetBrains Mono',monospace", color:T.verde3, marginBottom:6, lineHeight:1.6 }}>
+                                📖 {dia.arts}
+                              </div>
+                            )}
+
+                            {/* Âncoras */}
+                            {dia.ancora && (
+                              <div style={{ display:"flex", flexWrap:"wrap", gap:3, marginBottom:6 }}>
+                                {dia.ancora.split(" · ").map((a,i) => (
+                                  <span key={i} style={{
+                                    fontFamily:"'JetBrains Mono',monospace", fontSize:9, fontWeight:700,
+                                    background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)",
+                                    borderRadius:5, padding:"1px 6px", color:T.amarelo
+                                  }}>{a}</span>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Jurisprudência */}
+                            {dia.juri && (
+                              <div style={{
+                                background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
+                                borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
+                                padding:"5px 8px", fontSize:10, color:T.verde3, lineHeight:1.5, marginBottom:8
+                              }}>
+                                ⚖️ {dia.juri}
+                              </div>
+                            )}
+
+                            {/* Badges de revisão */}
+                            {revisoesDia.length > 0 && (
+                              <div style={{ display:"flex", gap:4, flexWrap:"wrap", marginBottom:6 }}>
+                                {revisoesDia.map((r,i) => (
+                                  <span key={i} style={{
+                                    background:"rgba(252,165,165,0.10)", border:"1px solid rgba(252,165,165,0.28)",
+                                    borderRadius:100, padding:"2px 7px", fontSize:9, fontWeight:700, color:"#FCA5A5"
+                                  }}>🔁 {r.tipo} · Dia {r.diaOrigem}</span>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Botões de ação */}
+                            <div style={{ display:"flex", gap:6, marginTop:8 }}>
+                              <button onClick={() => setTela("sessao")} className="btn" style={{
+                                flex:1, padding:"7px 10px", borderRadius:8, fontSize:11, fontWeight:700,
+                                background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff", border:"none"
+                              }}>
+                                🧠 Estudar agora
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 // ─── DADOS DO CRONOGRAMA 90 DIAS ──────────────────────────────────────────────
 const DATA_INICIO = new Date("2026-06-29T00:00:00-03:00");
 
@@ -2156,6 +2480,7 @@ export default function App() {
   const navItems = [
     { id:"acervo",     icon:"📚", label:"Acervo" },
     { id:"leitura",    icon:"📖", label:"Leitura",    disabled:!leiAtiva },
+    { id:"cronograma", icon:"📅", label:"Cronograma" },
     { id:"sessao",     icon:"🧠", label:"Sessão" },
     { id:"flashcards", icon:"🃏", label:"Flashcards" },
     { id:"ia",         icon:"🤖", label:"IA" },
@@ -2266,6 +2591,7 @@ export default function App() {
           {tela==="acervo"     && <TelaAcervo     leis={LEIS} areas={AREAS} onAbrir={abrirLei} marcacoes={marcacoes} isMobile={isMobile} online={online} />}
           {tela==="leitura"    && <TelaLeitura    lei={leiAtiva} texto={textoLei} carregando={carregando} marcacoes={marcacoes} setMarcacoes={setMarcacoes} anotacoes={anotacoes} setAnotacoes={setAnotacoes} flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
           {tela==="flashcards" && <TelaFlashcards flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
+          {tela==="cronograma" && <TelaCronograma isMobile={isMobile} online={online} user={user} setTela={setTela} />}
           {tela==="sessao"     && <TelaSessaoDia  isMobile={isMobile} online={online} user={user} />}
           {tela==="ia"         && <TelaIA         leiAtiva={leiAtiva} stats={stats} setStats={setStats} online={online} isMobile={isMobile} />}
           {tela==="guias"      && <TelaGuias      isMobile={isMobile} online={online} />}
