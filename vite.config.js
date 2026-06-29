@@ -3,6 +3,16 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  build: {
+    // Aumentar limite de chunk para comportar o App.jsx grande
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        // Não dividir em chunks — manter tudo num arquivo
+        manualChunks: undefined,
+      }
+    }
+  },
   plugins: [
     react(),
     VitePWA({
@@ -24,12 +34,11 @@ export default defineConfig({
         ]
       },
       workbox: {
-        // Cacheia todos os assets do build
+        // Aumentar limite do workbox para aceitar chunks grandes
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
-        // Estratégia: tenta rede, cai pro cache se offline
         runtimeCaching: [
           {
-            // Google Fonts — cache-first (raramente muda)
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
             handler: 'CacheFirst',
             options: {
@@ -39,7 +48,6 @@ export default defineConfig({
             }
           },
           {
-            // API Anthropic — NetworkFirst: tenta online, usa cache se offline
             urlPattern: /^https:\/\/api\.anthropic\.com\/.*/i,
             handler: 'NetworkFirst',
             options: {
@@ -50,8 +58,7 @@ export default defineConfig({
             }
           },
           {
-            // Textos de leis do Planalto/SEFAZ-BA — StaleWhileRevalidate
-            urlPattern: /^https:\/\/(www\.planalto\.gov\.br|mbusca\.sefaz\.ba\.gov\.br|www\.legislabahia\.ba\.gov\.br)\/.*/i,
+            urlPattern: /^https:\/\/(www\.planalto\.gov\.br|mbusca\.sefaz\.ba\.gov\.br)\/.*/i,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'leis-planalto',
