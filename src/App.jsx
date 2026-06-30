@@ -1144,8 +1144,9 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
               ))}
             </select>
           </div>
-          {/* Botões de ação */}
-          <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+        </div>
+        {/* Botões de ação — linha separada */}
+        <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginTop:8 }}>
             <button onClick={() => setPainelAberto(p => !p)} className="btn" style={{
               background: painelAberto ? "rgba(0,107,63,0.2)" : "rgba(255,255,255,0.05)",
               border: `1px solid ${painelAberto ? "rgba(0,107,63,0.4)" : "rgba(255,255,255,0.1)"}`,
@@ -1170,7 +1171,6 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
                 💾 Salvar
               </button>
             )}
-          </div>
         </div>
 
         {/* Dados do dia */}
