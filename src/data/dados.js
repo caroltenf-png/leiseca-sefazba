@@ -1657,6 +1657,55 @@ XLIII — inexigibilidade de licitação: modalidade de contratação direta em 
 
 <p><strong>Art. 39 Lei 4.320/64 — Dívida ativa:</strong> Os créditos da Fazenda Pública, de natureza tributária ou não tributária, serão escriturados como receita do exercício em que forem arrecadados, nas respectivas rubricas orçamentárias.`,
 
+
+"lei9868": `<h2>LEI Nº 9.868, DE 10 DE NOVEMBRO DE 1999</h2>
+<p>Dispõe sobre o processo e julgamento da ação direta de inconstitucionalidade e da ação declaratória de constitucionalidade perante o Supremo Tribunal Federal.</p>
+
+<p><strong>Art. 1º</strong> Esta Lei dispõe sobre o processo e o julgamento da ação direta de inconstitucionalidade e da ação declaratória de constitucionalidade perante o Supremo Tribunal Federal.</p>
+
+<p><strong>Art. 2º</strong> Podem propor a ação direta de inconstitucionalidade: I — o Presidente da República; II — a Mesa do Senado Federal; III — a Mesa da Câmara dos Deputados; IV — a Mesa de Assembleia Legislativa ou da Câmara Legislativa do Distrito Federal; V — o Governador de Estado ou do Distrito Federal; VI — o Procurador-Geral da República; VII — o Conselho Federal da Ordem dos Advogados do Brasil; VIII — partido político com representação no Congresso Nacional; IX — confederação sindical ou entidade de classe de âmbito nacional.</p>
+
+<p><strong>Art. 3º</strong> A petição indicará: I — o dispositivo da lei ou do ato normativo impugnado e os fundamentos jurídicos do pedido em relação a cada uma das impugnações; II — o pedido, com suas especificações.</p>
+
+<p><strong>Art. 4º</strong> A petição inicial inepta, não fundamentada e a manifestamente improcedente serão liminarmente indeferidas pelo relator.</p>
+
+<p><strong>Art. 5º</strong> Proposta a ação direta, não se admitirá desistência.</p>
+
+<p><strong>Art. 9º</strong> Vencido o prazo do artigo anterior, o relator pedirá dia para que o Tribunal julgue a ação, sem prejuízo da faculdade de requisitar informação adicional, designar perito ou comissão de peritos para que emita parecer sobre a questão, ou fixar data para, em audiência pública, ouvir depoimentos de pessoas com experiência e autoridade na matéria.</p>
+
+<p><strong>Art. 10.</strong> Salvo no período de recesso, o relator, em face da relevância da matéria e de seu especial significado para a ordem social e a segurança jurídica, poderá, após a audiência dos demais Ministros, submeter o pedido de medida cautelar diretamente ao Tribunal, que terá a faculdade de deferi-la observado o disposto no art. 22. §3º O relator poderá, ainda, em caso de excepcional urgência, submeter o pedido de medida cautelar diretamente ao Tribunal.</p>
+
+<p><strong>Art. 11.</strong> Concedida a medida cautelar, o Supremo Tribunal Federal fará publicar em seção especial do Diário Oficial da União e do Diário da Justiça da União a parte dispositiva da decisão, no prazo de dez dias, devendo solicitar as informações à autoridade da qual tiver emanado o ato. §1º A medida cautelar, dotada de eficácia contra todos, será concedida na forma do estabelecido no artigo anterior, produzindo efeitos ex nunc, salvo se o Tribunal entender que deva conceder-lhe eficácia retroativa. §2º A concessão da medida cautelar torna aplicável a legislação anterior acaso existente, salvo expressa manifestação em sentido contrário.</p>
+
+<p><strong>Art. 22.</strong> A decisão sobre a constitucionalidade ou a inconstitucionalidade da lei ou do ato normativo somente será tomada se presentes na sessão pelo menos oito Ministros.</p>
+
+<p><strong>Art. 23.</strong> Efetuado o julgamento, proclamar-se-á a constitucionalidade ou a inconstitucionalidade da disposição ou da norma impugnada se num ou noutro sentido se tiverem manifestado pelo menos seis Ministros, quer se trate de ação direta de inconstitucionalidade, quer de ação declaratória de constitucionalidade.</p>
+
+<p><strong>Art. 26.</strong> A decisão que declara a constitucionalidade ou a inconstitucionalidade da lei ou do ato normativo em ação direta ou em ação declaratória é irrecorrível, ressalvada a interposição de embargos declaratórios, não podendo, igualmente, ser objeto de ação rescisória.</p>
+
+<p><strong>Art. 27.</strong> Ao declarar a inconstitucionalidade de lei ou ato normativo, e tendo em vista razões de segurança jurídica ou de excepcional interesse social, poderá o Supremo Tribunal Federal, por maioria de dois terços de seus membros, restringir os efeitos daquela declaração ou decidir que ela só tenha eficácia a partir de seu trânsito em julgado ou de outro momento que venha a ser fixado (modulação de efeitos).</p>
+
+<p><strong>Art. 28.</strong> Dentro do prazo de dez dias após o trânsito em julgado da decisão, o Supremo Tribunal Federal fará publicar em seção especial do Diário Oficial da União e do Diário da Justiça da União a parte dispositiva do acórdão. Parágrafo único. A declaração de constitucionalidade ou de inconstitucionalidade, inclusive a interpretação conforme a Constituição e a declaração parcial de inconstitucionalidade sem redução de texto, têm eficácia contra todos e efeito vinculante em relação aos órgãos do Poder Judiciário e à Administração Pública federal, estadual e municipal.</p>`,
+
+"lei8443": `<h2>LEI Nº 8.443, DE 16 DE JULHO DE 1992</h2>
+<p>Dispõe sobre a Lei Orgânica do Tribunal de Contas da União.</p>
+
+<p><strong>Art. 1º</strong> Ao Tribunal de Contas da União, órgão de controle externo, compete, nos termos da Constituição Federal e na forma estabelecida nesta Lei: I — julgar as contas dos administradores e demais responsáveis por dinheiros, bens e valores públicos das unidades dos poderes da União; II — julgar as contas dos administradores das empresas estatais; III — apreciar, para fins de registro, na forma estabelecida no Regimento Interno, a legalidade dos atos de admissão de pessoal e de concessão de aposentadorias, reformas e pensões civis e militares.</p>
+
+<p><strong>Art. 2º</strong> A jurisdição do Tribunal abrange: I — qualquer pessoa física, órgão ou entidade pública que utilize, arrecade, guarde, gerencie ou administre dinheiros, bens e valores públicos; II — aqueles que derem causa a perda, extravio ou outra irregularidade que resulte dano ao erário.</p>
+
+<p><strong>Art. 16.</strong> As contas serão julgadas: I — regulares, quando expressarem, de forma clara e objetiva, a exatidão dos demonstrativos contábeis, a legalidade, a legitimidade e a economicidade dos atos de gestão do responsável; II — regulares com ressalva, quando evidenciarem impropriedade ou qualquer outra falta de natureza formal de que não resulte dano ao erário; III — irregulares, quando comprovada qualquer das seguintes ocorrências: a) omissão no dever de prestar contas; b) prática de ato de gestão ilegal, ilegítimo, antieconômico, ou infração a norma legal ou regulamentar de natureza contábil, financeira, orçamentária, operacional ou patrimonial; c) dano ao erário decorrente de ato de gestão ilegítimo ou antieconômico; d) desfalque ou desvio de dinheiros, bens ou valores públicos.</p>
+
+<p><strong>Art. 19.</strong> Quando julgar as contas regulares com ressalva, o Tribunal dará quitação ao responsável e lhe determinará, ou a quem lhe haja sucedido, a adoção das medidas necessárias à correção das impropriedades ou faltas identificadas, de modo a prevenir a ocorrência de outras semelhantes.</p>
+
+<p><strong>Art. 23.</strong> Julgadas as contas, o Tribunal dará a respectiva quitação ao responsável e: I — determinará, se for o caso, a correção das faltas verificadas, fixando o prazo em que o responsável deve adotar as providências necessárias; III — determinará, no caso de contas irregulares de que não resulte débito, a aplicação da multa prevista no inciso II do art. 58 desta Lei.</p>
+
+<p><strong>Art. 57.</strong> Sem prejuízo das sanções previstas na seção anterior e das penalidades administrativas, aplicáveis pelas autoridades competentes, por irregularidades constatadas pelo Tribunal de Contas da União, sempre que este, por maioria simples, considerar grave a infração cometida, aplicará ao responsável a sanção de inabilitação, por um período que variará de cinco a oito anos, para o exercício de cargo em comissão ou função de confiança no âmbito da Administração Pública.</p>
+
+<p><strong>Art. 58.</strong> O Tribunal poderá aplicar multa de Cr$ 42.000.000,00 (quarenta e dois milhões de cruzeiros), ou valor equivalente em outra moeda que venha a ser adotada como moeda nacional, aos responsáveis por: I — contas julgadas irregulares de que não resulte débito, nos termos do parágrafo único do art. 19, ressalvado o disposto no art. 20 desta Lei; II — ato praticado com grave infração à norma legal ou regulamentar de natureza contábil, financeira, orçamentária, operacional e patrimonial; III — ato de gestão ilegal, ilegítimo, antieconômico, ou lesivo ao erário; IV — não atendimento, no prazo fixado, sem causa justificada, a diligência do Relator ou a determinação do Tribunal; V — obstrução ao livre exercício das inspeções e auditorias determinadas; VI — sonegação de processo, documento ou informação, em geral, necessários à instrução de processos sob a apreciação do Tribunal; VII — reincidência no descumprimento de determinação do Tribunal.</p>
+
+<p><strong>Art. 71.</strong> A pessoa física ou jurídica que receber recursos relativos a convênio, acordo, ajuste ou outros instrumentos congêneres, de natureza... [continua com regras de prestação de contas de recursos federais transferidos].</p>`,
+
 };
 
 const MAT_COR_SESSAO = {
