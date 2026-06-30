@@ -2,9 +2,7 @@
   "name": "leis-seca-pwa",
   "version": "1.0.0",
   "private": true,
-  "engines": {
-    "node": ">=20.0.0"
-  },
+  "engines": { "node": ">=20.0.0" },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -17,7 +15,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.1",
-    "vite-plugin-pwa": "^0.20.5"
+    "vite": "^5.4.1"
   }
 }
