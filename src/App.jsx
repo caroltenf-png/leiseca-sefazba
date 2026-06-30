@@ -320,10 +320,15 @@ const AREAS = [
 ];// TEXTOS_EMBUTIDOS importado de ./data/dados.js
 
 // Mapa: mat -> chave em TEXTOS_EMBUTIDOS
-const MAP_LEI_OFFLINE = {
-  DT: 'ctn', LE: 'ba_lei7014', CO: 'cpcs_contab',
-  AF: 'lrf',  DA: 'lei9784',   DC: 'cf88_trib',
-};
+// Detecta a chave correta do texto embutido a partir do campo "arts" do dia
+// (pode ter múltiplas leis, ex: "CTN Arts. 1–18 · CF/88 Arts. 145–149-A")
+function detectarLeiKey(artsStr) {
+  if (!artsStr) return null;
+  for (const [nome, key] of Object.entries(LEI_KEY_MAP)) {
+    if (artsStr.includes(nome)) return key;
+  }
+  return null;
+}
 
 // Extrai artigos de um intervalo do texto HTML offline
 function extrairArtigos(htmlTexto, artsStr, ancoraStr) {
@@ -536,6 +541,8 @@ const LEI_KEY_MAP = {
   "NBC TG 16": "cpcs_contab",
   "NBC TG 26": "cpcs_contab",
   "MCASP": "cpcs_contab",
+  "Lei 9.868/99": "lei9868",
+  "Lei 8.443/92": "lei8443",
 };
 
 function getLeiKey(arts) {
@@ -1431,7 +1438,7 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
             }}>
               {/* Artigos do dia */}
               {(() => {
-                const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
+                const leiKey = detectarLeiKey(dadosEscolhidos.arts);
                 const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
                 const artsStr = dadosEscolhidos.arts;
                 const ancoraStr = dadosEscolhidos.ancora;
