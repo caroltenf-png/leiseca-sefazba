@@ -892,7 +892,7 @@ function getRevisoesHoje(diaAtual) {
 }
 
 // ─── COMPONENTE: TELA SESSÃO DO DIA ──────────────────────────────────────────
-function TelaSessaoDia({ isMobile, online, user }) {
+function TelaSessaoDia({ isMobile, online, user, setTela, abrirLei }) {
   const diaAtual = getDiaAtual();
   const dadosDia = CRONOGRAMA_90.find(d => d.d === diaAtual) || CRONOGRAMA_90[0];
   const revisoes = getRevisoesHoje(diaAtual);
@@ -982,6 +982,18 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
   }
 
   const corMat = MAT_COR_SESSAO[dadosEscolhidos.mat] || "#8BA7BF";
+  // Mapa: mat do cronograma -> id da lei no acervo
+  const MAP_LEI_DIA = {
+    DT: "ctn",
+    LE: "ba_lei7014",
+    CO: "ctn",
+    AF: "lrf",
+    DA: "lei9784",
+    DC: "cf88_trib",
+  };
+  const leiDoDiaId = MAP_LEI_DIA[dadosEscolhidos.mat];
+  const leiDoDia = leiDoDiaId ? LEIS.find(l => l.id === leiDoDiaId) : null;
+
   const isDescanso = dadosEscolhidos.mat === "DS";
   const isSimulado = dadosEscolhidos.mat === "RE";
 
@@ -1100,6 +1112,15 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
                   {enviando ? "⏳ Iniciando…" : "🚀 Iniciar Sessão de Hoje"}
                 </button>
               </div>
+
+                {leiDoDia && abrirLei && (
+                  <button onClick={() => { abrirLei(leiDoDia); setTela("leitura"); }} className="btn" style={{
+                    background:"rgba(0,107,63,0.15)", border:"1px solid rgba(0,107,63,0.4)", color:T.verde3,
+                    padding:"13px 24px", borderRadius:10, fontWeight:700, fontSize:14,
+                  }}>
+                    📖 Ler Lei do Dia
+                  </button>
+                )}
               {!online && <p style={{ color:"#FCD34D", fontSize:12, marginTop:12 }}>📡 Sem conexão — o assistente requer internet.</p>}
             </div>
           )}
@@ -1395,7 +1416,7 @@ export default function App() {
           {tela==="leitura"    && <TelaLeitura    lei={leiAtiva} texto={textoLei} carregando={carregando} marcacoes={marcacoes} setMarcacoes={setMarcacoes} anotacoes={anotacoes} setAnotacoes={setAnotacoes} flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
           {tela==="flashcards" && <TelaFlashcards flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
           {tela==="cronograma" && <TelaCronograma isMobile={isMobile} online={online} user={user} setTela={setTela} />}
-          {tela==="sessao"     && <TelaSessaoDia  isMobile={isMobile} online={online} user={user} />}
+          {tela==="sessao"     && <TelaSessaoDia  isMobile={isMobile} online={online} user={user} setTela={setTela} abrirLei={abrirLei} />}
           {tela==="ia"         && <TelaIA         leiAtiva={leiAtiva} stats={stats} setStats={setStats} online={online} isMobile={isMobile} />}
           {tela==="guias"      && <TelaGuias      isMobile={isMobile} online={online} />}
           {tela==="juris"      && <TelaJuris      isMobile={isMobile} online={online} leiAtiva={leiAtiva} stats={stats} setStats={setStats} />}
