@@ -453,23 +453,58 @@ async function callClaude(system, user, maxTokens=1000) {
 
 
 // ─── EXTRAI ARTIGO DO TEXTO EMBUTIDO (âncoras) ──────────────────────────────
-function extrairArtigosAncora(textoHtml, ancora) {
-  if (!textoHtml || !ancora) return [];
-  const matches = ancora.matchAll(/art(?:s)?\.?\s*(\d[\w.-]*)/gi);
-  const nums = [...new Set([...matches].map(m => m[1]))];
-  const resultados = [];
+function extrairArtigosAncora(textoHtml, ancora, artsStr) {
+  if (!textoHtml) return [];
   const blocos = textoHtml.split(/<p[^>]*>/i).filter(b => b.trim());
-  nums.forEach(num => {
-    const bloco = blocos.find(b => {
-      const sem = b.replace(/<[^>]+>/g,"");
-      return new RegExp(`Art\\.\\s*${num}[^\\d]`,"i").test(sem);
-    });
-    if (bloco && !resultados.find(r => r.num === num)) {
-      const texto = bloco.replace(/<\/p>/i,"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
-      if (texto.length > 10) resultados.push({ num, texto });
+
+  function numDoBloco(b) {
+    const sem = b.replace(/<[^>]+>/g," ");
+    const m = sem.match(/Art\.\s*(\d+)/i);
+    return m ? parseInt(m[1]) : null;
+  }
+  function textoDoBloco(b) {
+    return b.replace(/<\/p>/i,"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+  }
+
+  // 1) Tentar pegar TODOS os artigos do intervalo informado em "arts" (ex: "CTN Arts. 1–18")
+  if (artsStr) {
+    const rangeMatch = artsStr.match(/(\d+)[–\-—](\d+)/);
+    const singleMatch = artsStr.match(/Art(?:s)?\.?\s*(\d+)/i);
+    let ini = null, fim = null;
+    if (rangeMatch) { ini = parseInt(rangeMatch[1]); fim = parseInt(rangeMatch[2]); }
+    else if (singleMatch) { ini = fim = parseInt(singleMatch[1]); }
+    if (ini !== null) {
+      const resultados = [];
+      blocos.forEach(b => {
+        const num = numDoBloco(b);
+        if (num !== null && num >= ini && num <= fim) {
+          const texto = textoDoBloco(b);
+          if (texto.length > 10) resultados.push({ num: String(num), texto });
+        }
+      });
+      if (resultados.length > 0) return resultados;
     }
-  });
-  return resultados.slice(0, 5);
+  }
+
+  // 2) Fallback: usar apenas os números mencionados em "ancora"
+  if (ancora) {
+    const matches = ancora.matchAll(/art(?:s)?\.?\s*(\d[\w.-]*)/gi);
+    const nums = [...new Set([...matches].map(m => m[1]))];
+    const resultados = [];
+    nums.forEach(num => {
+      const bloco = blocos.find(b => {
+        const sem = b.replace(/<[^>]+>/g,"");
+        return new RegExp(`Art\\.\\s*${num}[^\\d]`,"i").test(sem);
+      });
+      if (bloco && !resultados.find(r => r.num === num)) {
+        const texto = textoDoBloco(bloco);
+        if (texto.length > 10) resultados.push({ num, texto });
+      }
+    });
+    return resultados;
+  }
+
+  return [];
 }
 
 // ─── MAPEAMENTO LEI → CHAVE TEXTOS_EMBUTIDOS ─────────────────────────────────
@@ -529,7 +564,7 @@ function ArtigoAccordeon({ dia }) {
     try {
       const textoHtml = TEXTOS_EMBUTIDOS[leiKey];
       if (textoHtml) {
-        const extraidos = extrairArtigosAncora(textoHtml, dia.ancora);
+        const extraidos = extrairArtigosAncora(textoHtml, dia.ancora, dia.arts);
         setArtigos(extraidos);
       }
     } catch(e) { console.warn("ArtigoAccordeon:", e); }
@@ -568,22 +603,27 @@ function ArtigoAccordeon({ dia }) {
               Texto não disponível offline para esta lei.
             </div>
           )}
-          {artigos.map((art, i) => (
+          {artigos.map((art, i) => {
+            const isAncora = dia.ancora && new RegExp(`art\\.?\\s*${art.num}(?!\\d)`,"i").test(dia.ancora);
+            return (
             <div key={i} style={{
               padding:"10px 12px",
-              borderBottom: i < artigos.length-1 ? "1px solid rgba(0,107,63,0.10)" : "none"
+              borderBottom: i < artigos.length-1 ? "1px solid rgba(0,107,63,0.10)" : "none",
+              background: isAncora ? "rgba(249,194,49,0.04)" : "transparent",
+              borderLeft: isAncora ? "2px solid rgba(249,194,49,0.4)" : "2px solid transparent",
             }}>
               <div style={{
                 fontFamily:"'JetBrains Mono',monospace", fontSize:9, fontWeight:700,
-                color:T.verde2, marginBottom:4, textTransform:"uppercase", letterSpacing:.5
+                color: isAncora ? T.amarelo : T.verde2, marginBottom:4, textTransform:"uppercase", letterSpacing:.5,
+                display:"flex", alignItems:"center", gap:5
               }}>
-                Art. {art.num}
+                {isAncora && "⭐"} Art. {art.num}
               </div>
               <div style={{ fontSize:11, color:T.branco, lineHeight:1.65 }}>
-                {art.texto.length > 500 ? art.texto.substring(0,500)+"…" : art.texto}
+                {art.texto.length > 600 ? art.texto.substring(0,600)+"…" : art.texto}
               </div>
             </div>
-          ))}
+          );})}
         </div>
       )}
     </div>
@@ -1159,70 +1199,6 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
     salvarSessao(false);
   }
 
-  function renderPainelConteudo() {
-    const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
-    const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
-    const artsStr = dadosEscolhidos.arts;
-    const ancoraStr = dadosEscolhidos.ancora;
-    const trecho = textoLei ? extrairArtigos(textoLei, artsStr, ancoraStr) : null;
-    return (
-      <>
-        {/* Artigos do dia */}
-        <div>
-          <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
-            📖 Artigos do Dia — {artsStr || "—"}
-          </div>
-          {trecho ? (
-            <div
-              style={{ fontSize:11.5, color:T.branco, lineHeight:1.8, fontFamily:"'Inter',sans-serif" }}
-              dangerouslySetInnerHTML={{ __html: trecho }}
-            />
-          ) : (
-            <p style={{ fontSize:12, color:T.cinza3 }}>Texto não disponível offline para esta matéria.</p>
-          )}
-        </div>
-
-        {/* Jurisprudência do dia */}
-        {dadosEscolhidos.juri && (
-          <div>
-            <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
-            <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
-              ⚖️ Jurisprudência do Dia
-            </div>
-            {dadosEscolhidos.juri.split("·").map((j, i) => (
-              <div key={i} style={{
-                background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
-                borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
-                padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.5,
-              }}>
-                {j.trim()}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Anotações */}
-        <div>
-          <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
-          <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
-            ✏️ Anotações da Sessão
-          </div>
-          <textarea
-            value={anotacoes}
-            onChange={e => setAnotacoes(e.target.value)}
-            placeholder="Anote dúvidas, insights, pontos para revisar..."
-            rows={isMobile ? 8 : 6}
-            style={{
-              width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
-              borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
-              lineHeight:1.6, resize:"vertical", outline:"none",
-            }}
-          />
-        </div>
-      </>
-    );
-  }
-
   const corMat = MAT_COR_SESSAO[dadosEscolhidos.mat] || "#8BA7BF";
   // Mapa: mat do cronograma -> id da lei no acervo
   const MAP_LEI_DIA = {
@@ -1442,37 +1418,77 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
         /* Chat + Painel */
         <div style={{ flex:1, display:"flex", flexDirection:"row", overflow:"hidden" }}>
 
-          {/* Painel lateral — DESKTOP apenas (sidebar fixa) */}
-          {painelAberto && !isMobile && (
+          {/* Painel lateral — lei + jurisprudência */}
+          {painelAberto && (
             <div style={{
-              width: 340, minWidth: 280, maxWidth: 380,
+              width: isMobile ? "100%" : 340,
+              minWidth: isMobile ? undefined : 280,
+              maxWidth: isMobile ? undefined : 380,
               background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
               overflow:"auto", padding:"14px 16px", flexShrink:0,
-              display:"flex", flexDirection:"column", gap:14,
+              display: isMobile && sessaoIniciada ? "none" : "flex",
+              flexDirection:"column", gap:14,
             }}>
-              {renderPainelConteudo()}
-            </div>
-          )}
+              {/* Artigos do dia */}
+              {(() => {
+                const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
+                const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
+                const artsStr = dadosEscolhidos.arts;
+                const ancoraStr = dadosEscolhidos.ancora;
+                const trecho = textoLei ? extrairArtigos(textoLei, artsStr, ancoraStr) : null;
+                return (
+                  <div>
+                    <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
+                      📖 Artigos do Dia — {artsStr || "—"}
+                    </div>
+                    {trecho ? (
+                      <div
+                        style={{ fontSize:11.5, color:T.branco, lineHeight:1.8, fontFamily:"'Inter',sans-serif" }}
+                        dangerouslySetInnerHTML={{ __html: trecho }}
+                      />
+                    ) : (
+                      <p style={{ fontSize:12, color:T.cinza3 }}>Texto não disponível offline para esta matéria.</p>
+                    )}
+                  </div>
+                );
+              })()}
 
-          {/* Painel — MOBILE: modal de tela cheia */}
-          {painelAberto && isMobile && (
-            <div style={{
-              position:"fixed", inset:0, zIndex:60,
-              background:T.fundo, display:"flex", flexDirection:"column",
-            }}>
-              <div style={{
-                background:T.fundo2, borderBottom:`1px solid ${T.borda2}`,
-                padding:"14px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0,
-              }}>
-                <div style={{ fontSize:14, fontWeight:800, color:"#fff" }}>📖 Lei + Jurisprudência do Dia</div>
-                <button onClick={() => setPainelAberto(false)} className="btn" style={{
-                  background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)",
-                  color:T.cinza3, width:32, height:32, borderRadius:8, fontSize:16, cursor:"pointer",
-                  display:"flex", alignItems:"center", justifyContent:"center",
-                }}>✕</button>
-              </div>
-              <div style={{ flex:1, overflow:"auto", padding:"16px", display:"flex", flexDirection:"column", gap:14 }}>
-                {renderPainelConteudo()}
+              {/* Jurisprudência do dia */}
+              {dadosEscolhidos.juri && (
+                <div>
+                  <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
+                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
+                    ⚖️ Jurisprudência do Dia
+                  </div>
+                  {dadosEscolhidos.juri.split("·").map((j, i) => (
+                    <div key={i} style={{
+                      background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
+                      borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
+                      padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.5,
+                    }}>
+                      {j.trim()}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Anotações */}
+              <div>
+                <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
+                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
+                  ✏️ Anotações da Sessão
+                </div>
+                <textarea
+                  value={anotacoes}
+                  onChange={e => setAnotacoes(e.target.value)}
+                  placeholder="Anote dúvidas, insights, pontos para revisar..."
+                  rows={6}
+                  style={{
+                    width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
+                    borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
+                    lineHeight:1.6, resize:"vertical", outline:"none",
+                  }}
+                />
               </div>
             </div>
           )}
