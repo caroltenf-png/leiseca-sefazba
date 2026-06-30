@@ -1,4 +1,4 @@
-// api/ai.js — Proxy de IA com debug
+// api/ai.js — Proxy Claude
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -12,8 +12,7 @@ export default async function handler(req, res) {
   const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 
   if (!ANTHROPIC_KEY) {
-    const vars = Object.keys(process.env).filter(k => !k.includes('npm') && !k.includes('NODE') && !k.includes('PATH')).slice(0,10);
-    return res.status(503).json({ error: 'ANTHROPIC_API_KEY ausente', vars_disponiveis: vars });
+    return res.status(503).json({ error: 'ANTHROPIC_API_KEY nao configurada no Vercel.' });
   }
 
   try {
