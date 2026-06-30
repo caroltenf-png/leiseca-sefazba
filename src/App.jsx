@@ -330,41 +330,33 @@ const MAP_LEI_OFFLINE = {
 // Extrai artigos de um intervalo do texto HTML offline
 function extrairArtigos(htmlTexto, artsStr) {
   if (!htmlTexto || !artsStr) return htmlTexto || '';
-  // Pegar números do intervalo, ex: "Arts. 142–150" ou "Arts. 1–18"
-  const matches = artsStr.match(/[Aa]rts?\.?\s*(\d+)[–\-—]?(\d+)?/g);
-  if (!matches || !matches.length) return htmlTexto;
+  // Extrair intervalo de artigos via regex (sem DOMParser)
+  const rangeMatch = artsStr.match(/(\d+)[–\-—](\d+)/);
+  const singleMatch = artsStr.match(/Art(?:s)?\.?\s*(\d+)/i);
+  let ini = 1, fim = 999;
+  if (rangeMatch) { ini = parseInt(rangeMatch[1]); fim = parseInt(rangeMatch[2]); }
+  else if (singleMatch) { ini = fim = parseInt(singleMatch[1]); }
 
-  const nums = [];
-  matches.forEach(m => {
-    const ns = m.match(/\d+/g);
-    if (ns && ns.length >= 2) {
-      const ini = parseInt(ns[0]), fim = parseInt(ns[1]);
-      for (let i = ini; i <= fim; i++) nums.push(i);
-    } else if (ns) {
-      nums.push(parseInt(ns[0]));
-    }
-  });
-  if (!nums.length) return htmlTexto;
-
-  // Extrair parágrafos que contêm os artigos do intervalo
-  const parser = new DOMParser();
-  const doc = parser.parseFromString('<div>' + htmlTexto + '</div>', 'text/html');
-  const todos = doc.querySelectorAll('p, h2, h3');
+  // Dividir HTML em blocos por <p> e <h2>/<h3>
+  const blocos = htmlTexto.split(/(?=<(?:p|h[23])[^>]*>)/i);
   const resultado = [];
   let capturando = false;
-  let artAtual = 0;
 
-  todos.forEach(el => {
-    const txt = el.textContent || '';
-    const artMatch = txt.match(/^Art\.?\s*(\d+)/);
+  for (const bloco of blocos) {
+    const artMatch = bloco.match(/<strong>Art\.?\s*(\d+)/i) ||
+                     bloco.match(/Art\.\s*(\d+)/i);
     if (artMatch) {
-      artAtual = parseInt(artMatch[1]);
-      capturando = nums.includes(artAtual);
+      const num = parseInt(artMatch[1]);
+      capturando = num >= ini && num <= fim;
     }
-    if (capturando) resultado.push(el.outerHTML);
-  });
+    if (capturando && bloco.trim()) resultado.push(bloco);
+    // Parar se passou do intervalo
+    if (artMatch && parseInt(artMatch[1]) > fim) break;
+  }
 
-  return resultado.length > 0 ? resultado.join('\n') : htmlTexto.substring(0, 3000) + '...';
+  if (resultado.length > 0) return resultado.join('\n');
+  // Fallback: retornar início do texto
+  return htmlTexto.substring(0, 4000);
 }
 
 
@@ -438,14 +430,12 @@ async function callClaude(system, user, maxTokens=1000) {
 
 
 
-// ─── EXTRAI ARTIGO DO TEXTO EMBUTIDO ────────────────────────────────────────
-function extrairArtigos(textoHtml, ancora) {
+// ─── EXTRAI ARTIGO DO TEXTO EMBUTIDO (âncoras) ──────────────────────────────
+function extrairArtigosAncora(textoHtml, ancora) {
   if (!textoHtml || !ancora) return [];
-  // Pega números dos artigos âncora: "art. 113 · art. 114" → [113, 114]
   const matches = ancora.matchAll(/art(?:s)?\.?\s*(\d[\w.-]*)/gi);
   const nums = [...new Set([...matches].map(m => m[1]))];
   const resultados = [];
-  // Parse simples: busca parágrafos com "Art. N"
   const blocos = textoHtml.split(/<p[^>]*>/i).filter(b => b.trim());
   nums.forEach(num => {
     const bloco = blocos.find(b => {
@@ -517,7 +507,7 @@ function ArtigoAccordeon({ dia }) {
     try {
       const textoHtml = TEXTOS_EMBUTIDOS[leiKey];
       if (textoHtml) {
-        const extraidos = extrairArtigos(textoHtml, dia.ancora);
+        const extraidos = extrairArtigosAncora(textoHtml, dia.ancora);
         setArtigos(extraidos);
       }
     } catch(e) { console.warn("ArtigoAccordeon:", e); }
