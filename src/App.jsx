@@ -1036,13 +1036,45 @@ function TelaSessaoDia({ isMobile, online, user, setTela, abrirLei }) {
   const [historicoSessoes, setHistoricoSessoes] = useState([]);
   const [verHistorico, setVerHistorico] = useState(false);
   const [gerandoPDF, setGerandoPDF] = useState(false);
+  const [ultimoSalvo, setUltimoSalvo] = useState(null);
+  const [salvando, setSalvando] = useState(false);
   const autoSaveRef = useRef(null);
 
   useEffect(() => {
     if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [msgs]);
 
+  // Avisa antes de fechar/recarregar se há mensagens não salvas
+  useEffect(() => {
+    function handleBeforeUnload(e) {
+      const haNaoSalvo = sessaoIniciada && msgs.length > 0 &&
+        (!ultimoSalvo || (Date.now() - ultimoSalvo) > 5000);
+      if (haNaoSalvo) {
+        e.preventDefault();
+        e.returnValue = "Você tem uma sessão de estudo não salva. Sair mesmo assim?";
+        return e.returnValue;
+      }
+    }
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [sessaoIniciada, msgs, ultimoSalvo]);
+
   // Carregar histórico de sessões ao montar
+  // Checa se há sessão local não salva no Supabase ao montar
+  useEffect(() => {
+    const local = restaurarLocal(diaEscolhido);
+    if (local && !sessaoIniciada) {
+      const querRestaurar = window.confirm(
+        "Encontramos uma sessão de estudo não finalizada do Dia " + local.dia + " (" + local.tema.substring(0,40) + "...). Deseja continuar de onde parou?"
+      );
+      if (querRestaurar) {
+        setMsgs(local.msgs);
+        setAnotacoes(local.anotacoes || "");
+        setSessaoIniciada(true);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (!user) return;
     supabase.from('sessoes_estudo')
@@ -1062,22 +1094,50 @@ function TelaSessaoDia({ isMobile, online, user, setTela, abrirLei }) {
   }, [sessaoIniciada, msgs, anotacoes]);
 
   async function salvarSessao(isNova = false) {
-    if (!user || msgs.length === 0) return;
-    const payload = {
-      user_id: user.id,
-      dia: dadosEscolhidos.d,
-      mat: dadosEscolhidos.mat,
-      tema: dadosEscolhidos.tema,
-      msgs: msgs,
-      anotacoes: anotacoes,
-      atualizada_em: new Date().toISOString(),
-    };
-    if (sessaoId && !isNova) {
-      await supabase.from('sessoes_estudo').update(payload).eq('id', sessaoId);
-    } else {
-      const { data } = await supabase.from('sessoes_estudo').insert(payload).select('id').single();
-      if (data) setSessaoId(data.id);
+    if (msgs.length === 0) return;
+    setSalvando(true);
+
+    // SEMPRE salva localStorage primeiro — funciona mesmo sem login/internet
+    try {
+      const localKey = "sessao_atual_dia_" + dadosEscolhidos.d;
+      localStorage.setItem(localKey, JSON.stringify({
+        dia: dadosEscolhidos.d, mat: dadosEscolhidos.mat, tema: dadosEscolhidos.tema,
+        msgs, anotacoes, salvoEm: new Date().toISOString(),
+      }));
+    } catch(e) { /* localStorage pode falhar em modo privado — ignora */ }
+
+    // Tenta salvar no Supabase se houver usuário logado
+    if (user) {
+      const payload = {
+        user_id: user.id, dia: dadosEscolhidos.d, mat: dadosEscolhidos.mat,
+        tema: dadosEscolhidos.tema, msgs: msgs, anotacoes: anotacoes,
+        atualizada_em: new Date().toISOString(),
+      };
+      try {
+        if (sessaoId && !isNova) {
+          await supabase.from('sessoes_estudo').update(payload).eq('id', sessaoId);
+        } else {
+          const { data } = await supabase.from('sessoes_estudo').insert(payload).select('id').single();
+          if (data) setSessaoId(data.id);
+        }
+      } catch(e) { /* mantém o save local mesmo se Supabase falhar */ }
     }
+
+    setUltimoSalvo(Date.now());
+    setSalvando(false);
+  }
+
+  // Restaura sessão do localStorage se existir ao trocar de dia
+  function restaurarLocal(dia) {
+    try {
+      const localKey = "sessao_atual_dia_" + dia;
+      const raw = localStorage.getItem(localKey);
+      if (raw) {
+        const s = JSON.parse(raw);
+        if (s.msgs && s.msgs.length > 0) return s;
+      }
+    } catch(e) {}
+    return null;
   }
 
   async function gerarResumoEPDF() {
@@ -1218,7 +1278,12 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
       const res = await callClaude(system, "Iniciar sessão de hoje.", 1000);
       const novasMsgs = [{ role: "assistant", content: res }];
       setMsgs(novasMsgs);
-      // Salvar nova sessão imediatamente
+      // Salva local + Supabase imediatamente — nunca perde a primeira mensagem
+      try {
+        localStorage.setItem("sessao_atual_dia_" + d.d, JSON.stringify({
+          dia: d.d, mat: d.mat, tema: d.tema, msgs: novasMsgs, anotacoes: "", salvoEm: new Date().toISOString(),
+        }));
+      } catch(e) {}
       if (user) {
         const { data } = await supabase.from('sessoes_estudo').insert({
           user_id: user.id, dia: d.d, mat: d.mat, tema: d.tema,
@@ -1226,6 +1291,7 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
         }).select('id').single();
         if (data) setSessaoId(data.id);
       }
+      setUltimoSalvo(Date.now());
     } catch(e) {
       setMsgs([{ role: "assistant", content: "⚠️ Erro ao conectar com o assistente. Verifique sua conexão." }]);
     }
@@ -1373,8 +1439,18 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
                 background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.3)",
                 color:T.verde2, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700,
               }}>
-                💾 Salvar
+                {salvando ? "⏳ Salvando…" : "💾 Salvar"}
               </button>
+            )}
+            {sessaoIniciada && ultimoSalvo && (
+              <span style={{ fontSize:10, color:T.cinza3, alignSelf:"center" }}>
+                ✓ Salvo às {new Date(ultimoSalvo).toLocaleTimeString("pt-BR", {hour:"2-digit",minute:"2-digit"})}
+              </span>
+            )}
+            {sessaoIniciada && !ultimoSalvo && msgs.length > 0 && (
+              <span style={{ fontSize:10, color:"#FCA5A5", alignSelf:"center", fontWeight:700 }}>
+                ⚠️ Não salvo ainda
+              </span>
             )}
         </div>
         {!isDescanso && (
