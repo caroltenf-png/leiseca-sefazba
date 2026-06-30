@@ -1294,7 +1294,85 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
         </div>
       )}
 
-      {/* Corpo */}
+      {/* Corpo — layout com painel lateral sempre visível */}
+      <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"row" }}>
+
+        {/* Painel lateral — sempre presente quando aberto */}
+        {painelAberto && !isDescanso && (
+          <div style={{
+            width: isMobile ? "100%" : 340,
+            minWidth: isMobile ? undefined : 260,
+            maxWidth: isMobile ? undefined : 380,
+            background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
+            overflow:"auto", padding:"14px 16px", flexShrink:0,
+            display:"flex", flexDirection:"column", gap:14,
+          }}>
+            {/* Artigos do dia */}
+            {(() => {
+              const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
+              const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
+              const artsStr = dadosEscolhidos.arts;
+              const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
+              return (
+                <div>
+                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
+                    📖 Artigos do Dia — {artsStr || "—"}
+                  </div>
+                  {trecho ? (
+                    <div
+                      style={{ fontSize:12, color:T.branco, lineHeight:1.85 }}
+                      dangerouslySetInnerHTML={{ __html: trecho }}
+                    />
+                  ) : (
+                    <p style={{ fontSize:12, color:T.cinza3 }}>Texto offline não disponível para esta matéria.</p>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Jurisprudência */}
+            {dadosEscolhidos.juri && (
+              <div>
+                <div style={{ height:1, background:T.borda2, margin:"4px 0 10px" }} />
+                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
+                  ⚖️ Jurisprudência do Dia
+                </div>
+                {dadosEscolhidos.juri.split("·").map((j,i) => (
+                  <div key={i} style={{
+                    background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
+                    borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
+                    padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.55,
+                  }}>
+                    {j.trim()}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Anotações */}
+            <div>
+              <div style={{ height:1, background:T.borda2, margin:"4px 0 10px" }} />
+              <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
+                ✏️ Anotações da Sessão
+              </div>
+              <textarea
+                value={anotacoes}
+                onChange={e => setAnotacoes(e.target.value)}
+                placeholder="Anote dúvidas, insights, pontos para revisar..."
+                rows={6}
+                style={{
+                  width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
+                  borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
+                  lineHeight:1.6, resize:"vertical", outline:"none",
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Conteúdo principal — tela inicial ou chat */}
+        <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column" }}>
+
       {!sessaoIniciada ? (
         /* Tela inicial */
         <div style={{ flex:1, overflow:"auto", padding:isMobile?"16px":"28px 36px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
@@ -1491,9 +1569,10 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
               </button>
             </div>
           </div>
-        </div>
-        </div>
-      )}
+        </div>{/* fim input */}
+        </div>{/* fim chat */}
+        </div>{/* fim conteudo principal */}
+      </div>{/* fim layout painel */}
     </div>
   );
 }
