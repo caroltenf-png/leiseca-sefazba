@@ -596,17 +596,54 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
     try { return new Set(JSON.parse(localStorage.getItem("crono_concluidos") || "[]")); }
     catch { return new Set(); }
   });
+  const [carregandoProg, setCarregandoProg] = useState(true);
   const [vistaAtiva, setVistaAtiva]   = useState("cards"); // cards | calendario
   const diaAtual                      = getDiaAtual();
 
-  // Salvar progresso localmente
-  function toggleDia(d) {
+  // Carregar progresso do Supabase ao montar
+  useEffect(() => {
+    if (!user) { setCarregandoProg(false); return; }
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("cronograma_progresso")
+          .select("dia")
+          .eq("user_id", user.id)
+          .eq("concluido", true);
+        if (!error && data) {
+          const dias = new Set(data.map(r => String(r.dia)));
+          setConcluidos(dias);
+          localStorage.setItem("crono_concluidos", JSON.stringify([...dias]));
+        }
+      } catch(e) { console.warn("Supabase progresso:", e); }
+      setCarregandoProg(false);
+    })();
+  }, [user]);
+
+  // Salvar progresso no Supabase + localStorage
+  async function toggleDia(d) {
+    const dNum = parseInt(d);
     setConcluidos(prev => {
       const next = new Set(prev);
       if (next.has(d)) next.delete(d); else next.add(d);
       localStorage.setItem("crono_concluidos", JSON.stringify([...next]));
       return next;
     });
+    if (!user) return;
+    const jaFeito = concluidos.has(d);
+    try {
+      if (jaFeito) {
+        // Desmarcar
+        await supabase.from("cronograma_progresso")
+          .update({ concluido: false, concluido_em: null })
+          .eq("user_id", user.id).eq("dia", dNum);
+      } else {
+        // Marcar — upsert para não duplicar
+        await supabase.from("cronograma_progresso")
+          .upsert({ user_id: user.id, dia: dNum, concluido: true, concluido_em: new Date().toISOString() },
+                  { onConflict: "user_id,dia" });
+      }
+    } catch(e) { console.warn("Supabase toggle:", e); }
   }
 
   const totalUteis = CRONOGRAMA_90.filter(d => d.mat !== "DS").length;
@@ -1077,10 +1114,39 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
     setEnviando(true);
     try {
       const system = buildSystemPrompt(dadosEscolhidos);
-      const histUser = novasMsgs.filter(m => m.role === "user").map(m => m.content).join("\n\n---\n\n");
       const histAll = novasMsgs.map(m => `${m.role === "user" ? "ALUNO" : "PROFESSOR"}: ${m.content}`).join("\n\n");
       const res = await callClaude(system, histAll, 1200);
-      setMsgs(m => [...m, { role: "assistant", content: res }]);
+      const msgsFinal = [...novasMsgs, { role: "assistant", content: res }];
+      setMsgs(msgsFinal);
+      // Salvar sessão no Supabase a cada mensagem
+      if (user) {
+        try {
+          // Buscar sessão existente do dia
+          const { data: sessExist } = await supabase
+            .from("sessoes_estudo")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("dia", dadosEscolhidos.d)
+            .order("created_at", { ascending: false })
+            .limit(1);
+          if (sessExist && sessExist.length > 0) {
+            // Atualizar sessão existente
+            await supabase.from("sessoes_estudo")
+              .update({ msgs: msgsFinal })
+              .eq("id", sessExist[0].id);
+          } else {
+            // Criar nova sessão
+            await supabase.from("sessoes_estudo").insert({
+              user_id: user.id,
+              dia: dadosEscolhidos.d,
+              materia: dadosEscolhidos.mat,
+              tema: dadosEscolhidos.tema,
+              msgs: msgsFinal,
+              tipo: "estudo"
+            });
+          }
+        } catch(e) { console.warn("Supabase sessao:", e); }
+      }
     } catch(e) {
       setMsgs(m => [...m, { role: "assistant", content: "⚠️ Erro ao processar sua mensagem." }]);
     }
