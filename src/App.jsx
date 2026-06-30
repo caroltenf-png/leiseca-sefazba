@@ -971,74 +971,63 @@ function TelaSessaoDia({ isMobile, online, user, setTela, abrirLei }) {
   const dadosDia = CRONOGRAMA_90.find(d => d.d === diaAtual) || CRONOGRAMA_90[0];
   const revisoes = getRevisoesHoje(diaAtual);
 
-  const [msgs, setMsgs] = useState([]);
-  const [input, setInput] = useState("");
-  const [enviando, setEnviando] = useState(false);
-  const [sessaoIniciada, setSessaoIniciada] = useState(false);
-  const [diaEscolhido, setDiaEscolhido] = useState(diaAtual);
-  const [dadosEscolhidos, setDadosEscolhidos] = useState(dadosDia);
-  const chatRef = useRef(null);
-  const [painelAberto, setPainelAberto] = useState(true);
-  const [anotacoes, setAnotacoes] = useState('');
-  const [sessaoId, setSessaoId] = useState(null);
-  const [historicoSessoes, setHistoricoSessoes] = useState([]);
-  const [verHistorico, setVerHistorico] = useState(false);
-  const autoSaveRef = useRef(null);
+  const [msgs, setMsgs]                   = useState([]);
+  const [input, setInput]                 = useState("");
+  const [enviando, setEnviando]           = useState(false);
+  const [sessaoIniciada, setSessaoInic]   = useState(false);
+  const [diaEscolhido, setDiaEsc]         = useState(diaAtual);
+  const [dadosEsc, setDadosEsc]           = useState(dadosDia);
+  const [painelAberto, setPainel]         = useState(true);
+  const [anotacoes, setAnotacoes]         = useState("");
+  const [sessaoId, setSessaoId]           = useState(null);
+  const [historico, setHistorico]         = useState([]);
+  const [verHistorico, setVerHistorico]   = useState(false);
+  const chatRef    = useRef(null);
+  const saveRef    = useRef(null);
 
   useEffect(() => {
     if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [msgs]);
 
-  // Carregar histórico de sessões ao montar
   useEffect(() => {
     if (!user) return;
-    supabase.from('sessoes_estudo')
-      .select('id, dia, mat, tema, iniciada_em, atualizada_em, anotacoes')
-      .eq('user_id', user.id)
-      .order('atualizada_em', { ascending: false })
+    supabase.from("sessoes_estudo")
+      .select("id,dia,mat,tema,iniciada_em,atualizada_em,anotacoes")
+      .eq("user_id", user.id)
+      .order("atualizada_em", { ascending: false })
       .limit(20)
-      .then(({ data }) => { if (data) setHistoricoSessoes(data); });
+      .then(({ data }) => { if (data) setHistorico(data); });
   }, [user]);
 
-  // Auto-save a cada 30s quando sessão ativa
   useEffect(() => {
     if (!sessaoIniciada || !user || msgs.length === 0) return;
-    if (autoSaveRef.current) clearInterval(autoSaveRef.current);
-    autoSaveRef.current = setInterval(() => salvarSessao(false), 30000);
-    return () => clearInterval(autoSaveRef.current);
+    if (saveRef.current) clearInterval(saveRef.current);
+    saveRef.current = setInterval(() => salvar(false), 30000);
+    return () => clearInterval(saveRef.current);
   }, [sessaoIniciada, msgs, anotacoes]);
 
-  async function salvarSessao(isNova = false) {
+  async function salvar(isNova = false) {
     if (!user || msgs.length === 0) return;
     const payload = {
-      user_id: user.id,
-      dia: dadosEscolhidos.d,
-      mat: dadosEscolhidos.mat,
-      tema: dadosEscolhidos.tema,
-      msgs: msgs,
-      anotacoes: anotacoes,
+      user_id: user.id, dia: dadosEsc.d, mat: dadosEsc.mat,
+      tema: dadosEsc.tema, msgs, anotacoes,
       atualizada_em: new Date().toISOString(),
     };
     if (sessaoId && !isNova) {
-      await supabase.from('sessoes_estudo').update(payload).eq('id', sessaoId);
+      await supabase.from("sessoes_estudo").update(payload).eq("id", sessaoId);
     } else {
-      const { data } = await supabase.from('sessoes_estudo').insert(payload).select('id').single();
+      const { data } = await supabase.from("sessoes_estudo").insert(payload).select("id").single();
       if (data) setSessaoId(data.id);
     }
   }
 
-  async function retomar(sessao) {
-    const { data } = await supabase.from('sessoes_estudo')
-      .select('*').eq('id', sessao.id).single();
+  async function retomar(s) {
+    const { data } = await supabase.from("sessoes_estudo").select("*").eq("id", s.id).single();
     if (!data) return;
     const novo = CRONOGRAMA_90.find(d => d.d === data.dia) || CRONOGRAMA_90[0];
-    setDiaEscolhido(data.dia);
-    setDadosEscolhidos(novo);
-    setMsgs(data.msgs || []);
-    setAnotacoes(data.anotacoes || '');
-    setSessaoId(data.id);
-    setSessaoIniciada(true);
-    setVerHistorico(false);
+    setDiaEsc(data.dia); setDadosEsc(novo);
+    setMsgs(data.msgs || []); setAnotacoes(data.anotacoes || "");
+    setSessaoId(data.id); setSessaoInic(true); setVerHistorico(false);
   }
 
   function buildSystemPrompt(d) {
@@ -1055,48 +1044,33 @@ CONTEXTO DA SESSÃO DE HOJE:
 • Jurisprudência prioritária: ${d.juri || "—"}
 • Tempo disponível: 3 horas
 
-MÉTODO DE ENSINO — siga SEMPRE esta ordem em cada bloco:
-1. Explique o conceito com uma analogia do cotidiano (como se a pessoa tivesse 15 anos).
-2. Mostre como isso aparece numa questão FGV real.
-3. Destaque a pegadinha FGV desse ponto.
-4. No fim do bloco, peça para o aluno te explicar o conceito com as próprias palavras.
+PARTE 1 — DIAGNÓSTICO: faça exatamente 3 perguntas para entender o nível atual antes de ensinar.
 
-FEEDBACK SOCRÁTICO:
-- Se acertar: confirme e aprofunde.
-- Se errar: NÃO dê a resposta. Dê uma pista. Só revele na terceira tentativa.
+PARTE 2 — MAPA DA SESSÃO: após o diagnóstico, monte mapa numerado em blocos da base ao avançado. Ensine um bloco por vez, só avance com confirmação.
 
-FECHAMENTO DE BLOCO:
-1. Resumo em tópicos (estilo ficha de revisão FGV).
-2. 1 questão inédita no estilo FGV sobre o ponto mais cobrado.
-3. Pergunte se quer continuar ou revisar.
+PARTE 3 — MÉTODO: para cada bloco: (1) analogia do cotidiano, (2) questão FGV real, (3) pegadinha FGV, (4) peça para o aluno explicar com as próprias palavras.
 
-FEYNMAN — quando o aluno disser "Feynman":
-1. Peça para fechar tudo.
-2. Peça para explicar sem consultar nada.
-3. Enquanto explica: se travar, anote; se errar, deixe terminar; se usar jargão, pergunte o significado.
-4. Ao final: relatório com o que acertou, onde travou (lacuna de memória) e onde errou (lacuna de compreensão) + questão FGV mais provável sobre o ponto de travamento.
+PARTE 4 — FEEDBACK SOCRÁTICO: se acertar, confirme e aprofunde. Se errar, dê pista — só revele na terceira tentativa.
 
-Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: faça exatamente 3 perguntas para entender o nível atual do aluno nesse tema antes de ensinar qualquer coisa.`;
+PARTE 5 — FECHAMENTO DE BLOCO: resumo em tópicos + 1 questão inédita FGV + pergunta se quer continuar ou revisar.
+
+PARTE 6 — FEYNMAN: quando o aluno disser "Feynman": peça para fechar tudo e explicar sem consultar. Ao fim, relatório com acertos, lacunas de memória, lacunas de compreensão + questão FGV mais provável sobre o ponto de travamento.`;
   }
 
   async function iniciarSessao(d) {
     if (!online) return;
-    setEnviando(true);
-    setSessaoIniciada(true);
-    setSessaoId(null);
-    setMsgs([]);
-    setAnotacoes('');
+    setEnviando(true); setSessaoInic(true); setSessaoId(null);
+    setMsgs([]); setAnotacoes("");
     try {
       const system = buildSystemPrompt(d);
       const res = await callClaude(system, "Iniciar sessão de hoje.", 1000);
       const novasMsgs = [{ role: "assistant", content: res }];
       setMsgs(novasMsgs);
-      // Salvar nova sessão imediatamente
       if (user) {
-        const { data } = await supabase.from('sessoes_estudo').insert({
+        const { data } = await supabase.from("sessoes_estudo").insert({
           user_id: user.id, dia: d.d, mat: d.mat, tema: d.tema,
-          msgs: novasMsgs, anotacoes: '', atualizada_em: new Date().toISOString(),
-        }).select('id').single();
+          msgs: novasMsgs, anotacoes: "", atualizada_em: new Date().toISOString(),
+        }).select("id").single();
         if (data) setSessaoId(data.id);
       }
     } catch(e) {
@@ -1109,184 +1083,49 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
     if (!input.trim() || enviando || !online) return;
     const novaMsg = { role: "user", content: input.trim() };
     const novasMsgs = [...msgs, novaMsg];
-    setMsgs(novasMsgs);
-    setInput("");
-    setEnviando(true);
+    setMsgs(novasMsgs); setInput(""); setEnviando(true);
     try {
-      const system = buildSystemPrompt(dadosEscolhidos);
+      const system = buildSystemPrompt(dadosEsc);
       const histAll = novasMsgs.map(m => `${m.role === "user" ? "ALUNO" : "PROFESSOR"}: ${m.content}`).join("\n\n");
       const res = await callClaude(system, histAll, 1200);
-      const msgsFinal = [...novasMsgs, { role: "assistant", content: res }];
-      setMsgs(msgsFinal);
-      // Salvar sessão no Supabase a cada mensagem
-      if (user) {
-        try {
-          // Buscar sessão existente do dia
-          const { data: sessExist } = await supabase
-            .from("sessoes_estudo")
-            .select("id")
-            .eq("user_id", user.id)
-            .eq("dia", dadosEscolhidos.d)
-            .order("created_at", { ascending: false })
-            .limit(1);
-          if (sessExist && sessExist.length > 0) {
-            // Atualizar sessão existente
-            await supabase.from("sessoes_estudo")
-              .update({ msgs: msgsFinal })
-              .eq("id", sessExist[0].id);
-          } else {
-            // Criar nova sessão
-            await supabase.from("sessoes_estudo").insert({
-              user_id: user.id,
-              dia: dadosEscolhidos.d,
-              materia: dadosEscolhidos.mat,
-              tema: dadosEscolhidos.tema,
-              msgs: msgsFinal,
-              tipo: "estudo"
-            });
-          }
-        } catch(e) { console.warn("Supabase sessao:", e); }
-      }
+      setMsgs(m => [...m, { role: "assistant", content: res }]);
     } catch(e) {
       setMsgs(m => [...m, { role: "assistant", content: "⚠️ Erro ao processar sua mensagem." }]);
     }
     setEnviando(false);
-    salvarSessao(false);
+    salvar(false);
   }
 
-  const corMat = MAT_COR_SESSAO[dadosEscolhidos.mat] || "#8BA7BF";
-  // Mapa: mat do cronograma -> id da lei no acervo
-  const MAP_LEI_DIA = {
-    DT: "ctn",
-    LE: "ba_lei7014",
-    CO: "ctn",
-    AF: "lrf",
-    DA: "lei9784",
-    DC: "cf88_trib",
-  };
-  const leiDoDiaId = MAP_LEI_DIA[dadosEscolhidos.mat];
-  const leiDoDia = leiDoDiaId ? LEIS.find(l => l.id === leiDoDiaId) : null;
-
-  const isDescanso = dadosEscolhidos.mat === "DS";
-  const isSimulado = dadosEscolhidos.mat === "RE";
+  const corMat    = MAT_COR_SESSAO[dadosEsc.mat] || "#8BA7BF";
+  const isDescanso = dadosEsc.mat === "DS";
+  const isSimulado = dadosEsc.mat === "RE";
+  const leiKey    = MAP_LEI_OFFLINE[dadosEsc.mat];
+  const textoLei  = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
+  const trecho    = textoLei ? extrairArtigos(textoLei, dadosEsc.arts) : null;
 
   return (
-    <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column", height:"100%" }}>
+    <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column", height:"100%", position:"relative" }}>
 
-      {/* Header */}
-      <div style={{ background:`linear-gradient(135deg,#050D17 0%,#08170A 60%,#0A1628 100%)`, borderBottom:`1px solid rgba(255,255,255,0.07)`, padding:isMobile?"12px 14px":"16px 28px", flexShrink:0 }}>
-        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
-          <div>
-            <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1.2, color:T.verde2, marginBottom:3 }}>🧠 Sessão do Dia</div>
-            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?17:20, fontWeight:900, color:"#fff", lineHeight:1.2 }}>
-              Dia {dadosEscolhidos.d} <span style={{ color:corMat }}>· {dadosEscolhidos.assunto || dadosEscolhidos.mat}</span>
-            </h2>
-          </div>
-          {/* Seletor de dia */}
-          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-            <span style={{ fontSize:11, color:T.cinza3 }}>Dia:</span>
-            <select value={diaEscolhido} onChange={e => {
-              const nd = parseInt(e.target.value);
-              setDiaEscolhido(nd);
-              const novo = CRONOGRAMA_90.find(d => d.d === nd) || CRONOGRAMA_90[0];
-              setDadosEscolhidos(novo);
-              setSessaoIniciada(false);
-              setMsgs([]);
-            }} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:7, color:T.branco, fontSize:12, padding:"5px 9px", cursor:"pointer" }}>
-              {CRONOGRAMA_90.map(d => (
-                <option key={d.d} value={d.d}>
-                  {String(d.d).padStart(2,"0")} — {d.mat === "DS" ? "Descanso" : d.tema.substring(0,40)+"..."}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        {/* Botões de ação — linha separada */}
-        <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginTop:8 }}>
-            <button onClick={() => setPainelAberto(p => !p)} className="btn" style={{
-              background: painelAberto ? "rgba(0,107,63,0.2)" : "rgba(255,255,255,0.05)",
-              border: `1px solid ${painelAberto ? "rgba(0,107,63,0.4)" : "rgba(255,255,255,0.1)"}`,
-              color: painelAberto ? T.verde3 : T.cinza3,
-              padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700,
-            }}>
-              📖 {painelAberto ? "Fechar" : "Ver"} Lei do Dia
-            </button>
-            {user && (
-              <button onClick={() => setVerHistorico(h => !h)} className="btn" style={{
-                background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)",
-                color:T.amarelo, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700,
-              }}>
-                🕓 Histórico
-              </button>
-            )}
-            {sessaoIniciada && (
-              <button onClick={() => salvarSessao(false)} className="btn" style={{
-                background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.3)",
-                color:T.verde2, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700,
-              }}>
-                💾 Salvar
-              </button>
-            )}
-        </div>
-
-        {/* Dados do dia */}
-        {!isDescanso && (
-          <div style={{ marginTop:10, display:"flex", gap:8, flexWrap:"wrap" }}>
-            {dadosEscolhidos.arts && (
-              <div style={{ background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.25)", borderRadius:7, padding:"4px 10px", fontSize:11, color:T.verde3 }}>
-                📖 {dadosEscolhidos.arts}
-              </div>
-            )}
-            {dadosEscolhidos.ancora && (
-              <div style={{ background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)", borderRadius:7, padding:"4px 10px", fontSize:11, color:T.amarelo }}>
-                ⭐ {dadosEscolhidos.ancora}
-              </div>
-            )}
-          </div>
-        )}
-        {dadosEscolhidos.juri && (
-          <div style={{ marginTop:6, background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)", borderLeft:`3px solid rgba(104,211,145,0.4)`, borderRadius:"0 7px 7px 0", padding:"5px 10px", fontSize:11, color:T.verde3 }}>
-            ⚖️ {dadosEscolhidos.juri}
-          </div>
-        )}
-
-        {/* Revisões de hoje */}
-        {revisoes.length > 0 && (
-          <div style={{ marginTop:8, display:"flex", gap:6, flexWrap:"wrap" }}>
-            {revisoes.map((r,i) => (
-              <div key={i} style={{ background:"rgba(229,62,62,0.10)", border:"1px solid rgba(229,62,62,0.28)", borderRadius:100, padding:"3px 10px", fontSize:10, fontWeight:700, color:"#FCA5A5", cursor:"pointer" }}
-                onClick={() => {
-                  setDiaEscolhido(r.dia.d);
-                  setDadosEscolhidos(r.dia);
-                  setSessaoIniciada(false);
-                  setMsgs([]);
-                }}>
-                🔁 {r.label}: Dia {r.dia.d} · {r.dia.assunto}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Histórico modal */}
+      {/* Modal histórico */}
       {verHistorico && (
-        <div style={{ position:"absolute", top:0, left:0, right:0, bottom:0, background:"rgba(7,15,26,0.95)", zIndex:50, overflow:"auto", padding:20 }}>
+        <div style={{ position:"absolute", inset:0, background:"rgba(7,15,26,0.96)", zIndex:50, overflow:"auto", padding:20 }}>
           <div style={{ maxWidth:600, margin:"0 auto" }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
               <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:18, color:"#fff" }}>🕓 Histórico de Sessões</h3>
-              <button onClick={() => setVerHistorico(false)} className="btn" style={{ background:"transparent", border:"none", color:T.cinza3, fontSize:20 }}>✕</button>
+              <button onClick={() => setVerHistorico(false)} className="btn" style={{ background:"transparent", border:"none", color:T.cinza3, fontSize:22, cursor:"pointer" }}>✕</button>
             </div>
-            {historicoSessoes.length === 0 ? (
+            {historico.length === 0 ? (
               <p style={{ color:T.cinza3, fontSize:13 }}>Nenhuma sessão salva ainda.</p>
-            ) : historicoSessoes.map(s => (
+            ) : historico.map(s => (
               <div key={s.id} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"12px 16px", marginBottom:10, display:"flex", justifyContent:"space-between", alignItems:"center", gap:12 }}>
                 <div>
                   <div style={{ fontSize:12, fontWeight:700, color:"#fff", marginBottom:3 }}>Dia {s.dia} · {s.tema?.substring(0,50)}...</div>
-                  <div style={{ fontSize:11, color:T.cinza3 }}>{new Date(s.atualizada_em).toLocaleString('pt-BR')}</div>
+                  <div style={{ fontSize:11, color:T.cinza3 }}>{new Date(s.atualizada_em).toLocaleString("pt-BR")}</div>
+                  {s.anotacoes && <div style={{ fontSize:11, color:T.amarelo, marginTop:4 }}>✏️ {s.anotacoes.substring(0,80)}...</div>}
                 </div>
                 <button onClick={() => retomar(s)} className="btn" style={{
                   background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
-                  padding:"7px 16px", borderRadius:8, fontWeight:700, fontSize:12, flexShrink:0,
+                  padding:"7px 16px", borderRadius:8, fontWeight:700, fontSize:12, flexShrink:0, cursor:"pointer",
                 }}>▶ Retomar</button>
               </div>
             ))}
@@ -1294,55 +1133,104 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
         </div>
       )}
 
-      {/* Corpo — layout com painel lateral sempre visível */}
+      {/* Header */}
+      <div style={{ background:"linear-gradient(135deg,#050D17 0%,#08170A 60%,#0A1628 100%)", borderBottom:`1px solid rgba(255,255,255,0.07)`, padding:isMobile?"10px 14px":"14px 28px", flexShrink:0 }}>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
+          <div>
+            <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1.2, color:T.verde2, marginBottom:3 }}>🧠 Sessão do Dia</div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?16:19, fontWeight:900, color:"#fff", lineHeight:1.2 }}>
+              Dia {dadosEsc.d} <span style={{ color:corMat }}>· {dadosEsc.assunto || dadosEsc.mat}</span>
+            </h2>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
+            <select value={diaEscolhido} onChange={e => {
+              const nd = parseInt(e.target.value);
+              setDiaEsc(nd);
+              const novo = CRONOGRAMA_90.find(d => d.d === nd) || CRONOGRAMA_90[0];
+              setDadosEsc(novo); setSessaoInic(false); setMsgs([]);
+            }} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:7, color:T.branco, fontSize:12, padding:"5px 9px", cursor:"pointer" }}>
+              {CRONOGRAMA_90.map(d => (
+                <option key={d.d} value={d.d}>
+                  {String(d.d).padStart(2,"0")} — {d.mat === "DS" ? "Descanso" : d.tema.substring(0,38)+"..."}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        {/* Botões de ação */}
+        <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginTop:8 }}>
+          {!isDescanso && (
+            <button onClick={() => setPainel(p => !p)} className="btn" style={{
+              background:painelAberto?"rgba(0,107,63,0.2)":"rgba(255,255,255,0.05)",
+              border:`1px solid ${painelAberto?"rgba(0,107,63,0.4)":"rgba(255,255,255,0.1)"}`,
+              color:painelAberto?T.verde3:T.cinza3, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700, cursor:"pointer",
+            }}>
+              📖 {painelAberto ? "Fechar" : "Ver"} Lei + Juri
+            </button>
+          )}
+          {user && (
+            <button onClick={() => setVerHistorico(h => !h)} className="btn" style={{
+              background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)",
+              color:T.amarelo, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700, cursor:"pointer",
+            }}>
+              🕓 Histórico
+            </button>
+          )}
+          {sessaoIniciada && (
+            <button onClick={() => salvar(false)} className="btn" style={{
+              background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.3)",
+              color:T.verde2, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700, cursor:"pointer",
+            }}>
+              💾 Salvar
+            </button>
+          )}
+        </div>
+        {/* Dados do dia */}
+        {!isDescanso && (
+          <div style={{ marginTop:8, display:"flex", gap:6, flexWrap:"wrap" }}>
+            {dadosEsc.arts && <div style={{ background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.25)", borderRadius:7, padding:"3px 10px", fontSize:11, color:T.verde3 }}>📖 {dadosEsc.arts}</div>}
+            {dadosEsc.ancora && <div style={{ background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)", borderRadius:7, padding:"3px 10px", fontSize:11, color:T.amarelo }}>⭐ {dadosEsc.ancora}</div>}
+          </div>
+        )}
+        {/* Revisões */}
+        {revisoes.length > 0 && (
+          <div style={{ marginTop:6, display:"flex", gap:6, flexWrap:"wrap" }}>
+            {revisoes.map((r,i) => (
+              <div key={i} style={{ background:"rgba(229,62,62,0.10)", border:"1px solid rgba(229,62,62,0.28)", borderRadius:100, padding:"3px 10px", fontSize:10, fontWeight:700, color:"#FCA5A5", cursor:"pointer" }}
+                onClick={() => { setDiaEsc(r.dia.d); setDadosEsc(r.dia); setSessaoInic(false); setMsgs([]); }}>
+                🔁 {r.label}: Dia {r.dia.d} · {r.dia.assunto}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Corpo: painel + conteúdo */}
       <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"row" }}>
 
-        {/* Painel lateral — sempre presente quando aberto */}
+        {/* Painel lateral */}
         {painelAberto && !isDescanso && (
-          <div style={{
-            width: isMobile ? "100%" : 340,
-            minWidth: isMobile ? undefined : 260,
-            maxWidth: isMobile ? undefined : 380,
-            background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
-            overflow:"auto", padding:"14px 16px", flexShrink:0,
-            display:"flex", flexDirection:"column", gap:14,
-          }}>
-            {/* Artigos do dia */}
-            {(() => {
-              const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
-              const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
-              const artsStr = dadosEscolhidos.arts;
-              const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
-              return (
-                <div>
-                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
-                    📖 Artigos do Dia — {artsStr || "—"}
-                  </div>
-                  {trecho ? (
-                    <div
-                      style={{ fontSize:12, color:T.branco, lineHeight:1.85 }}
-                      dangerouslySetInnerHTML={{ __html: trecho }}
-                    />
-                  ) : (
-                    <p style={{ fontSize:12, color:T.cinza3 }}>Texto offline não disponível para esta matéria.</p>
-                  )}
-                </div>
-              );
-            })()}
+          <div style={{ width:isMobile?"100%":320, minWidth:isMobile?undefined:260, maxWidth:isMobile?undefined:360, background:T.fundo2, borderRight:`1px solid ${T.borda2}`, overflow:"auto", padding:"14px 16px", flexShrink:0, display:"flex", flexDirection:"column", gap:12 }}>
+
+            {/* Artigos */}
+            <div>
+              <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
+                📖 {dadosEsc.arts || "Artigos do Dia"}
+              </div>
+              {trecho ? (
+                <div style={{ fontSize:11.5, color:T.branco, lineHeight:1.8 }} dangerouslySetInnerHTML={{ __html: trecho }} />
+              ) : (
+                <p style={{ fontSize:12, color:T.cinza3 }}>Texto não disponível offline para esta matéria.</p>
+              )}
+            </div>
 
             {/* Jurisprudência */}
-            {dadosEscolhidos.juri && (
+            {dadosEsc.juri && (
               <div>
                 <div style={{ height:1, background:T.borda2, margin:"4px 0 10px" }} />
-                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
-                  ⚖️ Jurisprudência do Dia
-                </div>
-                {dadosEscolhidos.juri.split("·").map((j,i) => (
-                  <div key={i} style={{
-                    background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
-                    borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
-                    padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.55,
-                  }}>
+                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>⚖️ Jurisprudência</div>
+                {dadosEsc.juri.split("·").map((j,i) => (
+                  <div key={i} style={{ background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)", borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0", padding:"6px 10px", marginBottom:5, fontSize:11, color:T.branco, lineHeight:1.5 }}>
                     {j.trim()}
                   </div>
                 ))}
@@ -1352,493 +1240,108 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
             {/* Anotações */}
             <div>
               <div style={{ height:1, background:T.borda2, margin:"4px 0 10px" }} />
-              <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
-                ✏️ Anotações da Sessão
-              </div>
+              <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>✏️ Anotações — Cole seus resumos aqui</div>
               <textarea
                 value={anotacoes}
                 onChange={e => setAnotacoes(e.target.value)}
-                placeholder="Anote dúvidas, insights, pontos para revisar..."
-                rows={6}
-                style={{
-                  width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
-                  borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
-                  lineHeight:1.6, resize:"vertical", outline:"none",
-                }}
+                placeholder="Cole aqui seus resumos do NotebookLM, dúvidas, insights e pontos para revisar..."
+                style={{ width:"100%", minHeight:200, background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:8, padding:"10px 12px", color:T.branco, fontSize:12, lineHeight:1.7, resize:"vertical", outline:"none", fontFamily:"'Inter',sans-serif" }}
               />
+              {sessaoIniciada && (
+                <button onClick={() => salvar(false)} className="btn" style={{ marginTop:8, width:"100%", background:"rgba(0,107,63,0.15)", border:`1px solid rgba(0,107,63,0.35)`, color:T.verde2, padding:"8px", borderRadius:8, fontSize:12, fontWeight:700, cursor:"pointer" }}>
+                  💾 Salvar anotações
+                </button>
+              )}
             </div>
+
           </div>
         )}
 
-        {/* Conteúdo principal — painel + (tela inicial ou chat) */}
-        <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"row" }}>
+        {/* Área principal */}
+        <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column" }}>
 
-          {/* Painel lateral — sempre visível quando aberto */}
-          {painelAberto && !isDescanso && (
-            <div style={{
-              width: isMobile ? "100%" : 340,
-              minWidth: isMobile ? undefined : 260,
-              maxWidth: isMobile ? undefined : 380,
-              background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
-              overflow:"auto", padding:"14px 16px", flexShrink:0,
-              display:"flex", flexDirection:"column", gap:14,
-            }}>
-              {/* Artigos do dia */}
-              {(() => {
-                const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
-                const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
-                const artsStr = dadosEscolhidos.arts;
-                const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
-                return (
-                  <div>
-                    <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
-                      📖 Artigos do Dia — {artsStr || "—"}
-                    </div>
-                    {trecho ? (
-                      <div
-                        style={{ fontSize:11.5, color:T.branco, lineHeight:1.8 }}
-                        dangerouslySetInnerHTML={{ __html: trecho }}
-                      />
-                    ) : (
-                      <p style={{ fontSize:12, color:T.cinza3 }}>Texto não disponível offline para esta matéria.</p>
-                    )}
-                  </div>
-                );
-              })()}
-
-              {/* Jurisprudência do dia */}
-              {dadosEscolhidos.juri && (
-                <div>
-                  <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
-                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
-                    ⚖️ Jurisprudência do Dia
-                  </div>
-                  {dadosEscolhidos.juri.split("·").map((j, i) => (
-                    <div key={i} style={{
-                      background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
-                      borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
-                      padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.5,
-                    }}>
-                      {j.trim()}
-                    </div>
-                  ))}
+          {!sessaoIniciada ? (
+            <div style={{ flex:1, overflow:"auto", padding:isMobile?"16px":"28px 36px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+              {isDescanso ? (
+                <div style={{ textAlign:"center" }}>
+                  <div style={{ fontSize:64, marginBottom:16 }}>😴</div>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"#fff", marginBottom:8 }}>Dia de Descanso</h3>
+                  <p style={{ color:T.cinza3, fontSize:14 }}>Recuperação é parte do método.</p>
+                </div>
+              ) : isSimulado ? (
+                <div style={{ textAlign:"center", maxWidth:500 }}>
+                  <div style={{ fontSize:56, marginBottom:14 }}>🎯</div>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"#fff", marginBottom:8 }}>{dadosEsc.tema}</h3>
+                  <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, marginBottom:20 }}>
+                    Nos dias de revisão, faça o simulado sem auxílio. Use o assistente <strong style={{color:"#fff"}}>apenas para corrigir erros depois</strong>.
+                  </p>
+                  <button onClick={() => iniciarSessao(dadosEsc)} disabled={!online} className="btn" style={{ background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff", padding:"12px 28px", borderRadius:10, fontWeight:700, fontSize:14, opacity:!online?0.5:1, cursor:!online?"not-allowed":"pointer" }}>
+                    🤖 Abrir Corretor de Erros
+                  </button>
+                </div>
+              ) : (
+                <div style={{ textAlign:"center", maxWidth:520 }}>
+                  <div style={{ fontSize:52, marginBottom:14 }}>🧠</div>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?18:22, color:"#fff", marginBottom:6, lineHeight:1.3 }}>
+                    {dadosEsc.tema}
+                  </h3>
+                  <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, marginBottom:22 }}>
+                    O assistente já sabe o tema, artigos, âncoras e jurisprudência do dia. Clique em Iniciar — ele começa pelo Diagnóstico.
+                  </p>
+                  <button onClick={() => iniciarSessao(dadosEsc)} disabled={!online||enviando} className="btn" style={{ background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff", padding:"13px 32px", borderRadius:10, fontWeight:800, fontSize:15, opacity:!online||enviando?0.5:1, cursor:!online||enviando?"not-allowed":"pointer", boxShadow:"0 6px 24px rgba(0,107,63,0.3)" }}>
+                    {enviando ? "⏳ Iniciando…" : "🚀 Iniciar Sessão de Hoje"}
+                  </button>
+                  {!online && <p style={{ color:"#FCD34D", fontSize:12, marginTop:12 }}>📡 Sem conexão — o assistente requer internet.</p>}
                 </div>
               )}
-
-              {/* Anotações */}
-              <div>
-                <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
-                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
-                  ✏️ Anotações
-                </div>
-                <textarea
-                  value={anotacoes}
-                  onChange={e => setAnotacoes(e.target.value)}
-                  placeholder="Anote dúvidas, insights, pontos para revisar..."
-                  rows={6}
-                  style={{
-                    width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
-                    borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
-                    lineHeight:1.6, resize:"vertical", outline:"none",
-                  }}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Área principal */}
-          <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column" }}>
-
-      {!sessaoIniciada ? (
-        /* Tela inicial */
-        <div style={{ flex:1, overflow:"auto", padding:isMobile?"16px":"28px 36px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-          {isDescanso ? (
-            <div style={{ textAlign:"center" }}>
-              <div style={{ fontSize:64, marginBottom:16 }}>😴</div>
-              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, color:"#fff", marginBottom:8 }}>Dia de Descanso</h3>
-              <p style={{ color:T.cinza3, fontSize:14 }}>Recuperação é parte do método. Use o seletor acima para estudar outro dia se quiser.</p>
-            </div>
-          ) : isSimulado ? (
-            <div style={{ textAlign:"center", maxWidth:500 }}>
-              <div style={{ fontSize:56, marginBottom:14 }}>🎯</div>
-              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, color:"#fff", marginBottom:8 }}>{dadosEscolhidos.tema}</h3>
-              <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, marginBottom:20 }}>
-                Nos dias de revisão e simulado, faça o simulado sem auxílio. Use o assistente abaixo <strong style={{color:"#fff"}}>apenas para corrigir erros depois</strong>: <em>"Errei esta questão. Me dê uma pista para eu entender onde errei, sem revelar a resposta."</em>
-              </p>
-              <button onClick={() => iniciarSessao(dadosEscolhidos)} disabled={!online} className="btn" style={{
-                background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
-                padding:"12px 28px", borderRadius:10, fontWeight:700, fontSize:14,
-                opacity:!online?0.5:1, cursor:!online?"not-allowed":"pointer"
-              }}>
-                🤖 Abrir Corretor de Erros
-              </button>
             </div>
           ) : (
-            <div style={{ textAlign:"center", maxWidth:520 }}>
-              <div style={{ fontSize:52, marginBottom:14 }}>🧠</div>
-              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:isMobile?18:22, color:"#fff", marginBottom:6, lineHeight:1.3 }}>
-                {dadosEscolhidos.tema}
-              </h3>
-              <p style={{ color:T.cinza3, fontSize:13, lineHeight:1.7, marginBottom:22 }}>
-                O assistente já sabe o tema, os artigos, os âncoras e a jurisprudência do dia. Clique em Iniciar e ele começa pelo Diagnóstico — 3 perguntas para calibrar o ensino ao seu nível atual.
-              </p>
-              <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
-                <button onClick={() => iniciarSessao(dadosEscolhidos)} disabled={!online || enviando} className="btn" style={{
-                  background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
-                  padding:"13px 32px", borderRadius:10, fontWeight:800, fontSize:15,
-                  opacity:!online||enviando?0.5:1, cursor:!online||enviando?"not-allowed":"pointer",
-                  boxShadow:`0 6px 24px rgba(0,107,63,0.3)`
-                }}>
-                  {enviando ? "⏳ Iniciando…" : "🚀 Iniciar Sessão de Hoje"}
-                </button>
-              </div>
-
-                {leiDoDia && abrirLei && (
-                  <button onClick={() => { abrirLei(leiDoDia); setTela("leitura"); }} className="btn" style={{
-                    background:"rgba(0,107,63,0.15)", border:"1px solid rgba(0,107,63,0.4)", color:T.verde3,
-                    padding:"13px 24px", borderRadius:10, fontWeight:700, fontSize:14,
-                  }}>
-                    📖 Ler Lei do Dia
-                  </button>
+            <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
+              <div ref={chatRef} style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 28px", display:"flex", flexDirection:"column", gap:12 }}>
+                {msgs.map((m,i) => (
+                  <div key={i} style={{ display:"flex", justifyContent:m.role==="user"?"flex-end":"flex-start" }}>
+                    <div style={{ maxWidth:"82%", padding:"11px 15px", borderRadius:m.role==="user"?"14px 14px 4px 14px":"14px 14px 14px 4px", background:m.role==="user"?`linear-gradient(135deg,${T.verde},${T.verde2})`:T.fundo3, border:m.role==="user"?"none":`1px solid ${T.borda2}`, color:m.role==="user"?"#fff":T.branco, fontSize:isMobile?12.5:13, lineHeight:1.75, whiteSpace:"pre-wrap", wordBreak:"break-word" }}>
+                      {m.role==="assistant" && <div style={{ fontSize:10, fontWeight:700, color:T.verde2, marginBottom:4, textTransform:"uppercase", letterSpacing:.8 }}>🧠 Assistente</div>}
+                      {m.content}
+                    </div>
+                  </div>
+                ))}
+                {enviando && (
+                  <div style={{ display:"flex", justifyContent:"flex-start" }}>
+                    <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:"14px 14px 14px 4px", padding:"11px 15px", fontSize:12, color:T.cinza3 }}>⏳ Pensando…</div>
+                  </div>
                 )}
-              {!online && <p style={{ color:"#FCD34D", fontSize:12, marginTop:12 }}>📡 Sem conexão — o assistente requer internet.</p>}
+              </div>
+              <div style={{ padding:isMobile?"10px 12px":"14px 24px", borderTop:`1px solid ${T.borda2}`, background:T.fundo2, flexShrink:0 }}>
+                <div style={{ display:"flex", gap:8, alignItems:"flex-end", maxWidth:800, margin:"0 auto" }}>
+                  <textarea
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={e => { if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();enviarMsg();}}}
+                    placeholder='Digite sua resposta… (Enter para enviar · Shift+Enter para nova linha) · Diga "Feynman" nos últimos 10 min'
+                    rows={2}
+                    style={{ flex:1, background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"10px 13px", color:T.branco, fontSize:13, outline:"none", lineHeight:1.6, resize:"none" }}
+                  />
+                  <button onClick={enviarMsg} disabled={!input.trim()||enviando||!online} className="btn" style={{ background:!input.trim()||enviando||!online?T.fundo3:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:!input.trim()||enviando||!online?T.cinza3:"#fff", padding:"10px 16px", borderRadius:10, fontWeight:700, fontSize:13, border:`1px solid ${T.borda2}`, cursor:!input.trim()||enviando||!online?"not-allowed":"pointer", flexShrink:0, alignSelf:"flex-end" }}>
+                    {enviando ? "⏳" : "➤"}
+                  </button>
+                </div>
+                <div style={{ textAlign:"center", marginTop:6 }}>
+                  <button onClick={() => { setSessaoInic(false); setMsgs([]); }} className="btn" style={{ background:"transparent", border:"none", color:T.cinza3, fontSize:11, cursor:"pointer", textDecoration:"underline" }}>
+                    ← Nova sessão / Reiniciar
+                  </button>
+                </div>
+              </div>
             </div>
           )}
+
         </div>
-      ) : (
-        /* Chat */
-        <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
-          {/* Mensagens */}
-          <div ref={chatRef} style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 28px", display:"flex", flexDirection:"column", gap:12 }}>
-            {msgs.map((m, i) => (
-              <div key={i} style={{
-                display:"flex", justifyContent:m.role==="user"?"flex-end":"flex-start"
-              }}>
-                <div style={{
-                  maxWidth:"82%", padding:"11px 15px", borderRadius:m.role==="user"?"14px 14px 4px 14px":"14px 14px 14px 4px",
-                  background:m.role==="user"?`linear-gradient(135deg,${T.verde},${T.verde2})`:`${T.fundo3}`,
-                  border:m.role==="user"?"none":`1px solid ${T.borda2}`,
-                  color:m.role==="user"?"#fff":T.branco,
-                  fontSize:isMobile?12.5:13, lineHeight:1.75,
-                  whiteSpace:"pre-wrap", wordBreak:"break-word"
-                }}>
-                  {m.role==="assistant" && <div style={{ fontSize:10, fontWeight:700, color:T.verde2, marginBottom:4, textTransform:"uppercase", letterSpacing:.8 }}>🧠 Assistente</div>}
-                  {m.content}
-                </div>
-              </div>
-            ))}
-            {enviando && (
-              <div style={{ display:"flex", justifyContent:"flex-start" }}>
-                <div style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:"14px 14px 14px 4px", padding:"11px 15px", fontSize:12, color:T.cinza3 }}>
-                  ⏳ Pensando…
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Input */}
-          <div style={{ padding:isMobile?"10px 12px":"14px 24px", borderTop:`1px solid ${T.borda2}`, background:T.fundo2, flexShrink:0 }}>
-            <div style={{ display:"flex", gap:8, alignItems:"flex-end", maxWidth:800, margin:"0 auto" }}>
-              <textarea
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => { if(e.key==="Enter" && !e.shiftKey) { e.preventDefault(); enviarMsg(); }}}
-                placeholder='Digite sua resposta… (Enter para enviar · Shift+Enter para nova linha) · Diga "Feynman" nos últimos 10 min'
-                rows={2}
-                style={{
-                  flex:1, background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10,
-                  padding:"10px 13px", color:T.branco, fontSize:13, outline:"none",
-                  lineHeight:1.6, resize:"none"
-                }}
-              />
-              <button onClick={enviarMsg} disabled={!input.trim()||enviando||!online} className="btn" style={{
-                background:!input.trim()||enviando||!online?T.fundo3:`linear-gradient(135deg,${T.verde},${T.verde2})`,
-                color:!input.trim()||enviando||!online?T.cinza3:"#fff",
-                padding:"10px 16px", borderRadius:10, fontWeight:700, fontSize:13,
-                border:`1px solid ${T.borda2}`, cursor:!input.trim()||enviando||!online?"not-allowed":"pointer",
-                flexShrink:0, alignSelf:"flex-end"
-              }}>
-                {enviando ? "⏳" : "➤"}
-              </button>
-            </div>
-            <div style={{ textAlign:"center", marginTop:6 }}>
-              <button onClick={() => { setSessaoIniciada(false); setMsgs([]); }} className="btn" style={{
-                background:"transparent", border:"none", color:T.cinza3, fontSize:11, cursor:"pointer", textDecoration:"underline"
-              }}>
-                ← Nova sessão / Reiniciar
-              </button>
-            </div>
-          </div>
-        </div>{/* fim input */}
-        </div>{/* fim chat */}
-          </div>{/* fim area principal */}
-        </div>{/* fim conteudo principal */}
-    </div>
-  );
-}
-
-
-export default function App() {
-  // ─── TODOS os hooks ANTES de qualquer return condicional ───
-  const [user, setUser]             = useState(null);
-  const [authLoading, setAuthLoad]  = useState(true);
-  const isMobile                    = useIsMobile();
-  const online                      = useOnline();
-  const [tela, setTela]             = useState("acervo");
-  const [leiAtiva, setLeiAtiva]     = useState(null);
-  const [textoLei, setTextoLei]     = useState("");
-  const [carregando, setCarregando] = useState(false);
-  const [marcacoes, setMarcacoes]   = useState(() => JSON.parse(localStorage.getItem("marcacoes")||"{}"));
-  const [anotacoes, setAnotacoes]   = useState(() => JSON.parse(localStorage.getItem("anotacoes")||"{}"));
-  const [flashcards, setFlashcards] = useState(() => JSON.parse(localStorage.getItem("flashcards")||"[]"));
-  const [stats, setStats]           = useState(() => JSON.parse(localStorage.getItem("stats")||JSON.stringify({ leituras:{}, streakDias:3, pontos:420, flashcardsFeitos:0, questoesGeradas:0 })));
-
-  // Verificar sessão ao carregar
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setAuthLoad(false);
-    });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => { localStorage.setItem("marcacoes",  JSON.stringify(marcacoes));  }, [marcacoes]);
-  useEffect(() => { localStorage.setItem("anotacoes",  JSON.stringify(anotacoes));  }, [anotacoes]);
-  useEffect(() => { localStorage.setItem("flashcards", JSON.stringify(flashcards)); }, [flashcards]);
-  useEffect(() => { localStorage.setItem("stats",      JSON.stringify(stats));      }, [stats]);
-
-  // ─── Returns condicionais DEPOIS de todos os hooks ───
-  if (authLoading) return (
-    <div style={{ minHeight:"100dvh", background:T.fundo, display:"flex", alignItems:"center", justifyContent:"center" }}>
-      <div style={{ textAlign:"center" }}>
-        <div style={{ fontSize:40, marginBottom:12 }}>⚖️</div>
-        <p style={{ color:T.cinza3, fontSize:13 }}>Carregando…</p>
       </div>
     </div>
   );
-
-  if (!user) return <TelaAuth onLogin={setUser} />;
-
-  async function abrirLei(lei) {
-    setLeiAtiva(lei);
-    setTela("leitura");
-    setCarregando(true);
-    setTextoLei("");
-
-    // 0. Texto embutido (sempre disponível offline)
-    const textoEmbutido = TEXTOS_EMBUTIDOS[lei.id];
-    if (textoEmbutido) {
-      setTextoLei(textoEmbutido);
-      setCarregando(false);
-      setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
-      return;
-    }
-
-    // 1. Cache local (offline imediato)
-    const cachedLocal = getCacheTexto(lei.id);
-    if (cachedLocal) { setTextoLei(cachedLocal); setCarregando(false); }
-    if (!online) { if (!cachedLocal) setTextoLei("<p style=\"color:#FCA5A5\">⚠️ Sem conexão e sem cache.</p>"); setCarregando(false); return; }
-
-    // 2. Cache compartilhado Supabase (gerado por qualquer membro do grupo)
-    const cachedSupabase = await getCacheLei(lei.id);
-    if (cachedSupabase) {
-      setTextoLei(cachedSupabase);
-      setCacheTexto(lei.id, cachedSupabase); // salva local tb
-      setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
-      setCarregando(false);
-      return;
-    }
-
-    // 3. Proxy serverless — busca texto direto do Planalto/SEFAZ-BA
-    try {
-      const proxyUrl = "/api/lei?url=" + encodeURIComponent(lei.url);
-      const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(20000) });
-      if (!r.ok) throw new Error(r.status);
-      const textoRaw = await r.text();
-      const linhas = textoRaw.split("\n").filter(l => l.trim());
-      const html = linhas.map(l => {
-        const t = l.trim();
-        if (/^(CAPÍTULO|TÍTULO|SEÇÃO|SUBSEÇÃO|LIVRO|DISPOSIÇÃO)/i.test(t)) return "<h2>" + t + "</h2>";
-        if (/^Art\.\s*\d+/i.test(t)) return "<p><strong>" + t.substring(0,14) + "</strong>" + t.substring(14) + "</p>";
-        if (t.length > 0) return "<p>" + t + "</p>";
-        return "";
-      }).join("");
-      const textoFinal = html || "<p>" + textoRaw + "</p>";
-      setTextoLei(textoFinal);
-      setCacheTexto(lei.id, textoFinal);
-      // Salva no Supabase para todo o grupo
-      await saveCacheLei(lei.id, lei.nome, textoFinal, user?.id);
-      setStats(s => ({ ...s, leituras:{ ...s.leituras, [lei.id]:(s.leituras[lei.id]||0)+1 }, pontos:s.pontos+10 }));
-    } catch(err) {
-      if (!cachedLocal) setTextoLei(
-        "<div style=\"padding:16px;background:rgba(249,194,49,0.08);border:1px solid rgba(249,194,49,0.2);border-radius:12px\">" +
-        "<p style=\"color:#F9C231;font-weight:700;margin-bottom:8px\">⚠️ Texto não disponível via acesso direto</p>" +
-        "<p style=\"color:#8BA7BF;font-size:13px;line-height:1.7\">Configure a API key do Claude nas configurações para gerar o texto via IA, ou acesse:<br><br>" +
-        "<a href=\"" + lei.url + "\" target=\"_blank\" style=\"color:#68D391\">" + lei.url + "</a></p></div>"
-      );
-    }
-    setCarregando(false);
-  }
-
-  const navItems = [
-    { id:"acervo",     icon:"📚", label:"Acervo" },
-    { id:"leitura",    icon:"📖", label:"Leitura",    disabled:!leiAtiva },
-    { id:"cronograma", icon:"📅", label:"Cronograma" },
-    { id:"sessao",     icon:"🧠", label:"Sessão" },
-    { id:"flashcards", icon:"🃏", label:"Flashcards" },
-    { id:"ia",         icon:"🤖", label:"IA" },
-    { id:"guias",      icon:"📓", label:"Guias" },
-    { id:"juris",      icon:"⚖️",  label:"Juris" },
-    { id:"simulado",   icon:"🎯", label:"Simulado" },
-    { id:"dashboard",  icon:"📊", label:"Stats" },
-  ];
-
-  const CSS = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap');
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    html, body, #root { height:100%; }
-    body { background:${T.fundo}; color:${T.branco}; font-family:'Inter',sans-serif; font-size:14px; -webkit-tap-highlight-color:transparent; }
-    ::-webkit-scrollbar { width:4px; height:4px; }
-    ::-webkit-scrollbar-track { background:${T.fundo}; }
-    ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:99px; }
-    ::selection { background:rgba(0,166,90,0.35); }
-    mark.m-amarelo { background:rgba(249,194,49,0.35); border-bottom:2px solid #F9C231; border-radius:2px; }
-    mark.m-verde   { background:rgba(0,166,90,0.3);   border-bottom:2px solid #00A65A; border-radius:2px; }
-    mark.m-azul    { background:rgba(66,153,225,0.3); border-bottom:2px solid #4299E1; border-radius:2px; }
-    mark.m-rosa    { background:rgba(237,100,166,0.3);border-bottom:2px solid #ED64A6; border-radius:2px; }
-    mark.m-red     { background:rgba(229,62,62,0.3);  border-bottom:2px solid #E53E3E; border-radius:2px; }
-    .btn { cursor:pointer; border:none; font-family:inherit; transition:all .15s; -webkit-tap-highlight-color:transparent; }
-    .btn:active { opacity:0.7; transform:scale(0.97); }
-    textarea { resize:vertical; }
-    input, textarea, button { font-family:inherit; }
-    /* Safe area para iPhone notch */
-    .bottom-nav { padding-bottom:env(safe-area-inset-bottom); }
-  `;
-
-  return (
-    <div style={{ display:"flex", flexDirection:isMobile?"column":"row", height:"100dvh", background:T.fundo, overflow:"hidden" }}>
-      <style>{CSS}</style>
-
-      {/* ── BANNER OFFLINE ── */}
-      {!online && (
-        <div style={{ background:"rgba(237,137,54,0.15)", borderBottom:`1px solid rgba(237,137,54,0.3)`, padding:"8px 16px", display:"flex", alignItems:"center", gap:8, fontSize:12, color:"#FCD34D", flexShrink:0 }}>
-          <span>📡</span>
-          <span><strong>Sem conexão</strong> — leis já abertas disponíveis no cache. Novas leis precisam de internet.</span>
-        </div>
-      )}
-
-      {/* ── SIDEBAR (desktop) ── */}
-      {!isMobile && (
-        <aside style={{ width:220, background:T.fundo2, borderRight:`1px solid ${T.borda2}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
-          <div style={{ padding:"18px 18px 14px", borderBottom:`1px solid ${T.borda2}` }}>
-            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-              <div style={{ width:34,height:34,background:`linear-gradient(135deg,${T.verde},${T.verde2})`,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17 }}>⚖️</div>
-              <div>
-                <div style={{ fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:900,color:"#fff",lineHeight:1.1 }}>Lei Seca</div>
-                <div style={{ fontSize:10,color:T.verde2,fontWeight:700,textTransform:"uppercase",letterSpacing:1 }}>Carolina Teixeira</div>
-              </div>
-            </div>
-          </div>
-          <nav style={{ flex:1, padding:"10px 8px" }}>
-            {navItems.map(item => (
-              <button key={item.id} onClick={() => !item.disabled && setTela(item.id)} className="btn" style={{
-                width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:9,marginBottom:3,textAlign:"left",
-                background:tela===item.id?"rgba(0,107,63,0.18)":"transparent",
-                border:tela===item.id?`1px solid rgba(0,107,63,0.35)`:"1px solid transparent",
-                color:item.disabled?T.cinza3+"60":tela===item.id?T.verde3:T.cinza3,
-                cursor:item.disabled?"not-allowed":"pointer",fontSize:13,fontWeight:tela===item.id?700:500,
-              }}>
-                <span style={{ fontSize:17 }}>{item.icon}</span>
-                {item.label}
-                {item.id==="flashcards" && flashcards.length>0 && <Badge color="verde" style={{ marginLeft:"auto",fontSize:10,padding:"1px 7px" }}>{flashcards.length}</Badge>}
-              </button>
-            ))}
-          </nav>
-          <div style={{ padding:14,borderTop:`1px solid ${T.borda2}`,background:"rgba(249,194,49,0.05)" }}>
-            <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-              <span style={{ fontSize:20 }}>🔥</span>
-              <div><div style={{ fontSize:14,fontWeight:800,color:T.amarelo }}>{stats.streakDias} dias</div><div style={{ fontSize:11,color:T.cinza3 }}>sequência</div></div>
-              <div style={{ marginLeft:"auto",textAlign:"right" }}>
-                <div style={{ fontSize:13,fontWeight:700,color:T.verde2 }}>{stats.pontos}</div>
-                <div style={{ fontSize:10,color:T.cinza3 }}>pts</div>
-              </div>
-            </div>
-          </div>
-        </aside>
-      )}
-
-      {/* ── CONTEÚDO PRINCIPAL ── */}
-      <main style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column", minWidth:0 }}>
-        {/* Header mobile */}
-        {isMobile && (
-          <div style={{ background:T.fundo2,borderBottom:`1px solid ${T.borda2}`,padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0 }}>
-            <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-              <div style={{ width:28,height:28,background:`linear-gradient(135deg,${T.verde},${T.verde2})`,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14 }}>⚖️</div>
-              <div>
-                <div style={{ fontFamily:"'Playfair Display',serif",fontSize:13,fontWeight:900,color:"#fff",lineHeight:1 }}>Lei Seca</div>
-                <div style={{ fontSize:9,color:T.verde2,fontWeight:700,textTransform:"uppercase",letterSpacing:0.8 }}>Carolina Teixeira</div>
-              </div>
-            </div>
-            <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-              <span style={{ fontSize:11,color:online?T.verde2:"#FCD34D",fontWeight:700 }}>{online?"🟢 online":"🟡 offline"}</span>
-              <div style={{ background:"rgba(249,194,49,0.1)",border:`1px solid rgba(249,194,49,0.2)`,borderRadius:8,padding:"3px 10px",display:"flex",alignItems:"center",gap:5 }}>
-                <span style={{ fontSize:13 }}>🔥</span>
-                <span style={{ fontSize:12,fontWeight:800,color:T.amarelo }}>{stats.pontos}pts</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tela ativa */}
-        <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column" }}>
-          {tela==="acervo"     && <TelaAcervo     leis={LEIS} areas={AREAS} onAbrir={abrirLei} marcacoes={marcacoes} isMobile={isMobile} online={online} />}
-          {tela==="leitura"    && <TelaLeitura    lei={leiAtiva} texto={textoLei} carregando={carregando} marcacoes={marcacoes} setMarcacoes={setMarcacoes} anotacoes={anotacoes} setAnotacoes={setAnotacoes} flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
-          {tela==="flashcards" && <TelaFlashcards flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
-          {tela==="cronograma" && <TelaCronograma isMobile={isMobile} online={online} user={user} setTela={setTela} />}
-          {tela==="sessao"     && <TelaSessaoDia  isMobile={isMobile} online={online} user={user} setTela={setTela} abrirLei={abrirLei} />}
-          {tela==="ia"         && <TelaIA         leiAtiva={leiAtiva} stats={stats} setStats={setStats} online={online} isMobile={isMobile} />}
-          {tela==="guias"      && <TelaGuias      isMobile={isMobile} online={online} />}
-          {tela==="juris"      && <TelaJuris      isMobile={isMobile} online={online} leiAtiva={leiAtiva} stats={stats} setStats={setStats} />}
-          {tela==="simulado"   && <TelaSimulado   isMobile={isMobile} online={online} stats={stats} setStats={setStats} />}
-          {tela==="dashboard"  && <TelaDashboard  stats={stats} leis={LEIS} flashcards={flashcards} marcacoes={marcacoes} isMobile={isMobile} />}
-        </div>
-
-        {/* ── BOTTOM NAV (mobile) ── */}
-        {isMobile && (
-          <nav className="bottom-nav" style={{ background:T.fundo2,borderTop:`1px solid ${T.borda2}`,display:"flex",flexShrink:0 }}>
-            {navItems.map(item => (
-              <button key={item.id} onClick={() => !item.disabled && setTela(item.id)} className="btn" style={{
-                flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
-                padding:"10px 4px 8px",gap:3,
-                background:tela===item.id?"rgba(0,107,63,0.15)":"transparent",
-                color:item.disabled?T.cinza3+"40":tela===item.id?T.verde2:T.cinza3,
-                cursor:item.disabled?"not-allowed":"pointer",
-                borderRight:item.id!=="dashboard"?`1px solid ${T.borda2}`:"none",
-                position:"relative",
-              }}>
-                <span style={{ fontSize:20, lineHeight:1 }}>{item.icon}</span>
-                <span style={{ fontSize:9,fontWeight:tela===item.id?700:500,lineHeight:1 }}>{item.label}</span>
-                {item.id==="flashcards" && flashcards.length>0 && (
-                  <span style={{ position:"absolute",top:6,right:"50%",transform:"translateX(10px)",background:T.verde2,color:"#fff",fontSize:9,fontWeight:700,borderRadius:99,padding:"1px 5px",lineHeight:1.4 }}>{flashcards.length}</span>
-                )}
-                {tela===item.id && <div style={{ position:"absolute",top:0,left:"15%",right:"15%",height:2,background:T.verde2,borderRadius:"0 0 2px 2px" }} />}
-              </button>
-            ))}
-          </nav>
-        )}
-      </main>
-    </div>
-  );
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// TELA: ACERVO
-// ═══════════════════════════════════════════════════════════════════════════
 
-// ─── COMPONENTE: AUDIO PLAYER ESTILO SPEECHIFY ───────────────────────────────
 function AudioPlayer({ texto, lei }) {
   const [status, setStatus]     = useState("idle"); // idle | loading | playing | paused
   const [velocidade, setVel]    = useState(1.0);
