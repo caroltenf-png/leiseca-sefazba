@@ -326,34 +326,58 @@ const MAP_LEI_OFFLINE = {
 };
 
 // Extrai artigos de um intervalo do texto HTML offline
-function extrairArtigos(htmlTexto, artsStr) {
-  if (!htmlTexto || !artsStr) return htmlTexto || '';
-  // Extrair intervalo de artigos via regex (sem DOMParser)
-  const rangeMatch = artsStr.match(/(\d+)[–\-—](\d+)/);
-  const singleMatch = artsStr.match(/Art(?:s)?\.?\s*(\d+)/i);
-  let ini = 1, fim = 999;
-  if (rangeMatch) { ini = parseInt(rangeMatch[1]); fim = parseInt(rangeMatch[2]); }
-  else if (singleMatch) { ini = fim = parseInt(singleMatch[1]); }
+function extrairArtigos(htmlTexto, artsStr, ancoraStr) {
+  if (!htmlTexto) return '';
 
   // Dividir HTML em blocos por <p> e <h2>/<h3>
   const blocos = htmlTexto.split(/(?=<(?:p|h[23])[^>]*>)/i);
-  const resultado = [];
-  let capturando = false;
 
-  for (const bloco of blocos) {
-    const artMatch = bloco.match(/<strong>Art\.?\s*(\d+)/i) ||
-                     bloco.match(/Art\.\s*(\d+)/i);
-    if (artMatch) {
-      const num = parseInt(artMatch[1]);
-      capturando = num >= ini && num <= fim;
-    }
-    if (capturando && bloco.trim()) resultado.push(bloco);
-    // Parar se passou do intervalo
-    if (artMatch && parseInt(artMatch[1]) > fim) break;
+  // Função auxiliar: número de artigo de um bloco
+  function numDoBloco(bloco) {
+    const m = bloco.match(/<strong>Art\.?\s*(\d+)/i) || bloco.match(/Art\.\s*(\d+)/i);
+    return m ? parseInt(m[1]) : null;
   }
 
-  if (resultado.length > 0) return resultado.join('\n');
-  // Fallback: retornar início do texto
+  // 1) PRIORIDADE: usar os números do campo "ancora" (são os artigos exatos do dia)
+  //    Ex: "art. 3 CTN · art. 5 CTN · art. 145 CF" → [3, 5, 145]
+  let numerosAlvo = [];
+  if (ancoraStr) {
+    const matches = [...ancoraStr.matchAll(/art\.?\s*(\d+)/gi)];
+    numerosAlvo = [...new Set(matches.map(m => parseInt(m[1])))];
+  }
+
+  if (numerosAlvo.length > 0) {
+    const resultado = [];
+    for (const bloco of blocos) {
+      const num = numDoBloco(bloco);
+      if (num !== null && numerosAlvo.includes(num) && bloco.trim()) {
+        resultado.push(bloco);
+      }
+    }
+    if (resultado.length > 0) return resultado.join('\n');
+  }
+
+  // 2) FALLBACK: usar intervalo do campo "arts" (ex: "Arts. 1–18")
+  //    Captura TODOS os artigos do texto que estejam dentro do intervalo,
+  //    sem quebrar no meio (o texto embutido não é sequencial).
+  if (artsStr) {
+    const rangeMatch = artsStr.match(/(\d+)[–\-—](\d+)/);
+    const singleMatch = artsStr.match(/Art(?:s)?\.?\s*(\d+)/i);
+    let ini = 1, fim = 999;
+    if (rangeMatch) { ini = parseInt(rangeMatch[1]); fim = parseInt(rangeMatch[2]); }
+    else if (singleMatch) { ini = fim = parseInt(singleMatch[1]); }
+
+    const resultado = [];
+    for (const bloco of blocos) {
+      const num = numDoBloco(bloco);
+      if (num !== null && num >= ini && num <= fim && bloco.trim()) {
+        resultado.push(bloco);
+      }
+    }
+    if (resultado.length > 0) return resultado.join('\n');
+  }
+
+  // 3) Último fallback: início do texto
   return htmlTexto.substring(0, 4000);
 }
 
@@ -964,7 +988,6 @@ function TelaSessaoDia({ isMobile, online, user, setTela, abrirLei }) {
   const [sessaoId, setSessaoId] = useState(null);
   const [historicoSessoes, setHistoricoSessoes] = useState([]);
   const [verHistorico, setVerHistorico] = useState(false);
-  const [gerandoPDF, setGerandoPDF] = useState(false);
   const autoSaveRef = useRef(null);
 
   useEffect(() => {
@@ -1007,80 +1030,6 @@ function TelaSessaoDia({ isMobile, online, user, setTela, abrirLei }) {
       const { data } = await supabase.from('sessoes_estudo').insert(payload).select('id').single();
       if (data) setSessaoId(data.id);
     }
-  }
-
-  async function gerarResumoEPDF() {
-    if (msgs.length === 0 || gerandoPDF) return;
-    setGerandoPDF(true);
-    try {
-      const historicoTxt = msgs.map(m => (m.role === "user" ? "ALUNO" : "PROFESSOR") + ": " + m.content).join("\n\n");
-      const promptResumo = "Com base nesta sessao de estudo completa, gere um RESUMO FINAL em topicos, estilo ficha de revisao FGV, para o aluno revisar rapidamente no dia seguinte.\n\nEstrutura obrigatoria:\n1. CONCEITOS-CHAVE (bullet points diretos, sem rodeios)\n2. PEGADINHAS FGV identificadas na sessao (se houver)\n3. PONTOS DE ATENCAO - onde o aluno travou ou errou durante a sessao (se houver)\n4. ARTIGOS ESSENCIAIS para memorizar\n\nSeja direto e objetivo. Maximo 400 palavras. Nao repita a conversa, sintetize o aprendizado.\n\nSESSAO COMPLETA:\n" + historicoTxt;
-
-      const res = await callClaude(
-        "Voce e um especialista em criar fichas de revisao para concursos fiscais, banca FGV.",
-        promptResumo,
-        800
-      );
-      await salvarSessao(false);
-      abrirImpressao(res);
-    } catch(e) {
-      alert("Erro ao gerar resumo: " + e.message);
-    }
-    setGerandoPDF(false);
-  }
-
-  function abrirImpressao(resumo) {
-    const w = window.open("", "_blank");
-    const dataHoje = new Date().toLocaleDateString("pt-BR", { day:"2-digit", month:"long", year:"numeric" });
-    const resumoHtml = resumo.split("\n").map(l => {
-      const t = l.trim();
-      if (!t) return "";
-      if (/^\d\.\s*[A-ZÀ-Ú\s]+$/.test(t) || /^[A-ZÀ-Ú\s]{5,}$/.test(t)) return "<h3>" + t + "</h3>";
-      if (/^[-•*]\s/.test(t)) return "<li>" + t.replace(/^[-•*]\s/, "") + "</li>";
-      return "<p>" + t + "</p>";
-    }).join("\n");
-
-    const arts = dadosEscolhidos.arts || "—";
-    const ancoraHtml = dadosEscolhidos.ancora ? dadosEscolhidos.ancora.split("·").map(a => "<span class=\"tag\">" + a.trim() + "</span>").join("") : "";
-    const juriHtml = dadosEscolhidos.juri ? dadosEscolhidos.juri.split("·").map(j => "<div class=\"juri-item\">" + j.trim() + "</div>").join("") : "";
-    const anotHtml = anotacoes && anotacoes.trim() ? anotacoes.replace(/</g, "&lt;") : "";
-    const matNome = MAT_NOME_SESSAO[dadosEscolhidos.mat] || dadosEscolhidos.assunto;
-
-    const html = "<!DOCTYPE html><html lang=\"pt-BR\"><head><meta charset=\"UTF-8\">" +
-      "<title>Resumo Dia " + dadosEscolhidos.d + "</title><style>" +
-      "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap');" +
-      "*{margin:0;padding:0;box-sizing:border-box;}" +
-      "body{font-family:'Inter',sans-serif;color:#0D1B2A;font-size:13px;line-height:1.65;padding:36px 44px;}" +
-      ".header{background:linear-gradient(135deg,#050D17 0%,#08170A 60%,#0A1628 100%);color:#fff;padding:24px 28px;border-radius:12px;margin-bottom:24px;}" +
-      ".badge{display:inline-flex;align-items:center;gap:6px;background:rgba(249,194,49,0.15);border:1px solid rgba(249,194,49,0.35);border-radius:100px;padding:4px 14px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#F9C231;margin-bottom:10px;}" +
-      "h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;margin-bottom:4px;}" +
-      ".sub{font-size:11px;color:#8BA7BF;}" +
-      ".secao{margin-bottom:18px;}" +
-      ".secao-titulo{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#00A65A;margin-bottom:8px;border-bottom:2px solid #00A65A;padding-bottom:4px;}" +
-      "h3{font-family:'Inter',sans-serif;font-size:12px;font-weight:800;color:#006B3F;text-transform:uppercase;letter-spacing:0.5px;margin:14px 0 6px;}" +
-      "p{margin-bottom:6px;} li{margin-bottom:5px;margin-left:18px;}" +
-      ".tag{display:inline-block;background:rgba(0,107,63,0.1);border:1px solid rgba(0,107,63,0.25);border-radius:4px;padding:2px 8px;margin:2px 4px 2px 0;font-size:10px;font-family:'JetBrains Mono',monospace;color:#006B3F;}" +
-      ".anot-box{background:#FFFBEB;border:1px solid #F9C231;border-radius:8px;padding:14px 16px;margin-top:6px;white-space:pre-wrap;font-size:12px;}" +
-      ".juri-item{background:#F0FDF4;border-left:3px solid #00A65A;border-radius:0 6px 6px 0;padding:8px 12px;margin-bottom:6px;font-size:11.5px;}" +
-      ".footer{margin-top:28px;padding-top:14px;border-top:1px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#8BA7BF;}" +
-      ".assinatura{display:inline-flex;align-items:center;gap:6px;background:rgba(249,194,49,0.08);border:1px solid rgba(249,194,49,0.25);border-radius:100px;padding:4px 14px;}" +
-      "@media print{ body{padding:20px 28px;} .no-print{display:none;} }" +
-      "</style></head><body>" +
-      "<div class=\"header\"><div class=\"badge\">🧠 Ficha de Revisao · SEFAZ-BA · FGV</div>" +
-      "<h1>Dia " + dadosEscolhidos.d + " — " + dadosEscolhidos.tema + "</h1>" +
-      "<div class=\"sub\">Gerado em " + dataHoje + " · " + matNome + "</div></div>" +
-      "<div class=\"secao\"><div class=\"secao-titulo\">📖 Artigos do Dia</div><p>" + arts + "</p>" +
-      (ancoraHtml ? "<p style=\"margin-top:6px;\">" + ancoraHtml + "</p>" : "") + "</div>" +
-      (juriHtml ? "<div class=\"secao\"><div class=\"secao-titulo\">⚖️ Jurisprudencia</div>" + juriHtml + "</div>" : "") +
-      "<div class=\"secao\"><div class=\"secao-titulo\">🧠 Resumo da Sessao (IA)</div>" + resumoHtml + "</div>" +
-      (anotHtml ? "<div class=\"secao\"><div class=\"secao-titulo\">✏️ Suas Anotacoes</div><div class=\"anot-box\">" + anotHtml + "</div></div>" : "") +
-      "<div class=\"footer\"><span>SEFAZ-BA · Auditor Fiscal · Banca FGV</span>" +
-      "<span class=\"assinatura\">✍️ Coproducao <strong style=\"color:#F9C231;\">Carolina Teixeira</strong></span></div>" +
-      "<script>window.onload = function(){ setTimeout(function(){ window.print(); }, 400); };</script>" +
-      "</body></html>";
-
-    w.document.write(html);
-    w.document.close();
   }
 
   async function retomar(sessao) {
@@ -1445,7 +1394,8 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
                 const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
                 const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
                 const artsStr = dadosEscolhidos.arts;
-                const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
+                const ancoraStr = dadosEscolhidos.ancora;
+                const trecho = textoLei ? extrairArtigos(textoLei, artsStr, ancoraStr) : null;
                 return (
                   <div>
                     <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
@@ -1555,14 +1505,7 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
                 {enviando ? "⏳" : "➤"}
               </button>
             </div>
-            <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:14, marginTop:8, flexWrap:"wrap" }}>
-              <button onClick={gerarResumoEPDF} disabled={gerandoPDF || msgs.length===0} className="btn" style={{
-                background:"rgba(249,194,49,0.10)", border:"1px solid rgba(249,194,49,0.3)",
-                color:T.amarelo, fontSize:12, fontWeight:700, padding:"7px 16px", borderRadius:8,
-                cursor:gerandoPDF?"not-allowed":"pointer", opacity:gerandoPDF?0.6:1,
-              }}>
-                {gerandoPDF ? "⏳ Gerando…" : "📄 Gerar Resumo PDF"}
-              </button>
+            <div style={{ textAlign:"center", marginTop:6 }}>
               <button onClick={() => { setSessaoIniciada(false); setMsgs([]); }} className="btn" style={{
                 background:"transparent", border:"none", color:T.cinza3, fontSize:11, cursor:"pointer", textDecoration:"underline"
               }}>
