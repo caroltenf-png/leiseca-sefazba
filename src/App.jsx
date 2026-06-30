@@ -1201,30 +1201,6 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
             </select>
           </div>
         </div>
-        {/* Dados do dia — artigos, âncoras, jurisprudência */}
-        {!isDescanso && (
-          <div style={{ marginTop:10, display:"flex", flexDirection:"column", gap:5 }}>
-            {dadosEscolhidos.arts && (
-              <div style={{ background:"rgba(0,107,63,0.08)", border:"1px solid rgba(0,107,63,0.20)", borderLeft:"3px solid rgba(0,107,63,0.5)", borderRadius:"0 7px 7px 0", padding:"6px 10px", fontSize:10, fontFamily:"'JetBrains Mono',monospace", color:T.verde3, lineHeight:1.6 }}>
-                📖 <strong style={{color:T.verde2}}>Artigos:</strong> {dadosEscolhidos.arts}
-              </div>
-            )}
-            {dadosEscolhidos.ancora && (
-              <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", gap:4 }}>
-                <span style={{ fontSize:10, fontWeight:700, color:T.amarelo, marginRight:2 }}>⭐ Âncoras FGV:</span>
-                {dadosEscolhidos.ancora.split(" · ").map((a,i) => (
-                  <span key={i} style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:9, fontWeight:700, background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)", borderRadius:5, padding:"1px 6px", color:T.amarelo }}>{a}</span>
-                ))}
-              </div>
-            )}
-            {dadosEscolhidos.juri && (
-              <div style={{ background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)", borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 7px 7px 0", padding:"5px 10px", fontSize:10, color:T.verde3, lineHeight:1.5 }}>
-                ⚖️ <strong style={{color:T.verde3}}>Jurisprudência:</strong> {dadosEscolhidos.juri}
-              </div>
-            )}
-          </div>
-        )}
-
         {/* Botões de ação — linha separada */}
         <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginTop:8 }}>
             <button onClick={() => setPainelAberto(p => !p)} className="btn" style={{
@@ -1318,7 +1294,161 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
         </div>
       )}
 
-      {/* Corpo */}
+      {/* Corpo — layout com painel lateral sempre visível */}
+      <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"row" }}>
+
+        {/* Painel lateral — sempre presente quando aberto */}
+        {painelAberto && !isDescanso && (
+          <div style={{
+            width: isMobile ? "100%" : 340,
+            minWidth: isMobile ? undefined : 260,
+            maxWidth: isMobile ? undefined : 380,
+            background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
+            overflow:"auto", padding:"14px 16px", flexShrink:0,
+            display:"flex", flexDirection:"column", gap:14,
+          }}>
+            {/* Artigos do dia */}
+            {(() => {
+              const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
+              const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
+              const artsStr = dadosEscolhidos.arts;
+              const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
+              return (
+                <div>
+                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
+                    📖 Artigos do Dia — {artsStr || "—"}
+                  </div>
+                  {trecho ? (
+                    <div
+                      style={{ fontSize:12, color:T.branco, lineHeight:1.85 }}
+                      dangerouslySetInnerHTML={{ __html: trecho }}
+                    />
+                  ) : (
+                    <p style={{ fontSize:12, color:T.cinza3 }}>Texto offline não disponível para esta matéria.</p>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Jurisprudência */}
+            {dadosEscolhidos.juri && (
+              <div>
+                <div style={{ height:1, background:T.borda2, margin:"4px 0 10px" }} />
+                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
+                  ⚖️ Jurisprudência do Dia
+                </div>
+                {dadosEscolhidos.juri.split("·").map((j,i) => (
+                  <div key={i} style={{
+                    background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
+                    borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
+                    padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.55,
+                  }}>
+                    {j.trim()}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Anotações */}
+            <div>
+              <div style={{ height:1, background:T.borda2, margin:"4px 0 10px" }} />
+              <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
+                ✏️ Anotações da Sessão
+              </div>
+              <textarea
+                value={anotacoes}
+                onChange={e => setAnotacoes(e.target.value)}
+                placeholder="Anote dúvidas, insights, pontos para revisar..."
+                rows={6}
+                style={{
+                  width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
+                  borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
+                  lineHeight:1.6, resize:"vertical", outline:"none",
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Conteúdo principal — painel + (tela inicial ou chat) */}
+        <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"row" }}>
+
+          {/* Painel lateral — sempre visível quando aberto */}
+          {painelAberto && !isDescanso && (
+            <div style={{
+              width: isMobile ? "100%" : 340,
+              minWidth: isMobile ? undefined : 260,
+              maxWidth: isMobile ? undefined : 380,
+              background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
+              overflow:"auto", padding:"14px 16px", flexShrink:0,
+              display:"flex", flexDirection:"column", gap:14,
+            }}>
+              {/* Artigos do dia */}
+              {(() => {
+                const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
+                const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
+                const artsStr = dadosEscolhidos.arts;
+                const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
+                return (
+                  <div>
+                    <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
+                      📖 Artigos do Dia — {artsStr || "—"}
+                    </div>
+                    {trecho ? (
+                      <div
+                        style={{ fontSize:11.5, color:T.branco, lineHeight:1.8 }}
+                        dangerouslySetInnerHTML={{ __html: trecho }}
+                      />
+                    ) : (
+                      <p style={{ fontSize:12, color:T.cinza3 }}>Texto não disponível offline para esta matéria.</p>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Jurisprudência do dia */}
+              {dadosEscolhidos.juri && (
+                <div>
+                  <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
+                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
+                    ⚖️ Jurisprudência do Dia
+                  </div>
+                  {dadosEscolhidos.juri.split("·").map((j, i) => (
+                    <div key={i} style={{
+                      background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
+                      borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
+                      padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.5,
+                    }}>
+                      {j.trim()}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Anotações */}
+              <div>
+                <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
+                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
+                  ✏️ Anotações
+                </div>
+                <textarea
+                  value={anotacoes}
+                  onChange={e => setAnotacoes(e.target.value)}
+                  placeholder="Anote dúvidas, insights, pontos para revisar..."
+                  rows={6}
+                  style={{
+                    width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
+                    borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
+                    lineHeight:1.6, resize:"vertical", outline:"none",
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Área principal */}
+          <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column" }}>
+
       {!sessaoIniciada ? (
         /* Tela inicial */
         <div style={{ flex:1, overflow:"auto", padding:isMobile?"16px":"28px 36px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
@@ -1376,83 +1506,7 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
           )}
         </div>
       ) : (
-        /* Chat + Painel */
-        <div style={{ flex:1, display:"flex", flexDirection:"row", overflow:"hidden" }}>
-
-          {/* Painel lateral — lei + jurisprudência */}
-          {painelAberto && (
-            <div style={{
-              width: isMobile ? "100%" : 340,
-              minWidth: isMobile ? undefined : 280,
-              maxWidth: isMobile ? undefined : 380,
-              background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
-              overflow:"auto", padding:"14px 16px", flexShrink:0,
-              display: isMobile && sessaoIniciada ? "none" : "flex",
-              flexDirection:"column", gap:14,
-            }}>
-              {/* Artigos do dia */}
-              {(() => {
-                const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
-                const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
-                const artsStr = dadosEscolhidos.arts;
-                const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
-                return (
-                  <div>
-                    <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
-                      📖 Artigos do Dia — {artsStr || "—"}
-                    </div>
-                    {trecho ? (
-                      <div
-                        style={{ fontSize:11.5, color:T.branco, lineHeight:1.8, fontFamily:"'Inter',sans-serif" }}
-                        dangerouslySetInnerHTML={{ __html: trecho }}
-                      />
-                    ) : (
-                      <p style={{ fontSize:12, color:T.cinza3 }}>Texto não disponível offline para esta matéria.</p>
-                    )}
-                  </div>
-                );
-              })()}
-
-              {/* Jurisprudência do dia */}
-              {dadosEscolhidos.juri && (
-                <div>
-                  <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
-                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
-                    ⚖️ Jurisprudência do Dia
-                  </div>
-                  {dadosEscolhidos.juri.split("·").map((j, i) => (
-                    <div key={i} style={{
-                      background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
-                      borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
-                      padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.5,
-                    }}>
-                      {j.trim()}
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Anotações */}
-              <div>
-                <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
-                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
-                  ✏️ Anotações da Sessão
-                </div>
-                <textarea
-                  value={anotacoes}
-                  onChange={e => setAnotacoes(e.target.value)}
-                  placeholder="Anote dúvidas, insights, pontos para revisar..."
-                  rows={6}
-                  style={{
-                    width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
-                    borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
-                    lineHeight:1.6, resize:"vertical", outline:"none",
-                  }}
-                />
-              </div>
-            </div>
-          )}
-
+        /* Chat */
         <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
           {/* Mensagens */}
           <div ref={chatRef} style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 28px", display:"flex", flexDirection:"column", gap:12 }}>
@@ -1515,9 +1569,10 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
               </button>
             </div>
           </div>
-        </div>
-        </div>
-      )}
+        </div>{/* fim input */}
+        </div>{/* fim chat */}
+          </div>{/* fim area principal */}
+        </div>{/* fim conteudo principal */}
     </div>
   );
 }
