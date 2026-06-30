@@ -309,7 +309,146 @@ III — do produto da arrecadação da CIDE-Combustíveis, 29% aos Estados e DF.
 — Cashback para faixas de baixa renda — devolução parcial dos tributos.<br>
 — Fundo de Desenvolvimento Regional (FNDR) — R$ 60 bi até 2043.<br>
 — Transição: 2026-2032 para IBS/CBS. Extinção total ICMS/ISS em 01/01/2033.<br>
-— Regulamentado pela LC 214/2025.</p>`,
+— Regulamentado pela LC 214/2025.</p>
+
+<h2>CONSTITUIÇÃO DA REPÚBLICA FEDERATIVA DO BRASIL DE 1988</h2>
+<p><em>Texto integral dos títulos exigidos no cronograma SEFAZ-BA — FGV 2026</em></p>
+
+<h2>TÍTULO I — DOS PRINCÍPIOS FUNDAMENTAIS</h2>
+
+<p><strong>Art. 1º</strong> A República Federativa do Brasil, formada pela união indissolúvel dos Estados e Municípios e do Distrito Federal, constitui-se em Estado Democrático de Direito e tem como fundamentos:<br>
+I — a soberania;<br>
+II — a cidadania;<br>
+III — a dignidade da pessoa humana;<br>
+IV — os valores sociais do trabalho e da livre iniciativa;<br>
+V — o pluralismo político.<br>
+Parágrafo único. Todo o poder emana do povo, que o exerce por meio de representantes eleitos ou diretamente, nos termos desta Constituição.</p>
+
+<p><strong>Art. 2º</strong> São Poderes da União, independentes e harmônicos entre si, o Legislativo, o Executivo e o Judiciário.</p>
+
+<p><strong>Art. 3º</strong> Constituem objetivos fundamentais da República Federativa do Brasil:<br>
+I — construir uma sociedade livre, justa e solidária;<br>
+II — garantir o desenvolvimento nacional;<br>
+III — erradicar a pobreza e a marginalização e reduzir as desigualdades sociais e regionais;<br>
+IV — promover o bem de todos, sem preconceitos de origem, raça, sexo, cor, idade e quaisquer outras formas de discriminação.</p>
+
+<p><strong>Art. 4º</strong> A República Federativa do Brasil rege-se nas suas relações internacionais pelos seguintes princípios:<br>
+I — independência nacional;<br>
+II — prevalência dos direitos humanos;<br>
+III — autodeterminação dos povos;<br>
+IV — não-intervenção;<br>
+V — igualdade entre os Estados;<br>
+VI — defesa da paz;<br>
+VII — solução pacífica dos conflitos;<br>
+VIII — repúdio ao terrorismo e ao racismo;<br>
+IX — cooperação entre os povos para o progresso da humanidade;<br>
+X — concessão de asilo político.<br>
+Parágrafo único. A República Federativa do Brasil buscará a integração econômica, política, social e cultural dos povos da América Latina, visando à formação de uma comunidade latino-americana de nações.</p>
+
+<h2>TÍTULO II — DOS DIREITOS E GARANTIAS FUNDAMENTAIS</h2>
+<h2>CAPÍTULO I — DOS DIREITOS E DEVERES INDIVIDUAIS E COLETIVOS</h2>
+
+<p><strong>Art. 5º</strong> Todos são iguais perante a lei, sem distinção de qualquer natureza, garantindo-se aos brasileiros e aos estrangeiros residentes no País a inviolabilidade do direito à vida, à liberdade, à igualdade, à segurança e à propriedade, nos termos seguintes:<br>
+I — homens e mulheres são iguais em direitos e obrigações, nos termos desta Constituição;<br>
+II — ninguém será obrigado a fazer ou deixar de fazer alguma coisa senão em virtude de lei;<br>
+III — ninguém será submetido a tortura nem a tratamento desumano ou degradante;<br>
+IV — é livre a manifestação do pensamento, sendo vedado o anonimato;<br>
+V — é assegurado o direito de resposta, proporcional ao agravo, além da indenização por dano material, moral ou à imagem;<br>
+VI — é inviolável a liberdade de consciência e de crença, sendo assegurado o livre exercício dos cultos religiosos;<br>
+VII — é assegurada, nos termos da lei, a prestação de assistência religiosa nas entidades civis e militares de internação coletiva;<br>
+VIII — ninguém será privado de direitos por motivo de crença religiosa ou de convicção filosófica ou política, salvo se as invocar para eximir-se de obrigação legal a todos imposta e recusar-se a cumprir prestação alternativa, fixada em lei;<br>
+IX — é livre a expressão da atividade intelectual, artística, científica e de comunicação, independentemente de censura ou licença;<br>
+X — são invioláveis a intimidade, a vida privada, a honra e a imagem das pessoas, assegurado o direito a indenização pelo dano material ou moral decorrente de sua violação;<br>
+XI — a casa é asilo inviolável do indivíduo, ninguém nela podendo penetrar sem consentimento do morador, salvo em caso de flagrante delito ou desastre, ou para prestar socorro, ou, durante o dia, por determinação judicial;<br>
+XII — é inviolável o sigilo da correspondência e das comunicações telegráficas, de dados e das comunicações telefônicas, salvo, no último caso, por ordem judicial, nas hipóteses e na forma que a lei estabelecer para fins de investigação criminal ou instrução processual penal;<br>
+XIII — é livre o exercício de qualquer trabalho, ofício ou profissão, atendidas as qualificações profissionais que a lei estabelecer;<br>
+XIV — é assegurado a todos o acesso à informação e resguardado o sigilo da fonte, quando necessário ao exercício profissional;<br>
+XV — é livre a locomoção no território nacional em tempo de paz, podendo qualquer pessoa, nos termos da lei, nele entrar, permanecer ou dele sair com seus bens;<br>
+XVI — todos podem reunir-se pacificamente, sem armas, em locais abertos ao público, independentemente de autorização, desde que não frustrem outra reunião anteriormente convocada para o mesmo local, sendo apenas exigido prévio aviso à autoridade competente;<br>
+XVII — é plena a liberdade de associação para fins lícitos, vedada a de caráter paramilitar;<br>
+XVIII — a criação de associações e, na forma da lei, a de cooperativas independem de autorização, sendo vedada a interferência estatal em seu funcionamento;<br>
+XIX — as associações só poderão ser compulsoriamente dissolvidas ou ter suas atividades suspensas por decisão judicial, exigindo-se, no primeiro caso, o trânsito em julgado;<br>
+XX — ninguém poderá ser compelido a associar-se ou a permanecer associado;<br>
+XXI — as entidades associativas, quando expressamente autorizadas, têm legitimidade para representar seus filiados judicial ou extrajudicialmente;<br>
+XXII — é garantido o direito de propriedade;<br>
+XXIII — a propriedade atenderá a sua função social;<br>
+XXIV — a lei estabelecerá o procedimento para desapropriação por necessidade ou utilidade pública, ou por interesse social, mediante justa e prévia indenização em dinheiro, ressalvados os casos previstos nesta Constituição;<br>
+XXXIV — são a todos assegurados, independentemente do pagamento de taxas:<br>
+a) o direito de petição aos Poderes Públicos em defesa de direitos ou contra ilegalidade ou abuso de poder;<br>
+b) a obtenção de certidões em repartições públicas, para defesa de direitos e esclarecimento de situações de interesse pessoal;<br>
+XXXV — a lei não excluirá da apreciação do Poder Judiciário lesão ou ameaça a direito;<br>
+XXXVI — a lei não prejudicará o direito adquirido, o ato jurídico perfeito e a coisa julgada;<br>
+XXXVII — não haverá juízo ou tribunal de exceção;<br>
+XXXVIII — é reconhecida a instituição do júri, com a organização que lhe der a lei;<br>
+XXXIX — não há crime sem lei anterior que o defina, nem pena sem prévia cominação legal;<br>
+XL — a lei penal não retroagirá, salvo para beneficiar o réu;<br>
+XLI — a lei punirá qualquer discriminação atentatória dos direitos e liberdades fundamentais;<br>
+XLII — a prática do racismo constitui crime inafiançável e imprescritível, sujeito à pena de reclusão, nos termos da lei;<br>
+XLIII — a lei considerará crimes inafiançáveis e insuscetíveis de graça ou anistia a prática da tortura, o tráfico ilícito de entorpecentes e drogas afins, o terrorismo e os definidos como crimes hediondos;<br>
+LIV — ninguém será privado da liberdade ou de seus bens sem o devido processo legal;<br>
+LV — aos litigantes, em processo judicial ou administrativo, e aos acusados em geral são assegurados o contraditório e ampla defesa, com os meios e recursos a ela inerentes;<br>
+LVI — são inadmissíveis, no processo, as provas obtidas por meios ilícitos;<br>
+LVII — ninguém será considerado culpado até o trânsito em julgado de sentença penal condenatória;<br>
+LXVIII — conceder-se-á habeas corpus sempre que alguém sofrer ou se achar ameaçado de sofrer violência ou coação em sua liberdade de locomoção, por ilegalidade ou abuso de poder;<br>
+LXIX — conceder-se-á mandado de segurança para proteger direito líquido e certo, não amparado por habeas corpus ou habeas data, quando o responsável pela ilegalidade ou abuso de poder for autoridade pública ou agente de pessoa jurídica no exercício de atribuições do Poder Público;<br>
+LXX — o mandado de segurança coletivo pode ser impetrado por:<br>
+a) partido político com representação no Congresso Nacional;<br>
+b) organização sindical, entidade de classe ou associação legalmente constituída e em funcionamento há pelo menos um ano, em defesa dos interesses de seus membros ou associados;<br>
+LXXI — conceder-se-á mandado de injunção sempre que a falta de norma regulamentadora torne inviável o exercício dos direitos e liberdades constitucionais e das prerrogativas inerentes à nacionalidade, à soberania e à cidadania;<br>
+LXXII — conceder-se-á habeas data:<br>
+a) para assegurar o conhecimento de informações relativas à pessoa do impetrante, constantes de registros ou bancos de dados de entidades governamentais ou de caráter público;<br>
+b) para a retificação de dados, quando não se prefira fazê-lo por processo sigiloso, judicial ou administrativo;<br>
+LXXIII — qualquer cidadão é parte legítima para propor ação popular que vise a anular ato lesivo ao patrimônio público ou de entidade de que o Estado participe, à moralidade administrativa, ao meio ambiente e ao patrimônio histórico e cultural, ficando o autor, salvo comprovada má-fé, isento de custas judiciais e do ônus da sucumbência;<br>
+LXXIV — o Estado prestará assistência jurídica integral e gratuita aos que comprovarem insuficiência de recursos;<br>
+LXXV — o Estado indenizará o condenado por erro judiciário, assim como o que ficar preso além do tempo fixado na sentença;<br>
+LXXVI — são gratuitos para os reconhecidamente pobres, na forma da lei: a) o registro civil de nascimento; b) a certidão de óbito;<br>
+LXXVII — são gratuitas as ações de habeas corpus e habeas data, e, na forma da lei, os atos necessários ao exercício da cidadania;<br>
+LXXVIII — a todos, no âmbito judicial e administrativo, são assegurados a razoável duração do processo e os meios que garantam a celeridade de sua tramitação.<br>
+§1º As normas definidoras dos direitos e garantias fundamentais têm aplicação imediata.<br>
+§2º Os direitos e garantias expressos nesta Constituição não excluem outros decorrentes do regime e dos princípios por ela adotados, ou dos tratados internacionais em que a República Federativa do Brasil seja parte.<br>
+§3º Os tratados e convenções internacionais sobre direitos humanos que forem aprovados, em cada Casa do Congresso Nacional, em dois turnos, por três quintos dos votos dos respectivos membros, serão equivalentes às emendas constitucionais.</p>
+
+
+<h2>TÍTULO IV — DA ORGANIZAÇÃO DOS PODERES</h2>
+<h2>CAPÍTULO I — DO PODER LEGISLATIVO (Arts. 44–75)</h2>
+<p><strong>Art. 44.</strong> O Poder Legislativo é exercido pelo Congresso Nacional, que se compõe da Câmara dos Deputados e do Senado Federal.</p>
+<p><strong>Art. 48.</strong> Cabe ao Congresso Nacional, com a sanção do Presidente da República, dispor sobre todas as matérias de competência da União, especialmente sobre: I — sistema tributário, arrecadação e distribuição de rendas; II — plano plurianual, diretrizes orçamentárias, orçamento anual, operações de crédito, dívida pública e emissões de curso forçado.</p>
+<p><strong>Art. 49.</strong> É da competência exclusiva do Congresso Nacional: I — resolver definitivamente sobre tratados, acordos ou atos internacionais que acarretem encargos ou compromissos gravosos ao patrimônio nacional; V — sustar os atos normativos do Poder Executivo que exorbitem do poder regulamentar ou dos limites de delegação legislativa; X — fiscalizar e controlar, diretamente, ou por qualquer de suas Casas, os atos do Poder Executivo, incluídos os da administração indireta.</p>
+<p><strong>Art. 52.</strong> Compete privativamente ao Senado Federal: V — autorizar operações externas de natureza financeira, de interesse da União, dos Estados, do Distrito Federal, dos Municípios e dos Territórios; VI — fixar, por proposta do Presidente da República, limites globais para o montante da dívida consolidada da União, dos Estados, do Distrito Federal e dos Municípios; VII — dispor sobre limites globais e condições para as operações de crédito externo e interno; IX — estabelecer limites globais e condições para o montante da dívida mobiliária dos Estados, do Distrito Federal e dos Municípios.</p>
+<p><strong>Art. 59.</strong> O processo legislativo compreende a elaboração de: I — emendas à Constituição; II — leis complementares; III — leis ordinárias; IV — leis delegadas; V — medidas provisórias; VI — decretos legislativos; VII — resoluções.</p>
+<p><strong>Art. 60.</strong> A Constituição poderá ser emendada mediante proposta: I — de um terço, no mínimo, dos membros da Câmara dos Deputados ou do Senado Federal; II — do Presidente da República; III — de mais da metade das Assembleias Legislativas. §4º Não será objeto de deliberação a proposta de emenda tendente a abolir: I — a forma federativa de Estado; II — o voto direto, secreto, universal e periódico; III — a separação dos Poderes; IV — os direitos e garantias individuais (cláusulas pétreas).</p>
+<p><strong>Art. 62.</strong> Em caso de relevância e urgência, o Presidente da República poderá adotar medidas provisórias, com força de lei, devendo submetê-las de imediato ao Congresso Nacional. §3º As medidas provisórias perderão eficácia, desde a edição, se não forem convertidas em lei no prazo de sessenta dias, prorrogável uma vez por igual período.</p>
+<p><strong>Art. 69.</strong> As leis complementares serão aprovadas por maioria absoluta.</p>
+<p><strong>Art. 70.</strong> A fiscalização contábil, financeira, orçamentária, operacional e patrimonial da União e das entidades da administração direta e indireta, quanto à legalidade, legitimidade, economicidade, aplicação das subvenções e renúncia de receitas, será exercida pelo Congresso Nacional, mediante controle externo, e pelo sistema de controle interno de cada Poder.</p>
+<p><strong>Art. 71.</strong> O controle externo, a cargo do Congresso Nacional, será exercido com o auxílio do Tribunal de Contas da União, ao qual compete: I — apreciar as contas prestadas anualmente pelo Presidente da República; II — julgar as contas dos administradores e demais responsáveis por dinheiros, bens e valores públicos; III — apreciar, para fins de registro, a legalidade dos atos de admissão de pessoal e de concessão de aposentadorias, reformas e pensões; VIII — aplicar aos responsáveis, em caso de ilegalidade de despesa ou irregularidade de contas, as sanções previstas em lei.</p>
+<p><strong>Art. 74.</strong> Os Poderes Legislativo, Executivo e Judiciário manterão, de forma integrada, sistema de controle interno com a finalidade de: I — avaliar o cumprimento das metas previstas no plano plurianual; II — comprovar a legalidade e avaliar os resultados, quanto à eficácia e eficiência, da gestão orçamentária, financeira e patrimonial; III — exercer o controle das operações de crédito, avais e garantias, bem como dos direitos e haveres da União.</p>
+<p><strong>Art. 75.</strong> As normas estabelecidas nesta seção aplicam-se, no que couber, à organização, composição e fiscalização dos Tribunais de Contas dos Estados e do Distrito Federal, bem como dos Tribunais e Conselhos de Contas dos Municípios.</p>
+
+<h2>CAPÍTULO II — DO PODER EXECUTIVO (Arts. 76–91)</h2>
+<p><strong>Art. 76.</strong> O Poder Executivo é exercido pelo Presidente da República, auxiliado pelos Ministros de Estado.</p>
+<p><strong>Art. 84.</strong> Compete privativamente ao Presidente da República: IV — sancionar, promulgar e fazer publicar as leis, bem como expedir decretos e regulamentos para sua fiel execução; VI — dispor, mediante decreto, sobre organização e funcionamento da administração federal, quando não implicar aumento de despesa nem criação ou extinção de órgãos públicos; XXV — prover e extinguir os cargos públicos federais, na forma da lei.</p>
+
+<h2>CAPÍTULO III — DO PODER JUDICIÁRIO (Arts. 92–126)</h2>
+<p><strong>Art. 92.</strong> São órgãos do Poder Judiciário: I — o Supremo Tribunal Federal; I-A — o Conselho Nacional de Justiça; II — o Superior Tribunal de Justiça; II-A — o Tribunal Superior do Trabalho; III — os Tribunais Regionais Federais e Juízes Federais; IV — os Tribunais e Juízes do Trabalho; V — os Tribunais e Juízes Eleitorais; VI — os Tribunais e Juízes Militares; VII — os Tribunais e Juízes dos Estados e do Distrito Federal e Territórios.</p>
+<p><strong>Art. 96.</strong> Compete privativamente: I — aos tribunais: a) eleger seus órgãos diretivos e elaborar seus regimentos internos; c) prover, na forma prevista nesta Constituição, os cargos de juiz de carreira da respectiva jurisdição; e) prover, por concurso público de provas, ou de provas e títulos, os cargos necessários à administração da Justiça.</p>
+<p><strong>Art. 97.</strong> Somente pelo voto da maioria absoluta de seus membros ou dos membros do respectivo órgão especial poderão os tribunais declarar a inconstitucionalidade de lei ou ato normativo do Poder Público (cláusula de reserva de plenário).</p>
+<p><strong>Art. 102.</strong> Compete ao Supremo Tribunal Federal, precipuamente, a guarda da Constituição, cabendo-lhe: I — processar e julgar, originariamente: a) a ação direta de inconstitucionalidade de lei ou ato normativo federal ou estadual e a ação declaratória de constitucionalidade de lei ou ato normativo federal; b) nas infrações penais comuns, o Presidente da República, o Vice-Presidente, os membros do Congresso Nacional, seus próprios Ministros e o Procurador-Geral da República; III — julgar, mediante recurso extraordinário, as causas decididas em única ou última instância, quando a decisão recorrida: a) contrariar dispositivo desta Constituição; b) declarar a inconstitucionalidade de tratado ou lei federal; c) julgar válida lei ou ato de governo local contestado em face desta Constituição; d) julgar válida lei local contestada em face de lei federal. §2º As decisões definitivas de mérito, proferidas pelo Supremo Tribunal Federal, nas ações diretas de inconstitucionalidade e nas ações declaratórias de constitucionalidade produzirão eficácia contra todos e efeito vinculante.</p>
+<p><strong>Art. 103.</strong> Podem propor a ação direta de inconstitucionalidade e a ação declaratória de constitucionalidade: I — o Presidente da República; II — a Mesa do Senado Federal; III — a Mesa da Câmara dos Deputados; IV — a Mesa de Assembleia Legislativa ou da Câmara Legislativa do Distrito Federal; V — o Governador de Estado ou do Distrito Federal; VI — o Procurador-Geral da República; VII — o Conselho Federal da Ordem dos Advogados do Brasil; VIII — partido político com representação no Congresso Nacional; IX — confederação sindical ou entidade de classe de âmbito nacional.</p>
+<p><strong>Art. 105.</strong> Compete ao Superior Tribunal de Justiça: I — processar e julgar, originariamente: a) nos crimes comuns, os Governadores dos Estados e do Distrito Federal; b) os mandados de segurança e os habeas data contra ato de Ministro de Estado, dos Comandantes da Marinha, do Exército e da Aeronáutica ou do próprio Tribunal; III — julgar, em recurso especial, as causas decididas, em única ou última instância, pelos Tribunais Regionais Federais ou pelos tribunais dos Estados, do Distrito Federal e Territórios.</p>
+
+<h2>CAPÍTULO IV — DAS FUNÇÕES ESSENCIAIS À JUSTIÇA (Arts. 127–135)</h2>
+<p><strong>Art. 127.</strong> O Ministério Público é instituição permanente, essencial à função jurisdicional do Estado, incumbindo-lhe a defesa da ordem jurídica, do regime democrático e dos interesses sociais e individuais indisponíveis. §1º São princípios institucionais do Ministério Público a unidade, a indivisibilidade e a independência funcional.</p>
+<p><strong>Art. 129.</strong> São funções institucionais do Ministério Público: I — promover, privativamente, a ação penal pública; II — zelar pelo efetivo respeito dos Poderes Públicos e dos serviços de relevância pública aos direitos assegurados nesta Constituição; III — promover o inquérito civil e a ação civil pública, para a proteção do patrimônio público e social, do meio ambiente e de outros interesses difusos e coletivos.</p>
+<p><strong>Art. 131.</strong> A Advocacia-Geral da União é a instituição que representa a União, judicial e extrajudicialmente.</p>
+<p><strong>Art. 132.</strong> Os Procuradores dos Estados e do Distrito Federal, organizados em carreira, na qual o ingresso dependerá de concurso público de provas e títulos, exercerão a representação judicial e a consultoria jurídica das respectivas unidades federadas.</p>
+<p><strong>Art. 133.</strong> O advogado é indispensável à administração da justiça, sendo inviolável por seus atos e manifestações no exercício da profissão, nos limites da lei.</p>
+
+<h2>TÍTULO VI — DA TRIBUTAÇÃO E DO ORÇAMENTO (complemento)</h2>
+<p><strong>Art. 164.</strong> A competência da União para emitir moeda será exercida exclusivamente pelo Banco Central. §1º É vedado ao Banco Central conceder, direta ou indiretamente, empréstimos ao Tesouro Nacional e a qualquer órgão ou entidade que não seja instituição financeira.</p>
+<p><strong>Art. 166.</strong> Os projetos de lei relativos ao plano plurianual, às diretrizes orçamentárias, ao orçamento anual e aos créditos adicionais serão apreciados pelas duas Casas do Congresso Nacional, na forma do regimento comum. §3º As emendas ao projeto de lei do orçamento anual ou aos projetos que o modifiquem somente podem ser aprovadas caso: I — sejam compatíveis com o plano plurianual e com a lei de diretrizes orçamentárias; II — indiquem os recursos necessários, admitidos apenas os provenientes de anulação de despesa.</p>
+<p><strong>Art. 168.</strong> Os recursos correspondentes às dotações orçamentárias, compreendidos os créditos suplementares e especiais, destinados aos órgãos dos Poderes Legislativo e Judiciário, do Ministério Público e da Defensoria Pública, ser-lhes-ão entregues até o dia vinte de cada mês.</p>
+<p><strong>Art. 169.</strong> A despesa com pessoal ativo e inativo e pensionistas da União, dos Estados, do Distrito Federal e dos Municípios não poderá exceder os limites estabelecidos em lei complementar.</p>
+`,
 
 "ba_lei7014": `<h2>LEI Nº 7.014, DE 4 DE DEZEMBRO DE 1996</h2>
 <p>Dispõe sobre o Imposto sobre Operações Relativas à Circulação de Mercadorias e sobre Prestações de Serviços de Transporte Interestadual e Intermunicipal e de Comunicação — ICMS.</p>
