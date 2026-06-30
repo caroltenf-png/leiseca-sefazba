@@ -321,6 +321,53 @@ const AREAS = [
   "Tributário","Financeiro","Penal Tributário","Administrativo",
 ];// TEXTOS_EMBUTIDOS importado de ./data/dados.js
 
+// Mapa: mat -> chave em TEXTOS_EMBUTIDOS
+const MAP_LEI_OFFLINE = {
+  DT: 'ctn', LE: 'ba_lei7014', CO: 'cpcs_contab',
+  AF: 'lrf',  DA: 'lei9784',   DC: 'cf88_trib',
+};
+
+// Extrai artigos de um intervalo do texto HTML offline
+function extrairArtigos(htmlTexto, artsStr) {
+  if (!htmlTexto || !artsStr) return htmlTexto || '';
+  // Pegar números do intervalo, ex: "Arts. 142–150" ou "Arts. 1–18"
+  const matches = artsStr.match(/[Aa]rts?\.?\s*(\d+)[–\-—]?(\d+)?/g);
+  if (!matches || !matches.length) return htmlTexto;
+
+  const nums = [];
+  matches.forEach(m => {
+    const ns = m.match(/\d+/g);
+    if (ns && ns.length >= 2) {
+      const ini = parseInt(ns[0]), fim = parseInt(ns[1]);
+      for (let i = ini; i <= fim; i++) nums.push(i);
+    } else if (ns) {
+      nums.push(parseInt(ns[0]));
+    }
+  });
+  if (!nums.length) return htmlTexto;
+
+  // Extrair parágrafos que contêm os artigos do intervalo
+  const parser = new DOMParser();
+  const doc = parser.parseFromString('<div>' + htmlTexto + '</div>', 'text/html');
+  const todos = doc.querySelectorAll('p, h2, h3');
+  const resultado = [];
+  let capturando = false;
+  let artAtual = 0;
+
+  todos.forEach(el => {
+    const txt = el.textContent || '';
+    const artMatch = txt.match(/^Art\.?\s*(\d+)/);
+    if (artMatch) {
+      artAtual = parseInt(artMatch[1]);
+      capturando = nums.includes(artAtual);
+    }
+    if (capturando) resultado.push(el.outerHTML);
+  });
+
+  return resultado.length > 0 ? resultado.join('\n') : htmlTexto.substring(0, 3000) + '...';
+}
+
+
 
 
 // ─── CACHE DE LEIS (offline) ───────────────────────────────────────────────
@@ -904,10 +951,68 @@ function TelaSessaoDia({ isMobile, online, user, setTela, abrirLei }) {
   const [diaEscolhido, setDiaEscolhido] = useState(diaAtual);
   const [dadosEscolhidos, setDadosEscolhidos] = useState(dadosDia);
   const chatRef = useRef(null);
+  const [painelAberto, setPainelAberto] = useState(true);
+  const [anotacoes, setAnotacoes] = useState('');
+  const [sessaoId, setSessaoId] = useState(null);
+  const [historicoSessoes, setHistoricoSessoes] = useState([]);
+  const [verHistorico, setVerHistorico] = useState(false);
+  const autoSaveRef = useRef(null);
 
   useEffect(() => {
     if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [msgs]);
+
+  // Carregar histórico de sessões ao montar
+  useEffect(() => {
+    if (!user) return;
+    supabase.from('sessoes_estudo')
+      .select('id, dia, mat, tema, iniciada_em, atualizada_em, anotacoes')
+      .eq('user_id', user.id)
+      .order('atualizada_em', { ascending: false })
+      .limit(20)
+      .then(({ data }) => { if (data) setHistoricoSessoes(data); });
+  }, [user]);
+
+  // Auto-save a cada 30s quando sessão ativa
+  useEffect(() => {
+    if (!sessaoIniciada || !user || msgs.length === 0) return;
+    if (autoSaveRef.current) clearInterval(autoSaveRef.current);
+    autoSaveRef.current = setInterval(() => salvarSessao(false), 30000);
+    return () => clearInterval(autoSaveRef.current);
+  }, [sessaoIniciada, msgs, anotacoes]);
+
+  async function salvarSessao(isNova = false) {
+    if (!user || msgs.length === 0) return;
+    const payload = {
+      user_id: user.id,
+      dia: dadosEscolhidos.d,
+      mat: dadosEscolhidos.mat,
+      tema: dadosEscolhidos.tema,
+      msgs: msgs,
+      anotacoes: anotacoes,
+      atualizada_em: new Date().toISOString(),
+    };
+    if (sessaoId && !isNova) {
+      await supabase.from('sessoes_estudo').update(payload).eq('id', sessaoId);
+    } else {
+      const { data } = await supabase.from('sessoes_estudo').insert(payload).select('id').single();
+      if (data) setSessaoId(data.id);
+    }
+  }
+
+  async function retomar(sessao) {
+    const { data } = await supabase.from('sessoes_estudo')
+      .select('*').eq('id', sessao.id).single();
+    if (!data) return;
+    const novo = CRONOGRAMA_90.find(d => d.d === data.dia) || CRONOGRAMA_90[0];
+    setDiaEscolhido(data.dia);
+    setDadosEscolhidos(novo);
+    setMsgs(data.msgs || []);
+    setAnotacoes(data.anotacoes || '');
+    setSessaoId(data.id);
+    setSessaoIniciada(true);
+    setVerHistorico(false);
+  }
 
   function buildSystemPrompt(d) {
     const matNome = MAT_NOME_SESSAO[d.mat] || d.assunto;
@@ -951,11 +1056,22 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
     if (!online) return;
     setEnviando(true);
     setSessaoIniciada(true);
+    setSessaoId(null);
     setMsgs([]);
+    setAnotacoes('');
     try {
       const system = buildSystemPrompt(d);
       const res = await callClaude(system, "Iniciar sessão de hoje.", 1000);
-      setMsgs([{ role: "assistant", content: res }]);
+      const novasMsgs = [{ role: "assistant", content: res }];
+      setMsgs(novasMsgs);
+      // Salvar nova sessão imediatamente
+      if (user) {
+        const { data } = await supabase.from('sessoes_estudo').insert({
+          user_id: user.id, dia: d.d, mat: d.mat, tema: d.tema,
+          msgs: novasMsgs, anotacoes: '', atualizada_em: new Date().toISOString(),
+        }).select('id').single();
+        if (data) setSessaoId(data.id);
+      }
     } catch(e) {
       setMsgs([{ role: "assistant", content: "⚠️ Erro ao conectar com o assistente. Verifique sua conexão." }]);
     }
@@ -979,6 +1095,7 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
       setMsgs(m => [...m, { role: "assistant", content: "⚠️ Erro ao processar sua mensagem." }]);
     }
     setEnviando(false);
+    salvarSessao(false);
   }
 
   const corMat = MAT_COR_SESSAO[dadosEscolhidos.mat] || "#8BA7BF";
@@ -1027,6 +1144,33 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
               ))}
             </select>
           </div>
+          {/* Botões de ação */}
+          <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+            <button onClick={() => setPainelAberto(p => !p)} className="btn" style={{
+              background: painelAberto ? "rgba(0,107,63,0.2)" : "rgba(255,255,255,0.05)",
+              border: `1px solid ${painelAberto ? "rgba(0,107,63,0.4)" : "rgba(255,255,255,0.1)"}`,
+              color: painelAberto ? T.verde3 : T.cinza3,
+              padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700,
+            }}>
+              📖 {painelAberto ? "Fechar" : "Ver"} Lei do Dia
+            </button>
+            {user && (
+              <button onClick={() => setVerHistorico(h => !h)} className="btn" style={{
+                background:"rgba(249,194,49,0.08)", border:"1px solid rgba(249,194,49,0.22)",
+                color:T.amarelo, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700,
+              }}>
+                🕓 Histórico
+              </button>
+            )}
+            {sessaoIniciada && (
+              <button onClick={() => salvarSessao(false)} className="btn" style={{
+                background:"rgba(0,107,63,0.12)", border:"1px solid rgba(0,107,63,0.3)",
+                color:T.verde2, padding:"5px 12px", borderRadius:7, fontSize:11, fontWeight:700,
+              }}>
+                💾 Salvar
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Dados do dia */}
@@ -1067,6 +1211,32 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
           </div>
         )}
       </div>
+
+      {/* Histórico modal */}
+      {verHistorico && (
+        <div style={{ position:"absolute", top:0, left:0, right:0, bottom:0, background:"rgba(7,15,26,0.95)", zIndex:50, overflow:"auto", padding:20 }}>
+          <div style={{ maxWidth:600, margin:"0 auto" }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+              <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:18, color:"#fff" }}>🕓 Histórico de Sessões</h3>
+              <button onClick={() => setVerHistorico(false)} className="btn" style={{ background:"transparent", border:"none", color:T.cinza3, fontSize:20 }}>✕</button>
+            </div>
+            {historicoSessoes.length === 0 ? (
+              <p style={{ color:T.cinza3, fontSize:13 }}>Nenhuma sessão salva ainda.</p>
+            ) : historicoSessoes.map(s => (
+              <div key={s.id} style={{ background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:10, padding:"12px 16px", marginBottom:10, display:"flex", justifyContent:"space-between", alignItems:"center", gap:12 }}>
+                <div>
+                  <div style={{ fontSize:12, fontWeight:700, color:"#fff", marginBottom:3 }}>Dia {s.dia} · {s.tema?.substring(0,50)}...</div>
+                  <div style={{ fontSize:11, color:T.cinza3 }}>{new Date(s.atualizada_em).toLocaleString('pt-BR')}</div>
+                </div>
+                <button onClick={() => retomar(s)} className="btn" style={{
+                  background:`linear-gradient(135deg,${T.verde},${T.verde2})`, color:"#fff",
+                  padding:"7px 16px", borderRadius:8, fontWeight:700, fontSize:12, flexShrink:0,
+                }}>▶ Retomar</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Corpo */}
       {!sessaoIniciada ? (
@@ -1126,7 +1296,83 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
           )}
         </div>
       ) : (
-        /* Chat */
+        /* Chat + Painel */
+        <div style={{ flex:1, display:"flex", flexDirection:"row", overflow:"hidden" }}>
+
+          {/* Painel lateral — lei + jurisprudência */}
+          {painelAberto && (
+            <div style={{
+              width: isMobile ? "100%" : 340,
+              minWidth: isMobile ? undefined : 280,
+              maxWidth: isMobile ? undefined : 380,
+              background:T.fundo2, borderRight:`1px solid ${T.borda2}`,
+              overflow:"auto", padding:"14px 16px", flexShrink:0,
+              display: isMobile && sessaoIniciada ? "none" : "flex",
+              flexDirection:"column", gap:14,
+            }}>
+              {/* Artigos do dia */}
+              {(() => {
+                const leiKey = MAP_LEI_OFFLINE[dadosEscolhidos.mat];
+                const textoLei = leiKey ? TEXTOS_EMBUTIDOS[leiKey] : null;
+                const artsStr = dadosEscolhidos.arts;
+                const trecho = textoLei ? extrairArtigos(textoLei, artsStr) : null;
+                return (
+                  <div>
+                    <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde2, marginBottom:8 }}>
+                      📖 Artigos do Dia — {artsStr || "—"}
+                    </div>
+                    {trecho ? (
+                      <div
+                        style={{ fontSize:11.5, color:T.branco, lineHeight:1.8, fontFamily:"'Inter',sans-serif" }}
+                        dangerouslySetInnerHTML={{ __html: trecho }}
+                      />
+                    ) : (
+                      <p style={{ fontSize:12, color:T.cinza3 }}>Texto não disponível offline para esta matéria.</p>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Jurisprudência do dia */}
+              {dadosEscolhidos.juri && (
+                <div>
+                  <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
+                  <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.verde3, marginBottom:8 }}>
+                    ⚖️ Jurisprudência do Dia
+                  </div>
+                  {dadosEscolhidos.juri.split("·").map((j, i) => (
+                    <div key={i} style={{
+                      background:"rgba(104,211,145,0.05)", border:"1px solid rgba(104,211,145,0.15)",
+                      borderLeft:"3px solid rgba(104,211,145,0.4)", borderRadius:"0 6px 6px 0",
+                      padding:"7px 10px", marginBottom:6, fontSize:11.5, color:T.branco, lineHeight:1.5,
+                    }}>
+                      {j.trim()}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Anotações */}
+              <div>
+                <div style={{ height:1, background:T.borda2, margin:"4px 0 12px" }} />
+                <div style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:1, color:T.amarelo, marginBottom:8 }}>
+                  ✏️ Anotações da Sessão
+                </div>
+                <textarea
+                  value={anotacoes}
+                  onChange={e => setAnotacoes(e.target.value)}
+                  placeholder="Anote dúvidas, insights, pontos para revisar..."
+                  rows={6}
+                  style={{
+                    width:"100%", background:T.fundo3, border:`1px solid ${T.borda2}`,
+                    borderRadius:8, padding:"9px 11px", color:T.branco, fontSize:12,
+                    lineHeight:1.6, resize:"vertical", outline:"none",
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
         <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
           {/* Mensagens */}
           <div ref={chatRef} style={{ flex:1, overflow:"auto", padding:isMobile?"12px":"20px 28px", display:"flex", flexDirection:"column", gap:12 }}>
@@ -1190,6 +1436,7 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
             </div>
           </div>
         </div>
+        </div>{/* fim chat+painel */}
       )}
     </div>
   );
