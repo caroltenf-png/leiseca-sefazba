@@ -1492,7 +1492,7 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
             </div>
           </div>
         </div>
-        </div>{/* fim chat+painel */}
+        </div>
       )}
     </div>
   );
