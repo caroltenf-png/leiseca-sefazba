@@ -666,6 +666,9 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
   const [carregandoProg, setCarregandoProg] = useState(true);
   const [vistaAtiva, setVistaAtiva]   = useState("cards"); // cards | calendario
   const diaAtual                      = getDiaAtual();
+  const [revisoes, setRevisoes]       = useState([]); // [{dia_num, proxima_revisao, intervalo_atual, revisoes_feitas}]
+  const [painelRevisoesAberto, setPainelRevisoesAberto] = useState(true);
+  const [revisandoDia, setRevisandoDia] = useState(null);
 
   // Carregar progresso do Supabase ao montar
   useEffect(() => {
@@ -688,6 +691,81 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
   }, [user]);
 
   // Salvar progresso no Supabase + localStorage
+  // ── Carregar revisões do Supabase ────────────────────────────
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("revisoes")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("proxima_revisao", { ascending: true });
+        if (!error && data) setRevisoes(data);
+      } catch(e) { console.warn("Supabase revisoes:", e); }
+    })();
+  }, [user]);
+
+  // ── Agendar revisão ao marcar dia como concluído ──────────────
+  async function agendarRevisao(dNum) {
+    if (!user) return;
+    const hoje = new Date().toISOString().split("T")[0];
+    const proxima = new Date(Date.now() + 1*24*60*60*1000).toISOString().split("T")[0];
+    try {
+      const { data, error } = await supabase.from("revisoes")
+        .upsert({
+          user_id: user.id,
+          dia_num: dNum,
+          estudado_em: hoje,
+          proxima_revisao: proxima,
+          intervalo_atual: 1,
+          revisoes_feitas: 0
+        }, { onConflict: "user_id,dia_num" })
+        .select();
+      if (!error && data) {
+        setRevisoes(prev => {
+          const filtered = prev.filter(r => r.dia_num !== dNum);
+          return [...filtered, ...data].sort((a,b) => a.proxima_revisao.localeCompare(b.proxima_revisao));
+        });
+      }
+    } catch(e) { console.warn("agendarRevisao:", e); }
+  }
+
+  // ── Marcar revisão como feita — avança intervalo ──────────────
+  async function marcarRevisao(revisao) {
+    if (!user) return;
+    setRevisandoDia(revisao.dia_num);
+    const INTERVALOS = [1, 3, 7, 15, 30];
+    const idxAtual = INTERVALOS.indexOf(revisao.intervalo_atual);
+    const proximoIdx = Math.min(idxAtual + 1, INTERVALOS.length - 1);
+    const proximoIntervalo = INTERVALOS[proximoIdx];
+    const arquivada = proximoIdx === INTERVALOS.length - 1 && idxAtual === INTERVALOS.length - 1;
+    const novaData = new Date(Date.now() + proximoIntervalo*24*60*60*1000).toISOString().split("T")[0];
+    try {
+      if (arquivada) {
+        await supabase.from("revisoes").delete()
+          .eq("user_id", user.id).eq("dia_num", revisao.dia_num);
+        setRevisoes(prev => prev.filter(r => r.dia_num !== revisao.dia_num));
+      } else {
+        const { data, error } = await supabase.from("revisoes")
+          .update({
+            proxima_revisao: novaData,
+            intervalo_atual: proximoIntervalo,
+            revisoes_feitas: (revisao.revisoes_feitas || 0) + 1
+          })
+          .eq("user_id", user.id).eq("dia_num", revisao.dia_num)
+          .select();
+        if (!error && data) {
+          setRevisoes(prev => {
+            const filtered = prev.filter(r => r.dia_num !== revisao.dia_num);
+            return [...filtered, ...data].sort((a,b) => a.proxima_revisao.localeCompare(b.proxima_revisao));
+          });
+        }
+      }
+    } catch(e) { console.warn("marcarRevisao:", e); }
+    setRevisandoDia(null);
+  }
+
   async function toggleDia(d) {
     const dNum = parseInt(d);
     setConcluidos(prev => {
@@ -705,10 +783,11 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
           .update({ concluido: false, concluido_em: null })
           .eq("user_id", user.id).eq("dia", dNum);
       } else {
-        // Marcar — upsert para não duplicar
+        // Marcar — upsert para não duplicar + agendar revisão
         await supabase.from("cronograma_progresso")
           .upsert({ user_id: user.id, dia: dNum, concluido: true, concluido_em: new Date().toISOString() },
                   { onConflict: "user_id,dia" });
+        await agendarRevisao(dNum);
       }
     } catch(e) { console.warn("Supabase toggle:", e); }
   }
@@ -741,8 +820,193 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
     return d.mat === filtroMat;
   }
 
+  // ── Derived revisão data ─────────────────────────────────────
+  const hoje = new Date().toISOString().split("T")[0];
+  const revisoesHoje = revisoes.filter(r => r.proxima_revisao <= hoje);
+  const revisoesFuturas = revisoes.filter(r => r.proxima_revisao > hoje);
+  const INTERVALOS_LABEL = { 1:"R1", 3:"R2", 7:"R3", 15:"R4", 30:"R5" };
+
   return (
-    <div style={{ flex:1, overflow:"auto", display:"flex", flexDirection:"column" }}>
+    <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"row" }}>
+      {/* ══ PAINEL LATERAL DE REVISÕES ══ */}
+      {!isMobile && (
+        <div style={{
+          width: painelRevisoesAberto ? 300 : 40,
+          minWidth: painelRevisoesAberto ? 300 : 40,
+          background:"#080F1C",
+          borderRight:`1px solid rgba(255,255,255,0.07)`,
+          display:"flex", flexDirection:"column",
+          transition:"width .25s, min-width .25s",
+          overflow:"hidden", flexShrink:0,
+          position:"relative"
+        }}>
+          {/* Toggle button */}
+          <button onClick={() => setPainelRevisoesAberto(p => !p)} style={{
+            position:"absolute", top:12, right:8,
+            background:"rgba(255,255,255,0.06)", border:`1px solid rgba(255,255,255,0.1)`,
+            borderRadius:6, width:24, height:24, cursor:"pointer",
+            display:"flex", alignItems:"center", justifyContent:"center",
+            fontSize:11, color:"#8BA7BF", zIndex:10, flexShrink:0
+          }}>
+            {painelRevisoesAberto ? "←" : "→"}
+          </button>
+
+          {painelRevisoesAberto && (
+            <div style={{ display:"flex", flexDirection:"column", height:"100%", overflow:"hidden" }}>
+              {/* Header */}
+              <div style={{
+                padding:"14px 14px 10px", borderBottom:`1px solid rgba(255,255,255,0.07)`,
+                flexShrink:0
+              }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
+                  <span style={{ fontSize:14 }}>🔁</span>
+                  <span style={{ fontSize:12, fontWeight:700, color:"#fff" }}>Revisões</span>
+                  {revisoesHoje.length > 0 && (
+                    <span style={{
+                      background:"rgba(229,62,62,0.2)", border:"1px solid rgba(229,62,62,0.4)",
+                      borderRadius:100, padding:"1px 7px", fontSize:10, fontWeight:700, color:"#FCA5A5"
+                    }}>{revisoesHoje.length}</span>
+                  )}
+                </div>
+                <p style={{ fontSize:10, color:"#8BA7BF", lineHeight:1.5 }}>
+                  Repetição espaçada · 1→3→7→15→30 dias
+                </p>
+              </div>
+
+              {/* Scrollable content */}
+              <div style={{ flex:1, overflow:"auto", padding:"10px 12px" }}>
+
+                {revisoes.length === 0 && (
+                  <div style={{ textAlign:"center", padding:"32px 12px" }}>
+                    <div style={{ fontSize:32, marginBottom:10 }}>📭</div>
+                    <p style={{ fontSize:11, color:"#8BA7BF", lineHeight:1.6 }}>
+                      Nenhuma revisão ainda.<br/>Marque um dia como concluído para agendar.
+                    </p>
+                  </div>
+                )}
+
+                {/* HOJE / ATRASADAS */}
+                {revisoesHoje.length > 0 && (
+                  <div style={{ marginBottom:16 }}>
+                    <div style={{
+                      fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:1,
+                      color:"#FCA5A5", marginBottom:8, display:"flex", alignItems:"center", gap:6
+                    }}>
+                      🔴 Revisar hoje ({revisoesHoje.length})
+                    </div>
+                    {revisoesHoje.map(rev => {
+                      const diaInfo = CRONOGRAMA_90.find(d => d.d === rev.dia_num);
+                      const cor = MAT_COR_CRONO[diaInfo?.mat] || "#8BA7BF";
+                      const isRevisando = revisandoDia === rev.dia_num;
+                      return (
+                        <div key={rev.dia_num} style={{
+                          background:"rgba(229,62,62,0.06)",
+                          border:"1px solid rgba(229,62,62,0.2)",
+                          borderLeft:`3px solid rgba(229,62,62,0.5)`,
+                          borderRadius:"0 8px 8px 0",
+                          padding:"10px 10px 8px",
+                          marginBottom:6
+                        }}>
+                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:5 }}>
+                            <div>
+                              <span style={{
+                                fontFamily:"'JetBrains Mono',monospace", fontSize:9, fontWeight:700,
+                                background:`${cor}18`, border:`1px solid ${cor}44`,
+                                borderRadius:100, padding:"1px 6px", color:cor, marginRight:5
+                              }}>{INTERVALOS_LABEL[rev.intervalo_atual] || "R?"}</span>
+                              <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:10, color:"rgba(255,255,255,0.4)" }}>
+                                Dia {rev.dia_num}
+                              </span>
+                            </div>
+                            <span style={{ fontSize:9, color:"#FCA5A5" }}>
+                              {rev.proxima_revisao < hoje ? "atrasada" : "hoje"}
+                            </span>
+                          </div>
+                          <p style={{ fontSize:11, color:"rgba(255,255,255,0.8)", lineHeight:1.4, marginBottom:8 }}>
+                            {diaInfo?.tema || "—"}
+                          </p>
+                          <button onClick={() => marcarRevisao(rev)} disabled={isRevisando} style={{
+                            width:"100%", padding:"6px", borderRadius:6, fontSize:11, fontWeight:700,
+                            background: isRevisando ? "rgba(0,107,63,0.1)" : "linear-gradient(135deg,#006B3F,#00A65A)",
+                            color: isRevisando ? "#8BA7BF" : "#fff",
+                            border:"none", cursor: isRevisando ? "not-allowed" : "pointer"
+                          }}>
+                            {isRevisando ? "Salvando…" : "✓ Revisei"}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* PRÓXIMAS */}
+                {revisoesFuturas.length > 0 && (
+                  <div>
+                    <div style={{
+                      fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:1,
+                      color:"#8BA7BF", marginBottom:8
+                    }}>
+                      📅 Próximas ({revisoesFuturas.length})
+                    </div>
+                    {revisoesFuturas.slice(0,15).map(rev => {
+                      const diaInfo = CRONOGRAMA_90.find(d => d.d === rev.dia_num);
+                      const cor = MAT_COR_CRONO[diaInfo?.mat] || "#8BA7BF";
+                      const diffDias = Math.ceil((new Date(rev.proxima_revisao) - new Date()) / (1000*60*60*24));
+                      return (
+                        <div key={rev.dia_num} style={{
+                          background:"rgba(255,255,255,0.02)",
+                          border:`1px solid rgba(255,255,255,0.06)`,
+                          borderRadius:7, padding:"8px 10px", marginBottom:5,
+                          display:"flex", gap:8, alignItems:"flex-start"
+                        }}>
+                          <div style={{ flexShrink:0 }}>
+                            <span style={{
+                              fontFamily:"'JetBrains Mono',monospace", fontSize:8, fontWeight:700,
+                              background:`${cor}18`, border:`1px solid ${cor}44`,
+                              borderRadius:100, padding:"1px 5px", color:cor, display:"block", marginBottom:3
+                            }}>{INTERVALOS_LABEL[rev.intervalo_atual] || "R?"}</span>
+                            <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:"rgba(255,255,255,0.3)" }}>
+                              D{rev.dia_num}
+                            </span>
+                          </div>
+                          <div style={{ flex:1, minWidth:0 }}>
+                            <p style={{ fontSize:10, color:"rgba(255,255,255,0.6)", lineHeight:1.4, marginBottom:2,
+                              overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                              {diaInfo?.tema || "—"}
+                            </p>
+                            <span style={{ fontSize:9, color:"#8BA7BF" }}>
+                              em {diffDias}d · {rev.proxima_revisao}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ══ CONTEÚDO PRINCIPAL ══ */}
+      <div style={{ flex:1, overflow:"auto", display:"flex", flexDirection:"column" }}>
+
+      {/* Badge flutuante mobile */}
+      {isMobile && revisoesHoje.length > 0 && (
+        <div style={{
+          position:"fixed", bottom:80, right:16, zIndex:100,
+          background:"linear-gradient(135deg,#7F1D1D,#991B1B)",
+          border:"1px solid rgba(229,62,62,0.5)",
+          borderRadius:100, padding:"8px 14px",
+          display:"flex", alignItems:"center", gap:6,
+          boxShadow:"0 4px 20px rgba(229,62,62,0.3)",
+          cursor:"pointer"
+        }}>
+          <span style={{ fontSize:13 }}>🔁</span>
+          <span style={{ fontSize:12, fontWeight:700, color:"#fff" }}>{revisoesHoje.length} revisões hoje</span>
+        </div>
+      )}
 
       {/* ── HEADER ── */}
       <div style={{
@@ -976,6 +1240,7 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
           })}
         </div>
       )}
+      </div>
     </div>
   );
 }
