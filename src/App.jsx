@@ -636,7 +636,7 @@ function ArtigoAccordeon({ dia }) {
 
 
 // ─── COMPONENTE: TELA CRONOGRAMA VISUAL ──────────────────────────────────────
-function TelaCronograma({ isMobile, online, user, setTela }) {
+function TelaCronograma({ isMobile, online, user, setTela, setStats }) {
 
   const MAT_COR_CRONO = {
     DT:"#F9C231", LE:"#FDBA74", CO:"#68D391",
@@ -662,7 +662,15 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
   });
   const [carregandoProg, setCarregandoProg] = useState(true);
   const [vistaAtiva, setVistaAtiva]   = useState("cards"); // cards | calendario
+  const [inicioCrono, setInicioCrono] = useState(getCronoInicio());
   const diaAtual                      = getDiaAtual();
+
+  function mudarInicio(v) {
+    if (!v) return;
+    setCronoInicioLocal(v);
+    setInicioCrono(v);
+    setStats?.(s => ({ ...s, cronoInicio: v })); // sincroniza entre dispositivos via user_dados
+  }
   const [revisoes, setRevisoes]       = useState([]); // [{dia_num, proxima_revisao, intervalo_atual, revisoes_feitas}]
   const [painelRevisoesAberto, setPainelRevisoesAberto] = useState(true);
   const [revisandoDia, setRevisandoDia] = useState(null);
@@ -1039,7 +1047,12 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
               Lei Seca · <span style={{ color:T.amarelo }}>SEFAZ-BA · FGV</span>
             </h2>
           </div>
-          <div style={{ display:"flex", gap:6 }}>
+          <div style={{ display:"flex", gap:6, alignItems:"center", flexWrap:"wrap", justifyContent:"flex-end" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:5, background:T.fundo3, border:`1px solid ${T.borda2}`, borderRadius:8, padding:"4px 8px" }}>
+              <span style={{ fontSize:10, color:T.cinza3, fontWeight:600 }}>Início</span>
+              <input type="date" value={inicioCrono} onChange={e => mudarInicio(e.target.value)}
+                style={{ background:"transparent", border:"none", color:T.branco, fontSize:11, outline:"none", colorScheme:"dark", width:110 }} />
+            </div>
             {[{id:"cards",icon:"🗂️"},{id:"calendario",icon:"📆"}].map(v => (
               <button key={v.id} onClick={() => setVistaAtiva(v.id)} className="btn" style={{
                 padding:"7px 12px", borderRadius:8, fontSize:12, fontWeight:700,
@@ -1272,9 +1285,16 @@ const DATA_INICIO = new Date("2026-06-29T00:00:00-03:00");
 // const MAT_NOME_SESSAO importado de ./data/dados.js
 
 
+const CRONO_INICIO_PADRAO = "2026-06-29";
+function getCronoInicio() {
+  return localStorage.getItem("crono_inicio") || CRONO_INICIO_PADRAO;
+}
+function setCronoInicioLocal(iso) {
+  try { localStorage.setItem("crono_inicio", iso); } catch { /* modo privado */ }
+}
 function getDiaAtual() {
   const hoje = new Date();
-  const inicio = new Date("2026-06-29T00:00:00-03:00");
+  const inicio = new Date(getCronoInicio() + "T00:00:00-03:00");
   const diffMs = hoje - inicio;
   const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   const dia = diffDias + 1;
@@ -2059,6 +2079,7 @@ export default function App() {
         if (dados.marcacoes && Object.keys(dados.marcacoes).length) setMarcacoes(dados.marcacoes);
         if (dados.anotacoes && Object.keys(dados.anotacoes).length) setAnotacoes(dados.anotacoes);
         if (dados.stats && Object.keys(dados.stats).length) setStats(s => ({ ...s, ...dados.stats }));
+        if (dados.stats?.cronoInicio) setCronoInicioLocal(dados.stats.cronoInicio);
       } else {
         pushUserData(user.id, { flashcards, marcacoes, anotacoes, stats }, 100);
       }
@@ -2272,7 +2293,7 @@ export default function App() {
           {tela==="questoes"   && <TelaQuestoes   user={user} isMobile={isMobile} online={online} stats={stats} setStats={setStats} />}
           {tela==="leitura"    && <TelaLeitura    lei={leiAtiva} texto={textoLei} carregando={carregando} marcacoes={marcacoes} setMarcacoes={setMarcacoes} anotacoes={anotacoes} setAnotacoes={setAnotacoes} flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
           {tela==="flashcards" && <TelaFlashcards flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
-          {tela==="cronograma" && <TelaCronograma isMobile={isMobile} online={online} user={user} setTela={setTela} />}
+          {tela==="cronograma" && <TelaCronograma isMobile={isMobile} online={online} user={user} setTela={setTela} setStats={setStats} />}
           {tela==="sessao"     && <TelaSessaoDia  isMobile={isMobile} online={online} user={user} setTela={setTela} abrirLei={abrirLei} />}
           {tela==="ia"         && <TelaIA         leiAtiva={leiAtiva} stats={stats} setStats={setStats} online={online} isMobile={isMobile} />}
           {tela==="guias"      && <TelaGuias      isMobile={isMobile} online={online} />}
