@@ -2109,6 +2109,31 @@ export default function App() {
       .then(({ data }) => setPerfil(data || null));
   }, [user?.id]);
 
+  // Lembretes: revisões do cronograma vencidas + flashcards vencidos
+  const [revisoesVencidas, setRevisoesVencidas] = useState(0);
+  useEffect(() => {
+    if (!user?.id) { setRevisoesVencidas(0); return; }
+    supabase.from("revisoes").select("dia_num").eq("user_id", user.id).lte("proxima_revisao", hojeISO())
+      .then(({ data }) => setRevisoesVencidas((data || []).length));
+  }, [user?.id, tela]);
+  const flashVencidos = flashcards.filter(f => estaVencido(f.srs, hojeISO())).length;
+
+  // Notificação local (1x por dia, só se a usuária ativou no sino)
+  useEffect(() => {
+    const total = revisoesVencidas + flashVencidos;
+    if (!user || total === 0) return;
+    if (typeof Notification === "undefined" || Notification.permission !== "granted") return;
+    const hoje = hojeISO();
+    if (localStorage.getItem("notif_lembrete_dia") === hoje) return;
+    try {
+      new Notification("🔔 Lei Seca — revisões pendentes", {
+        body: `Você tem ${total} ite${total > 1 ? "ns" : "m"} para revisar hoje. Bora manter a sequência!`,
+        icon: "/icons/icon-192.png",
+      });
+      localStorage.setItem("notif_lembrete_dia", hoje);
+    } catch { /* browser sem suporte */ }
+  }, [revisoesVencidas, flashVencidos, user]);
+
   // Streak real: ganhar pontos marca o dia como ativo e recalcula a sequência
   useEffect(() => {
     if (pontosRef.current === null) { pontosRef.current = stats.pontos; return; } // carga inicial não conta
@@ -2313,7 +2338,9 @@ export default function App() {
               }}>
                 <span style={{ fontSize:17 }}>{item.icon}</span>
                 {item.label}
-                {item.id==="flashcards" && flashcards.length>0 && <Badge color="verde" style={{ marginLeft:"auto",fontSize:10,padding:"1px 7px" }}>{flashcards.length}</Badge>}
+                {item.id==="flashcards" && flashVencidos>0 && <Badge color="red" style={{ marginLeft:"auto",fontSize:10,padding:"1px 7px" }}>{flashVencidos}</Badge>}
+                {item.id==="flashcards" && flashVencidos===0 && flashcards.length>0 && <Badge color="verde" style={{ marginLeft:"auto",fontSize:10,padding:"1px 7px" }}>{flashcards.length}</Badge>}
+                {item.id==="cronograma" && revisoesVencidas>0 && <Badge color="red" style={{ marginLeft:"auto",fontSize:10,padding:"1px 7px" }}>{revisoesVencidas}</Badge>}
               </button>
             ))}
           </nav>
@@ -2326,10 +2353,22 @@ export default function App() {
                 <div style={{ fontSize:10,color:T.cinza3 }}>pts</div>
               </div>
             </div>
-            <button onClick={() => supabase.auth.signOut()} className="btn" title="Sair da conta"
-              style={{ width:"100%",marginTop:10,padding:"7px",background:"transparent",border:`1px solid ${T.borda2}`,borderRadius:8,color:T.cinza3,fontSize:11 }}>
-              🚪 Sair · {user.user_metadata?.nome || user.email}
-            </button>
+            <div style={{ display:"flex",gap:6,marginTop:10 }}>
+              <button onClick={async () => {
+                if (typeof Notification === "undefined") return;
+                const perm = await Notification.requestPermission();
+                if (perm === "granted") {
+                  try { new Notification("Lei Seca 🔔", { body: "Lembretes ativados! Você verá avisos de revisões vencidas ao abrir o app.", icon: "/icons/icon-192.png" }); } catch {}
+                }
+              }} className="btn" title="Ativar lembretes de revisão"
+                style={{ padding:"7px 10px",background:"transparent",border:`1px solid ${T.borda2}`,borderRadius:8,color:T.cinza3,fontSize:12 }}>
+                🔔
+              </button>
+              <button onClick={() => supabase.auth.signOut()} className="btn" title="Sair da conta"
+                style={{ flex:1,padding:"7px",background:"transparent",border:`1px solid ${T.borda2}`,borderRadius:8,color:T.cinza3,fontSize:11,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>
+                🚪 Sair · {user.user_metadata?.nome || user.email}
+              </button>
+            </div>
           </div>
         </aside>
       )}
@@ -2389,8 +2428,11 @@ export default function App() {
               }}>
                 <span style={{ fontSize:20, lineHeight:1 }}>{item.icon}</span>
                 <span style={{ fontSize:9,fontWeight:tela===item.id?700:500,lineHeight:1 }}>{item.label}</span>
-                {item.id==="flashcards" && flashcards.length>0 && (
-                  <span style={{ position:"absolute",top:6,right:"50%",transform:"translateX(10px)",background:T.verde2,color:"#fff",fontSize:9,fontWeight:700,borderRadius:99,padding:"1px 5px",lineHeight:1.4 }}>{flashcards.length}</span>
+                {item.id==="flashcards" && (flashVencidos>0 || flashcards.length>0) && (
+                  <span style={{ position:"absolute",top:6,right:"50%",transform:"translateX(10px)",background:flashVencidos>0?T.red:T.verde2,color:"#fff",fontSize:9,fontWeight:700,borderRadius:99,padding:"1px 5px",lineHeight:1.4 }}>{flashVencidos>0?flashVencidos:flashcards.length}</span>
+                )}
+                {item.id==="cronograma" && revisoesVencidas>0 && (
+                  <span style={{ position:"absolute",top:6,right:"50%",transform:"translateX(10px)",background:T.red,color:"#fff",fontSize:9,fontWeight:700,borderRadius:99,padding:"1px 5px",lineHeight:1.4 }}>{revisoesVencidas}</span>
                 )}
                 {tela===item.id && <div style={{ position:"absolute",top:0,left:"15%",right:"15%",height:2,background:T.verde2,borderRadius:"0 0 2px 2px" }} />}
               </button>
