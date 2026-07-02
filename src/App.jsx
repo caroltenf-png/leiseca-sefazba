@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { CRONOGRAMA_90, TEXTOS_EMBUTIDOS, MAT_COR_SESSAO, MAT_NOME_SESSAO } from './data/dados.js';
-
-// ─── SUPABASE CLIENT ──────────────────────────────────────────────────────────
-const SUPABASE_URL = "https://aitjobeyandnopaflubf.supabase.co";
-const SUPABASE_KEY = "sb_publishable_GEFxHbOygI_EOMkIvAbX-Q_awVV_RT2";
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { supabase } from './lib/supabaseClient.js';
+import { T } from './theme.js';
+import { Badge, Spinner } from './components/ui.jsx';
+import TelaQuestoes from './features/questoes/TelaQuestoes.jsx';
 
 // ─── COMPONENTE: TELA DE LOGIN ────────────────────────────────────────────────
 function TelaAuth({ onLogin }) {
@@ -263,15 +261,6 @@ function useOnline() {
   return online;
 }
 
-// ─── PALETA ────────────────────────────────────────────────────────────────
-const T = {
-  fundo:"#070F1A", fundo2:"#0D1B2A", fundo3:"#111E2E",
-  verde:"#006B3F", verde2:"#00A65A", verde3:"#68D391",
-  amarelo:"#F9C231", cinza3:"#8BA7BF", branco:"#F4F8FB",
-  borda:"rgba(249,194,49,0.15)", borda2:"rgba(255,255,255,0.07)",
-  red:"#E53E3E", orange:"#ED8936",
-};
-
 // ─── LEIS ─────────────────────────────────────────────────────────────────
 const LEIS = [
   // ── LEGISLAÇÃO FEDERAL TRIBUTÁRIA ──
@@ -406,28 +395,6 @@ const MARK_COLORS = [
   { id:"rosa",    label:"Rosa",     bg:"rgba(237,100,166,0.55)", border:"#ED64A6", text:"#000" },
   { id:"red",     label:"Vermelho", bg:"rgba(252,100,100,0.5)",  border:"#FC6464", text:"#fff" },
 ];
-
-// ─── UTILIDADES ───────────────────────────────────────────────────────────
-function Badge({ children, color="verde", style={} }) {
-  const map = {
-    verde:   { bg:"rgba(0,107,63,0.15)",   border:"rgba(0,107,63,0.4)",    color:T.verde2 },
-    amarelo: { bg:"rgba(249,194,49,0.10)", border:"rgba(249,194,49,0.3)",  color:T.amarelo },
-    cinza:   { bg:"rgba(255,255,255,0.06)",border:T.borda2,                color:T.cinza3 },
-    red:     { bg:"rgba(229,62,62,0.12)",  border:"rgba(229,62,62,0.3)",   color:"#FCA5A5" },
-  };
-  const s = map[color]||map.verde;
-  return <span style={{ display:"inline-flex",alignItems:"center",gap:5,background:s.bg,border:`1px solid ${s.border}`,borderRadius:100,padding:"3px 11px",fontSize:11,fontWeight:700,color:s.color,...style }}>{children}</span>;
-}
-
-function Spinner({ label="" }) {
-  return (
-    <div style={{ display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:48,gap:14 }}>
-      <div style={{ width:36,height:36,borderRadius:"50%",border:`3px solid ${T.borda2}`,borderTopColor:T.verde2,animation:"spin 0.8s linear infinite" }} />
-      {label && <p style={{ color:T.cinza3,fontSize:13 }}>{label}</p>}
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-    </div>
-  );
-}
 
 // ─── CLAUDE API ──────────────────────────────────────────────────────────
 async function callClaude(system, user, maxTokens=1000) {
@@ -2099,6 +2066,7 @@ export default function App() {
   const navItems = [
     { id:"acervo",     icon:"📚", label:"Acervo" },
     { id:"leitura",    icon:"📖", label:"Leitura",    disabled:!leiAtiva },
+    { id:"questoes",   icon:"📝", label:"Questões" },
     { id:"cronograma", icon:"📅", label:"Cronograma" },
     { id:"sessao",     icon:"🧠", label:"Sessão" },
     { id:"flashcards", icon:"🃏", label:"Flashcards" },
@@ -2206,6 +2174,7 @@ export default function App() {
         {/* Tela ativa */}
         <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"column" }}>
           {tela==="acervo"     && <TelaAcervo     leis={LEIS} areas={AREAS} onAbrir={abrirLei} marcacoes={marcacoes} isMobile={isMobile} online={online} />}
+          {tela==="questoes"   && <TelaQuestoes   user={user} isMobile={isMobile} online={online} stats={stats} setStats={setStats} />}
           {tela==="leitura"    && <TelaLeitura    lei={leiAtiva} texto={textoLei} carregando={carregando} marcacoes={marcacoes} setMarcacoes={setMarcacoes} anotacoes={anotacoes} setAnotacoes={setAnotacoes} flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
           {tela==="flashcards" && <TelaFlashcards flashcards={flashcards} setFlashcards={setFlashcards} stats={stats} setStats={setStats} isMobile={isMobile} />}
           {tela==="cronograma" && <TelaCronograma isMobile={isMobile} online={online} user={user} setTela={setTela} />}
@@ -2217,10 +2186,10 @@ export default function App() {
           {tela==="dashboard"  && <TelaDashboard  stats={stats} leis={LEIS} flashcards={flashcards} marcacoes={marcacoes} isMobile={isMobile} />}
         </div>
         {isMobile && (
-          <nav className="bottom-nav" style={{ background:T.fundo2,borderTop:`1px solid ${T.borda2}`,display:"flex",flexShrink:0 }}>
+          <nav className="bottom-nav" style={{ background:T.fundo2,borderTop:`1px solid ${T.borda2}`,display:"flex",flexShrink:0,overflowX:"auto" }}>
             {navItems.map(item => (
               <button key={item.id} onClick={() => !item.disabled && setTela(item.id)} className="btn" style={{
-                flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
+                flex:1,minWidth:56,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
                 padding:"10px 4px 8px",gap:3,
                 background:tela===item.id?"rgba(0,107,63,0.15)":"transparent",
                 color:item.disabled?T.cinza3+"40":tela===item.id?T.verde2:T.cinza3,
