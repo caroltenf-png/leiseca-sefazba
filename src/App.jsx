@@ -5,6 +5,7 @@ import { pullUserData, pushUserData } from './lib/userDataSync.js';
 import { T } from './theme.js';
 import { Badge, Spinner } from './components/ui.jsx';
 import { useTelaRoute } from './app/useTelaRoute.js';
+import { NOTA, revisar as srsRevisar, novoItem as srsNovoItem, hojeISO, estaVencido, deveArquivar } from './core/srs.js';
 import TelaQuestoes from './features/questoes/TelaQuestoes.jsx';
 
 // ─── COMPONENTE: TELA DE LOGIN ────────────────────────────────────────────────
@@ -726,30 +727,38 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
     } catch(e) { console.warn("agendarRevisao:", e); }
   }
 
-  // ── Marcar revisão como feita — avança intervalo ──────────────
-  async function marcarRevisao(revisao) {
+  // ── Marcar revisão como feita — SRS unificado (SM-2, core/srs.js) ──
+  async function marcarRevisao(revisao, nota = NOTA.BOM) {
     if (!user) return;
     setRevisandoDia(revisao.dia_num);
-    const INTERVALOS = [1, 3, 7, 15, 30];
-    const idxAtual = INTERVALOS.indexOf(revisao.intervalo_atual);
-    const proximoIdx = Math.min(idxAtual + 1, INTERVALOS.length - 1);
-    const proximoIntervalo = INTERVALOS[proximoIdx];
-    const arquivada = proximoIdx === INTERVALOS.length - 1 && idxAtual === INTERVALOS.length - 1;
-    const novaData = new Date(Date.now() + proximoIntervalo*24*60*60*1000).toISOString().split("T")[0];
+    const item = {
+      ease: Number(revisao.ease) || 2.5,
+      intervalo: revisao.intervalo_atual || 1,
+      reps: revisao.revisoes_feitas || 0,
+      lapses: revisao.lapses || 0,
+    };
+    const prox = srsRevisar(item, nota, hojeISO());
     try {
-      if (arquivada) {
+      if (deveArquivar(prox)) {
         await supabase.from("revisoes").delete()
           .eq("user_id", user.id).eq("dia_num", revisao.dia_num);
         setRevisoes(prev => prev.filter(r => r.dia_num !== revisao.dia_num));
       } else {
-        const { data, error } = await supabase.from("revisoes")
-          .update({
-            proxima_revisao: novaData,
-            intervalo_atual: proximoIntervalo,
-            revisoes_feitas: (revisao.revisoes_feitas || 0) + 1
-          })
+        const payload = {
+          proxima_revisao: prox.due, intervalo_atual: prox.intervalo,
+          revisoes_feitas: prox.reps, ease: prox.ease, lapses: prox.lapses,
+        };
+        let { data, error } = await supabase.from("revisoes")
+          .update(payload)
           .eq("user_id", user.id).eq("dia_num", revisao.dia_num)
           .select();
+        if (error) {
+          // Migração ease/lapses ainda não aplicada — salva o essencial
+          ({ data, error } = await supabase.from("revisoes")
+            .update({ proxima_revisao: prox.due, intervalo_atual: prox.intervalo, revisoes_feitas: prox.reps })
+            .eq("user_id", user.id).eq("dia_num", revisao.dia_num)
+            .select());
+        }
         if (!error && data) {
           setRevisoes(prev => {
             const filtered = prev.filter(r => r.dia_num !== revisao.dia_num);
@@ -794,7 +803,7 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
   const revisoesPorDia = {};
   CRONOGRAMA_90.forEach(d => {
     if (d.mat === "DS" || d.mat === "RE") return;
-    [d.d+1, d.d+7, d.d+30].forEach((r, i) => {
+    [d.d+1, d.d+3, d.d+7].forEach((r, i) => {
       if (r <= 90) {
         if (!revisoesPorDia[r]) revisoesPorDia[r] = [];
         revisoesPorDia[r].push({ tipo: ["R1","R2","R3"][i], diaOrigem: d.d, mat: d.mat });
@@ -819,7 +828,7 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
   const hoje = new Date().toISOString().split("T")[0];
   const revisoesHoje = revisoes.filter(r => r.proxima_revisao <= hoje);
   const revisoesFuturas = revisoes.filter(r => r.proxima_revisao > hoje);
-  const INTERVALOS_LABEL = { 1:"R1", 3:"R2", 7:"R3", 15:"R4", 30:"R5" };
+  const labelRevisao = (rev) => "R" + ((rev.revisoes_feitas || 0) + 1);
 
   return (
     <div style={{ flex:1, overflow:"hidden", display:"flex", flexDirection:"row" }}>
@@ -864,7 +873,7 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
                   )}
                 </div>
                 <p style={{ fontSize:10, color:"#8BA7BF", lineHeight:1.5 }}>
-                  Repetição espaçada · 1→3→7→15→30 dias
+                  Repetição espaçada adaptativa (SM-2): errou volta, acertou espaça
                 </p>
               </div>
 
@@ -908,7 +917,7 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
                                 fontFamily:"'JetBrains Mono',monospace", fontSize:9, fontWeight:700,
                                 background:`${cor}18`, border:`1px solid ${cor}44`,
                                 borderRadius:100, padding:"1px 6px", color:cor, marginRight:5
-                              }}>{INTERVALOS_LABEL[rev.intervalo_atual] || "R?"}</span>
+                              }}>{labelRevisao(rev)}</span>
                               <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:10, color:"rgba(255,255,255,0.4)" }}>
                                 Dia {rev.dia_num}
                               </span>
@@ -920,14 +929,24 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
                           <p style={{ fontSize:11, color:"rgba(255,255,255,0.8)", lineHeight:1.4, marginBottom:8 }}>
                             {diaInfo?.tema || "—"}
                           </p>
-                          <button onClick={() => marcarRevisao(rev)} disabled={isRevisando} style={{
-                            width:"100%", padding:"6px", borderRadius:6, fontSize:11, fontWeight:700,
-                            background: isRevisando ? "rgba(0,107,63,0.1)" : "linear-gradient(135deg,#006B3F,#00A65A)",
-                            color: isRevisando ? "#8BA7BF" : "#fff",
-                            border:"none", cursor: isRevisando ? "not-allowed" : "pointer"
-                          }}>
-                            {isRevisando ? "Salvando…" : "✓ Revisei"}
-                          </button>
+                          <div style={{ display:"flex", gap:4 }}>
+                            <button onClick={() => marcarRevisao(rev, NOTA.ERREI)} disabled={isRevisando} style={{
+                              flex:1, padding:"6px 2px", borderRadius:6, fontSize:10, fontWeight:700,
+                              background:"rgba(229,62,62,0.12)", border:"1px solid rgba(229,62,62,0.3)",
+                              color:"#FCA5A5", cursor: isRevisando ? "not-allowed" : "pointer"
+                            }}>✗ Esqueci</button>
+                            <button onClick={() => marcarRevisao(rev, NOTA.BOM)} disabled={isRevisando} style={{
+                              flex:1.4, padding:"6px 2px", borderRadius:6, fontSize:10, fontWeight:700,
+                              background: isRevisando ? "rgba(0,107,63,0.1)" : "linear-gradient(135deg,#006B3F,#00A65A)",
+                              color: isRevisando ? "#8BA7BF" : "#fff",
+                              border:"none", cursor: isRevisando ? "not-allowed" : "pointer"
+                            }}>{isRevisando ? "…" : "✓ Revisei"}</button>
+                            <button onClick={() => marcarRevisao(rev, NOTA.FACIL)} disabled={isRevisando} style={{
+                              flex:1, padding:"6px 2px", borderRadius:6, fontSize:10, fontWeight:700,
+                              background:"rgba(249,194,49,0.1)", border:"1px solid rgba(249,194,49,0.3)",
+                              color:"#F9C231", cursor: isRevisando ? "not-allowed" : "pointer"
+                            }}>⚡ Fácil</button>
+                          </div>
                         </div>
                       );
                     })}
@@ -959,7 +978,7 @@ function TelaCronograma({ isMobile, online, user, setTela }) {
                               fontFamily:"'JetBrains Mono',monospace", fontSize:8, fontWeight:700,
                               background:`${cor}18`, border:`1px solid ${cor}44`,
                               borderRadius:100, padding:"1px 5px", color:cor, display:"block", marginBottom:3
-                            }}>{INTERVALOS_LABEL[rev.intervalo_atual] || "R?"}</span>
+                            }}>{labelRevisao(rev)}</span>
                             <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:"rgba(255,255,255,0.3)" }}>
                               D{rev.dia_num}
                             </span>
@@ -1268,11 +1287,11 @@ function getRevisoesHoje(diaAtual) {
   CRONOGRAMA_90.forEach(d => {
     if (d.mat === "DS" || d.mat === "RE") return;
     const r1 = d.d + 1;
-    const r2 = d.d + 7;
-    const r3 = d.d + 30;
+    const r2 = d.d + 3;
+    const r3 = d.d + 7;
     if (r1 === diaAtual) revisoes.push({ tipo: "R1", dia: d, label: "Revisão 24h" });
-    if (r2 === diaAtual) revisoes.push({ tipo: "R2", dia: d, label: "Revisão 7 dias" });
-    if (r3 === diaAtual) revisoes.push({ tipo: "R3", dia: d, label: "Revisão 30 dias" });
+    if (r2 === diaAtual) revisoes.push({ tipo: "R2", dia: d, label: "Revisão 3 dias" });
+    if (r3 === diaAtual) revisoes.push({ tipo: "R3", dia: d, label: "Revisão 7 dias" });
   });
   return revisoes;
 }
@@ -2834,11 +2853,24 @@ function TelaFlashcards({ flashcards, setFlashcards, stats, setStats, isMobile }
   const [virado, setVirado]   = useState(false);
   const [resultado, setResult] = useState(null);
 
-  function responder(acerto) {
-    setResult(acerto?"acerto":"erro");
-    setFlashcards(fs=>fs.map((f,i)=>i===idx%flashcards.length?{...f,acertos:f.acertos+(acerto?1:0),erros:f.erros+(acerto?0:1)}:f));
-    setStats(s=>({ ...s,flashcardsFeitos:s.flashcardsFeitos+1,pontos:s.pontos+(acerto?8:2) }));
-    setTimeout(()=>{ setResult(null); setVirado(false); setIdx(i=>(i+1)%flashcards.length); },600);
+  // Fila SRS: cards vencidos (ou nunca revisados) primeiro; se não há
+  // vencidos, permite revisão livre de todos.
+  const hoje = hojeISO();
+  const vencidos = flashcards.filter(f => estaVencido(f.srs, hoje));
+  const cardsRevisao = vencidos.length > 0 ? vencidos : flashcards;
+  const PONTOS_NOTA = [2, 5, 8, 10];
+
+  function responder(nota) {
+    const card = cardsRevisao[idx % cardsRevisao.length];
+    setResult(nota === NOTA.ERREI ? "erro" : "acerto");
+    setFlashcards(fs => fs.map(f => f.id === card.id ? {
+      ...f,
+      acertos: (f.acertos||0) + (nota > NOTA.ERREI ? 1 : 0),
+      erros:   (f.erros||0)   + (nota === NOTA.ERREI ? 1 : 0),
+      srs: srsRevisar(f.srs || srsNovoItem(hoje), nota, hoje),
+    } : f));
+    setStats(s=>({ ...s,flashcardsFeitos:s.flashcardsFeitos+1,pontos:s.pontos+PONTOS_NOTA[nota] }));
+    setTimeout(()=>{ setResult(null); setVirado(false); setIdx(i=>(i+1)%Math.max(cardsRevisao.length,1)); },600);
   }
 
   if (flashcards.length===0) return (
@@ -2849,7 +2881,7 @@ function TelaFlashcards({ flashcards, setFlashcards, stats, setStats, isMobile }
     </div>
   );
 
-  const card = flashcards[idx%flashcards.length];
+  const card = cardsRevisao[idx%cardsRevisao.length];
 
   return (
     <div style={{ flex:1,overflow:"auto",padding:isMobile?"14px":"28px 36px" }}>
@@ -2874,9 +2906,12 @@ function TelaFlashcards({ flashcards, setFlashcards, stats, setStats, isMobile }
               <div style={{ fontSize:11,color:T.cinza3,marginBottom:6 }}>{f.lei}</div>
               <div style={{ fontSize:13,fontWeight:700,color:"#fff",marginBottom:8,lineHeight:1.5 }}>{f.frente}</div>
               <div style={{ fontSize:12,color:T.cinza3,borderTop:`1px solid ${T.borda2}`,paddingTop:8,lineHeight:1.6 }}>{f.verso}</div>
-              <div style={{ display:"flex",gap:6,marginTop:10,alignItems:"center" }}>
+              <div style={{ display:"flex",gap:6,marginTop:10,alignItems:"center",flexWrap:"wrap" }}>
                 <Badge color="verde" style={{ fontSize:10 }}>✓ {f.acertos}</Badge>
                 <Badge color="red"   style={{ fontSize:10 }}>✗ {f.erros}</Badge>
+                <Badge color={estaVencido(f.srs, hoje)?"amarelo":"cinza"} style={{ fontSize:10 }}>
+                  {estaVencido(f.srs, hoje) ? "⏰ revisar" : `📅 ${f.srs.due.slice(8,10)}/${f.srs.due.slice(5,7)}`}
+                </Badge>
                 <button className="btn" onClick={()=>setFlashcards(fs=>fs.filter((_,j)=>j!==i))} style={{ marginLeft:"auto",background:"none",border:"none",color:T.cinza3+"80",fontSize:16,padding:4 }}>🗑️</button>
               </div>
             </div>
@@ -2886,8 +2921,15 @@ function TelaFlashcards({ flashcards, setFlashcards, stats, setStats, isMobile }
 
       {modo==="revisao" && (
         <div style={{ maxWidth:520,margin:"0 auto" }}>
+          <div style={{ textAlign:"center",marginBottom:10 }}>
+            {vencidos.length > 0 ? (
+              <Badge color="red" style={{ fontSize:11 }}>🔔 {vencidos.length} para revisar hoje</Badge>
+            ) : (
+              <Badge color="verde" style={{ fontSize:11 }}>✅ Em dia — revisão livre</Badge>
+            )}
+          </div>
           <div style={{ textAlign:"center",marginBottom:14,color:T.cinza3,fontSize:12 }}>
-            {(idx%flashcards.length)+1} / {flashcards.length}
+            {(idx%cardsRevisao.length)+1} / {cardsRevisao.length}
           </div>
           <div onClick={()=>setVirado(v=>!v)} style={{
             background:virado?"rgba(0,107,63,0.1)":T.fundo3,
@@ -2906,9 +2948,11 @@ function TelaFlashcards({ flashcards, setFlashcards, stats, setStats, isMobile }
           </div>
 
           {virado ? (
-            <div style={{ display:"flex",gap:10,marginTop:14 }}>
-              <button className="btn" onClick={()=>responder(false)} style={{ flex:1,padding:isMobile?14:16,borderRadius:12,background:"rgba(229,62,62,0.12)",border:"1px solid rgba(229,62,62,0.3)",color:"#FCA5A5",fontWeight:700,fontSize:15 }}>✗ Errei</button>
-              <button className="btn" onClick={()=>responder(true)}  style={{ flex:1,padding:isMobile?14:16,borderRadius:12,background:"rgba(0,107,63,0.15)",border:"1px solid rgba(0,107,63,0.4)",color:T.verde3,fontWeight:700,fontSize:15 }}>✓ Acertei</button>
+            <div style={{ display:"flex",gap:8,marginTop:14 }}>
+              <button className="btn" onClick={()=>responder(NOTA.ERREI)}   style={{ flex:1,padding:isMobile?"12px 4px":"14px 6px",borderRadius:12,background:"rgba(229,62,62,0.12)",border:"1px solid rgba(229,62,62,0.3)",color:"#FCA5A5",fontWeight:700,fontSize:isMobile?12:13 }}>✗ Errei<div style={{ fontSize:9,fontWeight:400,marginTop:2,opacity:0.7 }}>volta p/ amanhã</div></button>
+              <button className="btn" onClick={()=>responder(NOTA.DIFICIL)} style={{ flex:1,padding:isMobile?"12px 4px":"14px 6px",borderRadius:12,background:"rgba(237,137,54,0.1)",border:"1px solid rgba(237,137,54,0.3)",color:"#FDBA74",fontWeight:700,fontSize:isMobile?12:13 }}>😅 Difícil<div style={{ fontSize:9,fontWeight:400,marginTop:2,opacity:0.7 }}>espaça pouco</div></button>
+              <button className="btn" onClick={()=>responder(NOTA.BOM)}     style={{ flex:1,padding:isMobile?"12px 4px":"14px 6px",borderRadius:12,background:"rgba(0,107,63,0.15)",border:"1px solid rgba(0,107,63,0.4)",color:T.verde3,fontWeight:700,fontSize:isMobile?12:13 }}>✓ Bom<div style={{ fontSize:9,fontWeight:400,marginTop:2,opacity:0.7 }}>espaça normal</div></button>
+              <button className="btn" onClick={()=>responder(NOTA.FACIL)}   style={{ flex:1,padding:isMobile?"12px 4px":"14px 6px",borderRadius:12,background:"rgba(249,194,49,0.1)",border:"1px solid rgba(249,194,49,0.3)",color:T.amarelo,fontWeight:700,fontSize:isMobile?12:13 }}>⚡ Fácil<div style={{ fontSize:9,fontWeight:400,marginTop:2,opacity:0.7 }}>espaça muito</div></button>
             </div>
           ) : (
             <button className="btn" onClick={()=>setVirado(true)} style={{ width:"100%",padding:14,borderRadius:12,background:T.fundo3,border:`1px solid ${T.borda2}`,color:T.cinza3,fontWeight:600,fontSize:13,marginTop:14 }}>Revelar resposta</button>
