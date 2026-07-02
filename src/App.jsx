@@ -3,6 +3,7 @@ import { CRONOGRAMA_90, TEXTOS_EMBUTIDOS, MAT_COR_SESSAO, MAT_NOME_SESSAO } from
 import { supabase } from './lib/supabaseClient.js';
 import { T } from './theme.js';
 import { Badge, Spinner } from './components/ui.jsx';
+import { useTelaRoute } from './app/useTelaRoute.js';
 import TelaQuestoes from './features/questoes/TelaQuestoes.jsx';
 
 // ─── COMPONENTE: TELA DE LOGIN ────────────────────────────────────────────────
@@ -1552,22 +1553,21 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
             .select("id")
             .eq("user_id", user.id)
             .eq("dia", dadosEscolhidos.d)
-            .order("created_at", { ascending: false })
+            .order("atualizada_em", { ascending: false })
             .limit(1);
           if (sessExist && sessExist.length > 0) {
             // Atualizar sessão existente
             await supabase.from("sessoes_estudo")
-              .update({ msgs: msgsFinal })
+              .update({ msgs: msgsFinal, atualizada_em: new Date().toISOString() })
               .eq("id", sessExist[0].id);
           } else {
             // Criar nova sessão
             await supabase.from("sessoes_estudo").insert({
               user_id: user.id,
               dia: dadosEscolhidos.d,
-              materia: dadosEscolhidos.mat,
+              mat: dadosEscolhidos.mat,
               tema: dadosEscolhidos.tema,
               msgs: msgsFinal,
-              tipo: "estudo"
             });
           }
         } catch(e) { console.warn("Supabase sessao:", e); }
@@ -1964,7 +1964,7 @@ export default function App() {
   const [authLoading, setAuthLoad]  = useState(true);
   const isMobile                    = useIsMobile();
   const online                      = useOnline();
-  const [tela, setTela]             = useState("acervo");
+  const [tela, setTela]             = useTelaRoute();
   const [leiAtiva, setLeiAtiva]     = useState(null);
   const [textoLei, setTextoLei]     = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -1989,6 +1989,11 @@ export default function App() {
   useEffect(() => { localStorage.setItem("anotacoes",  JSON.stringify(anotacoes));  }, [anotacoes]);
   useEffect(() => { localStorage.setItem("flashcards", JSON.stringify(flashcards)); }, [flashcards]);
   useEffect(() => { localStorage.setItem("stats",      JSON.stringify(stats));      }, [stats]);
+
+  // /leitura sem lei selecionada (deep-link ou F5) volta ao acervo
+  useEffect(() => {
+    if (tela === "leitura" && !leiAtiva) setTela("acervo");
+  }, [tela, leiAtiva, setTela]);
 
   // ─── Returns condicionais DEPOIS de todos os hooks ───
   if (authLoading) return (

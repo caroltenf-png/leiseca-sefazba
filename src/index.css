@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens — fonte única da identidade visual (usados pelo Tailwind e por src/theme.js) */
+:root {
+  --cor-fundo: #070f1a;
+  --cor-fundo2: #0d1b2a;
+  --cor-fundo3: #111e2e;
+  --cor-verde: #006b3f;
+  --cor-verde2: #00a65a;
+  --cor-verde3: #68d391;
+  --cor-ambar: #f9c231;
+  --cor-neutra: #8ba7bf;
+  --cor-clara: #f4f8fb;
+}
