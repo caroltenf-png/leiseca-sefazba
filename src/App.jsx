@@ -6,6 +6,7 @@ import { T } from './theme.js';
 import { Badge, Spinner } from './components/ui.jsx';
 import { useTelaRoute } from './app/useTelaRoute.js';
 import { NOTA, revisar as srsRevisar, novoItem as srsNovoItem, hojeISO, estaVencido, deveArquivar } from './core/srs.js';
+import { marcarAtividade, calcularStreak, podarAtividade } from './core/streak.js';
 import TelaQuestoes from './features/questoes/TelaQuestoes.jsx';
 
 // ─── COMPONENTE: TELA DE LOGIN ────────────────────────────────────────────────
@@ -2017,8 +2018,22 @@ export default function App() {
   const [marcacoes, setMarcacoes]   = useState(() => JSON.parse(localStorage.getItem("marcacoes")||"{}"));
   const [anotacoes, setAnotacoes]   = useState(() => JSON.parse(localStorage.getItem("anotacoes")||"{}"));
   const [flashcards, setFlashcards] = useState(() => JSON.parse(localStorage.getItem("flashcards")||"[]"));
-  const [stats, setStats]           = useState(() => JSON.parse(localStorage.getItem("stats")||JSON.stringify({ leituras:{}, streakDias:3, pontos:420, flashcardsFeitos:0, questoesGeradas:0 })));
+  const [stats, setStats]           = useState(() => JSON.parse(localStorage.getItem("stats")||JSON.stringify({ leituras:{}, streakDias:0, pontos:0, flashcardsFeitos:0, questoesGeradas:0, atividade:{} })));
   const [syncPronto, setSyncPronto] = useState(false);
+  const pontosRef                   = useRef(null);
+
+  // Streak real: ganhar pontos marca o dia como ativo e recalcula a sequência
+  useEffect(() => {
+    if (pontosRef.current === null) { pontosRef.current = stats.pontos; return; } // carga inicial não conta
+    if (stats.pontos === pontosRef.current) return;
+    pontosRef.current = stats.pontos;
+    const hoje = hojeISO();
+    setStats(s => {
+      if (s.atividade?.[hoje]) return s;
+      const atividade = podarAtividade(marcarAtividade(s.atividade, hoje), hoje);
+      return { ...s, atividade, streakDias: calcularStreak(atividade, hoje) };
+    });
+  }, [stats.pontos]);
 
   // Verificar sessão ao carregar
   useEffect(() => {
@@ -2211,7 +2226,7 @@ export default function App() {
           <div style={{ padding:14,borderTop:`1px solid ${T.borda2}`,background:"rgba(249,194,49,0.05)" }}>
             <div style={{ display:"flex",alignItems:"center",gap:8 }}>
               <span style={{ fontSize:20 }}>🔥</span>
-              <div><div style={{ fontSize:14,fontWeight:800,color:T.amarelo }}>{stats.streakDias} dias</div><div style={{ fontSize:11,color:T.cinza3 }}>sequência</div></div>
+              <div><div style={{ fontSize:14,fontWeight:800,color:T.amarelo }}>{calcularStreak(stats.atividade, hojeISO())} dias</div><div style={{ fontSize:11,color:T.cinza3 }}>sequência</div></div>
               <div style={{ marginLeft:"auto",textAlign:"right" }}>
                 <div style={{ fontSize:13,fontWeight:700,color:T.verde2 }}>{stats.pontos}</div>
                 <div style={{ fontSize:10,color:T.cinza3 }}>pts</div>
@@ -3062,7 +3077,7 @@ function TelaDashboard({ stats, leis, flashcards, marcacoes, isMobile }) {
   const progresso = stats.pontos%100;
 
   const cards = [
-    { icon:"🔥", label:"Sequência",     val:`${stats.streakDias}d`,    sub:"de estudo",      cor:T.orange },
+    { icon:"🔥", label:"Sequência",     val:`${calcularStreak(stats.atividade, hojeISO())}d`, sub:"de estudo", cor:T.orange },
     { icon:"⭐", label:"Pontos",        val:stats.pontos,               sub:"acumulados",     cor:T.amarelo },
     { icon:"📖", label:"Leis abertas",  val:leidsLidas,                 sub:`de ${leis.length}`,cor:T.verde2 },
     { icon:"✏️", label:"Marcações",    val:totalMarcacoes,             sub:"destaques",      cor:"#4299E1" },
