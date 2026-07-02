@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { CRONOGRAMA_90, TEXTOS_EMBUTIDOS, MAT_COR_SESSAO, MAT_NOME_SESSAO } from './data/dados.js';
 import { supabase } from './lib/supabaseClient.js';
 import { pullUserData, pushUserData } from './lib/userDataSync.js';
@@ -7,6 +7,8 @@ import { Badge, Spinner } from './components/ui.jsx';
 import { useTelaRoute } from './app/useTelaRoute.js';
 import { NOTA, revisar as srsRevisar, novoItem as srsNovoItem, hojeISO, estaVencido, deveArquivar } from './core/srs.js';
 import { marcarAtividade, calcularStreak, podarAtividade } from './core/streak.js';
+import { CATEGORIAS_GRIFO, aplicarGrifoInteligente } from './features/leitura/grifoInteligente.js';
+import { buscarNosTextos, realcarTermo } from './features/busca/buscaTexto.js';
 import TelaQuestoes from './features/questoes/TelaQuestoes.jsx';
 
 // ─── COMPONENTE: TELA DE LOGIN ────────────────────────────────────────────────
@@ -2254,6 +2256,11 @@ export default function App() {
     mark.m-azul    { background:rgba(66,153,225,0.3); border-bottom:2px solid #4299E1; border-radius:2px; }
     mark.m-rosa    { background:rgba(237,100,166,0.3);border-bottom:2px solid #ED64A6; border-radius:2px; }
     mark.m-red     { background:rgba(229,62,62,0.3);  border-bottom:2px solid #E53E3E; border-radius:2px; }
+    mark.gi-prazo       { background:rgba(66,153,225,0.22); border-bottom:2px solid #4299E1; border-radius:2px; color:inherit; }
+    mark.gi-vedacao     { background:rgba(252,100,100,0.22); border-bottom:2px solid #FC6464; border-radius:2px; color:inherit; }
+    mark.gi-definicao   { background:rgba(104,211,145,0.22); border-bottom:2px solid #68D391; border-radius:2px; color:inherit; }
+    mark.gi-competencia { background:rgba(249,194,49,0.22);  border-bottom:2px solid #F9C231; border-radius:2px; color:inherit; }
+    mark.gi-excecao     { background:rgba(237,100,166,0.22); border-bottom:2px solid #ED64A6; border-radius:2px; color:inherit; }
     .btn { cursor:pointer; border:none; font-family:inherit; transition:all .15s; -webkit-tap-highlight-color:transparent; }
     .btn:active { opacity:0.7; transform:scale(0.97); }
     textarea { resize:vertical; }
@@ -2649,6 +2656,17 @@ function TelaAcervo({ leis, areas, onAbrir, marcacoes, isMobile, online }) {
 
   const temCache = id => !!getCacheTexto(id);
 
+  // Busca full-text dentro do texto das leis (embutidas + cache offline)
+  const resultadosTexto = useMemo(() => {
+    if (busca.trim().length < 3) return [];
+    const textos = {};
+    for (const l of leis) {
+      const t = TEXTOS_EMBUTIDOS[l.id] || getCacheTexto(l.id);
+      if (t) textos[l.id] = t;
+    }
+    return buscarNosTextos(textos, busca);
+  }, [busca, leis]);
+
   return (
     <div style={{ flex:1,overflow:"auto",padding:isMobile?"16px 14px":"28px 32px" }}>
       {/* Header */}
@@ -2669,8 +2687,35 @@ function TelaAcervo({ leis, areas, onAbrir, marcacoes, isMobile, online }) {
       )}
 
       {/* Busca */}
-      <input value={busca} onChange={e=>setBusca(e.target.value)} placeholder="🔍 Buscar lei ou tema..."
+      <input value={busca} onChange={e=>setBusca(e.target.value)} placeholder="🔍 Buscar lei, tema ou dentro do texto das leis..."
         style={{ width:"100%",background:T.fundo3,border:`1px solid ${T.borda2}`,borderRadius:9,padding:"10px 14px",color:T.branco,fontSize:13,outline:"none",marginBottom:12 }} />
+
+      {/* Resultados dentro do texto das leis */}
+      {resultadosTexto.length > 0 && (
+        <div style={{ background:T.fundo3,border:`1px solid rgba(249,194,49,0.25)`,borderRadius:12,padding:"14px 16px",marginBottom:14 }}>
+          <div style={{ fontSize:11,fontWeight:700,color:T.amarelo,textTransform:"uppercase",letterSpacing:1,marginBottom:10 }}>
+            🔎 Encontrado no texto de {resultadosTexto.length} lei{resultadosTexto.length>1?"s":""}
+          </div>
+          {resultadosTexto.map(r => {
+            const leiRef = leis.find(l => l.id === r.leiId);
+            if (!leiRef) return null;
+            return (
+              <div key={r.leiId} style={{ marginBottom:10 }}>
+                <button onClick={()=>onAbrir(leiRef)} className="btn" style={{ background:"transparent",border:"none",padding:0,display:"flex",alignItems:"center",gap:7,marginBottom:5 }}>
+                  <span style={{ fontSize:14 }}>{leiRef.emoji}</span>
+                  <span style={{ fontSize:12,fontWeight:700,color:T.verde3,textDecoration:"underline" }}>{leiRef.nome}</span>
+                </button>
+                {r.trechos.map((t,i) => (
+                  <div key={i} style={{ display:"flex",gap:8,alignItems:"flex-start",padding:"4px 0 4px 21px" }}>
+                    {t.artigo && <Badge color="amarelo" style={{ fontSize:9,flexShrink:0 }}>{t.artigo}</Badge>}
+                    <span style={{ fontSize:11,color:T.cinza3,lineHeight:1.6 }} dangerouslySetInnerHTML={{ __html: realcarTermo(t.trecho, busca) }} />
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Filtro de área — scroll horizontal no mobile */}
       <div style={{ display:"flex",gap:6,marginBottom:14,overflowX:"auto",paddingBottom:4,flexWrap:isMobile?"nowrap":"wrap" }}>
@@ -2753,6 +2798,12 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
   const [flashVerso, setFlashVerso]   = useState("");
   const [gerandoFlash, setGerandoFlash] = useState(false);
   const [mostrarPainel, setMostrarPainel] = useState(!isMobile);
+  const [raioX, setRaioX] = useState(false);
+
+  const textoExibido = useMemo(
+    () => (raioX ? aplicarGrifoInteligente(texto) : texto),
+    [texto, raioX]
+  );
 
   function marcarSelecao() {
     const sel = window.getSelection();
@@ -2852,6 +2903,10 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
             <button onClick={marcarSelecao} className="btn" style={{ background:T.verde2,color:"#fff",padding:"5px 10px",borderRadius:7,fontSize:11,fontWeight:700 }}>✏️{!isMobile&&" Marcar"}</button>
             <button onClick={gerarFlashcard} className="btn" style={{ background:"rgba(0,107,63,0.15)",border:`1px solid rgba(0,107,63,0.35)`,color:T.verde3,padding:"5px 10px",borderRadius:7,fontSize:11,fontWeight:600 }}>🃏</button>
             <button onClick={()=>setPainel(p=>p==="anotacao"?null:"anotacao")} className="btn" style={{ background:"rgba(249,194,49,0.1)",border:`1px solid rgba(249,194,49,0.3)`,color:T.amarelo,padding:"5px 10px",borderRadius:7,fontSize:11,fontWeight:600 }}>📝</button>
+            <button onClick={()=>setRaioX(v=>!v)} className="btn" title="Grifo inteligente por categoria"
+              style={{ background:raioX?"rgba(66,153,225,0.2)":"rgba(255,255,255,0.05)",border:`1px solid ${raioX?"rgba(66,153,225,0.5)":T.borda2}`,color:raioX?"#7CB8F5":T.cinza3,padding:"5px 10px",borderRadius:7,fontSize:11,fontWeight:700 }}>
+              🩻{!isMobile&&" Raio-X"}
+            </button>
             {isMobile && (
               <button onClick={()=>setMostrarPainel(v=>!v)} className="btn" style={{ background:"rgba(255,255,255,0.05)",border:`1px solid ${T.borda2}`,color:T.cinza3,padding:"5px 10px",borderRadius:7,fontSize:11 }}>
                 {mostrarPainel?"📄":"📋"} {marcacoesLei.length+anotacoesLei.length>0 ? `(${marcacoesLei.length+anotacoesLei.length})` : ""}
@@ -2859,6 +2914,16 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
             )}
           </div>
         </div>
+        {raioX && (
+          <div style={{ display:"flex",gap:6,flexWrap:"wrap",marginTop:8 }}>
+            {CATEGORIAS_GRIFO.map(c => (
+              <span key={c.id} style={{ display:"inline-flex",alignItems:"center",gap:5,fontSize:10,color:T.cinza3 }}>
+                <span style={{ width:10,height:10,borderRadius:3,background:c.cor+"55",border:`1px solid ${c.cor}` }} />
+                {c.label}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div style={{ flex:1,display:"flex",overflow:"hidden",flexDirection:isMobile?"column":"row" }}>
@@ -2866,7 +2931,7 @@ function TelaLeitura({ lei, texto, carregando, marcacoes, setMarcacoes, anotacoe
         <div style={{ flex:1,overflow:"auto",padding:isMobile?"14px 14px":"24px 28px" }}>
           <AudioPlayer texto={texto} lei={lei} />
           {carregando ? <Spinner label={`Carregando ${lei.nome}…`} /> : (
-            <div style={{ fontSize:13,lineHeight:2,color:T.branco }} dangerouslySetInnerHTML={{ __html:texto||`<p style="color:${T.cinza3}">Nenhum conteúdo carregado.</p>` }} />
+            <div style={{ fontSize:13,lineHeight:2,color:T.branco }} dangerouslySetInnerHTML={{ __html:textoExibido||`<p style="color:${T.cinza3}">Nenhum conteúdo carregado.</p>` }} />
           )}
         </div>
         {(mostrarPainel||!isMobile) && (
