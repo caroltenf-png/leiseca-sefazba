@@ -8,9 +8,17 @@
 create table if not exists public.perfis (
   id        uuid primary key references auth.users(id) on delete cascade,
   nome      text,
+  email     text,
   papel     text not null default 'aluna' check (papel in ('aluna','editor','admin')),
   criado_em timestamptz default now()
 );
+
+-- Em produção a tabela já existia com outro formato (email not null etc.) —
+-- garante as colunas que o app e este script usam, sem tocar nas demais
+alter table public.perfis add column if not exists nome text;
+alter table public.perfis add column if not exists email text;
+alter table public.perfis add column if not exists papel text not null default 'aluna';
+alter table public.perfis add column if not exists criado_em timestamptz default now();
 
 alter table public.perfis enable row level security;
 
@@ -29,8 +37,8 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.perfis (id, nome)
-  values (new.id, coalesce(new.raw_user_meta_data->>'nome', new.email))
+  insert into public.perfis (id, nome, email)
+  values (new.id, coalesce(new.raw_user_meta_data->>'nome', new.email), new.email)
   on conflict (id) do nothing;
   return new;
 end;
@@ -42,8 +50,8 @@ create trigger trg_criar_perfil
   for each row execute function public.criar_perfil();
 
 -- Backfill de usuários já cadastrados
-insert into public.perfis (id, nome)
-select id, coalesce(raw_user_meta_data->>'nome', email)
+insert into public.perfis (id, nome, email)
+select id, coalesce(raw_user_meta_data->>'nome', email), email
   from auth.users
 on conflict (id) do nothing;
 

@@ -23,4 +23,5 @@ create policy "crud own dados" on public.user_dados
 -- Papel de administradora para a dona do projeto
 update public.perfis
    set papel = 'admin'
- where id in (select id from auth.users where email = 'caroltenf@gmail.com');
+ where id in (select id from auth.users
+               where email in ('caroltenf@gmail.com', 'caroltxs@live.com'));
