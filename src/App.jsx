@@ -2354,7 +2354,7 @@ export default function App() {
           {tela==="guias"      && <TelaGuias      isMobile={isMobile} online={online} />}
           {tela==="juris"      && <TelaJuris      isMobile={isMobile} online={online} leiAtiva={leiAtiva} stats={stats} setStats={setStats} />}
           {tela==="simulado"   && <TelaSimulado   isMobile={isMobile} online={online} stats={stats} setStats={setStats} />}
-          {tela==="dashboard"  && <TelaDashboard  stats={stats} leis={LEIS} flashcards={flashcards} marcacoes={marcacoes} isMobile={isMobile} />}
+          {tela==="dashboard"  && <TelaDashboard  stats={stats} leis={LEIS} flashcards={flashcards} marcacoes={marcacoes} isMobile={isMobile} user={user} />}
         </div>
         {isMobile && (
           <nav className="bottom-nav" style={{ background:T.fundo2,borderTop:`1px solid ${T.borda2}`,display:"flex",flexShrink:0,overflowX:"auto" }}>
@@ -3144,7 +3144,15 @@ function TelaIA({ leiAtiva, stats, setStats, online, isMobile }) {
 // ═══════════════════════════════════════════════════════════════════════════
 // TELA: DASHBOARD
 // ═══════════════════════════════════════════════════════════════════════════
-function TelaDashboard({ stats, leis, flashcards, marcacoes, isMobile }) {
+function TelaDashboard({ stats, leis, flashcards, marcacoes, isMobile, user }) {
+  const [ranking, setRanking] = useState([]);
+  useEffect(() => {
+    supabase.from("ranking")
+      .select("user_id, nome, pontos, streak, flashcards")
+      .order("pontos", { ascending: false })
+      .limit(20)
+      .then(({ data }) => { if (data) setRanking(data); });
+  }, []);
   const totalMarcacoes = Object.values(marcacoes).reduce((s,a)=>s+a.length,0);
   const leidsLidas     = Object.keys(stats.leituras).length;
   const taxaAcerto     = flashcards.length>0
@@ -3192,6 +3200,45 @@ function TelaDashboard({ stats, leis, flashcards, marcacoes, isMobile }) {
           </div>
         ))}
       </div>
+      {/* Ranking do grupo */}
+      {ranking.length > 0 && (
+        <div style={{ background:T.fundo3,border:`1px solid ${T.borda2}`,borderRadius:14,padding:"16px 18px",marginBottom:20 }}>
+          <div style={{ fontSize:13,fontWeight:700,color:"#fff",marginBottom:4 }}>🏆 Ranking do grupo</div>
+          <div style={{ fontSize:11,color:T.cinza3,marginBottom:14 }}>Pontos acumulados por estudo — atualizado a cada atividade</div>
+          {ranking.length >= 2 && (
+            <div style={{ display:"flex",justifyContent:"center",alignItems:"flex-end",gap:14,marginBottom:16 }}>
+              {[1,0,2].filter(i => ranking[i]).map(i => {
+                const r = ranking[i];
+                const medalha = ["🥇","🥈","🥉"][i];
+                const altura = i===0?86:i===1?66:54;
+                return (
+                  <div key={r.user_id} style={{ textAlign:"center",flex:1,maxWidth:120 }}>
+                    <div style={{ fontSize:i===0?30:22 }}>{medalha}</div>
+                    <div style={{ fontSize:11,fontWeight:700,color:r.user_id===user?.id?T.amarelo:"#fff",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>
+                      {(r.nome||"—").split(" ")[0]}{r.user_id===user?.id?" (você)":""}
+                    </div>
+                    <div style={{ background:`linear-gradient(180deg,${i===0?T.amarelo:T.verde2}33,transparent)`,border:`1px solid ${i===0?"rgba(249,194,49,0.3)":"rgba(0,166,90,0.3)"}`,borderRadius:"8px 8px 0 0",height:altura,display:"flex",alignItems:"center",justifyContent:"center",marginTop:6 }}>
+                      <span style={{ fontFamily:"'Playfair Display',serif",fontWeight:900,fontSize:15,color:i===0?T.amarelo:T.verde3 }}>{r.pontos}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {ranking.map((r, i) => (
+            <div key={r.user_id} style={{ display:"flex",alignItems:"center",gap:10,padding:"7px 0",borderBottom:`1px solid ${T.borda2}`,
+              background:r.user_id===user?.id?"rgba(249,194,49,0.05)":"transparent",borderRadius:6 }}>
+              <span style={{ fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:T.cinza3,width:22,textAlign:"right",flexShrink:0 }}>{i+1}º</span>
+              <div style={{ flex:1,fontSize:12,fontWeight:r.user_id===user?.id?700:500,color:r.user_id===user?.id?T.amarelo:T.branco,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>
+                {r.nome||"Estudante"}{r.user_id===user?.id?" (você)":""}
+              </div>
+              <Badge color="cinza" style={{ fontSize:10 }}>🔥 {r.streak}d</Badge>
+              <Badge color="amarelo" style={{ fontSize:10 }}>⭐ {r.pontos}</Badge>
+            </div>
+          ))}
+        </div>
+      )}
+
       {leidsLidas>0 && (
         <div style={{ background:T.fundo3,border:`1px solid ${T.borda2}`,borderRadius:14,padding:"16px 18px" }}>
           <div style={{ fontSize:13,fontWeight:700,color:"#fff",marginBottom:12 }}>📖 Leis estudadas</div>
