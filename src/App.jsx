@@ -427,6 +427,49 @@ const MARK_COLORS = [
 ];
 
 // ─── CLAUDE API ──────────────────────────────────────────────────────────
+// Versão streaming: onParcial recebe o texto acumulado a cada delta.
+// Se o servidor não suportar SSE, cai no JSON completo de uma vez.
+async function callClaudeStream(system, user, maxTokens, onParcial) {
+  const res = await fetch("/api/ai", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ system, user, maxTokens, stream: true }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || "Erro " + res.status);
+  }
+  const ct = res.headers.get("content-type") || "";
+  if (!ct.includes("text/event-stream")) {
+    const data = await res.json();
+    const text = data.text || "";
+    if (text && onParcial) onParcial(text);
+    return text;
+  }
+  const reader = res.body.getReader();
+  const dec = new TextDecoder();
+  let buffer = "", completo = "";
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += dec.decode(value, { stream: true });
+    const linhas = buffer.split("\n");
+    buffer = linhas.pop();
+    for (const linha of linhas) {
+      if (!linha.startsWith("data:")) continue;
+      const payload = linha.slice(5).trim();
+      if (!payload) continue;
+      try {
+        const ev = JSON.parse(payload);
+        const delta = ev.delta?.text || "";
+        if (delta) { completo += delta; if (onParcial) onParcial(completo); }
+      } catch { /* linha parcial/keep-alive — ignora */ }
+    }
+  }
+  if (!completo) throw new Error("Stream vazio");
+  return completo;
+}
+
 async function callClaude(system, user, maxTokens=1000) {
   // Proxy /api/ai: tenta Claude primeiro, fallback automático para OpenAI
   try {
@@ -1575,7 +1618,13 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
     setAnotacoes('');
     try {
       const system = buildSystemPrompt(d);
-      const res = await callClaude(system, "Iniciar sessão de hoje.", 1000);
+      let res;
+      try {
+        res = await callClaudeStream(system, "Iniciar sessão de hoje.", 1000,
+          parcial => setMsgs([{ role: "assistant", content: parcial }]));
+      } catch {
+        res = await callClaude(system, "Iniciar sessão de hoje.", 1000);
+      }
       const novasMsgs = [{ role: "assistant", content: res }];
       setMsgs(novasMsgs);
       // Salva local + Supabase imediatamente — nunca perde a primeira mensagem
@@ -1608,7 +1657,13 @@ Seja direto, preciso e calibrado para a banca FGV. Comece com o DIAGNÓSTICO: fa
     try {
       const system = buildSystemPrompt(dadosEscolhidos);
       const histAll = novasMsgs.map(m => `${m.role === "user" ? "ALUNO" : "PROFESSOR"}: ${m.content}`).join("\n\n");
-      const res = await callClaude(system, histAll, 1200);
+      let res;
+      try {
+        res = await callClaudeStream(system, histAll, 1200,
+          parcial => setMsgs([...novasMsgs, { role: "assistant", content: parcial }]));
+      } catch {
+        res = await callClaude(system, histAll, 1200);
+      }
       const msgsFinal = [...novasMsgs, { role: "assistant", content: res }];
       setMsgs(msgsFinal);
       // Salvar sessão no Supabase a cada mensagem
