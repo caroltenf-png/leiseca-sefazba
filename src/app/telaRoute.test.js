@@ -16,7 +16,12 @@ describe("telaFromPath", () => {
 
   it("rota desconhecida cai no acervo", () => {
     expect(telaFromPath("/nao-existe")).toBe("acervo");
-    expect(telaFromPath("/admin/x")).toBe("acervo");
+    expect(telaFromPath("/xpto/123")).toBe("acervo");
+  });
+
+  it("admin é rota válida (acesso controlado por papel na UI/RLS)", () => {
+    expect(telaFromPath("/admin")).toBe("admin");
+    expect(telaFromPath("/admin/x")).toBe("admin");
   });
 
   it("ignora segmentos extras", () => {

@@ -10,6 +10,7 @@ import { marcarAtividade, calcularStreak, podarAtividade } from './core/streak.j
 import { CATEGORIAS_GRIFO, aplicarGrifoInteligente } from './features/leitura/grifoInteligente.js';
 import { buscarNosTextos, realcarTermo } from './features/busca/buscaTexto.js';
 import TelaQuestoes from './features/questoes/TelaQuestoes.jsx';
+import TelaAdmin from './features/admin/TelaAdmin.jsx';
 
 // ─── COMPONENTE: TELA DE LOGIN ────────────────────────────────────────────────
 function TelaAuth({ onLogin }) {
@@ -2097,7 +2098,16 @@ export default function App() {
   const [flashcards, setFlashcards] = useState(() => JSON.parse(localStorage.getItem("flashcards")||"[]"));
   const [stats, setStats]           = useState(() => JSON.parse(localStorage.getItem("stats")||JSON.stringify({ leituras:{}, streakDias:0, pontos:0, flashcardsFeitos:0, questoesGeradas:0, atividade:{} })));
   const [syncPronto, setSyncPronto] = useState(false);
+  const [perfil, setPerfil]         = useState(null);
   const pontosRef                   = useRef(null);
+  const isAdmin = perfil?.papel === "admin" || perfil?.papel === "editor";
+
+  // Papel do usuário (admin/editor/aluna) — controla acesso ao painel
+  useEffect(() => {
+    if (!user?.id) { setPerfil(null); return; }
+    supabase.from("perfis").select("papel, nome").eq("id", user.id).maybeSingle()
+      .then(({ data }) => setPerfil(data || null));
+  }, [user?.id]);
 
   // Streak real: ganhar pontos marca o dia como ativo e recalcula a sequência
   useEffect(() => {
@@ -2240,6 +2250,7 @@ export default function App() {
     { id:"juris",      icon:"⚖️",  label:"Juris" },
     { id:"simulado",   icon:"🎯", label:"Simulado" },
     { id:"dashboard",  icon:"📊", label:"Stats" },
+    ...(isAdmin ? [{ id:"admin", icon:"🛠️", label:"Admin" }] : []),
   ];
 
   const CSS = `
@@ -2360,8 +2371,9 @@ export default function App() {
           {tela==="ia"         && <TelaIA         leiAtiva={leiAtiva} stats={stats} setStats={setStats} online={online} isMobile={isMobile} />}
           {tela==="guias"      && <TelaGuias      isMobile={isMobile} online={online} />}
           {tela==="juris"      && <TelaJuris      isMobile={isMobile} online={online} leiAtiva={leiAtiva} stats={stats} setStats={setStats} />}
-          {tela==="simulado"   && <TelaSimulado   isMobile={isMobile} online={online} stats={stats} setStats={setStats} />}
+          {tela==="simulado"   && <TelaSimulado   isMobile={isMobile} online={online} stats={stats} setStats={setStats} user={user} />}
           {tela==="dashboard"  && <TelaDashboard  stats={stats} leis={LEIS} flashcards={flashcards} marcacoes={marcacoes} isMobile={isMobile} user={user} />}
+          {tela==="admin"      && (isAdmin ? <TelaAdmin user={user} isMobile={isMobile} /> : <TelaAcervo leis={LEIS} areas={AREAS} onAbrir={abrirLei} marcacoes={marcacoes} isMobile={isMobile} online={online} />)}
         </div>
         {isMobile && (
           <nav className="bottom-nav" style={{ background:T.fundo2,borderTop:`1px solid ${T.borda2}`,display:"flex",flexShrink:0,overflowX:"auto" }}>
@@ -4351,7 +4363,7 @@ function addHistorico(q) {
   } catch {}
 }
 
-function TelaSimulado({ isMobile, online, stats, setStats }) {
+function TelaSimulado({ isMobile, online, stats, setStats, user }) {
   const [discSel, setDiscSel]       = useState(null);      // disciplina selecionada
   const [subtema, setSubtema]       = useState("");         // subtema livre ou da lista
   const [temaLivre, setTemaLivre]   = useState("");         // campo livre
@@ -4388,6 +4400,24 @@ Nível: médio-alto, candidato preparado para concurso fiscal estadual.`;
       const clean = resp.replace(/```json|```/g,"").trim();
       const q = JSON.parse(clean);
       addHistorico(q);
+      // Envia para a fila de moderação do banco de questões (aprovado=false):
+      // o admin aprova as boas e elas passam a valer para todo o grupo.
+      if (q.enunciado && q.alternativas && q.gabarito) {
+        saveCacheQuestao({
+          disciplina: q.disciplina || d?.label || "Geral",
+          tema: q.tema || tema || "Tema livre",
+          dificuldade: q.dificuldade || "Médio",
+          enunciado: q.enunciado,
+          alternativas: q.alternativas,
+          gabarito: q.gabarito,
+          fundamentacao: q.fundamentacao || null,
+          explicacao_gabarito: q.explicacao_gabarito || null,
+          explicacao_distratores: q.explicacao_distratores || null,
+          dica_prova: q.dica_prova || null,
+          origem: "ia",
+          aprovado: false,
+        }, user?.id);
+      }
       return q;
     } catch { return null; }
   }

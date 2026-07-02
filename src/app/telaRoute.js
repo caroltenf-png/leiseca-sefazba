@@ -1,7 +1,7 @@
 // Mapeamento URL ↔ tela ativa. Fonte única das rotas do app.
 export const TELAS = [
   "acervo", "leitura", "questoes", "cronograma", "sessao",
-  "flashcards", "ia", "guias", "juris", "simulado", "dashboard",
+  "flashcards", "ia", "guias", "juris", "simulado", "dashboard", "admin",
 ];
 
 export function telaFromPath(pathname) {
