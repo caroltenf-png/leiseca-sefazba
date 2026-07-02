@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { CRONOGRAMA_90, TEXTOS_EMBUTIDOS, MAT_COR_SESSAO, MAT_NOME_SESSAO } from './data/dados.js';
 import { supabase } from './lib/supabaseClient.js';
+import { pullUserData, pushUserData } from './lib/userDataSync.js';
 import { T } from './theme.js';
 import { Badge, Spinner } from './components/ui.jsx';
 import { useTelaRoute } from './app/useTelaRoute.js';
@@ -45,6 +46,15 @@ function TelaAuth({ onLogin }) {
     if (error) setErro(error.message);
     else setSucesso("Link de recuperação enviado para o seu e-mail.");
     setLoading(false);
+  }
+
+  async function handleGoogle() {
+    setErro("");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
+    });
+    if (error) setErro("Login Google indisponível: " + error.message);
   }
 
   return (
@@ -140,6 +150,23 @@ function TelaAuth({ onLogin }) {
                 border:`1px solid ${T.borda2}`, borderRadius:9, color:T.cinza3, fontSize:13, cursor:"pointer" }}>
               ← Voltar ao login
             </button>
+          )}
+
+          {modo !== "recuperar" && (
+            <>
+              <div style={{ display:"flex", alignItems:"center", gap:10, margin:"16px 0 12px" }}>
+                <div style={{ flex:1, height:1, background:T.borda2 }} />
+                <span style={{ fontSize:11, color:T.cinza3 }}>ou</span>
+                <div style={{ flex:1, height:1, background:T.borda2 }} />
+              </div>
+              <button type="button" onClick={handleGoogle} style={{
+                width:"100%", padding:"11px", borderRadius:10, fontWeight:700, fontSize:13,
+                background:"transparent", border:`1px solid ${T.borda2}`, color:T.branco,
+                cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+              }}>
+                <span style={{ fontWeight:900 }}>G</span> Continuar com Google
+              </button>
+            </>
           )}
         </form>
       </div>
@@ -1972,6 +1999,7 @@ export default function App() {
   const [anotacoes, setAnotacoes]   = useState(() => JSON.parse(localStorage.getItem("anotacoes")||"{}"));
   const [flashcards, setFlashcards] = useState(() => JSON.parse(localStorage.getItem("flashcards")||"[]"));
   const [stats, setStats]           = useState(() => JSON.parse(localStorage.getItem("stats")||JSON.stringify({ leituras:{}, streakDias:3, pontos:420, flashcardsFeitos:0, questoesGeradas:0 })));
+  const [syncPronto, setSyncPronto] = useState(false);
 
   // Verificar sessão ao carregar
   useEffect(() => {
@@ -1985,10 +2013,30 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  useEffect(() => { localStorage.setItem("marcacoes",  JSON.stringify(marcacoes));  }, [marcacoes]);
-  useEffect(() => { localStorage.setItem("anotacoes",  JSON.stringify(anotacoes));  }, [anotacoes]);
-  useEffect(() => { localStorage.setItem("flashcards", JSON.stringify(flashcards)); }, [flashcards]);
-  useEffect(() => { localStorage.setItem("stats",      JSON.stringify(stats));      }, [stats]);
+  // Sincronização multi-dispositivo: puxa do Supabase no login; no primeiro
+  // login importa o que existir no localStorage deste aparelho.
+  useEffect(() => {
+    if (!user?.id) { setSyncPronto(false); return; }
+    let ativo = true;
+    pullUserData(user.id).then(({ ok, dados }) => {
+      if (!ativo || !ok) return;
+      if (dados) {
+        if (Array.isArray(dados.flashcards) && dados.flashcards.length) setFlashcards(dados.flashcards);
+        if (dados.marcacoes && Object.keys(dados.marcacoes).length) setMarcacoes(dados.marcacoes);
+        if (dados.anotacoes && Object.keys(dados.anotacoes).length) setAnotacoes(dados.anotacoes);
+        if (dados.stats && Object.keys(dados.stats).length) setStats(s => ({ ...s, ...dados.stats }));
+      } else {
+        pushUserData(user.id, { flashcards, marcacoes, anotacoes, stats }, 100);
+      }
+      setSyncPronto(true);
+    });
+    return () => { ativo = false; };
+  }, [user?.id]);
+
+  useEffect(() => { localStorage.setItem("marcacoes",  JSON.stringify(marcacoes));  if (user && syncPronto) pushUserData(user.id, { marcacoes });  }, [marcacoes]);
+  useEffect(() => { localStorage.setItem("anotacoes",  JSON.stringify(anotacoes));  if (user && syncPronto) pushUserData(user.id, { anotacoes });  }, [anotacoes]);
+  useEffect(() => { localStorage.setItem("flashcards", JSON.stringify(flashcards)); if (user && syncPronto) pushUserData(user.id, { flashcards }); }, [flashcards]);
+  useEffect(() => { localStorage.setItem("stats",      JSON.stringify(stats));      if (user && syncPronto) pushUserData(user.id, { stats });      }, [stats]);
 
   // /leitura sem lei selecionada (deep-link ou F5) volta ao acervo
   useEffect(() => {
@@ -2150,6 +2198,10 @@ export default function App() {
                 <div style={{ fontSize:10,color:T.cinza3 }}>pts</div>
               </div>
             </div>
+            <button onClick={() => supabase.auth.signOut()} className="btn" title="Sair da conta"
+              style={{ width:"100%",marginTop:10,padding:"7px",background:"transparent",border:`1px solid ${T.borda2}`,borderRadius:8,color:T.cinza3,fontSize:11 }}>
+              🚪 Sair · {user.user_metadata?.nome || user.email}
+            </button>
           </div>
         </aside>
       )}
@@ -2172,6 +2224,10 @@ export default function App() {
                 <span style={{ fontSize:13 }}>🔥</span>
                 <span style={{ fontSize:12,fontWeight:800,color:T.amarelo }}>{stats.pontos}pts</span>
               </div>
+              <button onClick={() => supabase.auth.signOut()} className="btn" title="Sair da conta"
+                style={{ background:"transparent",border:`1px solid ${T.borda2}`,borderRadius:8,padding:"3px 8px",color:T.cinza3,fontSize:13 }}>
+                🚪
+              </button>
             </div>
           </div>
         )}
